@@ -55,14 +55,27 @@
               </p>
             </a>
           </li> --}}
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
               </p>
             </a>
-          </li>
+          </li> --}}
+          <li class="nav-header">MY SPACES</li>
+          <x-sidebar-item :url="route('home')" :icon="'fa-th'" :active="request()->routeIs('home')">
+            Dashboard
+          </x-sidebar-item>
+          <x-sidebar-item :url="'#'" :icon="'fa-copy'" :active="request()->routeIs('dashboard')">
+            Templates
+          </x-sidebar-item>
+          <x-sidebar-item :url="'#'" :icon="'fa-file'" :active="request()->routeIs('dashboard')">
+            Documents
+          </x-sidebar-item>
+          <x-sidebar-item :url="'#'" :icon="'fa-image'" :active="request()->routeIs('dashboard')">
+            Images
+          </x-sidebar-item>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
