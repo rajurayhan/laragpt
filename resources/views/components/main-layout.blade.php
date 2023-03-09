@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $title ?? 'AIWrite: Next-Level Content Generation with Laravel' }}</title>
+  <title>{{ $title ?? 'AIContentPro: Next-Level AI Content Generation with Laravel' }}</title>
   {{-- AutoWriter: The Ultimate AI Content Generation Tool || GeniusPen: AI-Powered Content Generation Web Application || The Intelligent Content Generator--}}
 
   <!-- Google Font: Source Sans Pro -->
@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AIContentPro</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
