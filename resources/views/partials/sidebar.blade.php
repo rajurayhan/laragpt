@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="https://lhg-dev.lhgraphics.com/users/raju_1678292661.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Raju Rayhan</a>
@@ -65,7 +65,7 @@
           </li> --}}
           <li class="nav-header">MY SPACES</li>
           <x-sidebar-item :url="route('home')" :icon="'fa-th'" :active="request()->routeIs('home')">
-            Dashboard
+            Contents
           </x-sidebar-item>
           <x-sidebar-item :url="'#'" :icon="'fa-copy'" :active="request()->routeIs('dashboard')">
             Templates

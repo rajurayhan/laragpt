@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">ChatGPT GPT-3.5-turbo AI Model</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -35,7 +35,7 @@
                             <label>Language</label>
                             <select class="form-control">
                                 <option>Bangla</option>
-                                <option>English</option>
+                                <option selected>English</option>
                             </select>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>What is your content about?</label>
-                            <textarea class="form-control" rows="3" placeholder=""></textarea>
+                            <textarea class="form-control" rows="3" placeholder="">Explain Software Development Life Cycle </textarea>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -86,11 +86,32 @@
                 <h5 class="m-0">Result</h5>
               </div>
               <div class="card-body">
-                <h4 class="card-title">বাংলা ভাষায় চ্যাটজিপিটির (ChatGPT) ব্যবহারের কিছু সম্ভাবনামূলক উদাহরণ নিচে দেয়া হলো:</h4> <br>
-                <p class="card-text">১. বাংলা ভাষার শেখার জন্য: আমি শব্দের অর্থ, পরিভাষা এবং ব্যবহারের উদাহরণ সহ বাংলা ভাষা শেখাতে সহায়তা করতে পারি।</p>
-                <p class="card-text">২. গ্রাহক সেবা: আমি চ্যাটবটের সাথে সমন্বয় করে কোম্পানিসমূহে বাংলায় গ্রাহক সেবা প্রদান করতে পারি। এটি বাংলাদেশে অথবা বাংলা ভাষা ব্যবহার করে কাস্টমারদের জন্য ব্যবসার জন্য উপযোগী।</p>
-                <p class="card-text">২. গ্রাহক সেবা: আমি চ্যাটবটের সাথে সমন্বয় করে কোম্পানিসমূহে বাংলায় গ্রাহক সেবা প্রদান করতে পারি। এটি বাংলাদেশে অথবা বাংলা ভাষা ব্যবহার করে কাস্টমারদের জন্য ব্যবসার জন্য উপযোগী।</p>
-                <p class="card-text">৩. কন্টেন্ট তৈরি: আমি বাংলা ভাষার কন্টেন্ট তৈরি করতে সহায়তা করতে পারি যেমন বাক্য রচনার জন্য শব্দার্থ পরামর্শ দেয়া, বানানের জন্য প্রস্তাব করা।</p>
+                <h4 class="card-title">Software Development Life Cycle (SDLC) is a structured process used in software development to design, develop, test, and deploy software. It consists of several phases, each with its own objectives, tasks, and deliverables. The SDLC is typically composed of six main phases, including:</h4>
+                <p class="card-text">
+                    <ol>
+                        <li>
+                            <strong>Requirements Gathering</strong>: In this phase, the project team interacts with the client or the end-user to determine their needs and requirements for the software. The requirements are documented, and a functional specification document is created.
+                        </li>
+                        <li>
+                            <strong>Design</strong>: In this phase, the development team designs the architecture of the software, including the database structure, user interface design, and system components.
+                        </li>
+                        <li>
+                            <strong>Implementation</strong>: In this phase, the development team starts building the software based on the design documents. They write code, integrate system components, and create the software's functionality.
+                        </li>
+                        <li>
+                            <strong>Testing</strong>: In this phase, the development team tests the software to ensure that it is working correctly and meets the client's requirements. They test for bugs, errors, and defects in the software.
+                        </li>
+                        <li>
+                            <strong>Deployment</strong>: In this phase, the software is deployed to the production environment. The deployment process involves installing the software on the client's system or on a server.
+                        </li>
+                        <li>
+                            <strong>Maintenance</strong>: In this phase, the development team provides ongoing support and maintenance to the software, including bug fixes, upgrades, and enhancements.
+                        </li>
+                    </ol>
+                </p>
+                <p class="card-text">
+                    The SDLC is a continuous process that enables the development team to create high-quality software that meets the client's requirements. It provides a framework for the development team to follow, ensuring that the software is developed efficiently, and that it meets the project's objectives.
+                </p>
                 {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
               </div>
             </div>
