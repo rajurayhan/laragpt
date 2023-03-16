@@ -1,7 +1,11 @@
-<x-main-layout>
+<x-main-layout> 
     <x-slot:title>
         AIContentPro: Next-Level AI Content Generation with Laravel
     </x-slot>
+    
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    @endpush
 <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -122,4 +126,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+    @push('scripts')
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    @endpush 
 </x-main-layout>
