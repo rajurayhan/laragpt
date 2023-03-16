@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
 
 class ContentGenerator{ 
-    public static function completion(Request $request){
+    public static function completion(String $prompt){
         $result = OpenAI::completions()->create([
             'model' => 'text-davinci-003', 
-            'prompt' => $request->prompt
+            'prompt' => $prompt, 
+            'max_tokens' => 500,
         ]); 
         return $result;
     }

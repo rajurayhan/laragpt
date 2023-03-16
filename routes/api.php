@@ -18,10 +18,15 @@ use Illuminate\Support\Facades\Validator;
 */
 
 Route::post('/completion', function (Request $request) {
-    $request->validate([ 
-        'prompt' => 'required',
-    ]);
-    return response()->json(ContentGenerator::completion($request));
+    $validator = Validator::make($request->all(), [
+        'prompt' => 'required'
+    ]); 
+
+    if($validator->fails()){
+        return WebApiResponse::validationError($validator, $request);
+    }
+    $prompt = "Write a complete article on this topic:\n\n" . $request->prompt ."\n\n in 200 words";
+    return response()->json(ContentGenerator::completion($prompt));
 })->name('completion');
 
 Route::post('/image', function (Request $request) {
@@ -32,7 +37,7 @@ Route::post('/image', function (Request $request) {
     if($validator->fails()){
         return WebApiResponse::validationError($validator, $request);
     }
-    
+
     return response()->json(ContentGenerator::image($request));
 })->name('image');
 
