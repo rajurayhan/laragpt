@@ -76,7 +76,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <button type="button" class="btn btn-block btn-dark btn-sm" onclick="generateContent()">Generate</button>
+                            <button type="button" class="btn btn-block btn-dark btn-sm" id="generateButton" onclick="generateContent(event)">Generate</button>
                         </div>
                     </div>
 
@@ -109,34 +109,33 @@
       <script src="{{ asset('libraby/API.js') }}"></script> 
         
       <script>
-        $(document).ready(function(){ 
+        function generateContent(e){
+          e.preventDefault();
+          showPreloader();
+          $("#generateButton").attr("disabled", true);
+          var requestBody = {
+            prompt: $('#prompt').val()
+          };
+
+          API.post(API.baseUrl + "/completion", requestBody)
+          .then(data => { 
+            if(data.code == 200){
+              toastr.success(data.message, 'Successful');
+              $("#contentResult").html(data.data.text);
+              
+            }
+            else{
+              toastr.error(data.message, 'Error'); 
+            }
+
+            $("#generateButton").attr("disabled", false);
+            hidePreloader();
+          })
+          .catch(error => {
+            console.error(error) 
           });
 
-          function generateContent(){ 
-            var requestBody = {
-              prompt: $('#prompt').val()
-            };
-
-            API.post(API.baseUrl + "/completion", requestBody)
-            .then(data => { 
-              if(data.code == 200){
-                toastr.success(data.message, 'Successful');
-                $("#contentResult").html(data.data.text);
-              }
-              else{
-                toastr.error(data.message, 'Error');
-              }
-            })
-            .catch(error => {
-              console.error(error) 
-            });
-
-          }
-
-          function showErrorOrSuccess(data){
-            // console.log(data);
-            
-          }
+        } 
       </script>
     @endpush 
 </x-main-layout>
