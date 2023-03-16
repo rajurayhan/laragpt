@@ -5,6 +5,7 @@
     
     @push('styles')
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     @endpush
 <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -90,32 +91,8 @@
                 <h5 class="m-0">Result</h5>
               </div>
               <div class="card-body">
-                <h4 class="card-title">Software Development Life Cycle (SDLC) is a structured process used in software development to design, develop, test, and deploy software. It consists of several phases, each with its own objectives, tasks, and deliverables. The SDLC is typically composed of six main phases, including:</h4>
-                <p class="card-text">
-                    <ol>
-                        <li>
-                            <strong>Requirements Gathering</strong>: In this phase, the project team interacts with the client or the end-user to determine their needs and requirements for the software. The requirements are documented, and a functional specification document is created.
-                        </li>
-                        <li>
-                            <strong>Design</strong>: In this phase, the development team designs the architecture of the software, including the database structure, user interface design, and system components.
-                        </li>
-                        <li>
-                            <strong>Implementation</strong>: In this phase, the development team starts building the software based on the design documents. They write code, integrate system components, and create the software's functionality.
-                        </li>
-                        <li>
-                            <strong>Testing</strong>: In this phase, the development team tests the software to ensure that it is working correctly and meets the client's requirements. They test for bugs, errors, and defects in the software.
-                        </li>
-                        <li>
-                            <strong>Deployment</strong>: In this phase, the software is deployed to the production environment. The deployment process involves installing the software on the client's system or on a server.
-                        </li>
-                        <li>
-                            <strong>Maintenance</strong>: In this phase, the development team provides ongoing support and maintenance to the software, including bug fixes, upgrades, and enhancements.
-                        </li>
-                    </ol>
-                </p>
-                <p class="card-text">
-                    The SDLC is a continuous process that enables the development team to create high-quality software that meets the client's requirements. It provides a framework for the development team to follow, ensuring that the software is developed efficiently, and that it meets the project's objectives.
-                </p>
+                <p class="card-text" id="contentResult">
+                </p> 
                 {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
               </div>
             </div>
@@ -128,26 +105,37 @@
     <!-- /.content -->
     @push('scripts')
       <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+      <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
       <script src="{{ asset('libraby/API.js') }}"></script> 
         
       <script>
-        $(document).ready(function(){
-          // Call the API
-          // API.get('https://jsonplaceholder.typicode.com/posts/1')
-          //   .then(data => {
-          //     console.log(data)
-          //   })
-          //   .catch(error => {
-          //     console.error(error)
-          //   });
+        $(document).ready(function(){ 
           });
 
-          function generateContent(){
-            alert(API.baseUrl);
+          function generateContent(){ 
             var requestBody = {
               prompt: $('#prompt').val()
             };
 
+            API.post(API.baseUrl + "/completion", requestBody)
+            .then(data => { 
+              if(data.code == 200){
+                toastr.success(data.message, 'Successful');
+                $("#contentResult").html(data.data.text);
+              }
+              else{
+                toastr.error(data.message, 'Error');
+              }
+            })
+            .catch(error => {
+              console.error(error) 
+            });
+
+          }
+
+          function showErrorOrSuccess(data){
+            // console.log(data);
+            
           }
       </script>
     @endpush 

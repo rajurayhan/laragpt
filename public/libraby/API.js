@@ -1,5 +1,5 @@
 const API = {
-    baseUrl: 'http://localhost:800/api/',
+    baseUrl: 'http://localhost:8000/api',
     // GET request
     get: async (url) => {
       const response = await fetch(url);

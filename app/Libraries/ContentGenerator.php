@@ -10,7 +10,7 @@ class ContentGenerator{
         $result = OpenAI::completions()->create([
             'model' => 'text-davinci-003', 
             'prompt' => $prompt, 
-            'max_tokens' => 500,
+            'max_tokens' => 200,
         ]); 
         return $result;
     }

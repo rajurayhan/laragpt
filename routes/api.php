@@ -26,7 +26,8 @@ Route::post('/completion', function (Request $request) {
         return WebApiResponse::validationError($validator, $request);
     }
     $prompt = "Write a complete article on this topic:\n\n" . $request->prompt ."\n\n in 200 words";
-    return response()->json(ContentGenerator::completion($prompt));
+    $returnResponse =  ContentGenerator::completion($prompt);
+    return WebApiResponse::success(200, $returnResponse['choices'][0], 'Generated Successfully');
 })->name('completion');
 
 Route::post('/image', function (Request $request) {
