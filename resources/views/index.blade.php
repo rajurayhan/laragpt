@@ -52,7 +52,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>What is your content about?</label>
-                            <textarea class="form-control" rows="3" placeholder="">Explain Software Development Life Cycle </textarea>
+                            <textarea class="form-control" rows="3" placeholder="Explain Software Development Life Cycle" id="prompt"> </textarea>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <button type="button" class="btn btn-block btn-dark btn-sm">Generate</button>
+                            <button type="button" class="btn btn-block btn-dark btn-sm" onclick="generateContent()">Generate</button>
                         </div>
                     </div>
 
@@ -133,14 +133,22 @@
       <script>
         $(document).ready(function(){
           // Call the API
-          API.get('https://jsonplaceholder.typicode.com/posts/1')
-            .then(data => {
-              console.log(data)
-            })
-            .catch(error => {
-              console.error(error)
-            });
-          }); 
+          // API.get('https://jsonplaceholder.typicode.com/posts/1')
+          //   .then(data => {
+          //     console.log(data)
+          //   })
+          //   .catch(error => {
+          //     console.error(error)
+          //   });
+          });
+
+          function generateContent(){
+            alert(API.baseUrl);
+            var requestBody = {
+              prompt: $('#prompt').val()
+            };
+
+          }
       </script>
     @endpush 
 </x-main-layout>

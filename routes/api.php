@@ -1,8 +1,10 @@
 <?php
 
 use App\Libraries\ContentGenerator;
+use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +18,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/completion', function (Request $request) {
+    $request->validate([ 
+        'prompt' => 'required',
+    ]);
     return response()->json(ContentGenerator::completion($request));
 })->name('completion');
 
 Route::post('/image', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+        'prompt' => 'required'
+    ]);
+
+    if($validator->fails()){
+        return WebApiResponse::validationError($validator, $request);
+    }
+    
     return response()->json(ContentGenerator::image($request));
 })->name('image');
 
