@@ -127,6 +127,20 @@
     </div>
     <!-- /.content -->
     @push('scripts')
-    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+      <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+      <script src="{{ asset('libraby/API.js') }}"></script> 
+        
+      <script>
+        $(document).ready(function(){
+          // Call the API
+          API.get('https://jsonplaceholder.typicode.com/posts/1')
+            .then(data => {
+              console.log(data)
+            })
+            .catch(error => {
+              console.error(error)
+            });
+          }); 
+      </script>
     @endpush 
 </x-main-layout>
