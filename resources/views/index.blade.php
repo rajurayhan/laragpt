@@ -2,6 +2,11 @@
     <x-slot:title>
         LHG SOW Tool: Next-Level AI SOW Generator
     </x-slot>
+
+    @push('styles')
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+    @endpush
 <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -63,7 +68,6 @@
                 <h5 class="m-0">Result</h5>
               </div>
               <div class="card-body">
-
               </div>
             </div>
           </div>
@@ -73,4 +77,39 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+    @push('scripts')
+      <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+      <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+      <script src="{{ asset('libraby/API.js') }}"></script>
+
+      <script>
+        function generateContent(e){
+          e.preventDefault();
+          showPreloader();
+          $("#generateButton").attr("disabled", true);
+          var requestBody = {
+            prompt: $('#prompt').val()
+          };
+
+          API.post(API.baseUrl + "/completion", requestBody)
+          .then(data => {
+            if(data.code == 200){
+              toastr.success(data.message, 'Successful');
+              $("#contentResult").html(data.data.text);
+
+            }
+            else{
+              toastr.error(data.message, 'Error');
+            }
+
+            $("#generateButton").attr("disabled", false);
+            hidePreloader();
+          })
+          .catch(error => {
+            console.error(error)
+          });
+
+        }
+      </script>
+    @endpush
 </x-main-layout>

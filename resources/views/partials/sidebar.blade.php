@@ -70,12 +70,25 @@
           <x-sidebar-item :url="'#'" :icon="'fa-copy'" :active="request()->routeIs('dashboard')">
             SOWs
           </x-sidebar-item>
-          <x-sidebar-item :url="'#'" :icon="'fa-file'" :active="request()->routeIs('dashboard')">
+          <x-sidebar-item :url="'#'" :icon="'fa-file'" :active="request()->routeIs('home')">
             Documents
           </x-sidebar-item>
-          <x-sidebar-item :url="'#'" :icon="'fa-image'" :active="request()->routeIs('dashboard')">
+          <x-sidebar-item :url="'#'" :icon="'fa-image'" :active="request()->routeIs('home')">
             Images
           </x-sidebar-item>
+
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <a href="#" class="nav-link " onclick="event.preventDefault();
+              this.closest('form').submit();">
+                  <i class="nav-icon  "></i>
+                  <p>
+                    Logout
+                  </p>
+              </a>
+            </form>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
