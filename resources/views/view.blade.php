@@ -60,7 +60,7 @@
                 <h5 class="m-0">Result</h5>
               </div>
               <div class="card-body">
-                    {{ $sow->sow }}
+                     @markdown($sow->sow)
               </div>
             </div>
           </div>

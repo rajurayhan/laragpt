@@ -25,11 +25,11 @@ class SoWGeneratorController extends Controller
             $result = OpenAI::chat()->create([
                 'model' => 'gpt-4',
                 'messages' => [
-                    ['role' => 'system', 'content' => 'You are a helpful assistant that generates a Scope of Work for projects.'],
+                    ['role' => 'system', 'content' => 'You are a helpful system analyst assistan that generates a Scope of Work for projects and will always return output in markdown format.'],
                     ['role' => 'user', 'content' => $prompt],
                     ['role' => 'user', 'content' => $description],
                 ],
-                'max_tokens' => 3000,
+                'max_tokens' => 4000,
                 'temperature' => 0
             ]);
 
