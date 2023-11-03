@@ -29,30 +29,27 @@
                 <h5 class="m-0">Generate SOW</h5>
               </div>
               <div class="card-body">
-                <form method="post" action="{{ route('generate.sow') }}">
-                    @csrf
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Prompt/Instructions</label>
-                                <textarea name="prompt" class="form-control" rows="3" placeholder="">Consider you are an experienced system analyst. Now Please help me with creating an Scope of Work Based on following Conversation -  </textarea>
+                                <textarea name="prompt" class="form-control" rows="3" placeholder=""> {{ $sow->prompt }} </textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Your Conversation/Project Description</label>
-                                <textarea name="description" class="form-control" rows="10" placeholder=""></textarea>
+                                <textarea name="description" class="form-control" rows="10" placeholder=""> {{ $sow->description }} </textarea>
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-block btn-dark btn-sm">Submit</button>
+                                {{-- <button type="submit" class="btn btn-block btn-dark btn-sm">Submit</button> --}}
                             </div>
                         </div>
 
                     </div>
-                </form>
               </div>
             </div>
           </div>
@@ -63,7 +60,7 @@
                 <h5 class="m-0">Result</h5>
               </div>
               <div class="card-body">
-
+                    {{ $sow->sow }}
               </div>
             </div>
           </div>

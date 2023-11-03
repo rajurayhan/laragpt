@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SoWGeneratorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,5 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/generate-sow', [SoWGeneratorController::class, 'generate'])->name('generate.sow');
+Route::get('/sows', [SoWGeneratorController::class, 'index'])->name('generate.index');
+Route::get('/view-sow/{id}', [SoWGeneratorController::class, 'view'])->name('sow.view');
+
 
 require __DIR__.'/auth.php';
