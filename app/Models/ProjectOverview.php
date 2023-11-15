@@ -1,20 +1,20 @@
 <?php
-// app/Models/ScopeOfWork.php
+// app/Models/ProjectOverview.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScopeOfWork extends Model
+class ProjectOverview extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'scopeOfWorkID';
+    protected $primaryKey = 'projectOverviewID';
 
     protected $fillable = [
         'problemGoalID',
-        'scopeText',
+        'overviewText',
     ];
 
     public function problemsAndGoals()
