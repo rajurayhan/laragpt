@@ -10,7 +10,7 @@ class ProjectSummary extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'summaryID';
+    // protected $primaryKey = 'summaryID';
 
     protected $fillable = [
         'meetingID',

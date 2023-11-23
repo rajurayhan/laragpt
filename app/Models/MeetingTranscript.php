@@ -10,11 +10,11 @@ class MeetingTranscript extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'meetingID';
+    // protected $primaryKey = 'meetingID';
     public $incrementing = false;
 
     protected $fillable = [
-        'segmentID',
+        // 'segmentID',
         'transcriptText',
     ];
 

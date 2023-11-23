@@ -10,8 +10,7 @@ class CreateMeetingTranscriptsTable extends Migration
     public function up()
     {
         Schema::create('meeting_transcripts', function (Blueprint $table) {
-            $table->id('meetingID');
-            $table->integer('segmentID');
+            $table->id();
             $table->text('transcriptText');
             $table->timestamps();
         });

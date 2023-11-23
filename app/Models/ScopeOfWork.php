@@ -10,7 +10,7 @@ class ScopeOfWork extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'scopeOfWorkID';
+    // protected $primaryKey = 'scopeOfWorkID';
 
     protected $fillable = [
         'problemGoalID',

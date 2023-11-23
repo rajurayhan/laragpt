@@ -11,7 +11,7 @@ class CreateProblemsAndGoalsTable extends Migration
     public function up()
     {
         Schema::create('problems_and_goals', function (Blueprint $table) {
-            $table->id('problemGoalID');
+            $table->id();
             $table->foreignId('meetingID')->constrained('meeting_transcripts');
             $table->text('problemGoalText');
             $table->timestamps();

@@ -10,8 +10,8 @@ class CreateProjectSummariesTable extends Migration
     public function up()
     {
         Schema::create('project_summaries', function (Blueprint $table) {
-            $table->id('summaryID');
-            $table->foreignId('meetingID')->constrained('meeting_transcripts');
+            $table->id();
+            $table->foreignId('transcriptId')->constrained('meeting_transcripts');
             $table->text('summaryText');
             $table->timestamps();
         });

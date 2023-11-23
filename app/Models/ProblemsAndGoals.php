@@ -11,7 +11,7 @@ class ProblemsAndGoals extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'problemGoalID';
+    // protected $primaryKey = 'problemGoalID';
 
     protected $fillable = [
         'meetingID',

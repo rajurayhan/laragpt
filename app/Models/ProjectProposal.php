@@ -10,7 +10,7 @@ class ProjectProposal extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'projectProposalID';
+    // protected $primaryKey = 'projectProposalID';
 
     protected $fillable = [
         'projectOverviewID',

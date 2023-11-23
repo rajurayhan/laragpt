@@ -11,7 +11,7 @@ class CreateProjectProposalsTable extends Migration
     public function up()
     {
         Schema::create('project_proposals', function (Blueprint $table) {
-            $table->id('projectProposalID');
+            $table->id();
             $table->foreignId('projectOverviewID')->constrained('project_overviews');
             $table->foreignId('scopeOfWorkID')->constrained('scope_of_works');
             $table->text('proposalText');
