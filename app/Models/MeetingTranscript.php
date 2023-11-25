@@ -10,8 +10,7 @@ class MeetingTranscript extends Model
 {
     use HasFactory;
 
-    // protected $primaryKey = 'meetingID';
-    public $incrementing = false;
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'transcriptText',

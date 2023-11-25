@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/completion:
+    post:
+      summary: ''
+      operationId: postApiCompletion
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/image:
+    post:
+      summary: ''
+      operationId: postApiImage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/project-summery:
+    post:
+      summary: 'Creae New Meeting'
+      operationId: creaeNewMeeting
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Meeting Transcript'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transcriptText:
+                  type: string
+                  description: 'The text of the transcript.'
+                  example: quia
+                projectName:
+                  type: string
+                  description: 'The name of the project.'
+                  example: inventore
+                clientPhone:
+                  type: string
+                  description: 'The phone number of the client.'
+                  example: est
+                clientEmail:
+                  type: string
+                  description: 'The email of the client.'
+                  example: orval17@example.com
+                clientWebsite:
+                  type: string
+                  description: 'The website of the client.'
+                  example: nihil
+              required:
+                - transcriptText
+                - projectName
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: 'Meeting Transcript'
+    description: ''

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MeetingTranscriptController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -17,10 +18,13 @@ use Illuminate\Support\Facades\Validator;
 |
 */
 
+// Route::post('project-summery');
+Route::post('/project-summery', [MeetingTranscriptController::class, 'store'])->name('project.summery');
+
 Route::post('/completion', function (Request $request) {
     $validator = Validator::make($request->all(), [
         'prompt' => 'required'
-    ]); 
+    ]);
 
     if($validator->fails()){
         return WebApiResponse::validationError($validator, $request);

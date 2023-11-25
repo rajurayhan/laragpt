@@ -12,10 +12,10 @@ class CreateMeetingTranscriptsTable extends Migration
         Schema::create('meeting_transcripts', function (Blueprint $table) {
             $table->id();
             $table->text('transcriptText');
-            $table->text('projectName')->nullable();
+            $table->text('projectName');
             $table->text('clientPhone')->nullable();
             $table->text('clientEmail')->nullable();
-            $table->text('clientWebsite')->nullable(); 
+            $table->text('clientWebsite')->nullable();
             $table->timestamps();
         });
     }

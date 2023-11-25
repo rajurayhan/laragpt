@@ -13,12 +13,12 @@ class ProjectSummary extends Model
     // protected $primaryKey = 'summaryID';
 
     protected $fillable = [
-        'meetingID',
+        'transcriptId',
         'summaryText',
     ];
 
     public function meetingTranscript()
     {
-        return $this->belongsTo(MeetingTranscript::class, 'meetingID', 'meetingID');
+        return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
 }

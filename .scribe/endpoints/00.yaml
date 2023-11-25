@@ -1,0 +1,83 @@
+name: 'Meeting Transcript'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/project-summery
+    metadata:
+      groupName: 'Meeting Transcript'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Creae New Meeting'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      transcriptText:
+        name: transcriptText
+        description: 'The text of the transcript.'
+        required: true
+        example: quia
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      projectName:
+        name: projectName
+        description: 'The name of the project.'
+        required: true
+        example: inventore
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      clientPhone:
+        name: clientPhone
+        description: 'The phone number of the client.'
+        required: false
+        example: est
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      clientEmail:
+        name: clientEmail
+        description: 'The email of the client.'
+        required: false
+        example: orval17@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      clientWebsite:
+        name: clientWebsite
+        description: 'The website of the client.'
+        required: false
+        example: nihil
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      transcriptText: quia
+      projectName: inventore
+      clientPhone: est
+      clientEmail: orval17@example.com
+      clientWebsite: nihil
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
