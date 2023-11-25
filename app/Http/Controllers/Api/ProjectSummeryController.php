@@ -80,7 +80,7 @@ class ProjectSummeryController extends Controller
      * @urlParam id int Id of the transcript.
      */
     public function show($id){
-        $projectSummeryObj = ProjectSummary::with('meetingTranscript')->find($id);
+        $projectSummeryObj = ProjectSummary::with('meetingTranscript.problemsAndGoals')->find($id);
         $response = [
             'message' => 'Data Showed Successfully',
             'data' => $projectSummeryObj

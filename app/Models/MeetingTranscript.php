@@ -27,7 +27,7 @@ class MeetingTranscript extends Model
 
     public function problemsAndGoals()
     {
-        return $this->hasOne(ProblemsAndGoals::class, 'meetingID', 'meetingID');
+        return $this->hasOne(ProblemsAndGoals::class, 'transcriptId', 'id');
     }
 
     public function projectProposal()

@@ -21,12 +21,26 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            \Log::info(['SummeryResult' => $summery]);
 
             return $summery;
         }
 
         public static function generateProblemsAndGoals($transcript){
+            $problemsAndGoalsResult = OpenAI::chat()->create([
+                'model' => 'gpt-4-1106-preview',
+                'messages' => [
+                    ['role' => 'system', 'content' => "Help me turn the following transcript from a virtual meeting I had with a potential client into bullet points that address the client's problems and goals. The potential client is looking for help from our company, to help solve their problems and accomplish their goals with the services we offer."],
+
+                    ['role' => 'system', 'content' => 'You will always return output in markdown format with proper line braeks.'],
+                    ['role' => 'user', 'content' => $transcript],
+                ],
+                'max_tokens' => 4096,
+                'temperature' => 0.5
+            ]);
+
+            $problemsAndGoals = $problemsAndGoalsResult['choices'][0]['message']['content'];
+
+            return $problemsAndGoals;
         }
 
         public static function generateProjectOverview($problemsAndGoals){

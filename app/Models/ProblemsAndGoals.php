@@ -14,22 +14,22 @@ class ProblemsAndGoals extends Model
     // protected $primaryKey = 'problemGoalID';
 
     protected $fillable = [
-        'meetingID',
+        'transcriptId',
         'problemGoalText',
     ];
 
     public function meetingTranscript()
     {
-        return $this->belongsTo(MeetingTranscript::class, 'meetingID', 'meetingID');
+        return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
 
     public function projectOverview()
     {
-        return $this->hasOne(ProjectOverview::class, 'problemGoalID', 'problemGoalID');
+        return $this->hasOne(ProjectOverview::class, 'transcriptId', 'id');
     }
 
     public function scopeOfWork()
     {
-        return $this->hasOne(ScopeOfWork::class, 'problemGoalID', 'problemGoalID');
+        return $this->hasOne(ScopeOfWork::class, 'transcriptId', 'id');
     }
 }

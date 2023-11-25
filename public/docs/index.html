@@ -82,6 +82,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-problems-and-goals" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="problems-and-goals">
+                    <a href="#problems-and-goals">Problems and Goals</a>
+                </li>
+                                    <ul id="tocify-subheader-problems-and-goals" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="problems-and-goals-POSTapi-problems-and-goals">
+                                <a href="#problems-and-goals-POSTapi-problems-and-goals">Create Problems and Goals</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-project-summery" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="project-summery">
                     <a href="#project-summery">Project Summery</a>
@@ -475,6 +485,139 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                <h1 id="problems-and-goals">Problems and Goals</h1>
+
+    
+
+                                <h2 id="problems-and-goals-POSTapi-problems-and-goals">Create Problems and Goals</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-problems-and-goals">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/problems-and-goals" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"transcriptId\": 13
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/problems-and-goals"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "transcriptId": 13
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-problems-and-goals">
+</span>
+<span id="execution-results-POSTapi-problems-and-goals" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-problems-and-goals"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-problems-and-goals"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-problems-and-goals" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-problems-and-goals">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-problems-and-goals" data-method="POST"
+      data-path="api/problems-and-goals"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-problems-and-goals', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-problems-and-goals"
+                    onclick="tryItOut('POSTapi-problems-and-goals');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-problems-and-goals"
+                    onclick="cancelTryOut('POSTapi-problems-and-goals');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-problems-and-goals"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/problems-and-goals</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-problems-and-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-problems-and-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>transcriptId</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="transcriptId"                data-endpoint="POSTapi-problems-and-goals"
+               value="13"
+               data-component="body">
+    <br>
+<p>Id of the transcript. Example: <code>13</code></p>
+        </div>
+        </form>
+
                 <h1 id="project-summery">Project Summery</h1>
 
     
@@ -492,7 +635,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery?page=6" \
+    --get "http://localhost:8000/api/project-summery?page=10" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -503,7 +646,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "6",
+    "page": "10",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -531,12 +674,12 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 55
+x-ratelimit-remaining: 56
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;current_page&quot;: 6,
+    &quot;current_page&quot;: 10,
     &quot;data&quot;: [],
     &quot;first_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
     &quot;from&quot;: null,
@@ -544,7 +687,7 @@ access-control-allow-origin: *
     &quot;last_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
     &quot;links&quot;: [
         {
-            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=5&quot;,
+            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=9&quot;,
             &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
             &quot;active&quot;: false
         },
@@ -562,7 +705,7 @@ access-control-allow-origin: *
     &quot;next_page_url&quot;: null,
     &quot;path&quot;: &quot;http://localhost:8000/api/project-summery&quot;,
     &quot;per_page&quot;: 10,
-    &quot;prev_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=5&quot;,
+    &quot;prev_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=9&quot;,
     &quot;to&quot;: null,
     &quot;total&quot;: 1
 }</code>
@@ -644,10 +787,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-summery"
-               value="6"
+               value="10"
                data-component="query">
     <br>
-<p>page number. Example: <code>6</code></p>
+<p>page number. Example: <code>10</code></p>
             </div>
                 </form>
 
@@ -668,11 +811,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptText\": \"tempora\",
-    \"projectName\": \"dolores\",
-    \"clientPhone\": \"eligendi\",
-    \"clientEmail\": \"rippin.jonatan@example.org\",
-    \"clientWebsite\": \"inventore\"
+    \"transcriptText\": \"ipsum\",
+    \"projectName\": \"perspiciatis\",
+    \"clientPhone\": \"libero\",
+    \"clientEmail\": \"nathanial81@example.org\",
+    \"clientWebsite\": \"suscipit\"
 }"
 </code></pre></div>
 
@@ -688,11 +831,11 @@ const headers = {
 };
 
 let body = {
-    "transcriptText": "tempora",
-    "projectName": "dolores",
-    "clientPhone": "eligendi",
-    "clientEmail": "rippin.jonatan@example.org",
-    "clientWebsite": "inventore"
+    "transcriptText": "ipsum",
+    "projectName": "perspiciatis",
+    "clientPhone": "libero",
+    "clientEmail": "nathanial81@example.org",
+    "clientWebsite": "suscipit"
 };
 
 fetch(url, {
@@ -781,10 +924,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-project-summery"
-               value="tempora"
+               value="ipsum"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>tempora</code></p>
+<p>The text of the transcript. Example: <code>ipsum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectName</code></b>&nbsp;&nbsp;
@@ -792,10 +935,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="projectName"                data-endpoint="POSTapi-project-summery"
-               value="dolores"
+               value="perspiciatis"
                data-component="body">
     <br>
-<p>The name of the project. Example: <code>dolores</code></p>
+<p>The name of the project. Example: <code>perspiciatis</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientPhone</code></b>&nbsp;&nbsp;
@@ -803,10 +946,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientPhone"                data-endpoint="POSTapi-project-summery"
-               value="eligendi"
+               value="libero"
                data-component="body">
     <br>
-<p>The phone number of the client. Example: <code>eligendi</code></p>
+<p>The phone number of the client. Example: <code>libero</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientEmail</code></b>&nbsp;&nbsp;
@@ -814,10 +957,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientEmail"                data-endpoint="POSTapi-project-summery"
-               value="rippin.jonatan@example.org"
+               value="nathanial81@example.org"
                data-component="body">
     <br>
-<p>The email of the client. Example: <code>rippin.jonatan@example.org</code></p>
+<p>The email of the client. Example: <code>nathanial81@example.org</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientWebsite</code></b>&nbsp;&nbsp;
@@ -825,10 +968,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientWebsite"                data-endpoint="POSTapi-project-summery"
-               value="inventore"
+               value="suscipit"
                data-component="body">
     <br>
-<p>The website of the client. Example: <code>inventore</code></p>
+<p>The website of the client. Example: <code>suscipit</code></p>
         </div>
         </form>
 
@@ -845,14 +988,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery/3" \
+    --get "http://localhost:8000/api/project-summery/15" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/3"
+    "http://localhost:8000/api/project-summery/15"
 );
 
 const headers = {
@@ -878,7 +1021,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 54
+x-ratelimit-remaining: 55
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -964,10 +1107,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-project-summery--id-"
-               value="3"
+               value="15"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>3</code></p>
+<p>Id of the transcript. Example: <code>15</code></p>
             </div>
                     </form>
 
@@ -984,18 +1127,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-summery/11" \
+    "http://localhost:8000/api/project-summery/12" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"summaryText\": 20
+    \"summaryText\": 2
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/11"
+    "http://localhost:8000/api/project-summery/12"
 );
 
 const headers = {
@@ -1004,7 +1147,7 @@ const headers = {
 };
 
 let body = {
-    "summaryText": 20
+    "summaryText": 2
 };
 
 fetch(url, {
@@ -1093,10 +1236,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-project-summery--id-"
-               value="11"
+               value="12"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>11</code></p>
+<p>Id of the transcript. Example: <code>12</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1105,10 +1248,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="summaryText"                data-endpoint="PUTapi-project-summery--id-"
-               value="20"
+               value="2"
                data-component="body">
     <br>
-<p>summaryText of the Project Summery. Example: <code>20</code></p>
+<p>summaryText of the Project Summery. Example: <code>2</code></p>
         </div>
         </form>
 

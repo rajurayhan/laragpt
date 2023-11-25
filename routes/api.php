@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectSummeryController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -24,6 +25,10 @@ Route::post('/project-summery', [ProjectSummeryController::class, 'store'])->nam
 Route::get('/project-summery/{id}', [ProjectSummeryController::class, 'show'])->name('project.summery.show');
 Route::put('/project-summery/{id}', [ProjectSummeryController::class, 'update'])->name('project.summery.update');
 Route::delete('/project-summery/{id}', [ProjectSummeryController::class, 'delete'])->name('project.summery.delete');
+
+// problems-goals api
+Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');
+Route::post('/problems-and-goals/{id}', [ProblemAndGoalController::class, 'store'])->name('problems.goals.update');
 
 Route::post('/completion', function (Request $request) {
     $validator = Validator::make($request->all(), [
