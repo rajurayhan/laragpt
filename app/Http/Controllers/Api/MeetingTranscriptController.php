@@ -23,7 +23,7 @@ class MeetingTranscriptController extends Controller
      * @group Meeting Transcript
      *
      * @bodyParam transcriptText string required The text of the transcript.
-     * @bodyParam projectName string The name of the project.
+     * @bodyParam projectName string required The name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
      * @bodyParam clientWebsite string The website of the client.
@@ -32,7 +32,7 @@ class MeetingTranscriptController extends Controller
     public function store(Request $request){
         $validatedData = $request->validate([
             'transcriptText' => 'required|string',
-            'projectName' => 'nullable|string',
+            'projectName' => 'required|string',
             'clientPhone' => 'nullable|string',
             'clientEmail' => 'nullable|email',
             'clientWebsite' => 'nullable|url',
