@@ -16,7 +16,6 @@ class SoWGeneratorController extends Controller
 
         set_time_limit(500);
         $request->validate([
-            'prompt' => 'required',
             'description' => 'required',
         ]);
 
