@@ -27,11 +27,6 @@ class ProblemAndGoalController extends Controller
         $transcriptObj      = MeetingTranscript::findOrFail($request->transcriptId);
         $problemsAndGoals   = OpenAIGeneratorService::generateProblemsAndGoals($transcriptObj->transcriptText);
 
-        // $problemsAndGoalsObj = new ProblemsAndGoals();
-        // $problemsAndGoalsObj->transcriptId = $request->transcriptId;
-        // $problemsAndGoalsObj->problemGoalText = $problemsAndGoals;
-        // $problemsAndGoalsObj->save();
-
         $problemsAndGoalsObj = ProblemsAndGoals::updateOrCreate(
             ['transcriptId' => $request->transcriptId],
             ['problemGoalText' => $problemsAndGoals]

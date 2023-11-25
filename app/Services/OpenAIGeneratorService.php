@@ -44,6 +44,21 @@
         }
 
         public static function generateProjectOverview($problemsAndGoals){
+            $projectOverViewResult = OpenAI::chat()->create([
+                'model' => 'gpt-4-1106-preview',
+                'messages' => [
+                    ['role' => 'system', 'content' => "Help me take the following points that were put together from a conversation I had with a potential client asking for our businesses to help and turn them into paragraphs. I need this text to be a very easy-to-read, well-written, and detailed project description/overview. Put into paragraph format only that is easy to read."],
+
+                    ['role' => 'system', 'content' => 'I am sending you markdown and you will always return output in markdown format with proper line braeks with a heading Project Overview.'],
+                    ['role' => 'user', 'content' => $problemsAndGoals],
+                ],
+                'max_tokens' => 4096,
+                'temperature' => 0.5
+            ]);
+
+            $projectOverView = $projectOverViewResult['choices'][0]['message']['content'];
+
+            return $projectOverView;
         }
 
         public static function generateScopeOfWork($problemsAndGoals){
