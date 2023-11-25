@@ -14,8 +14,11 @@ class MeetingTranscript extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        // 'segmentID',
         'transcriptText',
+        'projectName',
+        'clientPhone',
+        'clientEmail',
+        'clientWebsite',
     ];
 
     public function projectSummary()

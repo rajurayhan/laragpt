@@ -15,8 +15,7 @@ class CreateMeetingTranscriptsTable extends Migration
             $table->text('projectName')->nullable();
             $table->text('clientPhone')->nullable();
             $table->text('clientEmail')->nullable();
-            $table->text('clientWebsite')->nullable();
-            $table->text('')->nullable();
+            $table->text('clientWebsite')->nullable(); 
             $table->timestamps();
         });
     }
