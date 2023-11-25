@@ -50,14 +50,129 @@ paths:
         - Endpoints
       security: []
   /api/project-summery:
+    get:
+      summary: 'Get Project Summery List'
+      operationId: getProjectSummeryList
+      description: ''
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'page number.'
+          example: 6
+          required: false
+          schema:
+            type: integer
+            description: 'page number.'
+            example: 6
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  current_page: 6
+                  data: []
+                  first_page_url: 'http://localhost:8000/api/project-summery?page=1'
+                  from: null
+                  last_page: 1
+                  last_page_url: 'http://localhost:8000/api/project-summery?page=1'
+                  links:
+                    -
+                      url: 'http://localhost:8000/api/project-summery?page=5'
+                      label: '&laquo; Previous'
+                      active: false
+                    -
+                      url: 'http://localhost:8000/api/project-summery?page=1'
+                      label: '1'
+                      active: false
+                    -
+                      url: null
+                      label: 'Next &raquo;'
+                      active: false
+                  next_page_url: null
+                  path: 'http://localhost:8000/api/project-summery'
+                  per_page: 10
+                  prev_page_url: 'http://localhost:8000/api/project-summery?page=5'
+                  to: null
+                  total: 1
+                properties:
+                  current_page:
+                    type: integer
+                    example: 6
+                  data:
+                    type: array
+                    example: []
+                  first_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=1'
+                  from:
+                    type: string
+                    example: null
+                  last_page:
+                    type: integer
+                    example: 1
+                  last_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=1'
+                  links:
+                    type: array
+                    example:
+                      -
+                        url: 'http://localhost:8000/api/project-summery?page=5'
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/project-summery?page=1'
+                        label: '1'
+                        active: false
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          example: 'http://localhost:8000/api/project-summery?page=5'
+                        label:
+                          type: string
+                          example: '&laquo; Previous'
+                        active:
+                          type: boolean
+                          example: false
+                  next_page_url:
+                    type: string
+                    example: null
+                  path:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery'
+                  per_page:
+                    type: integer
+                    example: 10
+                  prev_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=5'
+                  to:
+                    type: string
+                    example: null
+                  total:
+                    type: integer
+                    example: 1
+      tags:
+        - 'Project Summery'
+      security: []
     post:
-      summary: 'Creae New Meeting'
-      operationId: creaeNewMeeting
+      summary: 'Create Project Summery'
+      operationId: createProjectSummery
       description: ''
       parameters: []
       responses: {  }
       tags:
-        - 'Meeting Transcript'
+        - 'Project Summery'
       requestBody:
         required: true
         content:
@@ -68,31 +183,103 @@ paths:
                 transcriptText:
                   type: string
                   description: 'The text of the transcript.'
-                  example: quia
+                  example: tempora
                 projectName:
                   type: string
                   description: 'The name of the project.'
-                  example: inventore
+                  example: dolores
                 clientPhone:
                   type: string
                   description: 'The phone number of the client.'
-                  example: est
+                  example: eligendi
                 clientEmail:
                   type: string
                   description: 'The email of the client.'
-                  example: orval17@example.com
+                  example: rippin.jonatan@example.org
                 clientWebsite:
                   type: string
                   description: 'The website of the client.'
-                  example: nihil
+                  example: inventore
               required:
                 - transcriptText
                 - projectName
       security: []
+  '/api/project-summery/{id}':
+    get:
+      summary: 'Show Project Summery'
+      operationId: showProjectSummery
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Data Showed Successfully'
+                  data: null
+                properties:
+                  message:
+                    type: string
+                    example: 'Data Showed Successfully'
+                  data:
+                    type: string
+                    example: null
+      tags:
+        - 'Project Summery'
+      security: []
+    put:
+      summary: 'Update Project Summery'
+      operationId: updateProjectSummery
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Project Summery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                summaryText:
+                  type: integer
+                  description: 'summaryText of the Project Summery.'
+                  example: 20
+              required:
+                - summaryText
+      security: []
+    delete:
+      summary: 'Delete Project Summery'
+      operationId: deleteProjectSummery
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Project Summery'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. Id of the transcript.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 3
 tags:
   -
     name: Endpoints
     description: ''
   -
-    name: 'Meeting Transcript'
+    name: 'Project Summery'
     description: ''

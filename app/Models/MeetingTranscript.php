@@ -22,7 +22,7 @@ class MeetingTranscript extends Model
 
     public function projectSummary()
     {
-        return $this->hasOne(ProjectSummary::class, 'meetingID', 'meetingID');
+        return $this->hasOne(ProjectSummary::class, 'transcriptId', 'id');
     }
 
     public function problemsAndGoals()

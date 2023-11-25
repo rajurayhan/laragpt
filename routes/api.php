@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\MeetingTranscriptController;
+use App\Http\Controllers\Api\ProjectSummeryController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Validator;
 |
 */
 
-// Route::post('project-summery');
-Route::post('/project-summery', [MeetingTranscriptController::class, 'store'])->name('project.summery');
+// project-summery routes
+Route::get('/project-summery', [ProjectSummeryController::class, 'index'])->name('project.summery.list');
+Route::post('/project-summery', [ProjectSummeryController::class, 'store'])->name('project.summery.create');
+Route::get('/project-summery/{id}', [ProjectSummeryController::class, 'show'])->name('project.summery.show');
+Route::put('/project-summery/{id}', [ProjectSummeryController::class, 'update'])->name('project.summery.update');
+Route::delete('/project-summery/{id}', [ProjectSummeryController::class, 'delete'])->name('project.summery.delete');
 
 Route::post('/completion', function (Request $request) {
     $validator = Validator::make($request->all(), [
