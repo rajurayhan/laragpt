@@ -54,7 +54,7 @@ class ScopeOfWorkController extends Controller
         ]);
 
         $scopeOfWork = ScopeOfWork::findOrFail($id);
-        $scopeOfWork->scopeText = $request->overviewText;
+        $scopeOfWork->scopeText = $request->scopeText;
 
         $scopeOfWork->save();
 
