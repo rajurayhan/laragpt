@@ -130,6 +130,19 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-scope-of-work" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="scope-of-work">
+                    <a href="#scope-of-work">Scope Of Work</a>
+                </li>
+                                    <ul id="tocify-subheader-scope-of-work" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="scope-of-work-POSTapi-scope-of-work">
+                                <a href="#scope-of-work-POSTapi-scope-of-work">Create Scope Of Work</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="scope-of-work-POSTapi-scope-of-work--id-">
+                                <a href="#scope-of-work-POSTapi-scope-of-work--id-">Update Scope Of Work</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -522,7 +535,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 20
+    \"transcriptId\": 10
 }"
 </code></pre></div>
 
@@ -538,7 +551,7 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 20
+    "transcriptId": 10
 };
 
 fetch(url, {
@@ -627,10 +640,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-problems-and-goals"
-               value="20"
+               value="10"
                data-component="body">
     <br>
-<p>Id of the transcript. Example: <code>20</code></p>
+<p>Id of the transcript. Example: <code>10</code></p>
         </div>
         </form>
 
@@ -647,18 +660,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/problems-and-goals/13" \
+    "http://localhost:8000/api/problems-and-goals/16" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalText\": \"expedita\"
+    \"problemGoalText\": \"iste\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/problems-and-goals/13"
+    "http://localhost:8000/api/problems-and-goals/16"
 );
 
 const headers = {
@@ -667,7 +680,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalText": "expedita"
+    "problemGoalText": "iste"
 };
 
 fetch(url, {
@@ -756,10 +769,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="13"
+               value="16"
                data-component="url">
     <br>
-<p>Id of the problems and goals. Example: <code>13</code></p>
+<p>Id of the problems and goals. Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -768,10 +781,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="problemGoalText"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="expedita"
+               value="iste"
                data-component="body">
     <br>
-<p>text of the ProblemsAndGoals. Example: <code>expedita</code></p>
+<p>text of the ProblemsAndGoals. Example: <code>iste</code></p>
         </div>
         </form>
 
@@ -796,7 +809,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 14
+    \"problemGoalID\": 20
 }"
 </code></pre></div>
 
@@ -812,7 +825,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 14
+    "problemGoalID": 20
 };
 
 fetch(url, {
@@ -901,10 +914,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-project-overview"
-               value="14"
+               value="20"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>14</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>20</code></p>
         </div>
         </form>
 
@@ -921,18 +934,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/project-overview/3" \
+    "http://localhost:8000/api/project-overview/17" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"overviewText\": \"excepturi\"
+    \"overviewText\": \"illum\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-overview/3"
+    "http://localhost:8000/api/project-overview/17"
 );
 
 const headers = {
@@ -941,7 +954,7 @@ const headers = {
 };
 
 let body = {
-    "overviewText": "excepturi"
+    "overviewText": "illum"
 };
 
 fetch(url, {
@@ -1030,10 +1043,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-project-overview--id-"
-               value="3"
+               value="17"
                data-component="url">
     <br>
-<p>Id of the ProjectOverview. Example: <code>3</code></p>
+<p>Id of the ProjectOverview. Example: <code>17</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1042,10 +1055,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="overviewText"                data-endpoint="POSTapi-project-overview--id-"
-               value="excepturi"
+               value="illum"
                data-component="body">
     <br>
-<p>text of the ProjectOverview. Example: <code>excepturi</code></p>
+<p>text of the ProjectOverview. Example: <code>illum</code></p>
         </div>
         </form>
 
@@ -1066,7 +1079,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery?page=8" \
+    --get "http://localhost:8000/api/project-summery?page=10" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -1077,7 +1090,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "8",
+    "page": "10",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1105,12 +1118,12 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 58
+x-ratelimit-remaining: 59
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;current_page&quot;: 8,
+    &quot;current_page&quot;: 10,
     &quot;data&quot;: [],
     &quot;first_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
     &quot;from&quot;: null,
@@ -1118,7 +1131,7 @@ access-control-allow-origin: *
     &quot;last_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
     &quot;links&quot;: [
         {
-            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=7&quot;,
+            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=9&quot;,
             &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
             &quot;active&quot;: false
         },
@@ -1136,7 +1149,7 @@ access-control-allow-origin: *
     &quot;next_page_url&quot;: null,
     &quot;path&quot;: &quot;http://localhost:8000/api/project-summery&quot;,
     &quot;per_page&quot;: 10,
-    &quot;prev_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=7&quot;,
+    &quot;prev_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=9&quot;,
     &quot;to&quot;: null,
     &quot;total&quot;: 1
 }</code>
@@ -1218,10 +1231,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-summery"
-               value="8"
+               value="10"
                data-component="query">
     <br>
-<p>page number. Example: <code>8</code></p>
+<p>page number. Example: <code>10</code></p>
             </div>
                 </form>
 
@@ -1242,11 +1255,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptText\": \"corporis\",
-    \"projectName\": \"et\",
-    \"clientPhone\": \"recusandae\",
-    \"clientEmail\": \"toy71@example.org\",
-    \"clientWebsite\": \"commodi\"
+    \"transcriptText\": \"modi\",
+    \"projectName\": \"itaque\",
+    \"clientPhone\": \"facilis\",
+    \"clientEmail\": \"qwalter@example.net\",
+    \"clientWebsite\": \"qui\"
 }"
 </code></pre></div>
 
@@ -1262,11 +1275,11 @@ const headers = {
 };
 
 let body = {
-    "transcriptText": "corporis",
-    "projectName": "et",
-    "clientPhone": "recusandae",
-    "clientEmail": "toy71@example.org",
-    "clientWebsite": "commodi"
+    "transcriptText": "modi",
+    "projectName": "itaque",
+    "clientPhone": "facilis",
+    "clientEmail": "qwalter@example.net",
+    "clientWebsite": "qui"
 };
 
 fetch(url, {
@@ -1355,10 +1368,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-project-summery"
-               value="corporis"
+               value="modi"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>corporis</code></p>
+<p>The text of the transcript. Example: <code>modi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectName</code></b>&nbsp;&nbsp;
@@ -1366,10 +1379,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="projectName"                data-endpoint="POSTapi-project-summery"
-               value="et"
+               value="itaque"
                data-component="body">
     <br>
-<p>The name of the project. Example: <code>et</code></p>
+<p>The name of the project. Example: <code>itaque</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientPhone</code></b>&nbsp;&nbsp;
@@ -1377,10 +1390,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientPhone"                data-endpoint="POSTapi-project-summery"
-               value="recusandae"
+               value="facilis"
                data-component="body">
     <br>
-<p>The phone number of the client. Example: <code>recusandae</code></p>
+<p>The phone number of the client. Example: <code>facilis</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientEmail</code></b>&nbsp;&nbsp;
@@ -1388,10 +1401,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientEmail"                data-endpoint="POSTapi-project-summery"
-               value="toy71@example.org"
+               value="qwalter@example.net"
                data-component="body">
     <br>
-<p>The email of the client. Example: <code>toy71@example.org</code></p>
+<p>The email of the client. Example: <code>qwalter@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientWebsite</code></b>&nbsp;&nbsp;
@@ -1399,10 +1412,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientWebsite"                data-endpoint="POSTapi-project-summery"
-               value="commodi"
+               value="qui"
                data-component="body">
     <br>
-<p>The website of the client. Example: <code>commodi</code></p>
+<p>The website of the client. Example: <code>qui</code></p>
         </div>
         </form>
 
@@ -1419,14 +1432,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery/9" \
+    --get "http://localhost:8000/api/project-summery/8" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/9"
+    "http://localhost:8000/api/project-summery/8"
 );
 
 const headers = {
@@ -1452,7 +1465,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 57
+x-ratelimit-remaining: 58
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -1538,10 +1551,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-project-summery--id-"
-               value="9"
+               value="8"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>9</code></p>
+<p>Id of the transcript. Example: <code>8</code></p>
             </div>
                     </form>
 
@@ -1558,18 +1571,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-summery/10" \
+    "http://localhost:8000/api/project-summery/20" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"summaryText\": 14
+    \"summaryText\": 1
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/10"
+    "http://localhost:8000/api/project-summery/20"
 );
 
 const headers = {
@@ -1578,7 +1591,7 @@ const headers = {
 };
 
 let body = {
-    "summaryText": 14
+    "summaryText": 1
 };
 
 fetch(url, {
@@ -1667,10 +1680,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-project-summery--id-"
-               value="10"
+               value="20"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>10</code></p>
+<p>Id of the transcript. Example: <code>20</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1679,10 +1692,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="summaryText"                data-endpoint="PUTapi-project-summery--id-"
-               value="14"
+               value="1"
                data-component="body">
     <br>
-<p>summaryText of the Project Summery. Example: <code>14</code></p>
+<p>summaryText of the Project Summery. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -1699,14 +1712,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-summery/11" \
+    "http://localhost:8000/api/project-summery/13" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/11"
+    "http://localhost:8000/api/project-summery/13"
 );
 
 const headers = {
@@ -1799,12 +1812,286 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-project-summery--id-"
-               value="11"
+               value="13"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>11</code></p>
+<p>Id of the transcript. Example: <code>13</code></p>
             </div>
                     </form>
+
+                <h1 id="scope-of-work">Scope Of Work</h1>
+
+    
+
+                                <h2 id="scope-of-work-POSTapi-scope-of-work">Create Scope Of Work</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-scope-of-work">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/scope-of-work" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"problemGoalID\": 20
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/scope-of-work"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "problemGoalID": 20
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-scope-of-work">
+</span>
+<span id="execution-results-POSTapi-scope-of-work" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-scope-of-work"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-scope-of-work"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-scope-of-work" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-scope-of-work">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-scope-of-work" data-method="POST"
+      data-path="api/scope-of-work"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-scope-of-work', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-scope-of-work"
+                    onclick="tryItOut('POSTapi-scope-of-work');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-scope-of-work"
+                    onclick="cancelTryOut('POSTapi-scope-of-work');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-scope-of-work"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/scope-of-work</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-scope-of-work"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-scope-of-work"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>problemGoalID</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="problemGoalID"                data-endpoint="POSTapi-scope-of-work"
+               value="20"
+               data-component="body">
+    <br>
+<p>Id of the ProblemsAndGoals. Example: <code>20</code></p>
+        </div>
+        </form>
+
+                    <h2 id="scope-of-work-POSTapi-scope-of-work--id-">Update Scope Of Work</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-scope-of-work--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/scope-of-work/10" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"scopeText\": \"a\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/scope-of-work/10"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "scopeText": "a"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-scope-of-work--id-">
+</span>
+<span id="execution-results-POSTapi-scope-of-work--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-scope-of-work--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-scope-of-work--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-scope-of-work--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-scope-of-work--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-scope-of-work--id-" data-method="POST"
+      data-path="api/scope-of-work/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-scope-of-work--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-scope-of-work--id-"
+                    onclick="tryItOut('POSTapi-scope-of-work--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-scope-of-work--id-"
+                    onclick="cancelTryOut('POSTapi-scope-of-work--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-scope-of-work--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/scope-of-work/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-scope-of-work--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-scope-of-work--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="POSTapi-scope-of-work--id-"
+               value="10"
+               data-component="url">
+    <br>
+<p>Id of the Scope of Work. Example: <code>10</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>scopeText</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="scopeText"                data-endpoint="POSTapi-scope-of-work--id-"
+               value="a"
+               data-component="body">
+    <br>
+<p>text of the Scope of Work. Example: <code>a</code></p>
+        </div>
+        </form>
 
             
 

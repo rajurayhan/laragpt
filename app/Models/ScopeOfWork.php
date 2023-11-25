@@ -19,6 +19,6 @@ class ScopeOfWork extends Model
 
     public function problemsAndGoals()
     {
-        return $this->belongsTo(ProblemsAndGoals::class, 'problemGoalID', 'problemGoalID');
+        return $this->belongsTo(ProblemsAndGoals::class, 'problemGoalID', 'id');
     }
 }

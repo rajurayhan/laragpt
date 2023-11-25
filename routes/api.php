@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectOverviewController;
 use App\Http\Controllers\Api\ProjectSummeryController;
+use App\Http\Controllers\Api\ScopeOfWorkController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -31,8 +32,12 @@ Route::delete('/project-summery/{id}', [ProjectSummeryController::class, 'delete
 Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');
 Route::post('/problems-and-goals/{id}', [ProblemAndGoalController::class, 'update'])->name('problems.goals.update');
 
+// project-overview routes
 Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');
 Route::post('/project-overview/{id}', [ProjectOverviewController::class, 'update'])->name('project.overview.update');
+
+Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
+Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
 
 Route::post('/completion', function (Request $request) {
     $validator = Validator::make($request->all(), [

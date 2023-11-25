@@ -25,11 +25,11 @@ class ProblemsAndGoals extends Model
 
     public function projectOverview()
     {
-        return $this->hasOne(ProjectOverview::class, 'transcriptId', 'id');
+        return $this->hasOne(ProjectOverview::class, 'problemGoalID', 'id');
     }
 
     public function scopeOfWork()
     {
-        return $this->hasOne(ScopeOfWork::class, 'transcriptId', 'id');
+        return $this->hasOne(ScopeOfWork::class, 'problemGoalID', 'id');
     }
 }
