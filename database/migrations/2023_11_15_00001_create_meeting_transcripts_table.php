@@ -11,7 +11,7 @@ class CreateMeetingTranscriptsTable extends Migration
     {
         Schema::create('meeting_transcripts', function (Blueprint $table) {
             $table->id();
-            $table->text('transcriptText');
+            $table->longText('transcriptText');
             $table->text('projectName');
             $table->text('clientPhone')->nullable();
             $table->text('clientEmail')->nullable();

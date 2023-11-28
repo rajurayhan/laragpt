@@ -21,6 +21,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
+            \Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -39,6 +40,7 @@
             ]);
 
             $problemsAndGoals = $problemsAndGoalsResult['choices'][0]['message']['content'];
+            \Log::info(['problemsAndGoals' => $problemsAndGoals]);
 
             return $problemsAndGoals;
         }
@@ -57,6 +59,7 @@
             ]);
 
             $projectOverView = $projectOverViewResult['choices'][0]['message']['content'];
+            \Log::info(['projectOverView' => $projectOverView]);
 
             return $projectOverView;
         }
@@ -75,11 +78,27 @@
             ]);
 
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
+            \Log::info(['scopeOfWork' => $scopeOfWork]);
 
             return $scopeOfWork;
         }
 
         public static function generateDeliverables($scopeOfWork){
+
+            $deliverablesResult = OpenAI::chat()->create([
+                'model' => 'gpt-4-1106-preview',
+                'messages' => [
+                    ['role' => 'system', 'content' => "Help me take the following SOW list for a new project and turn them into matching \"Deliverables\" items. Remember that for every individual SOW list item, make sure you have a deliverable that matches. The formatting for this list should be in bullet point format. Then, take the same list you just created and provide me an estimate of how many hours and a timeline it would take to complete each of the deliverable items."],
+
+                    ['role' => 'system', 'content' => 'I am sending you markdown and you will always return output in markdown format with proper line braeks.'],
+                    ['role' => 'user', 'content' => $scopeOfWork],
+                ],
+                'max_tokens' => 4096,
+                'temperature' => 0.5
+            ]);
+
+            $deliverables = $deliverablesResult['choices'][0]['message']['content'];
+            \Log::info(['deliverables' => $deliverables]);
         }
 
 
