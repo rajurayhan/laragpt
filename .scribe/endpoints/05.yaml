@@ -1,0 +1,369 @@
+name: Projects
+description: |-
+
+  APIs for managing projects.
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/projects
+    metadata:
+      groupName: Projects
+      groupDescription: |-
+
+        APIs for managing projects.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get all projects'
+      description: 'Get a list of all projects.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "data": [
+               {
+                   "project_id": 1,
+                   "project_name": "Project A",
+                   "project_description": "This is project A",
+                   "total_cost": "1000.00",
+                   "created_at": "2023-07-01T12:00:00Z",
+                   "updated_at": "2023-07-01T12:30:00Z"
+               },
+               {
+                   "project_id": 2,
+                   "project_name": "Project B",
+                   "project_description": "This is project B",
+                   "total_cost": "2000.00",
+                   "created_at": "2023-07-02T09:00:00Z",
+                   "updated_at": "2023-07-02T09:30:00Z"
+               }
+           ]
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/projects
+    metadata:
+      groupName: Projects
+      groupDescription: |-
+
+        APIs for managing projects.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Store a new project'
+      description: 'Create a new project.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      project_name:
+        name: project_name
+        description: 'The name of the project.'
+        required: true
+        example: 'Project C'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      project_description:
+        name: project_description
+        description: 'The description of the project.'
+        required: true
+        example: 'This is project C'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      total_cost:
+        name: total_cost
+        description: 'The total cost of the project.'
+        required: true
+        example: '3000.00'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      project_name: 'Project C'
+      project_description: 'This is project C'
+      total_cost: '3000.00'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "data": {
+               "project_id": 3,
+               "project_name": "Project C",
+               "project_description": "This is project C",
+               "total_cost": "3000.00",
+               "created_at": "2023-07-03T09:00:00Z",
+               "updated_at": "2023-07-03T09:30:00Z"
+           }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/projects/{project_id}'
+    metadata:
+      groupName: Projects
+      groupDescription: |-
+
+        APIs for managing projects.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Show a project'
+      description: 'Get details of a specific project.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      project_id: 2
+    queryParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: '1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      project_id: '1'
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "data": {
+               "project_id": 1,
+               "project_name": "Project A",
+               "project_description": "This is project A",
+               "total_cost": "1000.00",
+               "created_at": "2023-07-01T12:00:00Z",
+               "updated_at": "2023-07-01T12:30:00Z"
+           }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/projects/{project_id}'
+    metadata:
+      groupName: Projects
+      groupDescription: |-
+
+        APIs for managing projects.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a project'
+      description: 'Update details of a specific project.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      project_id: 18
+    queryParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: '1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      project_id: '1'
+    bodyParameters:
+      project_name:
+        name: project_name
+        description: 'The name of the project.'
+        required: true
+        example: 'Updated Project A'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      project_description:
+        name: project_description
+        description: 'The description of the project.'
+        required: true
+        example: 'Updated project A description'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      total_cost:
+        name: total_cost
+        description: 'The total cost of the project.'
+        required: true
+        example: '1200.00'
+        type: numeric
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      project_name: 'Updated Project A'
+      project_description: 'Updated project A description'
+      total_cost: '1200.00'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "data": {
+               "project_id": 1,
+               "project_name": "Updated Project A",
+               "project_description": "Updated project A description",
+               "total_cost": "1200.00",
+               "created_at": "2023-07-01T12:00:00Z",
+               "updated_at": "2023-07-03T09:30:00Z"
+           }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/projects/{project_id}'
+    metadata:
+      groupName: Projects
+      groupDescription: |-
+
+        APIs for managing projects.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a project'
+      description: 'Delete a specific project.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      project_id: 17
+    queryParameters:
+      project_id:
+        name: project_id
+        description: 'The ID of the project.'
+        required: true
+        example: '1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      project_id: '1'
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "message": "Project deleted successfully"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

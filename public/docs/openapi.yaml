@@ -7,6 +7,171 @@ servers:
   -
     url: 'http://localhost:8000'
 paths:
+  /api/register:
+    post:
+      summary: 'Register a new user.'
+      operationId: registerANewUser
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  user:
+                    id: 1
+                    name: 'John Doe'
+                    email: john.doe@example.com
+                    created_at: '2023-07-28 12:00:00'
+                    updated_at: '2023-07-28 12:00:00'
+                  token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: john.doe@example.com
+                      created_at:
+                        type: string
+                        example: '2023-07-28 12:00:00'
+                      updated_at:
+                        type: string
+                        example: '2023-07-28 12:00:00'
+                  token:
+                    type: string
+                    example: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    email:
+                      - 'The email has already been taken.'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'The email has already been taken.'
+                        items:
+                          type: string
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: 'John Doe'
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: secret
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/login:
+    post:
+      summary: 'Log in a user.'
+      operationId: logInAUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  user:
+                    id: 1
+                    name: 'John Doe'
+                    email: john.doe@example.com
+                    created_at: '2023-07-28 12:00:00'
+                    updated_at: '2023-07-28 12:00:00'
+                  token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: john.doe@example.com
+                      created_at:
+                        type: string
+                        example: '2023-07-28 12:00:00'
+                      updated_at:
+                        type: string
+                        example: '2023-07-28 12:00:00'
+                  token:
+                    type: string
+                    example: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Invalid credentials'
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid credentials'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: secret
+              required:
+                - email
+                - password
+      security: []
   /api/completion:
     post:
       summary: ''
@@ -68,7 +233,7 @@ paths:
                 transcriptId:
                   type: integer
                   description: 'Id of the transcript.'
-                  example: 10
+                  example: 1
               required:
                 - transcriptId
       security: []
@@ -91,7 +256,7 @@ paths:
                 problemGoalText:
                   type: string
                   description: 'text of the ProblemsAndGoals.'
-                  example: iste
+                  example: rem
               required:
                 - problemGoalText
       security: []
@@ -100,10 +265,466 @@ paths:
         in: path
         name: id
         description: 'Id of the problems and goals.'
-        example: 16
+        example: 13
         required: true
         schema:
           type: integer
+  /api/project-components:
+    get:
+      summary: 'Get all project components'
+      operationId: getAllProjectComponents
+      description: 'Get a list of all project components.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      project_id: 1
+                      component_id: 1
+                      quantity: 3
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    -
+                      project_id: 1
+                      component_id: 2
+                      quantity: 2
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-02T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        project_id: 1
+                        component_id: 1
+                        quantity: 3
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      -
+                        project_id: 1
+                        component_id: 2
+                        quantity: 2
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        project_id:
+                          type: integer
+                          example: 1
+                        component_id:
+                          type: integer
+                          example: 1
+                        quantity:
+                          type: integer
+                          example: 3
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Project Components'
+      security: []
+    post:
+      summary: 'Add components to a project'
+      operationId: addComponentsToAProject
+      description: 'Add website components to a specific project.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      project_id: 1
+                      component_id: 1
+                      quantity: 3
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    -
+                      project_id: 1
+                      component_id: 2
+                      quantity: 2
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-02T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        project_id: 1
+                        component_id: 1
+                        quantity: 3
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      -
+                        project_id: 1
+                        component_id: 2
+                        quantity: 2
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        project_id:
+                          type: integer
+                          example: 1
+                        component_id:
+                          type: integer
+                          example: 1
+                        quantity:
+                          type: integer
+                          example: 3
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Project Components'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                  description: 'The ID of the project.'
+                  example: 1
+                components:
+                  type: array
+                  description: 'An array of component details.'
+                  example:
+                    - assumenda
+                  items:
+                    type: string
+              required:
+                - project_id
+                - components
+      security: []
+  '/api/project-components/{id}':
+    get:
+      summary: 'Show a project component'
+      operationId: showAProjectComponent
+      description: 'Get details of a specific project component grouped by category_id.'
+      parameters:
+        -
+          in: query
+          name: project_id
+          description: 'The ID of the project.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the project.'
+            example: '1'
+        -
+          in: query
+          name: component_id
+          description: 'The ID of the website component.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    category_id_1:
+                      category_name: 'Category A'
+                      total_cost: 1500
+                      components:
+                        -
+                          project_id: 1
+                          component_id: 1
+                          component_name: 'Component X'
+                          quantity: 3
+                          total_component_cost: 900
+                          created_at: '2023-07-01T12:00:00Z'
+                          updated_at: '2023-07-01T12:30:00Z'
+                        -
+                          project_id: 1
+                          component_id: 2
+                          component_name: 'Component Y'
+                          quantity: 2
+                          total_component_cost: 600
+                          created_at: '2023-07-02T09:00:00Z'
+                          updated_at: '2023-07-02T09:30:00Z'
+                    category_id_2:
+                      category_name: 'Category B'
+                      total_cost: 500
+                      components:
+                        -
+                          project_id: 1
+                          component_id: 3
+                          component_name: 'Component Z'
+                          quantity: 1
+                          total_component_cost: 500
+                          created_at: '2023-07-03T10:00:00Z'
+                          updated_at: '2023-07-03T10:30:00Z'
+                  grand_total: 2000
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      category_id_1:
+                        type: object
+                        properties:
+                          category_name:
+                            type: string
+                            example: 'Category A'
+                          total_cost:
+                            type: integer
+                            example: 1500
+                          components:
+                            type: array
+                            example:
+                              -
+                                project_id: 1
+                                component_id: 1
+                                component_name: 'Component X'
+                                quantity: 3
+                                total_component_cost: 900
+                                created_at: '2023-07-01T12:00:00Z'
+                                updated_at: '2023-07-01T12:30:00Z'
+                              -
+                                project_id: 1
+                                component_id: 2
+                                component_name: 'Component Y'
+                                quantity: 2
+                                total_component_cost: 600
+                                created_at: '2023-07-02T09:00:00Z'
+                                updated_at: '2023-07-02T09:30:00Z'
+                            items:
+                              type: object
+                              properties:
+                                project_id:
+                                  type: integer
+                                  example: 1
+                                component_id:
+                                  type: integer
+                                  example: 1
+                                component_name:
+                                  type: string
+                                  example: 'Component X'
+                                quantity:
+                                  type: integer
+                                  example: 3
+                                total_component_cost:
+                                  type: integer
+                                  example: 900
+                                created_at:
+                                  type: string
+                                  example: '2023-07-01T12:00:00Z'
+                                updated_at:
+                                  type: string
+                                  example: '2023-07-01T12:30:00Z'
+                      category_id_2:
+                        type: object
+                        properties:
+                          category_name:
+                            type: string
+                            example: 'Category B'
+                          total_cost:
+                            type: integer
+                            example: 500
+                          components:
+                            type: array
+                            example:
+                              -
+                                project_id: 1
+                                component_id: 3
+                                component_name: 'Component Z'
+                                quantity: 1
+                                total_component_cost: 500
+                                created_at: '2023-07-03T10:00:00Z'
+                                updated_at: '2023-07-03T10:30:00Z'
+                            items:
+                              type: object
+                              properties:
+                                project_id:
+                                  type: integer
+                                  example: 1
+                                component_id:
+                                  type: integer
+                                  example: 3
+                                component_name:
+                                  type: string
+                                  example: 'Component Z'
+                                quantity:
+                                  type: integer
+                                  example: 1
+                                total_component_cost:
+                                  type: integer
+                                  example: 500
+                                created_at:
+                                  type: string
+                                  example: '2023-07-03T10:00:00Z'
+                                updated_at:
+                                  type: string
+                                  example: '2023-07-03T10:30:00Z'
+                  grand_total:
+                    type: integer
+                    example: 2000
+      tags:
+        - 'Project Components'
+      security: []
+    put:
+      summary: 'Update components of a project'
+      operationId: updateComponentsOfAProject
+      description: 'Update details of website components in a specific project.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      project_id: 1
+                      component_id: 1
+                      quantity: 5
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-03T09:30:00Z'
+                    -
+                      project_id: 1
+                      component_id: 2
+                      quantity: 3
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        project_id: 1
+                        component_id: 1
+                        quantity: 5
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-03T09:30:00Z'
+                      -
+                        project_id: 1
+                        component_id: 2
+                        quantity: 3
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-03T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        project_id:
+                          type: integer
+                          example: 1
+                        component_id:
+                          type: integer
+                          example: 1
+                        quantity:
+                          type: integer
+                          example: 5
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-03T09:30:00Z'
+      tags:
+        - 'Project Components'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                  description: 'The ID of the project.'
+                  example: 1
+                components:
+                  type: array
+                  description: 'An array of component details.'
+                  example:
+                    - doloremque
+                  items:
+                    type: string
+              required:
+                - project_id
+                - components
+      security: []
+    delete:
+      summary: 'Delete a project component'
+      operationId: deleteAProjectComponent
+      description: 'Delete a specific project component.'
+      parameters:
+        -
+          in: query
+          name: project_id
+          description: 'The ID of the project.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the project.'
+            example: '1'
+        -
+          in: query
+          name: component_id
+          description: 'The ID of the website component.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Project component deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Project component deleted successfully'
+      tags:
+        - 'Project Components'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the project component.'
+        example: quia
+        required: true
+        schema:
+          type: string
   /api/project-overview:
     post:
       summary: 'Create Project Overview'
@@ -123,7 +744,7 @@ paths:
                 problemGoalID:
                   type: integer
                   description: 'Id of the ProblemsAndGoals.'
-                  example: 20
+                  example: 19
               required:
                 - problemGoalID
       security: []
@@ -146,7 +767,7 @@ paths:
                 overviewText:
                   type: string
                   description: 'text of the ProjectOverview.'
-                  example: illum
+                  example: voluptatem
               required:
                 - overviewText
       security: []
@@ -155,7 +776,7 @@ paths:
         in: path
         name: id
         description: 'Id of the ProjectOverview.'
-        example: 17
+        example: 19
         required: true
         schema:
           type: integer
@@ -169,12 +790,12 @@ paths:
           in: query
           name: page
           description: 'page number.'
-          example: 10
+          example: 3
           required: false
           schema:
             type: integer
             description: 'page number.'
-            example: 10
+            example: 3
       responses:
         200:
           description: ''
@@ -183,7 +804,7 @@ paths:
               schema:
                 type: object
                 example:
-                  current_page: 10
+                  current_page: 3
                   data: []
                   first_page_url: 'http://localhost:8000/api/project-summery?page=1'
                   from: null
@@ -191,7 +812,7 @@ paths:
                   last_page_url: 'http://localhost:8000/api/project-summery?page=1'
                   links:
                     -
-                      url: 'http://localhost:8000/api/project-summery?page=9'
+                      url: 'http://localhost:8000/api/project-summery?page=2'
                       label: '&laquo; Previous'
                       active: false
                     -
@@ -205,13 +826,13 @@ paths:
                   next_page_url: null
                   path: 'http://localhost:8000/api/project-summery'
                   per_page: 10
-                  prev_page_url: 'http://localhost:8000/api/project-summery?page=9'
+                  prev_page_url: 'http://localhost:8000/api/project-summery?page=2'
                   to: null
-                  total: 1
+                  total: 0
                 properties:
                   current_page:
                     type: integer
-                    example: 10
+                    example: 3
                   data:
                     type: array
                     example: []
@@ -231,7 +852,7 @@ paths:
                     type: array
                     example:
                       -
-                        url: 'http://localhost:8000/api/project-summery?page=9'
+                        url: 'http://localhost:8000/api/project-summery?page=2'
                         label: '&laquo; Previous'
                         active: false
                       -
@@ -247,7 +868,7 @@ paths:
                       properties:
                         url:
                           type: string
-                          example: 'http://localhost:8000/api/project-summery?page=9'
+                          example: 'http://localhost:8000/api/project-summery?page=2'
                         label:
                           type: string
                           example: '&laquo; Previous'
@@ -265,13 +886,13 @@ paths:
                     example: 10
                   prev_page_url:
                     type: string
-                    example: 'http://localhost:8000/api/project-summery?page=9'
+                    example: 'http://localhost:8000/api/project-summery?page=2'
                   to:
                     type: string
                     example: null
                   total:
                     type: integer
-                    example: 1
+                    example: 0
       tags:
         - 'Project Summery'
       security: []
@@ -293,23 +914,23 @@ paths:
                 transcriptText:
                   type: string
                   description: 'The text of the transcript.'
-                  example: modi
+                  example: aliquam
                 projectName:
                   type: string
                   description: 'The name of the project.'
-                  example: itaque
+                  example: non
                 clientPhone:
                   type: string
                   description: 'The phone number of the client.'
-                  example: facilis
+                  example: eum
                 clientEmail:
                   type: string
                   description: 'The email of the client.'
-                  example: qwalter@example.net
+                  example: tosinski@example.org
                 clientWebsite:
                   type: string
                   description: 'The website of the client.'
-                  example: qui
+                  example: commodi
               required:
                 - transcriptText
                 - projectName
@@ -358,7 +979,7 @@ paths:
                 summaryText:
                   type: integer
                   description: 'summaryText of the Project Summery.'
-                  example: 1
+                  example: 14
               required:
                 - summaryText
       security: []
@@ -385,7 +1006,320 @@ paths:
             value: ''
           present:
             summary: 'When the value is present'
-            value: 8
+            value: 13
+  /api/projects:
+    get:
+      summary: 'Get all projects'
+      operationId: getAllProjects
+      description: 'Get a list of all projects.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      project_id: 1
+                      project_name: 'Project A'
+                      project_description: 'This is project A'
+                      total_cost: '1000.00'
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    -
+                      project_id: 2
+                      project_name: 'Project B'
+                      project_description: 'This is project B'
+                      total_cost: '2000.00'
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-02T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        project_id: 1
+                        project_name: 'Project A'
+                        project_description: 'This is project A'
+                        total_cost: '1000.00'
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      -
+                        project_id: 2
+                        project_name: 'Project B'
+                        project_description: 'This is project B'
+                        total_cost: '2000.00'
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        project_id:
+                          type: integer
+                          example: 1
+                        project_name:
+                          type: string
+                          example: 'Project A'
+                        project_description:
+                          type: string
+                          example: 'This is project A'
+                        total_cost:
+                          type: string
+                          example: '1000.00'
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-01T12:30:00Z'
+      tags:
+        - Projects
+      security: []
+    post:
+      summary: 'Store a new project'
+      operationId: storeANewProject
+      description: 'Create a new project.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    project_id: 3
+                    project_name: 'Project C'
+                    project_description: 'This is project C'
+                    total_cost: '3000.00'
+                    created_at: '2023-07-03T09:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      project_id:
+                        type: integer
+                        example: 3
+                      project_name:
+                        type: string
+                        example: 'Project C'
+                      project_description:
+                        type: string
+                        example: 'This is project C'
+                      total_cost:
+                        type: string
+                        example: '3000.00'
+                      created_at:
+                        type: string
+                        example: '2023-07-03T09:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_name:
+                  type: string
+                  description: 'The name of the project.'
+                  example: 'Project C'
+                project_description:
+                  type: string
+                  description: 'The description of the project.'
+                  example: 'This is project C'
+                total_cost:
+                  type: numeric
+                  description: 'The total cost of the project.'
+                  example: '3000.00'
+              required:
+                - project_name
+                - project_description
+                - total_cost
+      security: []
+  '/api/projects/{project_id}':
+    get:
+      summary: 'Show a project'
+      operationId: showAProject
+      description: 'Get details of a specific project.'
+      parameters:
+        -
+          in: query
+          name: project_id
+          description: 'The ID of the project.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the project.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    project_id: 1
+                    project_name: 'Project A'
+                    project_description: 'This is project A'
+                    total_cost: '1000.00'
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-01T12:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      project_id:
+                        type: integer
+                        example: 1
+                      project_name:
+                        type: string
+                        example: 'Project A'
+                      project_description:
+                        type: string
+                        example: 'This is project A'
+                      total_cost:
+                        type: string
+                        example: '1000.00'
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-01T12:30:00Z'
+      tags:
+        - Projects
+      security: []
+    put:
+      summary: 'Update a project'
+      operationId: updateAProject
+      description: 'Update details of a specific project.'
+      parameters:
+        -
+          in: query
+          name: project_id
+          description: 'The ID of the project.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the project.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    project_id: 1
+                    project_name: 'Updated Project A'
+                    project_description: 'Updated project A description'
+                    total_cost: '1200.00'
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      project_id:
+                        type: integer
+                        example: 1
+                      project_name:
+                        type: string
+                        example: 'Updated Project A'
+                      project_description:
+                        type: string
+                        example: 'Updated project A description'
+                      total_cost:
+                        type: string
+                        example: '1200.00'
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_name:
+                  type: string
+                  description: 'The name of the project.'
+                  example: 'Updated Project A'
+                project_description:
+                  type: string
+                  description: 'The description of the project.'
+                  example: 'Updated project A description'
+                total_cost:
+                  type: numeric
+                  description: 'The total cost of the project.'
+                  example: '1200.00'
+              required:
+                - project_name
+                - project_description
+                - total_cost
+      security: []
+    delete:
+      summary: 'Delete a project'
+      operationId: deleteAProject
+      description: 'Delete a specific project.'
+      parameters:
+        -
+          in: query
+          name: project_id
+          description: 'The ID of the project.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the project.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Project deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Project deleted successfully'
+      tags:
+        - Projects
+      security: []
+    parameters:
+      -
+        in: path
+        name: project_id
+        description: 'The ID of the project.'
+        example: 2
+        required: true
+        schema:
+          type: integer
   /api/scope-of-work:
     post:
       summary: 'Create Scope Of Work'
@@ -405,7 +1339,7 @@ paths:
                 problemGoalID:
                   type: integer
                   description: 'Id of the ProblemsAndGoals.'
-                  example: 20
+                  example: 8
               required:
                 - problemGoalID
       security: []
@@ -428,7 +1362,7 @@ paths:
                 scopeText:
                   type: string
                   description: 'text of the Scope of Work.'
-                  example: a
+                  example: dolor
               required:
                 - scopeText
       security: []
@@ -437,11 +1371,706 @@ paths:
         in: path
         name: id
         description: 'Id of the Scope of Work.'
-        example: 10
+        example: 11
+        required: true
+        schema:
+          type: integer
+  /api/categories:
+    get:
+      summary: 'Get all website component categories'
+      operationId: getAllWebsiteComponentCategories
+      description: 'Get a list of all website component categories.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      category_id: 1
+                      category_name: Header
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    -
+                      category_id: 2
+                      category_name: Footer
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-02T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        category_id: 1
+                        category_name: Header
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      -
+                        category_id: 2
+                        category_name: Footer
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        category_id:
+                          type: integer
+                          example: 1
+                        category_name:
+                          type: string
+                          example: Header
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Website Component Categories'
+      security: []
+    post:
+      summary: 'Store a new website component category'
+      operationId: storeANewWebsiteComponentCategory
+      description: 'Create a new website component category.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    category_id: 3
+                    category_name: Sidebar
+                    created_at: '2023-07-03T09:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      category_id:
+                        type: integer
+                        example: 3
+                      category_name:
+                        type: string
+                        example: Sidebar
+                      created_at:
+                        type: string
+                        example: '2023-07-03T09:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - 'Website Component Categories'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  description: 'The name of the website component category.'
+                  example: Header
+              required:
+                - category_name
+      security: []
+  '/api/categories/{category_id}':
+    get:
+      summary: 'Show a website component category'
+      operationId: showAWebsiteComponentCategory
+      description: 'Get details of a specific website component category.'
+      parameters:
+        -
+          in: query
+          name: category_id
+          description: 'The ID of the website component category.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component category.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    category_id: 1
+                    category_name: Header
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-01T12:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      category_id:
+                        type: integer
+                        example: 1
+                      category_name:
+                        type: string
+                        example: Header
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Website Component Categories'
+      security: []
+    put:
+      summary: 'Update a website component category'
+      operationId: updateAWebsiteComponentCategory
+      description: 'Update details of a specific website component category.'
+      parameters:
+        -
+          in: query
+          name: category_id
+          description: 'The ID of the website component category.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component category.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    category_id: 1
+                    category_name: 'Updated Header'
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      category_id:
+                        type: integer
+                        example: 1
+                      category_name:
+                        type: string
+                        example: 'Updated Header'
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - 'Website Component Categories'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_name:
+                  type: string
+                  description: 'The name of the website component category.'
+                  example: 'Updated Header'
+              required:
+                - category_name
+      security: []
+    delete:
+      summary: 'Delete a website component category'
+      operationId: deleteAWebsiteComponentCategory
+      description: 'Delete a specific website component category.'
+      parameters:
+        -
+          in: query
+          name: category_id
+          description: 'The ID of the website component category.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component category.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Website component category deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Website component category deleted successfully'
+      tags:
+        - 'Website Component Categories'
+      security: []
+    parameters:
+      -
+        in: path
+        name: category_id
+        description: 'The ID of the category.'
+        example: 6
+        required: true
+        schema:
+          type: integer
+  /api/components:
+    get:
+      summary: 'Get all website components'
+      operationId: getAllWebsiteComponents
+      description: 'Get a list of all website components.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      component_id: 1
+                      component_name: Logo
+                      category_id: 1
+                      component_description: 'Company logo for header'
+                      component_cost: '50.00'
+                      category:
+                        category_id: 1
+                        category_name: Header
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    -
+                      component_id: 2
+                      component_name: 'Contact Form'
+                      category_id: 1
+                      component_description: 'Contact form for footer'
+                      component_cost: '100.00'
+                      category:
+                        category_id: 1
+                        category_name: Footer
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                      created_at: '2023-07-02T09:00:00Z'
+                      updated_at: '2023-07-02T09:30:00Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        component_id: 1
+                        component_name: Logo
+                        category_id: 1
+                        component_description: 'Company logo for header'
+                        component_cost: '50.00'
+                        category:
+                          category_id: 1
+                          category_name: Header
+                          created_at: '2023-07-01T12:00:00Z'
+                          updated_at: '2023-07-01T12:30:00Z'
+                        created_at: '2023-07-01T12:00:00Z'
+                        updated_at: '2023-07-01T12:30:00Z'
+                      -
+                        component_id: 2
+                        component_name: 'Contact Form'
+                        category_id: 1
+                        component_description: 'Contact form for footer'
+                        component_cost: '100.00'
+                        category:
+                          category_id: 1
+                          category_name: Footer
+                          created_at: '2023-07-02T09:00:00Z'
+                          updated_at: '2023-07-02T09:30:00Z'
+                        created_at: '2023-07-02T09:00:00Z'
+                        updated_at: '2023-07-02T09:30:00Z'
+                    items:
+                      type: object
+                      properties:
+                        component_id:
+                          type: integer
+                          example: 1
+                        component_name:
+                          type: string
+                          example: Logo
+                        category_id:
+                          type: integer
+                          example: 1
+                        component_description:
+                          type: string
+                          example: 'Company logo for header'
+                        component_cost:
+                          type: string
+                          example: '50.00'
+                        category:
+                          type: object
+                          properties:
+                            category_id:
+                              type: integer
+                              example: 1
+                            category_name:
+                              type: string
+                              example: Header
+                            created_at:
+                              type: string
+                              example: '2023-07-01T12:00:00Z'
+                            updated_at:
+                              type: string
+                              example: '2023-07-01T12:30:00Z'
+                        created_at:
+                          type: string
+                          example: '2023-07-01T12:00:00Z'
+                        updated_at:
+                          type: string
+                          example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Website Components'
+      security: []
+    post:
+      summary: 'Store a new website component'
+      operationId: storeANewWebsiteComponent
+      description: 'Create a new website component.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    component_id: 3
+                    component_name: Banner
+                    category_id: 1
+                    component_description: 'Banner image for header'
+                    component_cost: '80.00'
+                    category:
+                      category_id: 1
+                      category_name: Header
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    created_at: '2023-07-03T09:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      component_id:
+                        type: integer
+                        example: 3
+                      component_name:
+                        type: string
+                        example: Banner
+                      category_id:
+                        type: integer
+                        example: 1
+                      component_description:
+                        type: string
+                        example: 'Banner image for header'
+                      component_cost:
+                        type: string
+                        example: '80.00'
+                      category:
+                        type: object
+                        properties:
+                          category_id:
+                            type: integer
+                            example: 1
+                          category_name:
+                            type: string
+                            example: Header
+                          created_at:
+                            type: string
+                            example: '2023-07-01T12:00:00Z'
+                          updated_at:
+                            type: string
+                            example: '2023-07-01T12:30:00Z'
+                      created_at:
+                        type: string
+                        example: '2023-07-03T09:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - 'Website Components'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                component_name:
+                  type: string
+                  description: 'The name of the website component.'
+                  example: Logo
+                category_id:
+                  type: integer
+                  description: 'The ID of the website component category.'
+                  example: 1
+                component_description:
+                  type: string
+                  description: 'The description of the website component.'
+                  example: 'Company logo for header'
+                component_cost:
+                  type: numeric
+                  description: 'The cost of the website component.'
+                  example: '50.00'
+              required:
+                - component_name
+                - category_id
+                - component_description
+                - component_cost
+      security: []
+  '/api/components/{component_id}':
+    get:
+      summary: 'Show a website component'
+      operationId: showAWebsiteComponent
+      description: 'Get details of a specific website component.'
+      parameters:
+        -
+          in: query
+          name: component_id
+          description: 'The ID of the website component.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    component_id: 1
+                    component_name: Logo
+                    category_id: 1
+                    component_description: 'Company logo for header'
+                    component_cost: '50.00'
+                    category:
+                      category_id: 1
+                      category_name: Header
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-01T12:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      component_id:
+                        type: integer
+                        example: 1
+                      component_name:
+                        type: string
+                        example: Logo
+                      category_id:
+                        type: integer
+                        example: 1
+                      component_description:
+                        type: string
+                        example: 'Company logo for header'
+                      component_cost:
+                        type: string
+                        example: '50.00'
+                      category:
+                        type: object
+                        properties:
+                          category_id:
+                            type: integer
+                            example: 1
+                          category_name:
+                            type: string
+                            example: Header
+                          created_at:
+                            type: string
+                            example: '2023-07-01T12:00:00Z'
+                          updated_at:
+                            type: string
+                            example: '2023-07-01T12:30:00Z'
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-01T12:30:00Z'
+      tags:
+        - 'Website Components'
+      security: []
+    put:
+      summary: 'Update a website component'
+      operationId: updateAWebsiteComponent
+      description: 'Update details of a specific website component.'
+      parameters:
+        -
+          in: query
+          name: component_id
+          description: 'The ID of the website component.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    component_id: 1
+                    component_name: 'Updated Logo'
+                    category_id: 1
+                    component_description: 'Updated company logo for header'
+                    component_cost: '60.00'
+                    category:
+                      category_id: 1
+                      category_name: Header
+                      created_at: '2023-07-01T12:00:00Z'
+                      updated_at: '2023-07-01T12:30:00Z'
+                    created_at: '2023-07-01T12:00:00Z'
+                    updated_at: '2023-07-03T09:30:00Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      component_id:
+                        type: integer
+                        example: 1
+                      component_name:
+                        type: string
+                        example: 'Updated Logo'
+                      category_id:
+                        type: integer
+                        example: 1
+                      component_description:
+                        type: string
+                        example: 'Updated company logo for header'
+                      component_cost:
+                        type: string
+                        example: '60.00'
+                      category:
+                        type: object
+                        properties:
+                          category_id:
+                            type: integer
+                            example: 1
+                          category_name:
+                            type: string
+                            example: Header
+                          created_at:
+                            type: string
+                            example: '2023-07-01T12:00:00Z'
+                          updated_at:
+                            type: string
+                            example: '2023-07-01T12:30:00Z'
+                      created_at:
+                        type: string
+                        example: '2023-07-01T12:00:00Z'
+                      updated_at:
+                        type: string
+                        example: '2023-07-03T09:30:00Z'
+      tags:
+        - 'Website Components'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                component_name:
+                  type: string
+                  description: 'The name of the website component.'
+                  example: 'Updated Logo'
+                category_id:
+                  type: integer
+                  description: 'The ID of the website component category.'
+                  example: 1
+                component_description:
+                  type: string
+                  description: 'The description of the website component.'
+                  example: 'Updated company logo for header'
+                component_cost:
+                  type: numeric
+                  description: 'The cost of the website component.'
+                  example: '60.00'
+              required:
+                - component_name
+                - category_id
+                - component_description
+                - component_cost
+      security: []
+    delete:
+      summary: 'Delete a website component'
+      operationId: deleteAWebsiteComponent
+      description: 'Delete a specific website component.'
+      parameters:
+        -
+          in: query
+          name: component_id
+          description: 'The ID of the website component.'
+          example: '1'
+          required: true
+          schema:
+            type: string
+            description: 'The ID of the website component.'
+            example: '1'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Website component deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Website component deleted successfully'
+      tags:
+        - 'Website Components'
+      security: []
+    parameters:
+      -
+        in: path
+        name: component_id
+        description: 'The ID of the component.'
+        example: 2
         required: true
         schema:
           type: integer
 tags:
+  -
+    name: Authentication
+    description: "\nAPIs for user registration"
   -
     name: Endpoints
     description: ''
@@ -449,11 +2078,23 @@ tags:
     name: 'Problems and Goals'
     description: ''
   -
+    name: 'Project Components'
+    description: "\nAPIs for managing project components."
+  -
     name: 'Project Overview'
     description: ''
   -
     name: 'Project Summery'
     description: ''
   -
+    name: Projects
+    description: "\nAPIs for managing projects."
+  -
     name: 'Scope Of Work'
     description: ''
+  -
+    name: 'Website Component Categories'
+    description: "\nAPIs for managing website component categories."
+  -
+    name: 'Website Components'
+    description: "\nAPIs for managing website components."

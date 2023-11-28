@@ -26,20 +26,20 @@ endpoints:
         name: page
         description: 'page number.'
         required: false
-        example: 10
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanQueryParameters:
-      page: 10
+      page: 3
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"current_page":10,"data":[],"first_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=1","links":[{"url":"http:\/\/localhost:8000\/api\/project-summery?page=9","label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/api\/project-summery?page=1","label":"1","active":false},{"url":null,"label":"Next &raquo;","active":false}],"next_page_url":null,"path":"http:\/\/localhost:8000\/api\/project-summery","per_page":10,"prev_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=9","to":null,"total":1}'
+        content: '{"current_page":3,"data":[],"first_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=1","links":[{"url":"http:\/\/localhost:8000\/api\/project-summery?page=2","label":"&laquo; Previous","active":false},{"url":"http:\/\/localhost:8000\/api\/project-summery?page=1","label":"1","active":false},{"url":null,"label":"Next &raquo;","active":false}],"next_page_url":null,"path":"http:\/\/localhost:8000\/api\/project-summery","per_page":10,"prev_page_url":"http:\/\/localhost:8000\/api\/project-summery?page=2","to":null,"total":0}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -79,7 +79,7 @@ endpoints:
         name: transcriptText
         description: 'The text of the transcript.'
         required: true
-        example: modi
+        example: aliquam
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -88,7 +88,7 @@ endpoints:
         name: projectName
         description: 'The name of the project.'
         required: true
-        example: itaque
+        example: non
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -97,7 +97,7 @@ endpoints:
         name: clientPhone
         description: 'The phone number of the client.'
         required: false
-        example: facilis
+        example: eum
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -106,7 +106,7 @@ endpoints:
         name: clientEmail
         description: 'The email of the client.'
         required: false
-        example: qwalter@example.net
+        example: tosinski@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -115,17 +115,17 @@ endpoints:
         name: clientWebsite
         description: 'The website of the client.'
         required: false
-        example: qui
+        example: commodi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      transcriptText: modi
-      projectName: itaque
-      clientPhone: facilis
-      clientEmail: qwalter@example.net
-      clientWebsite: qui
+      transcriptText: aliquam
+      projectName: non
+      clientPhone: eum
+      clientEmail: tosinski@example.org
+      clientWebsite: commodi
     fileParameters: []
     responses: []
     responseFields: []
@@ -155,13 +155,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 8
+        example: 13
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 13
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -206,13 +206,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 20
+        example: 9
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 9
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -220,13 +220,13 @@ endpoints:
         name: summaryText
         description: 'summaryText of the Project Summery.'
         required: true
-        example: 1
+        example: 14
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      summaryText: 1
+      summaryText: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -256,13 +256,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 13
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 13
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

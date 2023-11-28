@@ -28,13 +28,13 @@ endpoints:
         name: problemGoalID
         description: 'Id of the ProblemsAndGoals.'
         required: true
-        example: 20
+        example: 19
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 20
+      problemGoalID: 19
     fileParameters: []
     responses: []
     responseFields: []
@@ -64,13 +64,13 @@ endpoints:
         name: id
         description: 'Id of the ProjectOverview.'
         required: true
-        example: 17
+        example: 19
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 17
+      id: 19
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -78,13 +78,13 @@ endpoints:
         name: overviewText
         description: 'text of the ProjectOverview.'
         required: true
-        example: illum
+        example: voluptatem
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      overviewText: illum
+      overviewText: voluptatem
     fileParameters: []
     responses: []
     responseFields: []

@@ -4,6 +4,12 @@ use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectOverviewController;
 use App\Http\Controllers\Api\ProjectSummeryController;
 use App\Http\Controllers\Api\ScopeOfWorkController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\API\WebsiteComponentCategoryController;
+use App\Http\Controllers\API\WebsiteComponentController;
+use App\Http\Controllers\API\ProjectComponentController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -64,6 +70,16 @@ Route::post('/image', function (Request $request) {
     return response()->json(ContentGenerator::image($request));
 })->name('image');
 
+Route::apiResource('projects', ProjectController::class);
+Route::apiResource('categories', WebsiteComponentCategoryController::class);
+Route::apiResource('components', WebsiteComponentController::class);
+Route::apiResource('project-components', ProjectComponentController::class);
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
