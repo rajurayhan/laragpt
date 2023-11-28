@@ -22,7 +22,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 })->name('home');
 
 // Route::get('/dashboard', function () {
