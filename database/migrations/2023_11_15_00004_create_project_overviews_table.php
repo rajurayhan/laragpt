@@ -12,7 +12,7 @@ class CreateProjectOverviewsTable extends Migration
         Schema::create('project_overviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('problemGoalID')->constrained('problems_and_goals');
-            $table->text('overviewText');
+            $table->longText('overviewText');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class CreateProblemsAndGoalsTable extends Migration
         Schema::create('problems_and_goals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transcriptId')->constrained('meeting_transcripts');
-            $table->text('problemGoalText');
+            $table->longText('problemGoalText');
             $table->timestamps();
         });
     }

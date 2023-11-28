@@ -12,7 +12,7 @@ class CreateProjectSummariesTable extends Migration
         Schema::create('project_summaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transcriptId')->constrained('meeting_transcripts');
-            $table->text('summaryText');
+            $table->longText('summaryText');
             $table->timestamps();
         });
     }

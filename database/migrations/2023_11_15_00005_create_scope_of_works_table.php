@@ -13,7 +13,7 @@ class CreateScopeOfWorksTable extends Migration
         Schema::create('scope_of_works', function (Blueprint $table) {
             $table->id('id');
             $table->foreignId('problemGoalID')->constrained('problems_and_goals')->nullable();
-            $table->text('scopeText');
+            $table->longText('scopeText');
             $table->timestamps();
         });
     }
