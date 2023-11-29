@@ -19,6 +19,7 @@ class ScopeOfWorkController extends Controller
      */
 
     public function create(Request $request){
+        set_time_limit(500);
         $validatedData = $request->validate([
             'problemGoalID' => 'required|int'
         ]);

@@ -25,6 +25,24 @@
 
             return $summery;
         }
+        public static function generateMeetingSummery($transcript){
+            // Step One: Generate Summery from transcript
+            $summeryResult = OpenAI::chat()->create([
+                'model' => 'gpt-4-1106-preview',
+                'messages' => [
+                    ['role' => 'system', 'content' => 'This is a transcript of a meeting that I had with a client. Can you help me turn the transcript into a summary of the call/meeting and what we discussed? The format should include "Call/Meeting Participants," which should be in bullet point format; "Meeting Summary," which should be in multiple paragraph format; and "Next Steps/Tasks," which should be in bullet point format. Be sure to identify which person from the "Call/Meeting Participants" is responsible for each "Next Steps/Tasks" item, break each item into individual bullet points and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.'],
+
+                    ['role' => 'system', 'content' => 'You will always return output in markdown format with proper line braeks.'],
+                    ['role' => 'user', 'content' => self::prepareTranscript($transcript)],
+                ],
+                'max_tokens' => 4096,
+                'temperature' => 0.5
+            ]);
+            $summery = $summeryResult['choices'][0]['message']['content'];
+            \Log::info(['summery' => $summery]);
+
+            return $summery;
+        }
 
         public static function generateProblemsAndGoals($transcript){
             $problemsAndGoalsResult = OpenAI::chat()->create([

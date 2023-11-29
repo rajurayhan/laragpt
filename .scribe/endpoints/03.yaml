@@ -1,16 +1,16 @@
-name: 'Scope Of Work'
+name: 'Project Overview'
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/scope-of-work
+    uri: api/project-overview
     metadata:
-      groupName: 'Scope Of Work'
+      groupName: 'Project Overview'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create Scope Of Work'
+      title: 'Create Project Overview'
       description: ''
       authenticated: false
       custom: []
@@ -26,13 +26,13 @@ endpoints:
         name: problemGoalID
         description: 'Id of the ProblemsAndGoals.'
         required: true
-        example: 8
+        example: 13
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 8
+      problemGoalID: 13
     fileParameters: []
     responses: []
     responseFields: []
@@ -44,13 +44,13 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/scope-of-work/{id}'
+    uri: 'api/project-overview/{id}'
     metadata:
-      groupName: 'Scope Of Work'
+      groupName: 'Project Overview'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update Scope Of Work'
+      title: 'Update Project Overview'
       description: ''
       authenticated: false
       custom: []
@@ -60,29 +60,29 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'Id of the Scope of Work.'
+        description: 'Id of the ProjectOverview.'
         required: true
-        example: 11
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 11
+      id: 20
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      scopeText:
-        name: scopeText
-        description: 'text of the Scope of Work.'
+      overviewText:
+        name: overviewText
+        description: 'text of the ProjectOverview.'
         required: true
-        example: dolor
+        example: repudiandae
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      scopeText: dolor
+      overviewText: repudiandae
     fileParameters: []
     responses: []
     responseFields: []

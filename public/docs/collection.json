@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "45f825f3-64ff-497e-8d50-170173a8052e",
+        "_postman_id": "d73d67b7-4dbe-4029-b95f-7114a5983c85",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -220,6 +220,43 @@
             ]
         },
         {
+            "name": "Meeting Summery",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"transcriptText\":\"labore\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Problems and Goals",
             "description": "",
             "item": [
@@ -245,7 +282,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"transcriptId\":1}"
+                            "raw": "{\"transcriptId\":18}"
                         },
                         "description": "",
                         "auth": {
@@ -266,7 +303,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "13",
+                                    "value": "7",
                                     "description": "Id of the problems and goals."
                                 }
                             ]
@@ -284,7 +321,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"problemGoalText\":\"rem\"}"
+                            "raw": "{\"problemGoalText\":\"et\"}"
                         },
                         "description": "",
                         "auth": {
@@ -356,7 +393,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"project_id\":1,\"components\":[\"assumenda\"]}"
+                            "raw": "{\"project_id\":1,\"components\":[\"et\"]}"
                         },
                         "description": "Add website components to a specific project.",
                         "auth": {
@@ -397,7 +434,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quia",
+                                    "value": "ut",
                                     "description": "The ID of the project component."
                                 }
                             ]
@@ -440,7 +477,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "esse",
+                                    "value": "adipisci",
                                     "description": "The ID of the project component."
                                 }
                             ]
@@ -458,7 +495,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"project_id\":1,\"components\":[\"doloremque\"]}"
+                            "raw": "{\"components\":[\"eaque\"],\"project_id\":1}"
                         },
                         "description": "Update details of website components in a specific project.",
                         "auth": {
@@ -499,7 +536,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "vitae",
+                                    "value": "earum",
                                     "description": "The ID of the project component."
                                 }
                             ]
@@ -558,7 +595,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"problemGoalID\":19}"
+                            "raw": "{\"problemGoalID\":13}"
                         },
                         "description": "",
                         "auth": {
@@ -579,7 +616,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "19",
+                                    "value": "20",
                                     "description": "Id of the ProjectOverview."
                                 }
                             ]
@@ -597,7 +634,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"overviewText\":\"voluptatem\"}"
+                            "raw": "{\"overviewText\":\"repudiandae\"}"
                         },
                         "description": "",
                         "auth": {
@@ -621,12 +658,12 @@
                             "query": [
                                 {
                                     "key": "page",
-                                    "value": "3",
+                                    "value": "13",
                                     "description": "page number.",
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/project-summery?page=3"
+                            "raw": "{{baseUrl}}\/api\/project-summery?page=13"
                         },
                         "method": "GET",
                         "header": [
@@ -670,7 +707,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"current_page\":3,\"data\":[],\"first_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"from\":null,\"last_page\":1,\"last_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"links\":[{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=2\",\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"label\":\"1\",\"active\":false},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"next_page_url\":null,\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery\",\"per_page\":10,\"prev_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=2\",\"to\":null,\"total\":0}",
+                            "body": "{\"current_page\":13,\"data\":[],\"first_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"from\":null,\"last_page\":1,\"last_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"links\":[{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=12\",\"label\":\"&laquo; Previous\",\"active\":false},{\"url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=1\",\"label\":\"1\",\"active\":false},{\"url\":null,\"label\":\"Next &raquo;\",\"active\":false}],\"next_page_url\":null,\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery\",\"per_page\":10,\"prev_page_url\":\"http:\\\/\\\/localhost:8000\\\/api\\\/project-summery?page=12\",\"to\":null,\"total\":1}",
                             "name": ""
                         }
                     ]
@@ -697,7 +734,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"transcriptText\":\"aliquam\",\"projectName\":\"non\",\"clientPhone\":\"eum\",\"clientEmail\":\"tosinski@example.org\",\"clientWebsite\":\"commodi\"}"
+                            "raw": "{\"transcriptText\":\"placeat\",\"projectName\":\"expedita\",\"clientPhone\":\"esse\",\"clientEmail\":\"natalia.schaden@example.net\",\"clientWebsite\":\"voluptatum\"}"
                         },
                         "description": "",
                         "auth": {
@@ -718,7 +755,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "13",
+                                    "value": "12",
                                     "description": "Id of the transcript."
                                 }
                             ]
@@ -782,7 +819,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "9",
+                                    "value": "15",
                                     "description": "Id of the transcript."
                                 }
                             ]
@@ -800,7 +837,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"summaryText\":14}"
+                            "raw": "{\"summaryText\":1}"
                         },
                         "description": "",
                         "auth": {
@@ -821,7 +858,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "4",
+                                    "value": "2",
                                     "description": "Id of the transcript."
                                 }
                             ]
@@ -943,7 +980,7 @@
                                 {
                                     "id": "project_id",
                                     "key": "project_id",
-                                    "value": "2",
+                                    "value": "13",
                                     "description": "The ID of the project."
                                 }
                             ]
@@ -993,7 +1030,7 @@
                                 {
                                     "id": "project_id",
                                     "key": "project_id",
-                                    "value": "18",
+                                    "value": "15",
                                     "description": "The ID of the project."
                                 }
                             ]
@@ -1105,7 +1142,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"problemGoalID\":8}"
+                            "raw": "{\"problemGoalID\":15}"
                         },
                         "description": "",
                         "auth": {
@@ -1126,7 +1163,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "11",
+                                    "value": "6",
                                     "description": "Id of the Scope of Work."
                                 }
                             ]
@@ -1144,7 +1181,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"scopeText\":\"dolor\"}"
+                            "raw": "{\"scopeText\":\"optio\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1301,7 +1338,7 @@
                                 {
                                     "id": "category_id",
                                     "key": "category_id",
-                                    "value": "11",
+                                    "value": "16",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1354,7 +1391,7 @@
                                 {
                                     "id": "category_id",
                                     "key": "category_id",
-                                    "value": "7",
+                                    "value": "14",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -1483,7 +1520,7 @@
                                 {
                                     "id": "component_id",
                                     "key": "component_id",
-                                    "value": "2",
+                                    "value": "17",
                                     "description": "The ID of the component."
                                 }
                             ]
@@ -1533,7 +1570,7 @@
                                 {
                                     "id": "component_id",
                                     "key": "component_id",
-                                    "value": "18",
+                                    "value": "7",
                                     "description": "The ID of the component."
                                 }
                             ]

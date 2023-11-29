@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
 use App\Services\OpenAIGeneratorService;
@@ -67,6 +68,35 @@ class ProjectSummeryController extends Controller
         $response = [
             'message' => 'Created Successfully',
             'data' => $projectSummeryObj
+        ];
+
+        return response()->json($response, 201);
+    }
+    /**
+     * Create Meeting Summery
+     *
+     * @group Meeting Summery
+     *
+     * @bodyParam transcriptText string required The text of the transcript.
+     */
+
+    public function storeMeetingSummery(Request $request){
+        set_time_limit(500);
+        $validatedData = $request->validate([
+            'transcriptText' => 'required|string',
+        ]);
+
+        // Generate Summery
+        $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText);
+
+        $meetingSummeryObj = new MeetingSummery();
+        $meetingSummeryObj->summaryText = $summery;
+
+        $meetingSummeryObj->save();
+
+        $response = [
+            'message' => 'Created Successfully',
+            'data' => $meetingSummeryObj
         ];
 
         return response()->json($response, 201);
