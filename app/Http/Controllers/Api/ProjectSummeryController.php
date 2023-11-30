@@ -20,7 +20,7 @@ class ProjectSummeryController extends Controller
      * @queryParam page integer page number.
      */
     public function index(){
-        return $meetings = ProjectSummary::with('meetingTranscript')->paginate(10);
+        $meetings = ProjectSummary::with('meetingTranscript')->paginate(10);
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
