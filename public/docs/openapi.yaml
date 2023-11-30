@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Laravel
+  title: 'SOW Generator'
   description: ''
   version: 1.0.0
 servers:
@@ -233,7 +233,7 @@ paths:
                 transcriptText:
                   type: string
                   description: 'The text of the transcript.'
-                  example: labore
+                  example: ad
               required:
                 - transcriptText
       security: []
@@ -256,7 +256,7 @@ paths:
                 transcriptId:
                   type: integer
                   description: 'Id of the transcript.'
-                  example: 18
+                  example: 10
               required:
                 - transcriptId
       security: []
@@ -279,7 +279,7 @@ paths:
                 problemGoalText:
                   type: string
                   description: 'text of the ProblemsAndGoals.'
-                  example: et
+                  example: repudiandae
               required:
                 - problemGoalText
       security: []
@@ -288,7 +288,7 @@ paths:
         in: path
         name: id
         description: 'Id of the problems and goals.'
-        example: 7
+        example: 8
         required: true
         schema:
           type: integer
@@ -433,7 +433,7 @@ paths:
                   type: array
                   description: 'An array of component details.'
                   example:
-                    - et
+                    - velit
                   items:
                     type: string
               required:
@@ -687,7 +687,7 @@ paths:
                   type: array
                   description: 'An array of component details.'
                   example:
-                    - eaque
+                    - culpa
                   items:
                     type: string
                 project_id:
@@ -744,7 +744,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the project component.'
-        example: ut
+        example: eum
         required: true
         schema:
           type: string
@@ -767,7 +767,7 @@ paths:
                 problemGoalID:
                   type: integer
                   description: 'Id of the ProblemsAndGoals.'
-                  example: 13
+                  example: 19
               required:
                 - problemGoalID
       security: []
@@ -790,7 +790,7 @@ paths:
                 overviewText:
                   type: string
                   description: 'text of the ProjectOverview.'
-                  example: repudiandae
+                  example: enim
               required:
                 - overviewText
       security: []
@@ -803,233 +803,6 @@ paths:
         required: true
         schema:
           type: integer
-  /api/project-summery:
-    get:
-      summary: 'Get Project Summery List'
-      operationId: getProjectSummeryList
-      description: ''
-      parameters:
-        -
-          in: query
-          name: page
-          description: 'page number.'
-          example: 13
-          required: false
-          schema:
-            type: integer
-            description: 'page number.'
-            example: 13
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  current_page: 13
-                  data: []
-                  first_page_url: 'http://localhost:8000/api/project-summery?page=1'
-                  from: null
-                  last_page: 1
-                  last_page_url: 'http://localhost:8000/api/project-summery?page=1'
-                  links:
-                    -
-                      url: 'http://localhost:8000/api/project-summery?page=12'
-                      label: '&laquo; Previous'
-                      active: false
-                    -
-                      url: 'http://localhost:8000/api/project-summery?page=1'
-                      label: '1'
-                      active: false
-                    -
-                      url: null
-                      label: 'Next &raquo;'
-                      active: false
-                  next_page_url: null
-                  path: 'http://localhost:8000/api/project-summery'
-                  per_page: 10
-                  prev_page_url: 'http://localhost:8000/api/project-summery?page=12'
-                  to: null
-                  total: 1
-                properties:
-                  current_page:
-                    type: integer
-                    example: 13
-                  data:
-                    type: array
-                    example: []
-                  first_page_url:
-                    type: string
-                    example: 'http://localhost:8000/api/project-summery?page=1'
-                  from:
-                    type: string
-                    example: null
-                  last_page:
-                    type: integer
-                    example: 1
-                  last_page_url:
-                    type: string
-                    example: 'http://localhost:8000/api/project-summery?page=1'
-                  links:
-                    type: array
-                    example:
-                      -
-                        url: 'http://localhost:8000/api/project-summery?page=12'
-                        label: '&laquo; Previous'
-                        active: false
-                      -
-                        url: 'http://localhost:8000/api/project-summery?page=1'
-                        label: '1'
-                        active: false
-                      -
-                        url: null
-                        label: 'Next &raquo;'
-                        active: false
-                    items:
-                      type: object
-                      properties:
-                        url:
-                          type: string
-                          example: 'http://localhost:8000/api/project-summery?page=12'
-                        label:
-                          type: string
-                          example: '&laquo; Previous'
-                        active:
-                          type: boolean
-                          example: false
-                  next_page_url:
-                    type: string
-                    example: null
-                  path:
-                    type: string
-                    example: 'http://localhost:8000/api/project-summery'
-                  per_page:
-                    type: integer
-                    example: 10
-                  prev_page_url:
-                    type: string
-                    example: 'http://localhost:8000/api/project-summery?page=12'
-                  to:
-                    type: string
-                    example: null
-                  total:
-                    type: integer
-                    example: 1
-      tags:
-        - 'Project Summery'
-      security: []
-    post:
-      summary: 'Create Project Summery'
-      operationId: createProjectSummery
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Project Summery'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                transcriptText:
-                  type: string
-                  description: 'The text of the transcript.'
-                  example: placeat
-                projectName:
-                  type: string
-                  description: 'The name of the project.'
-                  example: expedita
-                clientPhone:
-                  type: string
-                  description: 'The phone number of the client.'
-                  example: esse
-                clientEmail:
-                  type: string
-                  description: 'The email of the client.'
-                  example: natalia.schaden@example.net
-                clientWebsite:
-                  type: string
-                  description: 'The website of the client.'
-                  example: voluptatum
-              required:
-                - transcriptText
-                - projectName
-      security: []
-  '/api/project-summery/{id}':
-    get:
-      summary: 'Show Project Summery'
-      operationId: showProjectSummery
-      description: ''
-      parameters: []
-      responses:
-        201:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: 'Data Showed Successfully'
-                  data: null
-                properties:
-                  message:
-                    type: string
-                    example: 'Data Showed Successfully'
-                  data:
-                    type: string
-                    example: null
-      tags:
-        - 'Project Summery'
-      security: []
-    put:
-      summary: 'Update Project Summery'
-      operationId: updateProjectSummery
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Project Summery'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                summaryText:
-                  type: integer
-                  description: 'summaryText of the Project Summery.'
-                  example: 1
-              required:
-                - summaryText
-      security: []
-    delete:
-      summary: 'Delete Project Summery'
-      operationId: deleteProjectSummery
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Project Summery'
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'Optional parameter. Id of the transcript.'
-        required: true
-        schema:
-          type: integer
-        examples:
-          omitted:
-            summary: 'When the value is omitted'
-            value: ''
-          present:
-            summary: 'When the value is present'
-            value: 12
   /api/projects:
     get:
       summary: 'Get all projects'
@@ -1339,10 +1112,442 @@ paths:
         in: path
         name: project_id
         description: 'The ID of the project.'
-        example: 13
+        example: 12
         required: true
         schema:
           type: integer
+  /api/prompts:
+    get:
+      summary: 'Display a listing of prompts.'
+      operationId: displayAListingOfPrompts
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      type: 1
+                      name: 'Example Prompt Name'
+                      prompt: 'Example Prompt'
+                      created_at: '2023-11-30T20:16:56.000000Z'
+                      updated_at: '2023-11-30T20:16:56.000000Z'
+                  total: 1
+                  current_page: 1
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        type: 1
+                        name: 'Example Prompt Name'
+                        prompt: 'Example Prompt'
+                        created_at: '2023-11-30T20:16:56.000000Z'
+                        updated_at: '2023-11-30T20:16:56.000000Z'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        type:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Example Prompt Name'
+                        prompt:
+                          type: string
+                          example: 'Example Prompt'
+                        created_at:
+                          type: string
+                          example: '2023-11-30T20:16:56.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2023-11-30T20:16:56.000000Z'
+                  total:
+                    type: integer
+                    example: 1
+                  current_page:
+                    type: integer
+                    example: 1
+      tags:
+        - 'Prompts Management'
+      security: []
+    post:
+      summary: 'Store a newly created prompt.'
+      operationId: storeANewlyCreatedPrompt
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Prompts Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: integer
+                  description: 'The type of the prompt (corresponding to PromptType Enum values).'
+                  example: 1
+                prompt:
+                  type: string
+                  description: 'The content of the prompt.'
+                  example: '"Example prompt content."'
+                name:
+                  type: string
+                  description: 'The name of the prompt.'
+                  example: '"Example prompt name."'
+              required:
+                - type
+                - prompt
+                - name
+      security: []
+  '/api/prompts/{id}':
+    get:
+      summary: 'Display the specified prompt.'
+      operationId: displayTheSpecifiedPrompt
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'View Successfully '
+                  data:
+                    id: 1
+                    type: 1
+                    name: 'Example Prompt Name'
+                    prompt: 'Example Prompt'
+                    created_at: '2023-11-30T20:16:56.000000Z'
+                    updated_at: '2023-11-30T20:16:56.000000Z'
+                properties:
+                  message:
+                    type: string
+                    example: 'View Successfully '
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      type:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Example Prompt Name'
+                      prompt:
+                        type: string
+                        example: 'Example Prompt'
+                      created_at:
+                        type: string
+                        example: '2023-11-30T20:16:56.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2023-11-30T20:16:56.000000Z'
+      tags:
+        - 'Prompts Management'
+      security: []
+    put:
+      summary: 'Update the specified prompt.'
+      operationId: updateTheSpecifiedPrompt
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Prompts Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: integer
+                  description: 'The type of the prompt (corresponding to PromptType Enum values).'
+                  example: 2
+                prompt:
+                  type: string
+                  description: 'The content of the prompt.'
+                  example: '"Updated prompt content."'
+                name:
+                  type: string
+                  description: 'The content of the name.'
+                  example: '"Updated prompt name."'
+              required:
+                - type
+                - prompt
+                - name
+      security: []
+    delete:
+      summary: 'Remove the specified prompt from storage.'
+      operationId: removeTheSpecifiedPromptFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Prompts Management'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the prompt.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: prompt
+        description: 'The ID of the prompt to display.'
+        example: '1'
+        required: true
+        schema:
+          type: string
+  /api/project-summery:
+    get:
+      summary: 'Get SOW Meeting Summery List'
+      operationId: getSOWMeetingSummeryList
+      description: ''
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'page number.'
+          example: 8
+          required: false
+          schema:
+            type: integer
+            description: 'page number.'
+            example: 8
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  current_page: 8
+                  data: []
+                  first_page_url: 'http://localhost:8000/api/project-summery?page=1'
+                  from: null
+                  last_page: 1
+                  last_page_url: 'http://localhost:8000/api/project-summery?page=1'
+                  links:
+                    -
+                      url: 'http://localhost:8000/api/project-summery?page=7'
+                      label: '&laquo; Previous'
+                      active: false
+                    -
+                      url: 'http://localhost:8000/api/project-summery?page=1'
+                      label: '1'
+                      active: false
+                    -
+                      url: null
+                      label: 'Next &raquo;'
+                      active: false
+                  next_page_url: null
+                  path: 'http://localhost:8000/api/project-summery'
+                  per_page: 10
+                  prev_page_url: 'http://localhost:8000/api/project-summery?page=7'
+                  to: null
+                  total: 0
+                properties:
+                  current_page:
+                    type: integer
+                    example: 8
+                  data:
+                    type: array
+                    example: []
+                  first_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=1'
+                  from:
+                    type: string
+                    example: null
+                  last_page:
+                    type: integer
+                    example: 1
+                  last_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=1'
+                  links:
+                    type: array
+                    example:
+                      -
+                        url: 'http://localhost:8000/api/project-summery?page=7'
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://localhost:8000/api/project-summery?page=1'
+                        label: '1'
+                        active: false
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          example: 'http://localhost:8000/api/project-summery?page=7'
+                        label:
+                          type: string
+                          example: '&laquo; Previous'
+                        active:
+                          type: boolean
+                          example: false
+                  next_page_url:
+                    type: string
+                    example: null
+                  path:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery'
+                  per_page:
+                    type: integer
+                    example: 10
+                  prev_page_url:
+                    type: string
+                    example: 'http://localhost:8000/api/project-summery?page=7'
+                  to:
+                    type: string
+                    example: null
+                  total:
+                    type: integer
+                    example: 0
+      tags:
+        - 'SOW Meeting Summery'
+      security: []
+    post:
+      summary: 'Create SOW Meeting Summery'
+      operationId: createSOWMeetingSummery
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'SOW Meeting Summery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transcriptText:
+                  type: string
+                  description: 'The text of the transcript.'
+                  example: saepe
+                projectName:
+                  type: string
+                  description: 'The name of the project.'
+                  example: eum
+                clientPhone:
+                  type: string
+                  description: 'The phone number of the client.'
+                  example: veritatis
+                clientEmail:
+                  type: string
+                  description: 'The email of the client.'
+                  example: philip35@example.org
+                clientWebsite:
+                  type: string
+                  description: 'The website of the client.'
+                  example: eum
+              required:
+                - transcriptText
+                - projectName
+      security: []
+  '/api/project-summery/{id}':
+    get:
+      summary: 'Show SOW Meeting Summery'
+      operationId: showSOWMeetingSummery
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Data Showed Successfully'
+                  data: null
+                properties:
+                  message:
+                    type: string
+                    example: 'Data Showed Successfully'
+                  data:
+                    type: string
+                    example: null
+      tags:
+        - 'SOW Meeting Summery'
+      security: []
+    put:
+      summary: 'Update SOW Meeting Summery'
+      operationId: updateSOWMeetingSummery
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'SOW Meeting Summery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                summaryText:
+                  type: integer
+                  description: 'summaryText of the SOW Meeting Summery.'
+                  example: 4
+              required:
+                - summaryText
+      security: []
+    delete:
+      summary: 'Delete SOW Meeting Summery'
+      operationId: deleteSOWMeetingSummery
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'SOW Meeting Summery'
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Optional parameter. Id of the transcript.'
+        required: true
+        schema:
+          type: integer
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: 14
   /api/scope-of-work:
     post:
       summary: 'Create Scope Of Work'
@@ -1362,7 +1567,7 @@ paths:
                 problemGoalID:
                   type: integer
                   description: 'Id of the ProblemsAndGoals.'
-                  example: 15
+                  example: 13
               required:
                 - problemGoalID
       security: []
@@ -1385,7 +1590,7 @@ paths:
                 scopeText:
                   type: string
                   description: 'text of the Scope of Work.'
-                  example: optio
+                  example: dolor
               required:
                 - scopeText
       security: []
@@ -1394,7 +1599,7 @@ paths:
         in: path
         name: id
         description: 'Id of the Scope of Work.'
-        example: 6
+        example: 7
         required: true
         schema:
           type: integer
@@ -1649,7 +1854,7 @@ paths:
         in: path
         name: category_id
         description: 'The ID of the category.'
-        example: 6
+        example: 3
         required: true
         schema:
           type: integer
@@ -2086,7 +2291,7 @@ paths:
         in: path
         name: component_id
         description: 'The ID of the component.'
-        example: 17
+        example: 20
         required: true
         schema:
           type: integer
@@ -2110,11 +2315,14 @@ tags:
     name: 'Project Overview'
     description: ''
   -
-    name: 'Project Summery'
-    description: ''
-  -
     name: Projects
     description: "\nAPIs for managing projects."
+  -
+    name: 'Prompts Management'
+    description: '* @queryParam page integer page number.'
+  -
+    name: 'SOW Meeting Summery'
+    description: ''
   -
     name: 'Scope Of Work'
     description: ''

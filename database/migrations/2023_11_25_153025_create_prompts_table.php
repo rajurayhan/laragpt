@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('prompts', function (Blueprint $table) {
             $table->id();
             $table->integer('type'); // PromptType Enum
-            $table->string('prompt');
+            $table->string('name');
+            $table->longText('prompt');
             $table->timestamps();
         });
     }

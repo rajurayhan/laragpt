@@ -2,11 +2,17 @@
 
 namespace App\Enums;
 
-enum PromptType
+enum PromptType : int
 {
-    const PROJECT_SUMMERY = 1;
-    const PROBLEMS_AND_GOALS = 2;
-    const PROJECT_OVERVIEW = 3;
-    const SCOPE_OF_WORK = 4;
-    const DELIVERABLES = 5;
+    case PROJECT_SUMMARY = 1;
+    case PROBLEMS_AND_GOALS = 2;
+    case PROJECT_OVERVIEW = 3;
+    case SCOPE_OF_WORK = 4;
+    case DELIVERABLES = 5;
+
+    public static function getValues(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+
 }

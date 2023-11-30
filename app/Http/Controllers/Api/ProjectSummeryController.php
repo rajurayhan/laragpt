@@ -13,9 +13,9 @@ class ProjectSummeryController extends Controller
 {
 
     /**
-     * Get Project Summery List
+     * Get SOW Meeting Summery List
      *
-     * @group Project Summery
+     * @group SOW Meeting Summery
      *
      * @queryParam page integer page number.
      */
@@ -30,9 +30,9 @@ class ProjectSummeryController extends Controller
     }
 
     /**
-     * Create Project Summery
+     * Create SOW Meeting Summery
      *
-     * @group Project Summery
+     * @group SOW Meeting Summery
      *
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
@@ -103,9 +103,9 @@ class ProjectSummeryController extends Controller
     }
 
     /**
-     * Show Project Summery
+     * Show SOW Meeting Summery
      *
-     * @group Project Summery
+     * @group SOW Meeting Summery
      *
      * @urlParam id int Id of the transcript.
      */
@@ -120,12 +120,12 @@ class ProjectSummeryController extends Controller
     }
 
     /**
-     * Update Project Summery
+     * Update SOW Meeting Summery
      *
-     * @group Project Summery
+     * @group SOW Meeting Summery
      *
      * @urlParam id int Id of the transcript.
-     * @bodyParam summaryText int required summaryText of the Project Summery.
+     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
      */
 
     public function update($id, Request $request){
@@ -147,9 +147,9 @@ class ProjectSummeryController extends Controller
     }
 
     /**
-     * Delete Project Summery
+     * Delete SOW Meeting Summery
      *
-     * @group Project Summery
+     * @group SOW Meeting Summery
      * @urlParam id int Id of the transcript.
      */
     public function delete($id){

@@ -1,16 +1,16 @@
-name: 'Problems and Goals'
+name: 'Meeting Summery'
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/problems-and-goals
+    uri: api/meeting-summery
     metadata:
-      groupName: 'Problems and Goals'
+      groupName: 'Meeting Summery'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create Problems and Goals'
+      title: 'Create Meeting Summery'
       description: ''
       authenticated: false
       custom: []
@@ -22,67 +22,17 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      transcriptId:
-        name: transcriptId
-        description: 'Id of the transcript.'
+      transcriptText:
+        name: transcriptText
+        description: 'The text of the transcript.'
         required: true
-        example: 18
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      transcriptId: 18
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'api/problems-and-goals/{id}'
-    metadata:
-      groupName: 'Problems and Goals'
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update Problems and Goals'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'Id of the problems and goals.'
-        required: true
-        example: 7
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 7
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      problemGoalText:
-        name: problemGoalText
-        description: 'text of the ProblemsAndGoals.'
-        required: true
-        example: et
+        example: ad
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalText: et
+      transcriptText: ad
     fileParameters: []
     responses: []
     responseFields: []

@@ -1,16 +1,16 @@
-name: 'Project Overview'
+name: 'Problems and Goals'
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/project-overview
+    uri: api/problems-and-goals
     metadata:
-      groupName: 'Project Overview'
+      groupName: 'Problems and Goals'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create Project Overview'
+      title: 'Create Problems and Goals'
       description: ''
       authenticated: false
       custom: []
@@ -22,17 +22,17 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      problemGoalID:
-        name: problemGoalID
-        description: 'Id of the ProblemsAndGoals.'
+      transcriptId:
+        name: transcriptId
+        description: 'Id of the transcript.'
         required: true
-        example: 13
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 13
+      transcriptId: 10
     fileParameters: []
     responses: []
     responseFields: []
@@ -44,13 +44,13 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/project-overview/{id}'
+    uri: 'api/problems-and-goals/{id}'
     metadata:
-      groupName: 'Project Overview'
+      groupName: 'Problems and Goals'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update Project Overview'
+      title: 'Update Problems and Goals'
       description: ''
       authenticated: false
       custom: []
@@ -60,21 +60,21 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'Id of the ProjectOverview.'
+        description: 'Id of the problems and goals.'
         required: true
-        example: 20
+        example: 8
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 8
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      overviewText:
-        name: overviewText
-        description: 'text of the ProjectOverview.'
+      problemGoalText:
+        name: problemGoalText
+        description: 'text of the ProblemsAndGoals.'
         required: true
         example: repudiandae
         type: string
@@ -82,7 +82,7 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      overviewText: repudiandae
+      problemGoalText: repudiandae
     fileParameters: []
     responses: []
     responseFields: []
