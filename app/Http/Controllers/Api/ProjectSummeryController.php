@@ -90,7 +90,7 @@ class ProjectSummeryController extends Controller
         $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText);
 
         $meetingSummeryObj = new MeetingSummery();
-        $meetingSummeryObj->summaryText = $summery;
+        $meetingSummeryObj->meetingSummeryText = $summery;
 
         $meetingSummeryObj->save();
 
