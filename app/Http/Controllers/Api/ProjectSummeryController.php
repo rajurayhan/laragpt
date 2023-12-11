@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 
 class ProjectSummeryController extends Controller
 {
+
+    private $promptType = PromptType::PROJECT_SUMMARY;
 
     /**
      * Get SOW Meeting Summery List

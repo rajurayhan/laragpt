@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectOverview;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class ProjectOverviewController extends Controller
 {
+    private $promptType = PromptType::PROJECT_OVERVIEW;
+
     /**
      * Create Project Overview
      *

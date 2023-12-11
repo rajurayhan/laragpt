@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class ProblemAndGoalController extends Controller
 {
+
+    private $promptType = PromptType::PROBLEMS_AND_GOALS;
 
     /**
      * Create Problems and Goals

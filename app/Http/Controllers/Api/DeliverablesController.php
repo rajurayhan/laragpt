@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\Deliberable;
 use App\Models\ScopeOfWork;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 class DeliverablesController extends Controller
 {
+    private $promptType = PromptType::DELIVERABLES;
     /**
      * Create Deliverable
      *

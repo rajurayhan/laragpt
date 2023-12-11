@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\ProblemsAndGoals;
 use App\Models\ScopeOfWork;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class ScopeOfWorkController extends Controller
 {
+    private $promptType = PromptType::SCOPE_OF_WORK;
+
     /**
      * Create Scope Of Work
      *
