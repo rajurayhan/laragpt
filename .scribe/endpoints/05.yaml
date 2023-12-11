@@ -1,16 +1,16 @@
-name: 'Scope Of Work'
+name: 'Project Overview'
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/scope-of-work
+    uri: api/project-overview
     metadata:
-      groupName: 'Scope Of Work'
+      groupName: 'Project Overview'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create Scope Of Work'
+      title: 'Create Project Overview'
       description: ''
       authenticated: false
       custom: []
@@ -26,13 +26,13 @@ endpoints:
         name: problemGoalID
         description: 'Id of the ProblemsAndGoals.'
         required: true
-        example: 10
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 10
+      problemGoalID: 4
     fileParameters: []
     responses: []
     responseFields: []
@@ -44,13 +44,13 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/scope-of-work/{id}'
+    uri: 'api/project-overview/{id}'
     metadata:
-      groupName: 'Scope Of Work'
+      groupName: 'Project Overview'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update Scope Of Work'
+      title: 'Update Project Overview'
       description: ''
       authenticated: false
       custom: []
@@ -60,29 +60,29 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'Id of the Scope of Work.'
+        description: 'Id of the ProjectOverview.'
         required: true
-        example: 12
+        example: 7
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 12
+      id: 7
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      scopeText:
-        name: scopeText
-        description: 'text of the Scope of Work.'
+      overviewText:
+        name: overviewText
+        description: 'text of the ProjectOverview.'
         required: true
-        example: consequuntur
+        example: sequi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      scopeText: consequuntur
+      overviewText: sequi
     fileParameters: []
     responses: []
     responseFields: []

@@ -125,7 +125,7 @@ endpoints:
         name: id
         description: 'The ID of the prompt.'
         required: true
-        example: 4
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -140,7 +140,7 @@ endpoints:
         exampleWasSpecified: true
         custom: []
     cleanUrlParameters:
-      id: 4
+      id: 5
       prompt: '1'
     queryParameters: []
     cleanQueryParameters: []
@@ -152,7 +152,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "No query results for model [App\\Models\\Prompt] 4",
+              "message": "No query results for model [App\\Models\\Prompt] 5",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php",
               "line": 487,
@@ -607,7 +607,7 @@ endpoints:
         name: id
         description: 'The ID of the prompt.'
         required: true
-        example: 10
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -622,7 +622,7 @@ endpoints:
         exampleWasSpecified: true
         custom: []
     cleanUrlParameters:
-      id: 10
+      id: 20
       prompt: '1'
     queryParameters: []
     cleanQueryParameters: []
@@ -687,7 +687,7 @@ endpoints:
         name: id
         description: 'The ID of the prompt.'
         required: true
-        example: 19
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -702,7 +702,7 @@ endpoints:
         exampleWasSpecified: true
         custom: []
     cleanUrlParameters:
-      id: 19
+      id: 20
       prompt: '1'
     queryParameters: []
     cleanQueryParameters: []

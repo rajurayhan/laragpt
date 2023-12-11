@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class DeliverablesController extends Controller
 {
     /**
-     * Create Deliberable
+     * Create Deliverable
      *
-     * @group Deliberable
+     * @group Deliverable
      *
      * @bodyParam scopeOfWorkId int required Id of the ScopeOfWork.
      */
@@ -40,9 +40,9 @@ class DeliverablesController extends Controller
     }
 
     /**
-     * Update Deliberable
+     * Update Deliverable
      *
-     * @group Deliberable
+     * @group Deliverable
      *
      * @urlParam id int required Id of the Deliverables.
      * @bodyParam deliverablesText string required text of the Deliverables.

@@ -24,20 +24,20 @@ endpoints:
         name: page
         description: 'page number.'
         required: false
-        example: 6
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanQueryParameters:
-      page: 6
+      page: 20
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"data":[],"total":0,"current_page":6}'
+        content: '{"data":[],"total":0,"current_page":20}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -77,13 +77,13 @@ endpoints:
         name: transcriptText
         description: 'The text of the transcript.'
         required: true
-        example: perspiciatis
+        example: voluptas
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      transcriptText: perspiciatis
+      transcriptText: voluptas
     fileParameters: []
     responses: []
     responseFields: []
@@ -113,13 +113,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 20
+        example: 18
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 18
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -164,13 +164,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 9
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 9
+      id: 3
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -178,13 +178,13 @@ endpoints:
         name: summaryText
         description: 'summaryText of the SOW Meeting Summery.'
         required: true
-        example: 13
+        example: 15
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      summaryText: 13
+      summaryText: 15
     fileParameters: []
     responses: []
     responseFields: []
@@ -214,13 +214,13 @@ endpoints:
         name: id
         description: 'Id of the transcript.'
         required: false
-        example: 18
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 18
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

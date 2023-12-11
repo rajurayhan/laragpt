@@ -1,16 +1,16 @@
-name: 'Project Overview'
+name: Deliberable
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/project-overview
+    uri: api/deliverables
     metadata:
-      groupName: 'Project Overview'
+      groupName: Deliberable
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create Project Overview'
+      title: 'Create Deliberable'
       description: ''
       authenticated: false
       custom: []
@@ -22,9 +22,9 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      problemGoalID:
-        name: problemGoalID
-        description: 'Id of the ProblemsAndGoals.'
+      scopeOfWorkId:
+        name: scopeOfWorkId
+        description: 'Id of the ScopeOfWork.'
         required: true
         example: 19
         type: integer
@@ -32,7 +32,7 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 19
+      scopeOfWorkId: 19
     fileParameters: []
     responses: []
     responseFields: []
@@ -44,13 +44,13 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/project-overview/{id}'
+    uri: 'api/deliverables/{id}'
     metadata:
-      groupName: 'Project Overview'
+      groupName: Deliberable
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update Project Overview'
+      title: 'Update Deliberable'
       description: ''
       authenticated: false
       custom: []
@@ -60,29 +60,29 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'Id of the ProjectOverview.'
+        description: 'Id of the Deliverables.'
         required: true
-        example: 20
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 5
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      overviewText:
-        name: overviewText
-        description: 'text of the ProjectOverview.'
+      deliverablesText:
+        name: deliverablesText
+        description: 'text of the Deliverables.'
         required: true
-        example: corporis
+        example: labore
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      overviewText: corporis
+      deliverablesText: labore
     fileParameters: []
     responses: []
     responseFields: []
