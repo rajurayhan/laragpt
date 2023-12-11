@@ -117,6 +117,7 @@
 
             $deliverables = $deliverablesResult['choices'][0]['message']['content'];
             \Log::info(['deliverables' => $deliverables]);
+            return $deliverables;
         }
 
 
