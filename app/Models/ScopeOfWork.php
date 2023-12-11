@@ -21,4 +21,9 @@ class ScopeOfWork extends Model
     {
         return $this->belongsTo(ProblemsAndGoals::class, 'problemGoalID', 'id');
     }
+
+    public function deliverables()
+    {
+        return $this->hasOne(Deliberable::class, 'scopeOfWorkId', 'id');
+    }
 }
