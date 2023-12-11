@@ -29,7 +29,7 @@ class DeliverablesController extends Controller
         $deliverables   = OpenAIGeneratorService::generateDeliverables($scopeOfWorkObj->scopeText);
 
         $deliverablesObj = Deliberable::updateOrCreate(
-            ['scopeOfWorkId' => $request->transcriptId],
+            ['scopeOfWorkId' => $request->scopeOfWorkId],
             ['deliverablesText' => $deliverables]
         );
 
