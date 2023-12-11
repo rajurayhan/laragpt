@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>SOW Generator Documentation</title>
+    <title>Laravel Documentation</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -100,8 +100,20 @@
                     <a href="#meeting-summery">Meeting Summery</a>
                 </li>
                                     <ul id="tocify-subheader-meeting-summery" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="meeting-summery-POSTapi-meeting-summery">
+                                                    <li class="tocify-item level-2" data-unique="meeting-summery-GETapi-meeting-summery">
+                                <a href="#meeting-summery-GETapi-meeting-summery">Get Meeting Summery List</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meeting-summery-POSTapi-meeting-summery">
                                 <a href="#meeting-summery-POSTapi-meeting-summery">Create Meeting Summery</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meeting-summery-GETapi-meeting-summery--id-">
+                                <a href="#meeting-summery-GETapi-meeting-summery--id-">Show Meeting Summery</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meeting-summery-PUTapi-meeting-summery--id-">
+                                <a href="#meeting-summery-PUTapi-meeting-summery--id-">Update Meeting Summery</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meeting-summery-DELETEapi-meeting-summery--id-">
+                                <a href="#meeting-summery-DELETEapi-meeting-summery--id-">Meeting Summery</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -285,7 +297,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 30, 2023</li>
+        <li>Last updated: December 11, 2023</li>
     </ul>
 </div>
 
@@ -1006,7 +1018,153 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     
 
-                                <h2 id="meeting-summery-POSTapi-meeting-summery">Create Meeting Summery</h2>
+                                <h2 id="meeting-summery-GETapi-meeting-summery">Get Meeting Summery List</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-meeting-summery">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/meeting-summery?page=6" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-summery"
+);
+
+const params = {
+    "page": "6",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-meeting-summery">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 55
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: [],
+    &quot;total&quot;: 0,
+    &quot;current_page&quot;: 6
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-meeting-summery" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-meeting-summery"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-meeting-summery"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-meeting-summery" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-meeting-summery">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-meeting-summery" data-method="GET"
+      data-path="api/meeting-summery"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-meeting-summery', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-meeting-summery"
+                    onclick="tryItOut('GETapi-meeting-summery');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-meeting-summery"
+                    onclick="cancelTryOut('GETapi-meeting-summery');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-meeting-summery"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/meeting-summery</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-meeting-summery"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-meeting-summery"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-meeting-summery"
+               value="6"
+               data-component="query">
+    <br>
+<p>page number. Example: <code>6</code></p>
+            </div>
+                </form>
+
+                    <h2 id="meeting-summery-POSTapi-meeting-summery">Create Meeting Summery</h2>
 
 <p>
 </p>
@@ -1023,7 +1181,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptText\": \"ad\"
+    \"transcriptText\": \"perspiciatis\"
 }"
 </code></pre></div>
 
@@ -1039,7 +1197,7 @@ const headers = {
 };
 
 let body = {
-    "transcriptText": "ad"
+    "transcriptText": "perspiciatis"
 };
 
 fetch(url, {
@@ -1128,12 +1286,412 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-meeting-summery"
-               value="ad"
+               value="perspiciatis"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>ad</code></p>
+<p>The text of the transcript. Example: <code>perspiciatis</code></p>
         </div>
         </form>
+
+                    <h2 id="meeting-summery-GETapi-meeting-summery--id-">Show Meeting Summery</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-meeting-summery--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/meeting-summery/20" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-summery/20"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-meeting-summery--id-">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 54
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Data Showed Successfully&quot;,
+    &quot;data&quot;: null
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-meeting-summery--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-meeting-summery--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-meeting-summery--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-meeting-summery--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-meeting-summery--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-meeting-summery--id-" data-method="GET"
+      data-path="api/meeting-summery/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-meeting-summery--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-meeting-summery--id-"
+                    onclick="tryItOut('GETapi-meeting-summery--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-meeting-summery--id-"
+                    onclick="cancelTryOut('GETapi-meeting-summery--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-meeting-summery--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/meeting-summery/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-meeting-summery--id-"
+               value="20"
+               data-component="url">
+    <br>
+<p>Id of the transcript. Example: <code>20</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="meeting-summery-PUTapi-meeting-summery--id-">Update Meeting Summery</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTapi-meeting-summery--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/meeting-summery/9" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"summaryText\": 13
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-summery/9"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "summaryText": 13
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-meeting-summery--id-">
+</span>
+<span id="execution-results-PUTapi-meeting-summery--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-meeting-summery--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-meeting-summery--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-meeting-summery--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-meeting-summery--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-meeting-summery--id-" data-method="PUT"
+      data-path="api/meeting-summery/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-meeting-summery--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-meeting-summery--id-"
+                    onclick="tryItOut('PUTapi-meeting-summery--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-meeting-summery--id-"
+                    onclick="cancelTryOut('PUTapi-meeting-summery--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-meeting-summery--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/meeting-summery/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-meeting-summery--id-"
+               value="9"
+               data-component="url">
+    <br>
+<p>Id of the transcript. Example: <code>9</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>summaryText</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="summaryText"                data-endpoint="PUTapi-meeting-summery--id-"
+               value="13"
+               data-component="body">
+    <br>
+<p>summaryText of the SOW Meeting Summery. Example: <code>13</code></p>
+        </div>
+        </form>
+
+                    <h2 id="meeting-summery-DELETEapi-meeting-summery--id-">Meeting Summery</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-meeting-summery--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/meeting-summery/18" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-summery/18"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-meeting-summery--id-">
+</span>
+<span id="execution-results-DELETEapi-meeting-summery--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-meeting-summery--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-meeting-summery--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-meeting-summery--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-meeting-summery--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-meeting-summery--id-" data-method="DELETE"
+      data-path="api/meeting-summery/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-meeting-summery--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-meeting-summery--id-"
+                    onclick="tryItOut('DELETEapi-meeting-summery--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-meeting-summery--id-"
+                    onclick="cancelTryOut('DELETEapi-meeting-summery--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-meeting-summery--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/meeting-summery/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-meeting-summery--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-meeting-summery--id-"
+               value="18"
+               data-component="url">
+    <br>
+<p>Id of the transcript. Example: <code>18</code></p>
+            </div>
+                    </form>
 
                 <h1 id="problems-and-goals">Problems and Goals</h1>
 
@@ -1156,7 +1714,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 10
+    \"transcriptId\": 3
 }"
 </code></pre></div>
 
@@ -1172,7 +1730,7 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 10
+    "transcriptId": 3
 };
 
 fetch(url, {
@@ -1261,10 +1819,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-problems-and-goals"
-               value="10"
+               value="3"
                data-component="body">
     <br>
-<p>Id of the transcript. Example: <code>10</code></p>
+<p>Id of the transcript. Example: <code>3</code></p>
         </div>
         </form>
 
@@ -1281,18 +1839,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/problems-and-goals/8" \
+    "http://localhost:8000/api/problems-and-goals/7" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalText\": \"repudiandae\"
+    \"problemGoalText\": \"praesentium\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/problems-and-goals/8"
+    "http://localhost:8000/api/problems-and-goals/7"
 );
 
 const headers = {
@@ -1301,7 +1859,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalText": "repudiandae"
+    "problemGoalText": "praesentium"
 };
 
 fetch(url, {
@@ -1390,10 +1948,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="8"
+               value="7"
                data-component="url">
     <br>
-<p>Id of the problems and goals. Example: <code>8</code></p>
+<p>Id of the problems and goals. Example: <code>7</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1402,10 +1960,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="problemGoalText"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="repudiandae"
+               value="praesentium"
                data-component="body">
     <br>
-<p>text of the ProblemsAndGoals. Example: <code>repudiandae</code></p>
+<p>text of the ProblemsAndGoals. Example: <code>praesentium</code></p>
         </div>
         </form>
 
@@ -1564,7 +2122,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"project_id\": 1,
     \"components\": [
-        \"velit\"
+        \"earum\"
     ]
 }"
 </code></pre></div>
@@ -1583,7 +2141,7 @@ const headers = {
 let body = {
     "project_id": 1,
     "components": [
-        "velit"
+        "earum"
     ]
 };
 
@@ -1717,10 +2275,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="POSTapi-project-components"
-               value="aut"
+               value="corporis"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>corporis</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -1783,14 +2341,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-components/eum?project_id=1&amp;component_id=1" \
+    --get "http://localhost:8000/api/project-components/qui?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/eum"
+    "http://localhost:8000/api/project-components/qui"
 );
 
 const params = {
@@ -1940,10 +2498,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-project-components--id-"
-               value="eum"
+               value="qui"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>eum</code></p>
+<p>The ID of the project component. Example: <code>qui</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -1983,12 +2541,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-components/ut" \
+    "http://localhost:8000/api/project-components/sapiente" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"components\": [
-        \"culpa\"
+        \"sint\"
     ],
     \"project_id\": 1
 }"
@@ -1997,7 +2555,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/ut"
+    "http://localhost:8000/api/project-components/sapiente"
 );
 
 const headers = {
@@ -2007,7 +2565,7 @@ const headers = {
 
 let body = {
     "components": [
-        "culpa"
+        "sint"
     ],
     "project_id": 1
 };
@@ -2126,10 +2684,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-project-components--id-"
-               value="ut"
+               value="sapiente"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>ut</code></p>
+<p>The ID of the project component. Example: <code>sapiente</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2147,10 +2705,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="PUTapi-project-components--id-"
-               value="officiis"
+               value="corporis"
                data-component="body">
     <br>
-<p>Example: <code>officiis</code></p>
+<p>Example: <code>corporis</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -2158,10 +2716,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="components.0.quantity"                data-endpoint="PUTapi-project-components--id-"
-               value="83"
+               value="44"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>83</code></p>
+<p>Must be at least 1. Example: <code>44</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -2224,14 +2782,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-components/ut?project_id=1&amp;component_id=1" \
+    "http://localhost:8000/api/project-components/id?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/ut"
+    "http://localhost:8000/api/project-components/id"
 );
 
 const params = {
@@ -2340,10 +2898,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-project-components--id-"
-               value="ut"
+               value="id"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>ut</code></p>
+<p>The ID of the project component. Example: <code>id</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -2520,7 +3078,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"overviewText\": \"enim\"
+    \"overviewText\": \"corporis\"
 }"
 </code></pre></div>
 
@@ -2536,7 +3094,7 @@ const headers = {
 };
 
 let body = {
-    "overviewText": "enim"
+    "overviewText": "corporis"
 };
 
 fetch(url, {
@@ -2637,10 +3195,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="overviewText"                data-endpoint="POSTapi-project-overview--id-"
-               value="enim"
+               value="corporis"
                data-component="body">
     <br>
-<p>text of the ProjectOverview. Example: <code>enim</code></p>
+<p>text of the ProjectOverview. Example: <code>corporis</code></p>
         </div>
         </form>
 
@@ -2966,14 +3524,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/projects/12?project_id=1" \
+    --get "http://localhost:8000/api/projects/2?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/12"
+    "http://localhost:8000/api/projects/2"
 );
 
 const params = {
@@ -3088,10 +3646,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="GETapi-projects--project_id-"
-               value="12"
+               value="2"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>12</code></p>
+<p>The ID of the project. Example: <code>2</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -3120,7 +3678,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/projects/11?project_id=1" \
+    "http://localhost:8000/api/projects/20?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3133,7 +3691,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/11"
+    "http://localhost:8000/api/projects/20"
 );
 
 const params = {
@@ -3259,10 +3817,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="PUTapi-projects--project_id-"
-               value="11"
+               value="20"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>11</code></p>
+<p>The ID of the project. Example: <code>20</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -3325,14 +3883,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/projects/13?project_id=1" \
+    "http://localhost:8000/api/projects/6?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/13"
+    "http://localhost:8000/api/projects/6"
 );
 
 const params = {
@@ -3440,10 +3998,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="DELETEapi-projects--project_id-"
-               value="13"
+               value="6"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>13</code></p>
+<p>The ID of the project. Example: <code>6</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -3516,17 +4074,8 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;type&quot;: 1,
-            &quot;name&quot;: &quot;Example Prompt Name&quot;,
-            &quot;prompt&quot;: &quot;Example Prompt&quot;,
-            &quot;created_at&quot;: &quot;2023-11-30T20:16:56.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2023-11-30T20:16:56.000000Z&quot;
-        }
-    ],
-    &quot;total&quot;: 1,
+    &quot;data&quot;: [],
+    &quot;total&quot;: 0,
     &quot;current_page&quot;: 1
 }</code>
  </pre>
@@ -3770,14 +4319,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/prompts/1" \
+    --get "http://localhost:8000/api/prompts/4" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/1"
+    "http://localhost:8000/api/prompts/4"
 );
 
 const headers = {
@@ -3794,7 +4343,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-prompts--id-">
             <blockquote>
-            <p>Example response (201):</p>
+            <p>Example response (404):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -3808,15 +4357,425 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;View Successfully &quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;type&quot;: 1,
-        &quot;name&quot;: &quot;Example Prompt Name&quot;,
-        &quot;prompt&quot;: &quot;Example Prompt&quot;,
-        &quot;created_at&quot;: &quot;2023-11-30T20:16:56.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2023-11-30T20:16:56.000000Z&quot;
-    }
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Prompt] 4&quot;,
+    &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
+    &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php&quot;,
+    &quot;line&quot;: 487,
+    &quot;trace&quot;: [
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php&quot;,
+            &quot;line&quot;: 463,
+            &quot;function&quot;: &quot;prepareException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\nunomaduro\\collision\\src\\Adapters\\Laravel\\ExceptionHandler.php&quot;,
+            &quot;line&quot;: 54,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Exceptions\\Handler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;render&quot;,
+            &quot;class&quot;: &quot;NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 143,
+            &quot;function&quot;: &quot;handleException&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php&quot;,
+            &quot;line&quot;: 50,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\SubstituteBindings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php&quot;,
+            &quot;line&quot;: 159,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php&quot;,
+            &quot;line&quot;: 135,
+            &quot;function&quot;: &quot;handleRequest&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php&quot;,
+            &quot;line&quot;: 87,
+            &quot;function&quot;: &quot;handleRequestUsingNamedLimiter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 116,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
+            &quot;line&quot;: 800,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
+            &quot;line&quot;: 777,
+            &quot;function&quot;: &quot;runRouteWithinStack&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
+            &quot;line&quot;: 741,
+            &quot;function&quot;: &quot;runRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
+            &quot;line&quot;: 730,
+            &quot;function&quot;: &quot;dispatchToRoute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
+            &quot;line&quot;: 200,
+            &quot;function&quot;: &quot;dispatch&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 141,
+            &quot;function&quot;: &quot;Illuminate\\Foundation\\Http\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php&quot;,
+            &quot;line&quot;: 31,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php&quot;,
+            &quot;line&quot;: 21,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php&quot;,
+            &quot;line&quot;: 40,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TrimStrings&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php&quot;,
+            &quot;line&quot;: 27,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php&quot;,
+            &quot;line&quot;: 99,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php&quot;,
+            &quot;line&quot;: 62,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Http\\Middleware\\HandleCors&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php&quot;,
+            &quot;line&quot;: 39,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Http\\Middleware\\TrustProxies&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
+            &quot;line&quot;: 116,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
+            &quot;line&quot;: 175,
+            &quot;function&quot;: &quot;then&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
+            &quot;line&quot;: 144,
+            &quot;function&quot;: &quot;sendRequestThroughRouter&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
+            &quot;line&quot;: 299,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
+            &quot;line&quot;: 287,
+            &quot;function&quot;: &quot;callLaravelOrLumenRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
+            &quot;line&quot;: 92,
+            &quot;function&quot;: &quot;makeApiCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
+            &quot;line&quot;: 45,
+            &quot;function&quot;: &quot;makeResponseCall&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
+            &quot;line&quot;: 35,
+            &quot;function&quot;: &quot;makeResponseCallIfConditionsPass&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
+            &quot;line&quot;: 209,
+            &quot;function&quot;: &quot;__invoke&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
+            &quot;line&quot;: 166,
+            &quot;function&quot;: &quot;iterateThroughStrategies&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
+            &quot;line&quot;: 95,
+            &quot;function&quot;: &quot;fetchResponses&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 124,
+            &quot;function&quot;: &quot;processRoute&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 71,
+            &quot;function&quot;: &quot;extractEndpointsInfoFromLaravelApp&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
+            &quot;line&quot;: 49,
+            &quot;function&quot;: &quot;extractEndpointsInfoAndWriteToDisk&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\knuckleswtf\\scribe\\src\\Commands\\GenerateDocumentation.php&quot;,
+            &quot;line&quot;: 51,
+            &quot;function&quot;: &quot;get&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
+            &quot;line&quot;: 36,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Knuckles\\Scribe\\Commands\\GenerateDocumentation&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php&quot;,
+            &quot;line&quot;: 41,
+            &quot;function&quot;: &quot;Illuminate\\Container\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
+            &quot;line&quot;: 93,
+            &quot;function&quot;: &quot;unwrapIfClosure&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Util&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;callBoundMethod&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php&quot;,
+            &quot;line&quot;: 662,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
+            &quot;type&quot;: &quot;::&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php&quot;,
+            &quot;line&quot;: 211,
+            &quot;function&quot;: &quot;call&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Container\\Container&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\symfony\\console\\Command\\Command.php&quot;,
+            &quot;line&quot;: 326,
+            &quot;function&quot;: &quot;execute&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php&quot;,
+            &quot;line&quot;: 181,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Command\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\symfony\\console\\Application.php&quot;,
+            &quot;line&quot;: 1081,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\symfony\\console\\Application.php&quot;,
+            &quot;line&quot;: 320,
+            &quot;function&quot;: &quot;doRunCommand&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\symfony\\console\\Application.php&quot;,
+            &quot;line&quot;: 174,
+            &quot;function&quot;: &quot;doRun&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php&quot;,
+            &quot;line&quot;: 201,
+            &quot;function&quot;: &quot;run&quot;,
+            &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;E:\\PLAYGROUND\\laragpt\\artisan&quot;,
+            &quot;line&quot;: 37,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Foundation\\Console\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -3896,10 +4855,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-prompts--id-"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>1</code></p>
+<p>The ID of the prompt. Example: <code>4</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -3927,7 +4886,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/prompts/1" \
+    "http://localhost:8000/api/prompts/10" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3940,7 +4899,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/1"
+    "http://localhost:8000/api/prompts/10"
 );
 
 const headers = {
@@ -4040,10 +4999,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-prompts--id-"
-               value="1"
+               value="10"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>1</code></p>
+<p>The ID of the prompt. Example: <code>10</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -4105,14 +5064,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/prompts/1" \
+    "http://localhost:8000/api/prompts/19" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/1"
+    "http://localhost:8000/api/prompts/19"
 );
 
 const headers = {
@@ -4205,10 +5164,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-prompts--id-"
-               value="1"
+               value="19"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>1</code></p>
+<p>The ID of the prompt. Example: <code>19</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -4240,7 +5199,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery?page=8" \
+    --get "http://localhost:8000/api/project-summery?page=20" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -4251,7 +5210,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "8",
+    "page": "20",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -4284,35 +5243,9 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;current_page&quot;: 8,
     &quot;data&quot;: [],
-    &quot;first_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
-    &quot;from&quot;: null,
-    &quot;last_page&quot;: 1,
-    &quot;last_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
-    &quot;links&quot;: [
-        {
-            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=7&quot;,
-            &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
-            &quot;active&quot;: false
-        },
-        {
-            &quot;url&quot;: &quot;http://localhost:8000/api/project-summery?page=1&quot;,
-            &quot;label&quot;: &quot;1&quot;,
-            &quot;active&quot;: false
-        },
-        {
-            &quot;url&quot;: null,
-            &quot;label&quot;: &quot;Next &amp;raquo;&quot;,
-            &quot;active&quot;: false
-        }
-    ],
-    &quot;next_page_url&quot;: null,
-    &quot;path&quot;: &quot;http://localhost:8000/api/project-summery&quot;,
-    &quot;per_page&quot;: 10,
-    &quot;prev_page_url&quot;: &quot;http://localhost:8000/api/project-summery?page=7&quot;,
-    &quot;to&quot;: null,
-    &quot;total&quot;: 0
+    &quot;total&quot;: 2,
+    &quot;current_page&quot;: 20
 }</code>
  </pre>
     </span>
@@ -4392,10 +5325,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-summery"
-               value="8"
+               value="20"
                data-component="query">
     <br>
-<p>page number. Example: <code>8</code></p>
+<p>page number. Example: <code>20</code></p>
             </div>
                 </form>
 
@@ -4416,11 +5349,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptText\": \"saepe\",
-    \"projectName\": \"eum\",
-    \"clientPhone\": \"veritatis\",
-    \"clientEmail\": \"philip35@example.org\",
-    \"clientWebsite\": \"eum\"
+    \"transcriptText\": \"exercitationem\",
+    \"projectName\": \"et\",
+    \"clientPhone\": \"eum\",
+    \"clientEmail\": \"jschinner@example.com\",
+    \"clientWebsite\": \"iure\"
 }"
 </code></pre></div>
 
@@ -4436,11 +5369,11 @@ const headers = {
 };
 
 let body = {
-    "transcriptText": "saepe",
-    "projectName": "eum",
-    "clientPhone": "veritatis",
-    "clientEmail": "philip35@example.org",
-    "clientWebsite": "eum"
+    "transcriptText": "exercitationem",
+    "projectName": "et",
+    "clientPhone": "eum",
+    "clientEmail": "jschinner@example.com",
+    "clientWebsite": "iure"
 };
 
 fetch(url, {
@@ -4529,10 +5462,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-project-summery"
-               value="saepe"
+               value="exercitationem"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>saepe</code></p>
+<p>The text of the transcript. Example: <code>exercitationem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectName</code></b>&nbsp;&nbsp;
@@ -4540,10 +5473,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="projectName"                data-endpoint="POSTapi-project-summery"
-               value="eum"
+               value="et"
                data-component="body">
     <br>
-<p>The name of the project. Example: <code>eum</code></p>
+<p>The name of the project. Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientPhone</code></b>&nbsp;&nbsp;
@@ -4551,10 +5484,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientPhone"                data-endpoint="POSTapi-project-summery"
-               value="veritatis"
+               value="eum"
                data-component="body">
     <br>
-<p>The phone number of the client. Example: <code>veritatis</code></p>
+<p>The phone number of the client. Example: <code>eum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientEmail</code></b>&nbsp;&nbsp;
@@ -4562,10 +5495,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientEmail"                data-endpoint="POSTapi-project-summery"
-               value="philip35@example.org"
+               value="jschinner@example.com"
                data-component="body">
     <br>
-<p>The email of the client. Example: <code>philip35@example.org</code></p>
+<p>The email of the client. Example: <code>jschinner@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientWebsite</code></b>&nbsp;&nbsp;
@@ -4573,10 +5506,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientWebsite"                data-endpoint="POSTapi-project-summery"
-               value="eum"
+               value="iure"
                data-component="body">
     <br>
-<p>The website of the client. Example: <code>eum</code></p>
+<p>The website of the client. Example: <code>iure</code></p>
         </div>
         </form>
 
@@ -4593,14 +5526,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery/14" \
+    --get "http://localhost:8000/api/project-summery/15" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/14"
+    "http://localhost:8000/api/project-summery/15"
 );
 
 const headers = {
@@ -4712,10 +5645,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-project-summery--id-"
-               value="14"
+               value="15"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>14</code></p>
+<p>Id of the transcript. Example: <code>15</code></p>
             </div>
                     </form>
 
@@ -4732,18 +5665,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-summery/2" \
+    "http://localhost:8000/api/project-summery/19" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"summaryText\": 4
+    \"summaryText\": 6
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/2"
+    "http://localhost:8000/api/project-summery/19"
 );
 
 const headers = {
@@ -4752,7 +5685,7 @@ const headers = {
 };
 
 let body = {
-    "summaryText": 4
+    "summaryText": 6
 };
 
 fetch(url, {
@@ -4841,10 +5774,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-project-summery--id-"
-               value="2"
+               value="19"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>2</code></p>
+<p>Id of the transcript. Example: <code>19</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4853,10 +5786,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="summaryText"                data-endpoint="PUTapi-project-summery--id-"
-               value="4"
+               value="6"
                data-component="body">
     <br>
-<p>summaryText of the SOW Meeting Summery. Example: <code>4</code></p>
+<p>summaryText of the SOW Meeting Summery. Example: <code>6</code></p>
         </div>
         </form>
 
@@ -4873,14 +5806,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-summery/11" \
+    "http://localhost:8000/api/project-summery/13" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/11"
+    "http://localhost:8000/api/project-summery/13"
 );
 
 const headers = {
@@ -4973,10 +5906,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-project-summery--id-"
-               value="11"
+               value="13"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>11</code></p>
+<p>Id of the transcript. Example: <code>13</code></p>
             </div>
                     </form>
 
@@ -5001,7 +5934,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 13
+    \"problemGoalID\": 10
 }"
 </code></pre></div>
 
@@ -5017,7 +5950,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 13
+    "problemGoalID": 10
 };
 
 fetch(url, {
@@ -5106,10 +6039,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-scope-of-work"
-               value="13"
+               value="10"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>13</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>10</code></p>
         </div>
         </form>
 
@@ -5126,18 +6059,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/scope-of-work/7" \
+    "http://localhost:8000/api/scope-of-work/12" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"scopeText\": \"dolor\"
+    \"scopeText\": \"consequuntur\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/scope-of-work/7"
+    "http://localhost:8000/api/scope-of-work/12"
 );
 
 const headers = {
@@ -5146,7 +6079,7 @@ const headers = {
 };
 
 let body = {
-    "scopeText": "dolor"
+    "scopeText": "consequuntur"
 };
 
 fetch(url, {
@@ -5235,10 +6168,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="7"
+               value="12"
                data-component="url">
     <br>
-<p>Id of the Scope of Work. Example: <code>7</code></p>
+<p>Id of the Scope of Work. Example: <code>12</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -5247,10 +6180,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="scopeText"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="dolor"
+               value="consequuntur"
                data-component="body">
     <br>
-<p>text of the Scope of Work. Example: <code>dolor</code></p>
+<p>text of the Scope of Work. Example: <code>consequuntur</code></p>
         </div>
         </form>
 
@@ -5544,14 +6477,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/categories/3?category_id=1" \
+    --get "http://localhost:8000/api/categories/5?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/3"
+    "http://localhost:8000/api/categories/5"
 );
 
 const params = {
@@ -5664,10 +6597,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="GETapi-categories--category_id-"
-               value="3"
+               value="5"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>3</code></p>
+<p>The ID of the category. Example: <code>5</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -5696,7 +6629,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/categories/17?category_id=1" \
+    "http://localhost:8000/api/categories/10?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -5707,7 +6640,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/17"
+    "http://localhost:8000/api/categories/10"
 );
 
 const params = {
@@ -5829,10 +6762,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="PUTapi-categories--category_id-"
-               value="17"
+               value="10"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>17</code></p>
+<p>The ID of the category. Example: <code>10</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -5873,14 +6806,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/categories/4?category_id=1" \
+    "http://localhost:8000/api/categories/18?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/4"
+    "http://localhost:8000/api/categories/18"
 );
 
 const params = {
@@ -5988,10 +6921,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="DELETEapi-categories--category_id-"
-               value="4"
+               value="18"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>4</code></p>
+<p>The ID of the category. Example: <code>18</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6363,14 +7296,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/components/20?component_id=1" \
+    --get "http://localhost:8000/api/components/5?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/20"
+    "http://localhost:8000/api/components/5"
 );
 
 const params = {
@@ -6492,10 +7425,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="GETapi-components--component_id-"
-               value="20"
+               value="5"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>20</code></p>
+<p>The ID of the component. Example: <code>5</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6524,7 +7457,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/components/7?component_id=1" \
+    "http://localhost:8000/api/components/20?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -6538,7 +7471,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/7"
+    "http://localhost:8000/api/components/20"
 );
 
 const params = {
@@ -6672,10 +7605,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="PUTapi-components--component_id-"
-               value="7"
+               value="20"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>7</code></p>
+<p>The ID of the component. Example: <code>20</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6749,14 +7682,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/components/4?component_id=1" \
+    "http://localhost:8000/api/components/13?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/4"
+    "http://localhost:8000/api/components/13"
 );
 
 const params = {
@@ -6864,10 +7797,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="DELETEapi-components--component_id-"
-               value="4"
+               value="13"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>4</code></p>
+<p>The ID of the component. Example: <code>13</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">

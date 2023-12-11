@@ -28,13 +28,13 @@ endpoints:
         name: transcriptId
         description: 'Id of the transcript.'
         required: true
-        example: 10
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      transcriptId: 10
+      transcriptId: 3
     fileParameters: []
     responses: []
     responseFields: []
@@ -64,13 +64,13 @@ endpoints:
         name: id
         description: 'Id of the problems and goals.'
         required: true
-        example: 8
+        example: 7
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 7
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -78,13 +78,13 @@ endpoints:
         name: problemGoalText
         description: 'text of the ProblemsAndGoals.'
         required: true
-        example: repudiandae
+        example: praesentium
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalText: repudiandae
+      problemGoalText: praesentium
     fileParameters: []
     responses: []
     responseFields: []

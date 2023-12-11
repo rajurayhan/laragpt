@@ -78,13 +78,13 @@ endpoints:
         name: overviewText
         description: 'text of the ProjectOverview.'
         required: true
-        example: enim
+        example: corporis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      overviewText: enim
+      overviewText: corporis
     fileParameters: []
     responses: []
     responseFields: []

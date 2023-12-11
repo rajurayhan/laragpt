@@ -26,13 +26,13 @@ endpoints:
         name: problemGoalID
         description: 'Id of the ProblemsAndGoals.'
         required: true
-        example: 13
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      problemGoalID: 13
+      problemGoalID: 10
     fileParameters: []
     responses: []
     responseFields: []
@@ -62,13 +62,13 @@ endpoints:
         name: id
         description: 'Id of the Scope of Work.'
         required: true
-        example: 7
+        example: 12
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 12
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -76,13 +76,13 @@ endpoints:
         name: scopeText
         description: 'text of the Scope of Work.'
         required: true
-        example: dolor
+        example: consequuntur
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      scopeText: dolor
+      scopeText: consequuntur
     fileParameters: []
     responses: []
     responseFields: []

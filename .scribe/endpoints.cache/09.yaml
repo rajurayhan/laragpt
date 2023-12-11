@@ -195,13 +195,13 @@ endpoints:
         name: component_id
         description: 'The ID of the component.'
         required: true
-        example: 20
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      component_id: 20
+      component_id: 5
     queryParameters:
       component_id:
         name: component_id
@@ -271,13 +271,13 @@ endpoints:
         name: component_id
         description: 'The ID of the component.'
         required: true
-        example: 7
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      component_id: 7
+      component_id: 20
     queryParameters:
       component_id:
         name: component_id
@@ -386,13 +386,13 @@ endpoints:
         name: component_id
         description: 'The ID of the component.'
         required: true
-        example: 4
+        example: 13
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      component_id: 4
+      component_id: 13
     queryParameters:
       component_id:
         name: component_id

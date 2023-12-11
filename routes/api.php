@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DeliverablesController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectOverviewController;
 use App\Http\Controllers\Api\ProjectSummeryController;
@@ -51,6 +52,10 @@ Route::delete('/meeting-summery/{id}', [ProjectSummeryController::class, 'delete
 // problems-goals api
 Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');
 Route::post('/problems-and-goals/{id}', [ProblemAndGoalController::class, 'update'])->name('problems.goals.update');
+
+// deliverables api
+Route::post('/deliverables', [DeliverablesController::class, 'create'])->name('deliverables.create');
+Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
 
 // project-overview routes
 Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');

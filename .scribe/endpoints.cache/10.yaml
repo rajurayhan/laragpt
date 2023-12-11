@@ -98,7 +98,7 @@ endpoints:
         description: 'An array of component details.'
         required: true
         example:
-          - velit
+          - earum
         type: 'string[]'
         enumValues: []
         exampleWasSpecified: false
@@ -107,7 +107,7 @@ endpoints:
         name: 'components[].component_id'
         description: ''
         required: true
-        example: aut
+        example: corporis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -142,7 +142,7 @@ endpoints:
     cleanBodyParameters:
       project_id: 1
       components:
-        - velit
+        - earum
     fileParameters: []
     responses:
       -
@@ -198,13 +198,13 @@ endpoints:
         name: id
         description: 'The ID of the project component.'
         required: true
-        example: eum
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: eum
+      id: qui
     queryParameters:
       project_id:
         name: project_id
@@ -311,13 +311,13 @@ endpoints:
         name: id
         description: 'The ID of the project component.'
         required: true
-        example: ut
+        example: sapiente
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: ut
+      id: sapiente
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -326,7 +326,7 @@ endpoints:
         description: 'An array of component details.'
         required: true
         example:
-          - culpa
+          - sint
         type: 'string[]'
         enumValues: []
         exampleWasSpecified: false
@@ -335,7 +335,7 @@ endpoints:
         name: 'components[].component_id'
         description: ''
         required: true
-        example: officiis
+        example: corporis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -344,7 +344,7 @@ endpoints:
         name: 'components[].quantity'
         description: 'Must be at least 1.'
         required: true
-        example: 83
+        example: 44
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -378,7 +378,7 @@ endpoints:
         custom: []
     cleanBodyParameters:
       components:
-        - culpa
+        - sint
       project_id: 1
     fileParameters: []
     responses:
@@ -435,13 +435,13 @@ endpoints:
         name: id
         description: 'The ID of the project component.'
         required: true
-        example: ut
+        example: id
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: ut
+      id: id
     queryParameters:
       project_id:
         name: project_id

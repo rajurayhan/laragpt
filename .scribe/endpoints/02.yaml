@@ -3,6 +3,57 @@ description: ''
 endpoints:
   -
     httpMethods:
+      - GET
+    uri: api/meeting-summery
+    metadata:
+      groupName: 'Meeting Summery'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get Meeting Summery List'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      page:
+        name: page
+        description: 'page number.'
+        required: false
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanQueryParameters:
+      page: 6
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[],"total":0,"current_page":6}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '55'
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
       - POST
     uri: api/meeting-summery
     metadata:
@@ -26,13 +77,154 @@ endpoints:
         name: transcriptText
         description: 'The text of the transcript.'
         required: true
-        example: ad
+        example: perspiciatis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      transcriptText: ad
+      transcriptText: perspiciatis
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/meeting-summery/{id}'
+    metadata:
+      groupName: 'Meeting Summery'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Show Meeting Summery'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'Id of the transcript.'
+        required: false
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 20
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: '{"message":"Data Showed Successfully","data":null}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '54'
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/meeting-summery/{id}'
+    metadata:
+      groupName: 'Meeting Summery'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update Meeting Summery'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'Id of the transcript.'
+        required: false
+        example: 9
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 9
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      summaryText:
+        name: summaryText
+        description: 'summaryText of the SOW Meeting Summery.'
+        required: true
+        example: 13
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      summaryText: 13
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/meeting-summery/{id}'
+    metadata:
+      groupName: 'Meeting Summery'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Meeting Summery'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'Id of the transcript.'
+        required: false
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 18
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses: []
     responseFields: []

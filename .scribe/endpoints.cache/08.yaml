@@ -138,13 +138,13 @@ endpoints:
         name: category_id
         description: 'The ID of the category.'
         required: true
-        example: 3
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      category_id: 3
+      category_id: 5
     queryParameters:
       category_id:
         name: category_id
@@ -205,13 +205,13 @@ endpoints:
         name: category_id
         description: 'The ID of the category.'
         required: true
-        example: 17
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      category_id: 17
+      category_id: 10
     queryParameters:
       category_id:
         name: category_id
@@ -281,13 +281,13 @@ endpoints:
         name: category_id
         description: 'The ID of the category.'
         required: true
-        example: 4
+        example: 18
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      category_id: 4
+      category_id: 18
     queryParameters:
       category_id:
         name: category_id
