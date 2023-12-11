@@ -42,11 +42,11 @@ Route::get('/project-summery/{id}', [ProjectSummeryController::class, 'show'])->
 Route::put('/project-summery/{id}', [ProjectSummeryController::class, 'update'])->name('project.summery.update');
 Route::delete('/project-summery/{id}', [ProjectSummeryController::class, 'delete'])->name('project.summery.delete');
 
-// Route::get('/meeting-summery', [ProjectSummeryController::class, 'storeMeetingSummery'])->name('meeting.summery.list');
+Route::get('/meeting-summery', [ProjectSummeryController::class, 'indexMeetingSummery'])->name('meeting.summery.list');
 Route::post('/meeting-summery', [ProjectSummeryController::class, 'storeMeetingSummery'])->name('meeting.summery.create');
-// Route::get('/meeting-summery/{id}', [ProjectSummeryController::class, 'storeMeetingSummery'])->name('meeting.summery.show');
-// Route::put('/meeting-summery/{id}', [ProjectSummeryController::class, 'storeMeetingSummery'])->name('meeting.summery.update');
-// Route::delete('/meeting-summery/{id}', [ProjectSummeryController::class, 'storeMeetingSummery'])->name('meeting.summery.update');
+Route::get('/meeting-summery/{id}', [ProjectSummeryController::class, 'showMeetingSummery'])->name('meeting.summery.show');
+Route::put('/meeting-summery/{id}', [ProjectSummeryController::class, 'updateMeetingSummery'])->name('meeting.summery.update');
+Route::delete('/meeting-summery/{id}', [ProjectSummeryController::class, 'deleteMeetingSummery'])->name('meeting.summery.update');
 
 // problems-goals api
 Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');
