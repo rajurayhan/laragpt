@@ -15,4 +15,11 @@ use App\Models\Prompt;
             }
             return null;
         }
+
+        public static function create($type, $data){
+            Prompt::updateOrCreate(
+                ['type' => $type],
+                $data
+            );
+        }
     }
