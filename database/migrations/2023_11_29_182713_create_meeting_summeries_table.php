@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('meeting_summeries', function (Blueprint $table) {
             $table->id();
+            $table->longText('transcriptText');
             $table->longText('meetingSummeryText');
+            $table->longText('meetingName');
+            $table->integer('meetingType');
             $table->timestamps();
         });
     }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MeetingSummery extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'transcriptText',
+        'meetingSummeryText',
+        'meetingName',
+        'meetingType',
+    ];
 }

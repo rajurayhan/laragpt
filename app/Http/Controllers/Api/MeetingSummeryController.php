@@ -32,19 +32,26 @@ class MeetingSummeryController extends Controller
      * @group Meeting Summery
      *
      * @bodyParam transcriptText string required The text of the transcript.
+     * @bodyParam meetingName string required Name of the meeting.
+     * @bodyParam meetingType integer required Meeting type [1: Client, 2: Intenal].
      */
 
     public function storeMeetingSummery(Request $request){
         set_time_limit(500);
         $validatedData = $request->validate([
             'transcriptText' => 'required|string',
+            'meetingName' => 'required|string',
+            'meetingType' => 'required|integer',
         ]);
 
         // Generate Summery
         $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText);
 
         $meetingSummeryObj = new MeetingSummery();
+        $meetingSummeryObj->meetingName = $request->meetingName;
+        $meetingSummeryObj->meetingType = $request->meetingType;
         $meetingSummeryObj->meetingSummeryText = $summery;
+        $meetingSummeryObj->transcriptText = $request->transcriptText;
 
         $meetingSummeryObj->save();
 
@@ -63,16 +70,23 @@ class MeetingSummeryController extends Controller
      *
      * @urlParam id int Id of the transcript.
      * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
+     * @bodyParam meetingName string required Name of the meeting.
+     * @bodyParam meetingType integer required Meeting type [1: Client, 2: Intenal].
      */
 
     public function updateMeetingSummery($id, Request $request){
 
         $validatedData = $request->validate([
             'summaryText' => 'required|string',
+            'meetingName' => 'required|string',
+            'meetingType' => 'required|integer',
         ]);
 
         $meetingSummeryObj = MeetingSummery::find($id);
         $meetingSummeryObj->meetingSummeryText = $request->summaryText;
+        $meetingSummeryObj->meetingName = $request->meetingName;
+        $meetingSummeryObj->meetingType = $request->meetingType;
+        $meetingSummeryObj->transcriptText = $request->transcriptText;
 
         $meetingSummeryObj->save();
         $response = [
