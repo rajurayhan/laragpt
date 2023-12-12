@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
 use App\Services\OpenAIGeneratorService;
+use App\Services\PromptService;
 use Illuminate\Http\Request;
 
 class MeetingSummeryController extends Controller
 {
+    private $promptType = PromptType::MEETING_SUMMARY;
     /**
      * Get Meeting Summery List
      *
@@ -38,6 +41,14 @@ class MeetingSummeryController extends Controller
 
     public function storeMeetingSummery(Request $request){
         set_time_limit(500);
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
         $validatedData = $request->validate([
             'transcriptText' => 'required|string',
             'meetingName' => 'required|string',
@@ -45,7 +56,7 @@ class MeetingSummeryController extends Controller
         ]);
 
         // Generate Summery
-        $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText);
+        $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText, $prompt->prompt);
 
         $meetingSummeryObj = new MeetingSummery();
         $meetingSummeryObj->meetingName = $request->meetingName;

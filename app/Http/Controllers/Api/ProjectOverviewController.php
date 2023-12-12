@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectOverview;
 use App\Services\OpenAIGeneratorService;
+use App\Services\PromptService;
 use Illuminate\Http\Request;
 
 class ProjectOverviewController extends Controller
@@ -22,12 +23,22 @@ class ProjectOverviewController extends Controller
      */
 
     public function create(Request $request){
+        set_time_limit(500);
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::PROJECT_OVERVIEW',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
+
         $validatedData = $request->validate([
             'problemGoalID' => 'required|int'
         ]);
 
         $problemGoalsObj      = ProblemsAndGoals::findOrFail($request->problemGoalID);
-        $projectOverview   = OpenAIGeneratorService::generateProjectOverview($problemGoalsObj->problemGoalText);
+        $projectOverview   = OpenAIGeneratorService::generateProjectOverview($problemGoalsObj->problemGoalText, $prompt->prompt);
 
         $projectOverviewObj = ProjectOverview::updateOrCreate(
             ['problemGoalID' => $request->problemGoalID],

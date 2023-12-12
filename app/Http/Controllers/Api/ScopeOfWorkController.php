@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProblemsAndGoals;
 use App\Models\ScopeOfWork;
 use App\Services\OpenAIGeneratorService;
+use App\Services\PromptService;
 use Illuminate\Http\Request;
 
 class ScopeOfWorkController extends Controller
@@ -23,12 +24,20 @@ class ScopeOfWorkController extends Controller
 
     public function create(Request $request){
         set_time_limit(500);
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
         $validatedData = $request->validate([
             'problemGoalID' => 'required|int'
         ]);
 
         $problemGoalsObj      = ProblemsAndGoals::findOrFail($request->problemGoalID);
-        $scopeOfWork   = OpenAIGeneratorService::generateScopeOfWork($problemGoalsObj->problemGoalText);
+        $scopeOfWork   = OpenAIGeneratorService::generateScopeOfWork($problemGoalsObj->problemGoalText, $prompt->prompt);
 
         $scopeOfWorkObj = ScopeOfWork::updateOrCreate(
             ['problemGoalID' => $request->problemGoalID],

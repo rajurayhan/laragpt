@@ -7,7 +7,7 @@
     {
         private $model = 'gpt-4-1106-preview';
 
-        public static function generateSummery($transcript){
+        public static function generateSummery($transcript, $promptText){
             // Step One: Generate Summery from transcript
             $summeryResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
@@ -25,7 +25,7 @@
 
             return $summery;
         }
-        public static function generateMeetingSummery($transcript){
+        public static function generateMeetingSummery($transcript, $promptText){
             // Step One: Generate Summery from transcript
             $summeryResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
@@ -44,7 +44,7 @@
             return $summery;
         }
 
-        public static function generateProblemsAndGoals($transcript){
+        public static function generateProblemsAndGoals($transcript, $promptText){
             $problemsAndGoalsResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
                 'messages' => [
@@ -63,7 +63,7 @@
             return $problemsAndGoals;
         }
 
-        public static function generateProjectOverview($problemsAndGoals){
+        public static function generateProjectOverview($problemsAndGoals, $promptText){
             $projectOverViewResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
                 'messages' => [
@@ -82,7 +82,7 @@
             return $projectOverView;
         }
 
-        public static function generateScopeOfWork($problemsAndGoals){
+        public static function generateScopeOfWork($problemsAndGoals, $promptText){
             $scopeOfWorkResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
                 'messages' => [
@@ -101,7 +101,7 @@
             return $scopeOfWork;
         }
 
-        public static function generateDeliverables($scopeOfWork){
+        public static function generateDeliverables($scopeOfWork, $promptText){
 
             $deliverablesResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',

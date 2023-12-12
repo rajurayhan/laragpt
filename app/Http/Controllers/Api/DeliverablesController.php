@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Deliberable;
 use App\Models\ScopeOfWork;
 use App\Services\OpenAIGeneratorService;
+use App\Services\PromptService;
 use Illuminate\Http\Request;
 
 class DeliverablesController extends Controller
@@ -21,12 +22,21 @@ class DeliverablesController extends Controller
      */
 
     public function create(Request $request){
+        set_time_limit(500);
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::DELIVERABLES',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
         $validatedData = $request->validate([
             'scopeOfWorkId' => 'required|int'
         ]);
 
         $scopeOfWorkObj      = ScopeOfWork::findOrFail($request->scopeOfWorkId);
-        $deliverables   = OpenAIGeneratorService::generateDeliverables($scopeOfWorkObj->scopeText);
+        $deliverables   = OpenAIGeneratorService::generateDeliverables($scopeOfWorkObj->scopeText, $prompt->prompt);
 
         $deliverablesObj = Deliberable::updateOrCreate(
             ['scopeOfWorkId' => $request->scopeOfWorkId],

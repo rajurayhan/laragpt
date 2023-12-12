@@ -8,12 +8,13 @@ use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
 use App\Services\OpenAIGeneratorService;
+use App\Services\PromptService;
 use Illuminate\Http\Request;
 
 class ProjectSummeryController extends Controller
 {
 
-    private $promptType = PromptType::PROJECT_SUMMARY;
+    private $promptType = PromptType::MEETING_SUMMARY;
 
     /**
      * Get SOW Meeting Summery List
@@ -46,6 +47,14 @@ class ProjectSummeryController extends Controller
 
     public function store(Request $request){
         set_time_limit(500);
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
         $validatedData = $request->validate([
             'transcriptText' => 'required|string',
             'projectName' => 'required|string',
@@ -58,7 +67,7 @@ class ProjectSummeryController extends Controller
         $meetingObj->save();
 
         // Generate Summery
-        $summery = OpenAIGeneratorService::generateSummery($request->transcriptText);
+        $summery = OpenAIGeneratorService::generateSummery($request->transcriptText, $prompt->prompt);
 
         $projectSummeryObj = new ProjectSummary();
         $projectSummeryObj->summaryText = $summery;
