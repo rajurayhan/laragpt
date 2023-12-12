@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
-use App\Models\Prompt; 
+use App\Models\Prompt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
  * @group Prompts Management
- * 
+ *
  * APIs for managing prompts
  */
 class PromptController extends Controller
@@ -49,13 +49,18 @@ class PromptController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([ 
+        $validatedData = $request->validate([
             'type' => 'required|integer|in:' . implode(',', PromptType::getValues()),
             'prompt' => 'required|string',
             'name' => 'required|string',
         ]);
 
-        $prompt = Prompt::create($validatedData);
+        // $prompt = Prompt::create($validatedData);
+        $prompt = Prompt::updateOrCreate(
+            ['type' => $request->type],
+            ['prompt' => $request->prompt],
+            ['name' => $request->name]
+        );
         $response = [
             'message' => 'Created Successfully ',
             'data' => $prompt,
@@ -136,7 +141,7 @@ class PromptController extends Controller
             'data' => []
         ];
 
-        return response()->json($response, 204); 
+        return response()->json($response, 204);
     }
 }
 
