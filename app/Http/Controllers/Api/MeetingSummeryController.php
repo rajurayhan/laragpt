@@ -192,7 +192,7 @@ class MeetingSummeryController extends Controller
                 $data = $response->json(); // Get the response data
                 $transcript = '';
                 foreach ($data['data'] as $key => $content) {
-                    $transcript .= $content['speaker'] .': '. $content['text'].PHP_EOL;
+                    $transcript .= $content['speaker'] .': '. $content['text'].'\n';
                 }
                 return $transcript;
             } else {
