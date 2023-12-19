@@ -15,6 +15,8 @@ class MeetingTranscript extends Model
     protected $fillable = [
         'transcriptText',
         'projectName',
+        'projectType',
+        'company',
         'clientPhone',
         'clientEmail',
         'clientWebsite',

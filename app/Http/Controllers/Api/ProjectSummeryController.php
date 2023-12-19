@@ -39,6 +39,7 @@ class ProjectSummeryController extends Controller
      *
      * @group SOW Meeting Summery
      *
+     * @bodyParam transcriptId integer The id of the transcript to regenrate.
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
      * @bodyParam projectType string required The type of the project.
@@ -59,6 +60,7 @@ class ProjectSummeryController extends Controller
             return response()->json($response, 422);
         }
         $validatedData = $request->validate([
+            'transcriptId' => 'nullable|integer',
             'transcriptText' => 'required|string',
             'projectName' => 'required|string',
             'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
@@ -67,18 +69,37 @@ class ProjectSummeryController extends Controller
             'clientEmail' => 'nullable|email',
             'clientWebsite' => 'nullable|url',
         ]);
-        $meetingObj = MeetingTranscript::create($validatedData);
 
-        $meetingObj->save();
+        if($request->filled('transcriptId')){
+            $meetingObj = MeetingTranscript::findOrFail($request->transcriptId);
+            $meetingObj->transcriptText = $request->transcriptText;
+            $meetingObj->projectName = $request->projectName;
+            $meetingObj->projectType = $request->projectType;
+            $meetingObj->company = $request->company;
+            $meetingObj->clientPhone = $request->clientPhone;
+            $meetingObj->clientEmail = $request->clientEmail;
+            $meetingObj->clientWebsite = $request->clientWebsite;
+            $meetingObj->save();
+        }
+        else{
+            $meetingObj = MeetingTranscript::create($validatedData);
+        }
+
+
 
         // Generate Summery
         $summery = OpenAIGeneratorService::generateSummery($request->transcriptText, $prompt->prompt);
 
-        $projectSummeryObj = new ProjectSummary();
-        $projectSummeryObj->summaryText = $summery;
-        $projectSummeryObj->transcriptId = $meetingObj->id;
+        // $projectSummeryObj = new ProjectSummary();
+        // $projectSummeryObj->summaryText = $summery;
+        // $projectSummeryObj->transcriptId = $meetingObj->id;
 
-        $projectSummeryObj->save();
+        // $projectSummeryObj->save();
+
+        $projectSummeryObj = ProjectSummary::updateOrCreate(
+            ['transcriptId' => $meetingObj->id],
+            ['summaryText' => $summery]
+        );
 
         $projectSummeryObj->meetingTranscript = $meetingObj;
 
