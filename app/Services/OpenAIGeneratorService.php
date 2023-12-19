@@ -22,7 +22,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            \Log::info(['summery' => $summery]);
+            // \Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -41,7 +41,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            \Log::info(['summery' => $summery]);
+            // \Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -61,7 +61,7 @@
             ]);
 
             $problemsAndGoals = $problemsAndGoalsResult['choices'][0]['message']['content'];
-            \Log::info(['problemsAndGoals' => $problemsAndGoals]);
+            // \Log::info(['problemsAndGoals' => $problemsAndGoals]);
 
             return $problemsAndGoals;
         }
@@ -81,7 +81,7 @@
             ]);
 
             $projectOverView = $projectOverViewResult['choices'][0]['message']['content'];
-            \Log::info(['projectOverView' => $projectOverView]);
+            // \Log::info(['projectOverView' => $projectOverView]);
 
             return $projectOverView;
         }
@@ -101,7 +101,7 @@
             ]);
 
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
-            \Log::info(['scopeOfWork' => $scopeOfWork]);
+            // \Log::info(['scopeOfWork' => $scopeOfWork]);
 
             return $scopeOfWork;
         }
@@ -122,7 +122,7 @@
             ]);
 
             $deliverables = $deliverablesResult['choices'][0]['message']['content'];
-            \Log::info(['deliverables' => $deliverables]);
+            // \Log::info(['deliverables' => $deliverables]);
             return $deliverables;
         }
 

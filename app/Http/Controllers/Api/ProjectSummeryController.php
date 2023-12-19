@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ProjectType;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
@@ -40,6 +41,8 @@ class ProjectSummeryController extends Controller
      *
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
+     * @bodyParam projectType string required The type of the project.
+     * @bodyParam company string required The company name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
      * @bodyParam clientWebsite string The website of the client.
@@ -58,6 +61,8 @@ class ProjectSummeryController extends Controller
         $validatedData = $request->validate([
             'transcriptText' => 'required|string',
             'projectName' => 'required|string',
+            'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
+            'company' => 'required|string',
             'clientPhone' => 'nullable|string',
             'clientEmail' => 'nullable|email',
             'clientWebsite' => 'nullable|url',
