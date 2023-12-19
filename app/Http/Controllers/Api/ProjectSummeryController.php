@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
+use App\Rules\USPhoneNumber;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class ProjectSummeryController extends Controller
      * @bodyParam transcriptId integer The id of the transcript to regenrate.
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
-     * @bodyParam projectType string required The type of the project.
+     * @bodyParam projectType integer required The type of the project.
      * @bodyParam company string required The company name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
@@ -66,6 +67,7 @@ class ProjectSummeryController extends Controller
             'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
             'company' => 'required|string',
             'clientPhone' => 'nullable|string',
+            // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
             'clientEmail' => 'nullable|email',
             'clientWebsite' => 'nullable|url',
         ]);
