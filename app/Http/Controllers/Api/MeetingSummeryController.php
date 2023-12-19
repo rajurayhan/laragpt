@@ -20,7 +20,7 @@ class MeetingSummeryController extends Controller
      * @queryParam page integer page number.
      */
     public function indexMeetingSummery(){
-        $meetings = MeetingSummery::paginate(10);
+        $meetings = MeetingSummery::latest()->paginate(10);
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
