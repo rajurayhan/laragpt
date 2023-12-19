@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
+use App\Services\ClickUpCommentUploader;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class MeetingSummeryController extends Controller
      */
 
     public function storeMeetingSummery(Request $request){
+        // return $taskId = $this->getLastPartOfUrl($request->clickupLink);
         // return $this->getLastPartOfUrl($request->tldvLink);
         set_time_limit(500);
         $prompt = PromptService::findPromptByType($this->promptType);
@@ -81,6 +83,14 @@ class MeetingSummeryController extends Controller
         $meetingSummeryObj->transcriptText = $transcript ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();
+
+        // Push to clickup
+
+        $taskId = $this->getLastPartOfUrl($request->clickupLink);
+        if($taskId){
+            $clickupUploader = new ClickUpCommentUploader($taskId, $summery);
+            // $clickupUploader->pushComment();
+        }
 
         $response = [
             'message' => 'Created Successfully',
