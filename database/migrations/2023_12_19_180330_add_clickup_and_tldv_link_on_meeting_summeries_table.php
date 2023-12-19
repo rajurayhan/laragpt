@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('meeting_summeries', function (Blueprint $table) {
-             $table->integer('clickupLink')->after('meetingType')->nullable();
-             $table->integer('tldvLink')->after('clickupLink')->nullable();
+             $table->string('clickupLink')->after('meetingType')->nullable();
+             $table->string('tldvLink')->after('clickupLink')->nullable();
         });
     }
 

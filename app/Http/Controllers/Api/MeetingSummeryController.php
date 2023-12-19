@@ -56,7 +56,7 @@ class MeetingSummeryController extends Controller
         $validatedData = $request->validate([
             'clickupLink' => 'required|string',
             'tldvLink' => 'nullable|string',
-            'transcriptText' => 'required_without:tldvLink,string',
+            'transcriptText' => 'required_without:tldvLink',
             'meetingName' => 'required|string',
             'meetingType' => 'required|integer',
         ]);
@@ -70,7 +70,7 @@ class MeetingSummeryController extends Controller
         }
 
         // Generate Summery
-        $summery = OpenAIGeneratorService::generateMeetingSummery($request->transcriptText, $prompt->prompt);
+        $summery = OpenAIGeneratorService::generateMeetingSummery($transcript ? $transcript : $request->transcriptText, $prompt->prompt);
 
         $meetingSummeryObj = new MeetingSummery();
         $meetingSummeryObj->meetingName = $request->meetingName;
@@ -78,7 +78,7 @@ class MeetingSummeryController extends Controller
         $meetingSummeryObj->tldvLink = $request->tldvLink;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
         $meetingSummeryObj->meetingSummeryText = $summery;
-        $meetingSummeryObj->transcriptText = $transcript??$request->transcriptText;
+        $meetingSummeryObj->transcriptText = $transcript ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();
 
@@ -108,7 +108,7 @@ class MeetingSummeryController extends Controller
             'summaryText' => 'required|string',
             'clickupLink' => 'required|string',
             'tldvLink' => 'nullable|string',
-            'transcriptText' => 'required_without:tldvLink,string',
+            'transcriptText' => 'required_without:tldvLink',
             'meetingName' => 'required|string',
             'meetingType' => 'required|integer',
         ]);
