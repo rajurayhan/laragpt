@@ -69,7 +69,7 @@ class ProjectSummeryController extends Controller
             'clientPhone' => 'nullable|string',
             // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
             'clientEmail' => 'nullable|email',
-            'clientWebsite' => 'nullable|url',
+            'clientWebsite' => 'nullable|string',
         ]);
 
         if($request->filled('transcriptId')){

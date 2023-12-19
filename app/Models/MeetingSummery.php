@@ -13,5 +13,7 @@ class MeetingSummery extends Model
         'meetingSummeryText',
         'meetingName',
         'meetingType',
+        'clickupLink',
+        'tldvLink',
     ];
 }
