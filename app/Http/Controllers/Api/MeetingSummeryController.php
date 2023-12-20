@@ -86,11 +86,11 @@ class MeetingSummeryController extends Controller
 
         // Push to clickup
 
-        $taskId = $this->getLastPartOfUrl($request->clickupLink);
-        if($taskId){
-            $clickupUploader = new ClickUpCommentUploader($taskId, $summery);
-            // $clickupUploader->pushComment();
-        }
+        // $taskId = $this->getLastPartOfUrl($request->clickupLink);
+        // if($taskId){
+        //     $clickupUploader = new ClickUpCommentUploader($taskId, $summery);
+        //     $clickupUploader->pushComment();
+        // }
 
         $response = [
             'message' => 'Created Successfully',
@@ -115,13 +115,16 @@ class MeetingSummeryController extends Controller
 
     public function updateMeetingSummery($id, Request $request){
         $validatedData = $request->validate([
+            'pushToClickUp' => 'required|boolean',
+            'clickupLink' => 'required_if:pushToClickUp,true',
             'summaryText' => 'required|string',
-            'clickupLink' => 'required|string',
             'tldvLink' => 'nullable|string',
             'transcriptText' => 'required_without:tldvLink',
             'meetingName' => 'required|string',
             'meetingType' => 'required|integer',
         ]);
+
+        return $validatedData;
 
         $meetingSummeryObj = MeetingSummery::find($id);
         $meetingSummeryObj->meetingSummeryText = $request->summaryText;
@@ -132,6 +135,15 @@ class MeetingSummeryController extends Controller
         $meetingSummeryObj->clickupLink = $request->clickupLink;
 
         $meetingSummeryObj->save();
+
+        // Push to clickup
+
+        $taskId = $this->getLastPartOfUrl($request->clickupLink);
+        if($taskId && $request->pushToClickUp == true){
+            $clickupUploader = new ClickUpCommentUploader($taskId, $request->summaryText);
+            $clickupUploader->pushComment();
+        }
+
         $response = [
             'message' => 'Updated Successfully',
             'data' => $meetingSummeryObj
