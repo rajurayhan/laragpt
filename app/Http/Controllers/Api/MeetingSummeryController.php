@@ -124,7 +124,7 @@ class MeetingSummeryController extends Controller
             'meetingType' => 'required|integer',
         ]);
 
-        return $validatedData;
+        // return $validatedData;
 
         $meetingSummeryObj = MeetingSummery::find($id);
         $meetingSummeryObj->meetingSummeryText = $request->summaryText;
