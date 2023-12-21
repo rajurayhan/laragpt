@@ -166,7 +166,20 @@ class ProjectSummeryController extends Controller
      */
     public function delete($id){
         $projectSummeryObj = ProjectSummary::find($id);
+        if($projectSummeryObj->meetingTranscript->problemsAndGoals){
+            $projectSummeryObj->meetingTranscript->problemsAndGoals->delete();
+            if($projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork){
+                $projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->delete();
+                if($projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->deliverables){
+                    $projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->deliverables->delete();
+                }
+            }
+            if($projectSummeryObj->meetingTranscript->problemsAndGoals->projectOverview){
+                $projectSummeryObj->meetingTranscript->problemsAndGoals->projectOverview->delete();
+            }
+        }
         $projectSummeryObj->delete();
+        $projectSummeryObj->meetingTranscript->delete();
         $response = [
             'message' => 'Deleted Successfully',
             'data' => []
