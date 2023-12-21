@@ -28,7 +28,7 @@ class ClickUpCommentUploader
         ];
 
         $response = Http::withHeaders([
-            "Authorization" => 'pk_49059276_OJMEQ5CGCS2HRCJL0GPY9TZOKPCZTI40',
+            "Authorization" => 'pk_26343077_E01A7RDPS0EA11BG6B7TI2A1T82L4WI5',
             "Content-Type" => "application/json"
         ])->post($url , $payload);
         \Log::info(['ClickUp' => $response->json()]);

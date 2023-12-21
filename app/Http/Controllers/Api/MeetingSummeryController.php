@@ -6,6 +6,7 @@ use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\MeetingSummery;
 use App\Services\ClickUpCommentUploader;
+use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
@@ -161,6 +162,9 @@ class MeetingSummeryController extends Controller
      */
     public function showMeetingSummery($id){
         $meetingSummeryObj = MeetingSummery::find($id);
+        $htmlData = Markdown2Html::convert($meetingSummeryObj->meetingSummeryText);
+        $meetingSummeryObj->htmlText = html_entity_decode((string)$htmlData);
+        // $meetingSummeryObj->htmlText = (string)$htmlData;
         $response = [
             'message' => 'Data Showed Successfully',
             'data' => $meetingSummeryObj
