@@ -19,11 +19,17 @@ class ServiceScopeController extends Controller
      * Get a list of all Service Scopes.
      *
      * @queryParam page integer page number.
+     * @queryParam serviceId integer Service Id.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $serviceScopes = ServiceScopes::with('service')->latest()->paginate(10);
+
+            $query = ServiceScopes::query();
+            if($request->filled('serviceId')){
+                $query->where('serviceId', $request->serviceId);
+            }
+            $serviceScopes = $query->with('service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceScopes->items(),
                 'total' => $serviceScopes->total(),
