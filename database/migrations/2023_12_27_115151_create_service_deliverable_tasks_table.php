@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->decimal('cost', 10, 2);
-            $table->foreignId('serviceDeliverableId')->constrained('service_deliverables');
+            $table->foreignId('serviceDeliverableId')->constrained('service_deliverables')->onDelete('cascade');
             $table->timestamps();
         });
     }

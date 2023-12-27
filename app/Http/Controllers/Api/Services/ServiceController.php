@@ -127,6 +127,7 @@ class ServiceController extends Controller
     {
         try {
             $service = Services::findOrfail($id);
+            // $service->serviceScopes()->delete();
             $service->delete();
             $response = [
                 'message' => 'Deleted Successfully',

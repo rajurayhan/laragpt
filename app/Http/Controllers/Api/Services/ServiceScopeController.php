@@ -23,7 +23,7 @@ class ServiceScopeController extends Controller
     public function index()
     {
         try {
-            $serviceScopes = ServiceScopes::latest()->paginate(10);
+            $serviceScopes = ServiceScopes::with('service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceScopes->items(),
                 'total' => $serviceScopes->total(),
@@ -120,6 +120,7 @@ class ServiceScopeController extends Controller
     {
         try {
             $serviceScope = ServiceScopes::findOrFail($id);
+            // $serviceScope->serviceDeliverables()->delete();
             $serviceScope->delete();
             $response = [
                 'message' => 'Deleted Successfully',
