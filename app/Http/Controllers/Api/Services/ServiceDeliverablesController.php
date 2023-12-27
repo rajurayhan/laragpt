@@ -19,11 +19,16 @@ class ServiceDeliverablesController extends Controller
      * Get a list of all Service Deliverables.
      *
      * @queryParam page integer page number.
+     * @queryParam serviceScopeId integer Service Scope Id.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $serviceDeliverables = ServiceDeliverables::with('serviceScope.service')->latest()->paginate(10);
+            $query = ServiceDeliverables::query();
+            if($request->filled('serviceScopeId')){
+                $query->where('serviceScopeId', $request->serviceScopeId);
+            }
+            $serviceDeliverables = $query->with('serviceScope.service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceDeliverables->items(),
                 'total' => $serviceDeliverables->total(),

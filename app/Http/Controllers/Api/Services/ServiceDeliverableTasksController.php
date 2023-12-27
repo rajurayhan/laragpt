@@ -19,11 +19,17 @@ class ServiceDeliverableTasksController extends Controller
      * Get a list of all Service Deliverable Tasks.
      *
      * @queryParam page integer page number.
+     * @queryParam serviceDeliverableId integer Service Deliverable Id.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $serviceDeliverableTasks = ServiceDeliverableTasks::with('serviceDeliverable.serviceScope.service')->latest()->paginate(10);
+            $query = ServiceDeliverableTasks::query();
+            if($request->filled('serviceDeliverableId')){
+                $query->where('serviceDeliverableId', $request->serviceDeliverableId);
+            }
+
+            $serviceDeliverableTasks = $query->with('serviceDeliverable.serviceScope.service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceDeliverableTasks->items(),
                 'total' => $serviceDeliverableTasks->total(),
