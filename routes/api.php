@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Services\ProjectComponentController;
 use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\Services\ServiceController;
 use App\Http\Controllers\Api\Services\ServiceDeliverablesController;
+use App\Http\Controllers\Api\Services\ServiceDeliverableTasksController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -102,7 +103,7 @@ Route::apiResource('project-components', ProjectComponentController::class);
 Route::apiResource('services', ServiceController::class);
 Route::apiResource('service-scopes', ServiceScopeController::class);
 Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
-// Route::apiResource('service-deliverables-tasks', ProjectComponentController::class);
+Route::apiResource('service-deliverables-tasks', ServiceDeliverableTasksController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
