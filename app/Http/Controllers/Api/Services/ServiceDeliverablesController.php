@@ -23,7 +23,7 @@ class ServiceDeliverablesController extends Controller
     public function index()
     {
         try {
-            $serviceDeliverables = ServiceDeliverables::latest()->paginate(10);
+            $serviceDeliverables = ServiceDeliverables::with('serviceScope.service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceDeliverables->items(),
                 'total' => $serviceDeliverables->total(),
