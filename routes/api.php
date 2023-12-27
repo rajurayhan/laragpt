@@ -103,7 +103,7 @@ Route::apiResource('project-components', ProjectComponentController::class);
 Route::apiResource('services', ServiceController::class);
 Route::apiResource('service-scopes', ServiceScopeController::class);
 Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
-Route::apiResource('service-deliverables-tasks', ServiceDeliverableTasksController::class);
+Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
