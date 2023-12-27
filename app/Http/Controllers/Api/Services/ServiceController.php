@@ -70,21 +70,19 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string',
-            ]);
 
-            $service = Services::create($validatedData);
-            $response = [
-                'message' => 'Created Successfully',
-                'data' => $service
-            ];
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+        ]);
 
-            return response()->json($response, 201);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error creating service', 'error' => $e->getMessage()], 500);
-        }
+        $service = Services::create($validatedData);
+        $response = [
+            'message' => 'Created Successfully',
+            'data' => $service
+        ];
+
+        return response()->json($response, 201);
+
     }
 
     /**
@@ -100,22 +98,18 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string',
-            ]);
-            $service = Services::findOrfail($id);
-            $service->update($validatedData);
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+        ]);
+        $service = Services::findOrfail($id);
+        $service->update($validatedData);
 
-            $response = [
-                'message' => 'Created Successfully',
-                'data' => $service
-            ];
+        $response = [
+            'message' => 'Created Successfully',
+            'data' => $service
+        ];
 
-            return response()->json($response, 201);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error updating service', 'error' => $e->getMessage()], 500);
-        }
+        return response()->json($response, 201);
     }
 
     /**
