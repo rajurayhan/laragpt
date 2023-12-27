@@ -8,10 +8,10 @@ use App\Http\Controllers\Api\ProjectSummeryController;
 use App\Http\Controllers\Api\ScopeOfWorkController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Api\ProjectController;
-use App\Http\Controllers\Api\WebsiteComponentCategoryController;
-use App\Http\Controllers\Api\WebsiteComponentController;
-use App\Http\Controllers\Api\ProjectComponentController;
+use App\Http\Controllers\Api\Services\ProjectController;
+use App\Http\Controllers\Api\Services\WebsiteComponentCategoryController;
+use App\Http\Controllers\Api\Services\WebsiteComponentController;
+use App\Http\Controllers\Api\Services\ProjectComponentController;
 use App\Http\Controllers\Api\PromptController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -91,9 +91,15 @@ Route::post('/image', function (Request $request) {
 })->name('image');
 
 Route::apiResource('projects', ProjectController::class);
+
 Route::apiResource('categories', WebsiteComponentCategoryController::class);
 Route::apiResource('components', WebsiteComponentController::class);
 Route::apiResource('project-components', ProjectComponentController::class);
+
+Route::apiResource('services', WebsiteComponentCategoryController::class);
+Route::apiResource('service-scopes', WebsiteComponentController::class);
+Route::apiResource('service-deliverables', ProjectComponentController::class);
+Route::apiResource('service-deliverables-tasks', ProjectComponentController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
