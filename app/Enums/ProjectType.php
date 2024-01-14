@@ -10,6 +10,7 @@ enum ProjectType : int
     case WEBSITE_REDESIGN = 5;
     case RESEARCH = 6;
     case CUSTOM_DEVELOPMENT = 7;
+    case MARKETING = 8;
 
     public static function getTitle($id)
     {
@@ -28,6 +29,8 @@ enum ProjectType : int
                 return 'Research';
             case self::CUSTOM_DEVELOPMENT:
                 return 'Custom Development';
+            case self::MARKETING:
+                return 'Marketing';
             default:
                 return null;
         }
