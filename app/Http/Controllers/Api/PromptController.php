@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @group Prompts Management
+ * @authenticated
  *
  * APIs for managing prompts
  */

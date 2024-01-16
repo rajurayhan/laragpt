@@ -12,7 +12,11 @@ use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class MeetingSummeryController extends Controller
+/** 
+ * @authenticated 
+ */
+
+ class MeetingSummeryController extends Controller
 {
     private $promptType = PromptType::MEETING_SUMMARY;
     /**

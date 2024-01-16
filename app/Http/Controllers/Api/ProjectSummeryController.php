@@ -13,7 +13,11 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-class ProjectSummeryController extends Controller
+/** 
+ * @authenticated 
+ */
+
+ class ProjectSummeryController extends Controller
 {
 
     private $promptType = PromptType::MEETING_SUMMARY;

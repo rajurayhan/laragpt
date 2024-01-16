@@ -10,7 +10,11 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-class ProblemAndGoalController extends Controller
+/** 
+ * @authenticated 
+ */
+
+ class ProblemAndGoalController extends Controller
 {
 
     private $promptType = PromptType::PROBLEMS_AND_GOALS;

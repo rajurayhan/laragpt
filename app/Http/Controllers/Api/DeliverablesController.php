@@ -10,8 +10,13 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
+/** 
+ * @authenticated 
+ */
+
 class DeliverablesController extends Controller
 {
+    
     private $promptType = PromptType::DELIVERABLES;
     /**
      * Create Deliverable

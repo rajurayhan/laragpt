@@ -10,7 +10,11 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-class ScopeOfWorkController extends Controller
+/** 
+ * @authenticated 
+ */
+
+ class ScopeOfWorkController extends Controller
 {
     private $promptType = PromptType::SCOPE_OF_WORK;
 

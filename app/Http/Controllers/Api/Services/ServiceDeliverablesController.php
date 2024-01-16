@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group Service Deliverables
+ * @authenticated
  *
  * APIs for managing service deliverables.
  */

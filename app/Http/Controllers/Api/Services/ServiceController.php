@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group Services
+ * @authenticated
  *
  * APIs for website services.
  */

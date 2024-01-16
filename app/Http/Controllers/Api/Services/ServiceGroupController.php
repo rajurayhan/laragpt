@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @group Service Groups
+ * @authenticated
  *
  * APIs for managing service scopes.
  */

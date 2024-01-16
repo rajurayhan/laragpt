@@ -10,7 +10,11 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-class ProjectOverviewController extends Controller
+/** 
+ * @authenticated 
+ */
+
+ class ProjectOverviewController extends Controller
 {
     private $promptType = PromptType::PROJECT_OVERVIEW;
 
