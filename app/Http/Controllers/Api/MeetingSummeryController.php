@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Http;
      * @queryParam page integer page number.
      */
     public function indexMeetingSummery(){
-        $meetings = MeetingSummery::latest()->paginate(10);
+        $meetings = MeetingSummery::with('createdBy')->latest()->paginate(10);
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
@@ -99,7 +99,7 @@ use Illuminate\Support\Facades\Http;
 
         $response = [
             'message' => 'Created Successfully',
-            'data' => $meetingSummeryObj
+            'data' => $meetingSummeryObj->load('createdBy')
         ];
 
         return response()->json($response, 201);

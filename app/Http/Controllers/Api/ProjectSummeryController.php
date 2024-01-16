@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
      * @queryParam page integer page number.
      */
     public function index(){
-        $meetings = ProjectSummary::latest()->with('meetingTranscript')->paginate(10);
+        $meetings = ProjectSummary::latest()->with('meetingTranscript', 'createdBy')->paginate(10);
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
@@ -111,7 +111,7 @@ use Illuminate\Http\Request;
 
         $response = [
             'message' => 'Created Successfully',
-            'data' => $projectSummeryObj
+            'data' => $projectSummeryObj->load('createdBy')
         ];
 
         return response()->json($response, 201);
