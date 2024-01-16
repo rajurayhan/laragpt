@@ -128,6 +128,7 @@
 
 
         public static function prepareTranscript($transcript){
-            return preg_replace('/\d{2}:\d{2}\s/', '', $transcript);
+            // return preg_replace('/\d{2}:\d{2}\s/', '', $transcript);
+            return $transcript;
         }
     }
