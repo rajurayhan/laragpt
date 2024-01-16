@@ -81,7 +81,7 @@ class MeetingSummeryController extends Controller
         $meetingSummeryObj->tldvLink = $request->tldvLink;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
         $meetingSummeryObj->meetingSummeryText = $summery;
-        $meetingSummeryObj->transcriptText = $transcript ? $transcript : $request->transcriptText;
+        $meetingSummeryObj->transcriptText = isset($transcript) ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();
 
