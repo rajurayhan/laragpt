@@ -78,7 +78,7 @@ class ServiceDeliverablesController extends Controller
         $serviceDeliverable = ServiceDeliverables::create($validatedData);
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceDeliverable->load('serviceScope.service')
+            'data' => $serviceDeliverable->load('serviceScope.serviceGroup.service')
         ];
 
         return response()->json($response, 201);

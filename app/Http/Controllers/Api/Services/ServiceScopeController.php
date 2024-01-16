@@ -80,7 +80,7 @@ class ServiceScopeController extends Controller
         $serviceScope = ServiceScopes::create($validatedData);
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceScope->load('service')
+            'data' => $serviceScope->load('serviceGroup.service')
         ];
 
         return response()->json($response, 201);

@@ -83,7 +83,7 @@ class ServiceDeliverableTasksController extends Controller
         $serviceDeliverableTask = ServiceDeliverableTasks::create($validatedData);
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceDeliverableTask->load('serviceDeliverable.serviceScope.service')
+            'data' => $serviceDeliverableTask->load('serviceDeliverable.serviceScope.serviceGroup.service')
         ];
 
         return response()->json($response, 201);
