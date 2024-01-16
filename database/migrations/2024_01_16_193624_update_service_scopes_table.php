@@ -12,14 +12,20 @@ class UpdateServiceScopesTable extends Migration
     public function up(): void
     {
         Schema::table('service_scopes', function (Blueprint $table) {
-            // Remove the existing foreign key
-            $table->dropForeign(['serviceId']);
+            // Check if the 'serviceId' column exists before removing it
+            if (Schema::hasColumn('service_scopes', 'serviceId')) {
+                // Remove the existing foreign key
+                $table->dropForeign(['serviceId']);
 
-            // Remove the existing column
-            $table->dropColumn('serviceId');
+                // Remove the existing column
+                $table->dropColumn('serviceId');
+            }
 
-            // Add the new column
-            $table->foreignId('serviceGroupId')->constrained('service_groups')->onDelete('cascade');
+            // Check if the 'serviceGroupId' column does not exist before adding it
+            if (!Schema::hasColumn('service_scopes', 'serviceGroupId')) {
+                // Add the new column
+                $table->foreignId('serviceGroupId')->constrained('service_groups')->onDelete('cascade');
+            }
         });
     }
 
@@ -29,12 +35,18 @@ class UpdateServiceScopesTable extends Migration
     public function down(): void
     {
         Schema::table('service_scopes', function (Blueprint $table) {
-            // Remove the new column
-            $table->dropForeign(['serviceGroupId']);
-            $table->dropColumn('serviceGroupId');
+            // Check if the 'serviceGroupId' column exists before removing it
+            if (Schema::hasColumn('service_scopes', 'serviceGroupId')) {
+                // Remove the new column
+                $table->dropForeign(['serviceGroupId']);
+                $table->dropColumn('serviceGroupId');
+            }
 
-            // Add back the old column
-            $table->foreignId('serviceId')->constrained('services')->onDelete('cascade');
+            // Check if the 'serviceId' column does not exist before adding it back
+            if (!Schema::hasColumn('service_scopes', 'serviceId')) {
+                // Add back the old column
+                $table->foreignId('serviceId')->constrained('services')->onDelete('cascade');
+            }
         });
     }
 }
