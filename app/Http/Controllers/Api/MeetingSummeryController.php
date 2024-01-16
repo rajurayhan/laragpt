@@ -73,7 +73,7 @@ class MeetingSummeryController extends Controller
         }
 
         // Generate Summery
-        $summery = OpenAIGeneratorService::generateMeetingSummery($transcript ? $$request->transcript : $request->transcriptText, $prompt->prompt);
+        $summery = OpenAIGeneratorService::generateMeetingSummery(isset($transcript) ? $transcript : $request->transcriptText, $prompt->prompt);
 
         $meetingSummeryObj = new MeetingSummery();
         $meetingSummeryObj->meetingName = $request->meetingName;
