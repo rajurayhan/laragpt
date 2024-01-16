@@ -29,7 +29,7 @@ class ServiceDeliverableTasksController extends Controller
                 $query->where('serviceDeliverableId', $request->serviceDeliverableId);
             }
 
-            $serviceDeliverableTasks = $query->with('serviceDeliverable.serviceScope.service')->latest()->paginate(10);
+            $serviceDeliverableTasks = $query->with('serviceDeliverable.serviceScope.serviceGroup.service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceDeliverableTasks->items(),
                 'total' => $serviceDeliverableTasks->total(),

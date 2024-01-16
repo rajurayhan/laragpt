@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\Services\ServiceController;
 use App\Http\Controllers\Api\Services\ServiceDeliverablesController;
 use App\Http\Controllers\Api\Services\ServiceDeliverableTasksController;
+use App\Http\Controllers\Api\Services\ServiceGroupController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -101,6 +102,7 @@ Route::apiResource('components', WebsiteComponentController::class);
 Route::apiResource('project-components', ProjectComponentController::class);
 
 Route::apiResource('services', ServiceController::class);
+Route::apiResource('service-groups', ServiceGroupController::class);
 Route::apiResource('service-scopes', ServiceScopeController::class);
 Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
 Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);

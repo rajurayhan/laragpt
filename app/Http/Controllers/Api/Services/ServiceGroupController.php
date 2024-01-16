@@ -3,37 +3,37 @@
 namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
-use App\Models\ServiceScopes;
+use App\Models\ServiceGroups;
 use Illuminate\Http\Request;
 
 /**
- * @group Service Scopes
+ * @group Service Groups
  *
  * APIs for managing service scopes.
  */
-class ServiceScopeController extends Controller
+class ServiceGroupController extends Controller
 {
     /**
-     * Get all Service Scopes
+     * Get all Service Groups
      *
-     * Get a list of all Service Scopes.
+     * Get a list of all Service Groups.
      *
      * @queryParam page integer page number.
-     * @queryParam serviceGroupId integer Service group Id.
+     * @queryParam serviceId integer Service Id.
      */
     public function index(Request $request)
     {
         try {
 
-            $query = ServiceScopes::query();
-            if($request->filled('serviceGroupId')){
-                $query->where('serviceGroupId', $request->serviceGroupId);
+            $query = ServiceGroups::query();
+            if($request->filled('serviceId')){
+                $query->where('serviceId', $request->serviceId);
             }
-            $serviceScopes = $query->with('serviceGroup.service')->latest()->paginate(10);
+            $serviceGroups = $query->with('service')->latest()->paginate(10);
             return response()->json([
-                'data' => $serviceScopes->items(),
-                'total' => $serviceScopes->total(),
-                'current_page' => $serviceScopes->currentPage(),
+                'data' => $serviceGroups->items(),
+                'total' => $serviceGroups->total(),
+                'current_page' => $serviceGroups->currentPage(),
             ]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service scopes', 'error' => $e->getMessage()], 500);
@@ -41,19 +41,19 @@ class ServiceScopeController extends Controller
     }
 
     /**
-     * Show a Service Scope
+     * Show a Service Group
      *
-     * Get details of a specific Service Scope.
+     * Get details of a specific Service Group.
      *
-     * @urlParam id required The ID of the Service Scope. Example: 1
+     * @urlParam id required The ID of the Service Group. Example: 1
      */
     public function show($id)
     {
         try {
-            $serviceScope = ServiceScopes::find($id);
+            $serviceGroup = ServiceGroups::find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
-                'data' => $serviceScope
+                'data' => $serviceGroup
             ];
             return response()->json($response, 201);
         } catch (\Exception $e) {
@@ -62,25 +62,25 @@ class ServiceScopeController extends Controller
     }
 
     /**
-     * Store a new Service Scope
+     * Store a new Service Group
      *
-     * Create a new Service Scope.
+     * Create a new Service Group.
      *
-     * @bodyParam name string required The name of the Service Scope. Example: Basic
-     * @bodyParam serviceGroupId integer required The ID of the associated service. Example: 2
+     * @bodyParam name string required The name of the Service Group. Example: Basic
+     * @bodyParam serviceId integer required The ID of the associated service. Example: 2
      */
     public function store(Request $request)
     {
 
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'serviceGroupId' => 'required|integer|exists:service_groups,id',
+            'serviceId' => 'required|integer|exists:services,id',
         ]);
 
-        $serviceScope = ServiceScopes::create($validatedData);
+        $serviceGroup = ServiceGroups::create($validatedData);
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceScope->load('service')
+            'data' => $serviceGroup->load('service')
         ];
 
         return response()->json($response, 201);
@@ -88,27 +88,27 @@ class ServiceScopeController extends Controller
     }
 
     /**
-     * Update a Service Scope
+     * Update a Service Group
      *
      * Update details of a specific service scope.
      *
      * @urlParam id required The ID of the service scope. Example: 1
      * @bodyParam name string required The name of the service scope. Example: Advanced
-     * @bodyParam serviceGroupId integer The ID of the associated service.
+     * @bodyParam serviceId integer The ID of the associated service.
      */
     public function update(Request $request, $id)
     {
 
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'serviceGroupId' => 'required|integer|exists:service_groups,id',
+            'serviceId' => 'required|integer|exists:services,id',
         ]);
-        $serviceScope = ServiceScopes::findOrFail($id);
-        $serviceScope->update($validatedData);
+        $serviceGroup = ServiceGroups::findOrFail($id);
+        $serviceGroup->update($validatedData);
 
         $response = [
             'message' => 'Updated Successfully',
-            'data' => $serviceScope
+            'data' => $serviceGroup
         ];
 
         return response()->json($response, 201);
@@ -116,7 +116,7 @@ class ServiceScopeController extends Controller
     }
 
     /**
-     * Delete a Service Scope
+     * Delete a Service Group
      *
      * Delete a specific service scope.
      *
@@ -125,9 +125,9 @@ class ServiceScopeController extends Controller
     public function destroy($id)
     {
         try {
-            $serviceScope = ServiceScopes::findOrFail($id);
-            // $serviceScope->serviceDeliverables()->delete();
-            $serviceScope->delete();
+            $serviceGroup = ServiceGroups::findOrFail($id);
+            // $serviceGroup->serviceDeliverables()->delete();
+            $serviceGroup->delete();
             $response = [
                 'message' => 'Deleted Successfully',
                 'data' => []

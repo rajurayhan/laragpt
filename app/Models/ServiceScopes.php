@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceScopes extends Model
 {
     use HasFactory;
-    protected $fillable = ['name' , 'serviceId'];
+    protected $fillable = ['name' , 'serviceGroupId'];
 
-    public function service()
+    public function serviceGroup()
     {
-        return $this->belongsTo(Services::class, 'serviceId', 'id');
+        return $this->belongsTo(ServiceGroups::class, 'serviceGroupId', 'id');
     }
 
     public function serviceDeliverables()

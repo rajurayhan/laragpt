@@ -28,7 +28,7 @@ class ServiceDeliverablesController extends Controller
             if($request->filled('serviceScopeId')){
                 $query->where('serviceScopeId', $request->serviceScopeId);
             }
-            $serviceDeliverables = $query->with('serviceScope.service')->latest()->paginate(10);
+            $serviceDeliverables = $query->with('serviceScope.serviceGroup.service')->latest()->paginate(10);
             return response()->json([
                 'data' => $serviceDeliverables->items(),
                 'total' => $serviceDeliverables->total(),
