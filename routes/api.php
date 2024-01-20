@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\Services\ServiceDeliverablesController;
 use App\Http\Controllers\Api\Services\ServiceDeliverableTasksController;
 use App\Http\Controllers\Api\Services\ServiceGroupController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
+use App\Http\Controllers\Api\System\MeetingTypeController;
+use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -78,6 +80,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('categories', WebsiteComponentCategoryController::class);
     Route::apiResource('components', WebsiteComponentController::class);
     Route::apiResource('project-components', ProjectComponentController::class);
+
+    Route::apiResource('meeting-type', MeetingTypeController::class);
+    Route::apiResource('project-type', ProjectTypeController::class);
 
     Route::apiResource('services', ServiceController::class);
     Route::apiResource('service-groups', ServiceGroupController::class);
