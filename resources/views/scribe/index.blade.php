@@ -130,6 +130,28 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-meetingtype" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="meetingtype">
+                    <a href="#meetingtype">MeetingType</a>
+                </li>
+                                    <ul id="tocify-subheader-meetingtype" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="meetingtype-GETapi-meeting-type">
+                                <a href="#meetingtype-GETapi-meeting-type">Get all MeetingType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meetingtype-POSTapi-meeting-type">
+                                <a href="#meetingtype-POSTapi-meeting-type">Store a new MeetingType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meetingtype-GETapi-meeting-type--id-">
+                                <a href="#meetingtype-GETapi-meeting-type--id-">Show a MeetingType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meetingtype-PUTapi-meeting-type--id-">
+                                <a href="#meetingtype-PUTapi-meeting-type--id-">Update a website component category</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="meetingtype-DELETEapi-meeting-type--id-">
+                                <a href="#meetingtype-DELETEapi-meeting-type--id-">Delete a website component category</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-problems-and-goals" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="problems-and-goals">
                     <a href="#problems-and-goals">Problems and Goals</a>
@@ -175,6 +197,28 @@
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="project-overview-POSTapi-project-overview--id-">
                                 <a href="#project-overview-POSTapi-project-overview--id-">Update Project Overview</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-projecttype" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="projecttype">
+                    <a href="#projecttype">ProjectType</a>
+                </li>
+                                    <ul id="tocify-subheader-projecttype" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="projecttype-GETapi-project-type">
+                                <a href="#projecttype-GETapi-project-type">Get all ProjectType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="projecttype-POSTapi-project-type">
+                                <a href="#projecttype-POSTapi-project-type">Store a new ProjectType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="projecttype-GETapi-project-type--id-">
+                                <a href="#projecttype-GETapi-project-type--id-">Show a ProjectType</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="projecttype-PUTapi-project-type--id-">
+                                <a href="#projecttype-PUTapi-project-type--id-">Update a website component category</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="projecttype-DELETEapi-project-type--id-">
+                                <a href="#projecttype-DELETEapi-project-type--id-">Delete a website component category</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -367,6 +411,28 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-users-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="users-management">
+                    <a href="#users-management">Users Management</a>
+                </li>
+                                    <ul id="tocify-subheader-users-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="users-management-GETapi-users">
+                                <a href="#users-management-GETapi-users">Display a listing of users.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="users-management-POSTapi-users">
+                                <a href="#users-management-POSTapi-users">Store a newly created user.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="users-management-GETapi-users--id-">
+                                <a href="#users-management-GETapi-users--id-">Display the specified user.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="users-management-PUTapi-users--id-">
+                                <a href="#users-management-PUTapi-users--id-">Update the specified user.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="users-management-DELETEapi-users--id-">
+                                <a href="#users-management-DELETEapi-users--id-">Remove the specified user from storage.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-website-component-categories" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="website-component-categories">
                     <a href="#website-component-categories">Website Component Categories</a>
@@ -420,7 +486,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 16, 2024</li>
+        <li>Last updated: January 20, 2024</li>
     </ul>
 </div>
 
@@ -818,7 +884,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"scopeOfWorkId\": 1
+    \"scopeOfWorkId\": 17
 }"
 </code></pre></div>
 
@@ -835,7 +901,7 @@ const headers = {
 };
 
 let body = {
-    "scopeOfWorkId": 1
+    "scopeOfWorkId": 17
 };
 
 fetch(url, {
@@ -935,10 +1001,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="scopeOfWorkId"                data-endpoint="POSTapi-deliverables"
-               value="1"
+               value="17"
                data-component="body">
     <br>
-<p>Id of the ScopeOfWork. Example: <code>1</code></p>
+<p>Id of the ScopeOfWork. Example: <code>17</code></p>
         </div>
         </form>
 
@@ -956,19 +1022,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/deliverables/14" \
+    "http://localhost:8000/api/deliverables/15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"deliverablesText\": \"ut\"
+    \"deliverablesText\": \"debitis\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/deliverables/14"
+    "http://localhost:8000/api/deliverables/15"
 );
 
 const headers = {
@@ -978,7 +1044,7 @@ const headers = {
 };
 
 let body = {
-    "deliverablesText": "ut"
+    "deliverablesText": "debitis"
 };
 
 fetch(url, {
@@ -1078,10 +1144,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-deliverables--id-"
-               value="14"
+               value="15"
                data-component="url">
     <br>
-<p>Id of the Deliverables. Example: <code>14</code></p>
+<p>Id of the Deliverables. Example: <code>15</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1090,10 +1156,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="deliverablesText"                data-endpoint="POSTapi-deliverables--id-"
-               value="ut"
+               value="debitis"
                data-component="body">
     <br>
-<p>text of the Deliverables. Example: <code>ut</code></p>
+<p>text of the Deliverables. Example: <code>debitis</code></p>
         </div>
         </form>
 
@@ -1462,7 +1528,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/meeting-summery?page=4" \
+    --get "http://localhost:8000/api/meeting-summery?page=11" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1474,7 +1540,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "4",
+    "page": "11",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1600,10 +1666,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-meeting-summery"
-               value="4"
+               value="11"
                data-component="query">
     <br>
-<p>page number. Example: <code>4</code></p>
+<p>page number. Example: <code>11</code></p>
             </div>
                 </form>
 
@@ -1626,11 +1692,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"clickupLink\": \"voluptas\",
-    \"tldvLink\": \"suscipit\",
-    \"transcriptText\": \"vero\",
-    \"meetingName\": \"animi\",
-    \"meetingType\": 12
+    \"clickupLink\": \"amet\",
+    \"tldvLink\": \"quis\",
+    \"transcriptText\": \"est\",
+    \"meetingName\": \"id\",
+    \"meetingType\": 17
 }"
 </code></pre></div>
 
@@ -1647,11 +1713,11 @@ const headers = {
 };
 
 let body = {
-    "clickupLink": "voluptas",
-    "tldvLink": "suscipit",
-    "transcriptText": "vero",
-    "meetingName": "animi",
-    "meetingType": 12
+    "clickupLink": "amet",
+    "tldvLink": "quis",
+    "transcriptText": "est",
+    "meetingName": "id",
+    "meetingType": 17
 };
 
 fetch(url, {
@@ -1751,10 +1817,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clickupLink"                data-endpoint="POSTapi-meeting-summery"
-               value="voluptas"
+               value="amet"
                data-component="body">
     <br>
-<p>Task url for the meeting. Example: <code>voluptas</code></p>
+<p>Task url for the meeting. Example: <code>amet</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tldvLink</code></b>&nbsp;&nbsp;
@@ -1762,10 +1828,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="tldvLink"                data-endpoint="POSTapi-meeting-summery"
-               value="suscipit"
+               value="quis"
                data-component="body">
     <br>
-<p>Tldv meeting url. Example: <code>suscipit</code></p>
+<p>Tldv meeting url. Example: <code>quis</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -1773,10 +1839,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-meeting-summery"
-               value="vero"
+               value="est"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>vero</code></p>
+<p>The text of the transcript. Example: <code>est</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingName</code></b>&nbsp;&nbsp;
@@ -1784,10 +1850,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="meetingName"                data-endpoint="POSTapi-meeting-summery"
-               value="animi"
+               value="id"
                data-component="body">
     <br>
-<p>Name of the meeting. Example: <code>animi</code></p>
+<p>Name of the meeting. Example: <code>id</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingType</code></b>&nbsp;&nbsp;
@@ -1795,10 +1861,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="meetingType"                data-endpoint="POSTapi-meeting-summery"
-               value="12"
+               value="17"
                data-component="body">
     <br>
-<p>Meeting type [1: Client, 2: Intenal]. Example: <code>12</code></p>
+<p>Meeting type [1: Client, 2: Intenal]. Example: <code>17</code></p>
         </div>
         </form>
 
@@ -1816,7 +1882,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/meeting-summery/20" \
+    --get "http://localhost:8000/api/meeting-summery/6" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1824,7 +1890,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/20"
+    "http://localhost:8000/api/meeting-summery/6"
 );
 
 const headers = {
@@ -1948,10 +2014,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-meeting-summery--id-"
-               value="20"
+               value="6"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>20</code></p>
+<p>Id of the transcript. Example: <code>6</code></p>
             </div>
                     </form>
 
@@ -1969,25 +2035,25 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/meeting-summery/9" \
+    "http://localhost:8000/api/meeting-summery/20" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"pushToClickUp\": false,
-    \"clickupLink\": \"iste\",
-    \"summaryText\": \"dolor\",
-    \"tldvLink\": \"ut\",
-    \"transcriptText\": \"nihil\",
-    \"meetingName\": \"eos\",
-    \"meetingType\": 2
+    \"pushToClickUp\": true,
+    \"clickupLink\": \"eaque\",
+    \"summaryText\": \"hic\",
+    \"tldvLink\": \"qui\",
+    \"transcriptText\": \"odit\",
+    \"meetingName\": \"odio\",
+    \"meetingType\": 14
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/9"
+    "http://localhost:8000/api/meeting-summery/20"
 );
 
 const headers = {
@@ -1997,13 +2063,13 @@ const headers = {
 };
 
 let body = {
-    "pushToClickUp": false,
-    "clickupLink": "iste",
-    "summaryText": "dolor",
-    "tldvLink": "ut",
-    "transcriptText": "nihil",
-    "meetingName": "eos",
-    "meetingType": 2
+    "pushToClickUp": true,
+    "clickupLink": "eaque",
+    "summaryText": "hic",
+    "tldvLink": "qui",
+    "transcriptText": "odit",
+    "meetingName": "odio",
+    "meetingType": 14
 };
 
 fetch(url, {
@@ -2103,10 +2169,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="9"
+               value="20"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>9</code></p>
+<p>Id of the transcript. Example: <code>20</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2128,7 +2194,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>false</code></p>
+<p>Example: <code>true</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clickupLink</code></b>&nbsp;&nbsp;
@@ -2136,10 +2202,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clickupLink"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="iste"
+               value="eaque"
                data-component="body">
     <br>
-<p>Task url for the meeting. Example: <code>iste</code></p>
+<p>Task url for the meeting. Example: <code>eaque</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>summaryText</code></b>&nbsp;&nbsp;
@@ -2147,10 +2213,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="summaryText"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="dolor"
+               value="hic"
                data-component="body">
     <br>
-<p>Example: <code>dolor</code></p>
+<p>Example: <code>hic</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tldvLink</code></b>&nbsp;&nbsp;
@@ -2158,10 +2224,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="tldvLink"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="ut"
+               value="qui"
                data-component="body">
     <br>
-<p>Tldv meeting url. Example: <code>ut</code></p>
+<p>Tldv meeting url. Example: <code>qui</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -2169,10 +2235,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="nihil"
+               value="odit"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>nihil</code></p>
+<p>The text of the transcript. Example: <code>odit</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingName</code></b>&nbsp;&nbsp;
@@ -2180,10 +2246,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="meetingName"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="eos"
+               value="odio"
                data-component="body">
     <br>
-<p>Name of the meeting. Example: <code>eos</code></p>
+<p>Name of the meeting. Example: <code>odio</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingType</code></b>&nbsp;&nbsp;
@@ -2191,10 +2257,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="meetingType"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="2"
+               value="14"
                data-component="body">
     <br>
-<p>Meeting type [1: Client, 2: Intenal]. Example: <code>2</code></p>
+<p>Meeting type [1: Client, 2: Intenal]. Example: <code>14</code></p>
         </div>
         </form>
 
@@ -2212,7 +2278,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/meeting-summery/2" \
+    "http://localhost:8000/api/meeting-summery/18" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2220,7 +2286,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/2"
+    "http://localhost:8000/api/meeting-summery/18"
 );
 
 const headers = {
@@ -2325,10 +2391,771 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-meeting-summery--id-"
-               value="2"
+               value="18"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>2</code></p>
+<p>Id of the transcript. Example: <code>18</code></p>
+            </div>
+                    </form>
+
+                <h1 id="meetingtype">MeetingType</h1>
+
+    
+
+                                <h2 id="meetingtype-GETapi-meeting-type">Get all MeetingType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Get a list of all MeetingType.</p>
+
+<span id="example-requests-GETapi-meeting-type">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/meeting-type?page=7" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-type"
+);
+
+const params = {
+    "page": "7",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-meeting-type">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-meeting-type" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-meeting-type"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-meeting-type"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-meeting-type" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-meeting-type">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-meeting-type" data-method="GET"
+      data-path="api/meeting-type"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-meeting-type', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-meeting-type"
+                    onclick="tryItOut('GETapi-meeting-type');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-meeting-type"
+                    onclick="cancelTryOut('GETapi-meeting-type');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-meeting-type"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/meeting-type</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-meeting-type"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-meeting-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-meeting-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-meeting-type"
+               value="7"
+               data-component="query">
+    <br>
+<p>page number. Example: <code>7</code></p>
+            </div>
+                </form>
+
+                    <h2 id="meetingtype-POSTapi-meeting-type">Store a new MeetingType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Create a new MeetingType.</p>
+
+<span id="example-requests-POSTapi-meeting-type">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/meeting-type" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Header\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-type"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Header"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-meeting-type">
+</span>
+<span id="execution-results-POSTapi-meeting-type" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-meeting-type"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-meeting-type"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-meeting-type" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-meeting-type">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-meeting-type" data-method="POST"
+      data-path="api/meeting-type"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-meeting-type', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-meeting-type"
+                    onclick="tryItOut('POSTapi-meeting-type');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-meeting-type"
+                    onclick="cancelTryOut('POSTapi-meeting-type');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-meeting-type"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/meeting-type</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-meeting-type"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-meeting-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-meeting-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-meeting-type"
+               value="Header"
+               data-component="body">
+    <br>
+<p>The name of the MeetingType. Example: <code>Header</code></p>
+        </div>
+        </form>
+
+                    <h2 id="meetingtype-GETapi-meeting-type--id-">Show a MeetingType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Get details of a specific MeetingType.</p>
+
+<span id="example-requests-GETapi-meeting-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/meeting-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-meeting-type--id-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-meeting-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-meeting-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-meeting-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-meeting-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-meeting-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-meeting-type--id-" data-method="GET"
+      data-path="api/meeting-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-meeting-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-meeting-type--id-"
+                    onclick="tryItOut('GETapi-meeting-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-meeting-type--id-"
+                    onclick="cancelTryOut('GETapi-meeting-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-meeting-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/meeting-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-meeting-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-meeting-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the MeetingType. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="meetingtype-PUTapi-meeting-type--id-">Update a website component category</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Update details of a specific meetingType.</p>
+
+<span id="example-requests-PUTapi-meeting-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/meeting-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Updated Header\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Updated Header"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-meeting-type--id-">
+</span>
+<span id="execution-results-PUTapi-meeting-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-meeting-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-meeting-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-meeting-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-meeting-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-meeting-type--id-" data-method="PUT"
+      data-path="api/meeting-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-meeting-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-meeting-type--id-"
+                    onclick="tryItOut('PUTapi-meeting-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-meeting-type--id-"
+                    onclick="cancelTryOut('PUTapi-meeting-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-meeting-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/meeting-type/{id}</code></b>
+        </p>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/meeting-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PUTapi-meeting-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="PUTapi-meeting-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the meetingType. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTapi-meeting-type--id-"
+               value="Updated Header"
+               data-component="body">
+    <br>
+<p>The name of the meetingType. Example: <code>Updated Header</code></p>
+        </div>
+        </form>
+
+                    <h2 id="meetingtype-DELETEapi-meeting-type--id-">Delete a website component category</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Delete a specific website component category.</p>
+
+<span id="example-requests-DELETEapi-meeting-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/meeting-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/meeting-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-meeting-type--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Website component category deleted successfully&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-meeting-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-meeting-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-meeting-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-meeting-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-meeting-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-meeting-type--id-" data-method="DELETE"
+      data-path="api/meeting-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-meeting-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-meeting-type--id-"
+                    onclick="tryItOut('DELETEapi-meeting-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-meeting-type--id-"
+                    onclick="cancelTryOut('DELETEapi-meeting-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-meeting-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/meeting-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-meeting-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-meeting-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="DELETEapi-meeting-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the website component category. Example: <code>1</code></p>
             </div>
                     </form>
 
@@ -2355,7 +3182,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 3
+    \"transcriptId\": 17
 }"
 </code></pre></div>
 
@@ -2372,7 +3199,7 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 3
+    "transcriptId": 17
 };
 
 fetch(url, {
@@ -2472,10 +3299,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-problems-and-goals"
-               value="3"
+               value="17"
                data-component="body">
     <br>
-<p>Id of the transcript. Example: <code>3</code></p>
+<p>Id of the transcript. Example: <code>17</code></p>
         </div>
         </form>
 
@@ -2493,19 +3320,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/problems-and-goals/8" \
+    "http://localhost:8000/api/problems-and-goals/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalText\": \"amet\"
+    \"problemGoalText\": \"nulla\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/problems-and-goals/8"
+    "http://localhost:8000/api/problems-and-goals/16"
 );
 
 const headers = {
@@ -2515,7 +3342,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalText": "amet"
+    "problemGoalText": "nulla"
 };
 
 fetch(url, {
@@ -2615,10 +3442,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="8"
+               value="16"
                data-component="url">
     <br>
-<p>Id of the problems and goals. Example: <code>8</code></p>
+<p>Id of the problems and goals. Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2627,10 +3454,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="problemGoalText"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="amet"
+               value="nulla"
                data-component="body">
     <br>
-<p>text of the ProblemsAndGoals. Example: <code>amet</code></p>
+<p>text of the ProblemsAndGoals. Example: <code>nulla</code></p>
         </div>
         </form>
 
@@ -2789,7 +3616,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"project_id\": 1,
     \"components\": [
-        \"rerum\"
+        \"natus\"
     ]
 }"
 </code></pre></div>
@@ -2808,7 +3635,7 @@ const headers = {
 let body = {
     "project_id": 1,
     "components": [
-        "rerum"
+        "natus"
     ]
 };
 
@@ -2942,10 +3769,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="POSTapi-project-components"
-               value="nihil"
+               value="dolorem"
                data-component="body">
     <br>
-<p>Example: <code>nihil</code></p>
+<p>Example: <code>dolorem</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -2953,10 +3780,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="components.0.quantity"                data-endpoint="POSTapi-project-components"
-               value="85"
+               value="5"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>85</code></p>
+<p>Must be at least 1. Example: <code>5</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -3008,14 +3835,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-components/aut?project_id=1&amp;component_id=1" \
+    --get "http://localhost:8000/api/project-components/voluptatem?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/aut"
+    "http://localhost:8000/api/project-components/voluptatem"
 );
 
 const params = {
@@ -3165,10 +3992,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-project-components--id-"
-               value="aut"
+               value="voluptatem"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>aut</code></p>
+<p>The ID of the project component. Example: <code>voluptatem</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -3208,12 +4035,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-components/a" \
+    "http://localhost:8000/api/project-components/commodi" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"components\": [
-        \"ex\"
+        \"ab\"
     ],
     \"project_id\": 1
 }"
@@ -3222,7 +4049,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/a"
+    "http://localhost:8000/api/project-components/commodi"
 );
 
 const headers = {
@@ -3232,7 +4059,7 @@ const headers = {
 
 let body = {
     "components": [
-        "ex"
+        "ab"
     ],
     "project_id": 1
 };
@@ -3351,10 +4178,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-project-components--id-"
-               value="a"
+               value="commodi"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>a</code></p>
+<p>The ID of the project component. Example: <code>commodi</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3372,10 +4199,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="PUTapi-project-components--id-"
-               value="rerum"
+               value="molestiae"
                data-component="body">
     <br>
-<p>Example: <code>rerum</code></p>
+<p>Example: <code>molestiae</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -3383,10 +4210,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="components.0.quantity"                data-endpoint="PUTapi-project-components--id-"
-               value="30"
+               value="46"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>30</code></p>
+<p>Must be at least 1. Example: <code>46</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -3449,14 +4276,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-components/modi?project_id=1&amp;component_id=1" \
+    "http://localhost:8000/api/project-components/qui?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/modi"
+    "http://localhost:8000/api/project-components/qui"
 );
 
 const params = {
@@ -3565,10 +4392,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-project-components--id-"
-               value="modi"
+               value="qui"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>modi</code></p>
+<p>The ID of the project component. Example: <code>qui</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -3618,7 +4445,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 17
+    \"problemGoalID\": 15
 }"
 </code></pre></div>
 
@@ -3635,7 +4462,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 17
+    "problemGoalID": 15
 };
 
 fetch(url, {
@@ -3735,10 +4562,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-project-overview"
-               value="17"
+               value="15"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>17</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>15</code></p>
         </div>
         </form>
 
@@ -3756,19 +4583,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/project-overview/11" \
+    "http://localhost:8000/api/project-overview/12" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"overviewText\": \"est\"
+    \"overviewText\": \"temporibus\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-overview/11"
+    "http://localhost:8000/api/project-overview/12"
 );
 
 const headers = {
@@ -3778,7 +4605,7 @@ const headers = {
 };
 
 let body = {
-    "overviewText": "est"
+    "overviewText": "temporibus"
 };
 
 fetch(url, {
@@ -3878,10 +4705,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-project-overview--id-"
-               value="11"
+               value="12"
                data-component="url">
     <br>
-<p>Id of the ProjectOverview. Example: <code>11</code></p>
+<p>Id of the ProjectOverview. Example: <code>12</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3890,12 +4717,773 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="overviewText"                data-endpoint="POSTapi-project-overview--id-"
-               value="est"
+               value="temporibus"
                data-component="body">
     <br>
-<p>text of the ProjectOverview. Example: <code>est</code></p>
+<p>text of the ProjectOverview. Example: <code>temporibus</code></p>
         </div>
         </form>
+
+                <h1 id="projecttype">ProjectType</h1>
+
+    
+
+                                <h2 id="projecttype-GETapi-project-type">Get all ProjectType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Get a list of all ProjectType.</p>
+
+<span id="example-requests-GETapi-project-type">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/project-type?page=17" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/project-type"
+);
+
+const params = {
+    "page": "17",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-project-type">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-project-type" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-project-type"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-project-type"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-project-type" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-project-type">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-project-type" data-method="GET"
+      data-path="api/project-type"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-project-type', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-project-type"
+                    onclick="tryItOut('GETapi-project-type');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-project-type"
+                    onclick="cancelTryOut('GETapi-project-type');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-project-type"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/project-type</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-project-type"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-project-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-project-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-project-type"
+               value="17"
+               data-component="query">
+    <br>
+<p>page number. Example: <code>17</code></p>
+            </div>
+                </form>
+
+                    <h2 id="projecttype-POSTapi-project-type">Store a new ProjectType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Create a new ProjectType.</p>
+
+<span id="example-requests-POSTapi-project-type">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/project-type" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Header\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/project-type"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Header"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-project-type">
+</span>
+<span id="execution-results-POSTapi-project-type" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-project-type"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-project-type"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-project-type" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-project-type">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-project-type" data-method="POST"
+      data-path="api/project-type"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-project-type', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-project-type"
+                    onclick="tryItOut('POSTapi-project-type');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-project-type"
+                    onclick="cancelTryOut('POSTapi-project-type');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-project-type"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/project-type</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-project-type"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-project-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-project-type"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-project-type"
+               value="Header"
+               data-component="body">
+    <br>
+<p>The name of the ProjectType. Example: <code>Header</code></p>
+        </div>
+        </form>
+
+                    <h2 id="projecttype-GETapi-project-type--id-">Show a ProjectType</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Get details of a specific ProjectType.</p>
+
+<span id="example-requests-GETapi-project-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/project-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/project-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-project-type--id-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-project-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-project-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-project-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-project-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-project-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-project-type--id-" data-method="GET"
+      data-path="api/project-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-project-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-project-type--id-"
+                    onclick="tryItOut('GETapi-project-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-project-type--id-"
+                    onclick="cancelTryOut('GETapi-project-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-project-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/project-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-project-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-project-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the ProjectType. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="projecttype-PUTapi-project-type--id-">Update a website component category</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Update details of a specific projectType.</p>
+
+<span id="example-requests-PUTapi-project-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/project-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Updated Header\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/project-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Updated Header"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-project-type--id-">
+</span>
+<span id="execution-results-PUTapi-project-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-project-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-project-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-project-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-project-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-project-type--id-" data-method="PUT"
+      data-path="api/project-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-project-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-project-type--id-"
+                    onclick="tryItOut('PUTapi-project-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-project-type--id-"
+                    onclick="cancelTryOut('PUTapi-project-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-project-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/project-type/{id}</code></b>
+        </p>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/project-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PUTapi-project-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="PUTapi-project-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the projectType. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTapi-project-type--id-"
+               value="Updated Header"
+               data-component="body">
+    <br>
+<p>The name of the projectType. Example: <code>Updated Header</code></p>
+        </div>
+        </form>
+
+                    <h2 id="projecttype-DELETEapi-project-type--id-">Delete a website component category</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Delete a specific website component category.</p>
+
+<span id="example-requests-DELETEapi-project-type--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/project-type/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/project-type/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-project-type--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Website component category deleted successfully&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-project-type--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-project-type--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-project-type--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-project-type--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-project-type--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-project-type--id-" data-method="DELETE"
+      data-path="api/project-type/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-project-type--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-project-type--id-"
+                    onclick="tryItOut('DELETEapi-project-type--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-project-type--id-"
+                    onclick="cancelTryOut('DELETEapi-project-type--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-project-type--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/project-type/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-project-type--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-project-type--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="DELETEapi-project-type--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the website component category. Example: <code>1</code></p>
+            </div>
+                    </form>
 
                 <h1 id="projects">Projects</h1>
 
@@ -4219,14 +5807,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/projects/16?project_id=1" \
+    --get "http://localhost:8000/api/projects/6?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/16"
+    "http://localhost:8000/api/projects/6"
 );
 
 const params = {
@@ -4341,10 +5929,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="GETapi-projects--project_id-"
-               value="16"
+               value="6"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>16</code></p>
+<p>The ID of the project. Example: <code>6</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -4373,7 +5961,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/projects/6?project_id=1" \
+    "http://localhost:8000/api/projects/2?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -4386,7 +5974,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/6"
+    "http://localhost:8000/api/projects/2"
 );
 
 const params = {
@@ -4512,10 +6100,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="PUTapi-projects--project_id-"
-               value="6"
+               value="2"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>6</code></p>
+<p>The ID of the project. Example: <code>2</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -4578,14 +6166,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/projects/15?project_id=1" \
+    "http://localhost:8000/api/projects/5?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/15"
+    "http://localhost:8000/api/projects/5"
 );
 
 const params = {
@@ -4693,10 +6281,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="DELETEapi-projects--project_id-"
-               value="15"
+               value="5"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>15</code></p>
+<p>The ID of the project. Example: <code>5</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -4714,9 +6302,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="prompts-management">Prompts Management</h1>
 
-    <ul>
-<li>@queryParam page integer page number.</li>
-</ul>
+    
 
                                 <h2 id="prompts-management-GETapi-prompts">Display a listing of prompts.</h2>
 
@@ -4732,7 +6318,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/prompts" \
+    --get "http://localhost:8000/api/prompts?page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4742,6 +6328,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/prompts"
 );
+
+const params = {
+    "page": "15",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Authorization": "Bearer {YOUR_AUTH_KEY}",
@@ -4857,7 +6449,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-prompts"
+               value="15"
+               data-component="query">
+    <br>
+<p>page number. Example: <code>15</code></p>
+            </div>
+                </form>
 
                     <h2 id="prompts-management-POSTapi-prompts">Store a newly created prompt.</h2>
 
@@ -5042,7 +6646,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/prompts/qui" \
+    --get "http://localhost:8000/api/prompts/in" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5050,7 +6654,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/qui"
+    "http://localhost:8000/api/prompts/in"
 );
 
 const headers = {
@@ -5174,10 +6778,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-prompts--id-"
-               value="qui"
+               value="in"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>qui</code></p>
+<p>The ID of the prompt. Example: <code>in</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -5206,7 +6810,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/prompts/et" \
+    "http://localhost:8000/api/prompts/sint" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -5220,7 +6824,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/et"
+    "http://localhost:8000/api/prompts/sint"
 );
 
 const headers = {
@@ -5332,10 +6936,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-prompts--id-"
-               value="et"
+               value="sint"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>et</code></p>
+<p>The ID of the prompt. Example: <code>sint</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -5398,7 +7002,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/prompts/quis" \
+    "http://localhost:8000/api/prompts/illum" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5406,7 +7010,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/quis"
+    "http://localhost:8000/api/prompts/illum"
 );
 
 const headers = {
@@ -5511,10 +7115,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-prompts--id-"
-               value="quis"
+               value="illum"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>quis</code></p>
+<p>The ID of the prompt. Example: <code>illum</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -5547,7 +7151,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery?page=4" \
+    --get "http://localhost:8000/api/project-summery?page=3" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5559,7 +7163,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "4",
+    "page": "3",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -5685,10 +7289,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-summery"
-               value="4"
+               value="3"
                data-component="query">
     <br>
-<p>page number. Example: <code>4</code></p>
+<p>page number. Example: <code>3</code></p>
             </div>
                 </form>
 
@@ -5711,14 +7315,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 11,
-    \"transcriptText\": \"eos\",
-    \"projectName\": \"corporis\",
-    \"projectType\": 7,
-    \"company\": \"dignissimos\",
-    \"clientPhone\": \"possimus\",
-    \"clientEmail\": \"llueilwitz@example.com\",
-    \"clientWebsite\": \"hic\"
+    \"transcriptId\": 1,
+    \"transcriptText\": \"ipsam\",
+    \"projectName\": \"commodi\",
+    \"projectType\": 17,
+    \"company\": \"harum\",
+    \"clientPhone\": \"et\",
+    \"clientEmail\": \"pink46@example.com\",
+    \"clientWebsite\": \"et\"
 }"
 </code></pre></div>
 
@@ -5735,14 +7339,14 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 11,
-    "transcriptText": "eos",
-    "projectName": "corporis",
-    "projectType": 7,
-    "company": "dignissimos",
-    "clientPhone": "possimus",
-    "clientEmail": "llueilwitz@example.com",
-    "clientWebsite": "hic"
+    "transcriptId": 1,
+    "transcriptText": "ipsam",
+    "projectName": "commodi",
+    "projectType": 17,
+    "company": "harum",
+    "clientPhone": "et",
+    "clientEmail": "pink46@example.com",
+    "clientWebsite": "et"
 };
 
 fetch(url, {
@@ -5842,10 +7446,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-project-summery"
-               value="11"
+               value="1"
                data-component="body">
     <br>
-<p>The id of the transcript to regenrate. Example: <code>11</code></p>
+<p>The id of the transcript to regenrate. Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -5853,10 +7457,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-project-summery"
-               value="eos"
+               value="ipsam"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>eos</code></p>
+<p>The text of the transcript. Example: <code>ipsam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectName</code></b>&nbsp;&nbsp;
@@ -5864,10 +7468,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="projectName"                data-endpoint="POSTapi-project-summery"
-               value="corporis"
+               value="commodi"
                data-component="body">
     <br>
-<p>The name of the project. Example: <code>corporis</code></p>
+<p>The name of the project. Example: <code>commodi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectType</code></b>&nbsp;&nbsp;
@@ -5875,10 +7479,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="projectType"                data-endpoint="POSTapi-project-summery"
-               value="7"
+               value="17"
                data-component="body">
     <br>
-<p>The type of the project. Example: <code>7</code></p>
+<p>The type of the project. Example: <code>17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>company</code></b>&nbsp;&nbsp;
@@ -5886,10 +7490,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company"                data-endpoint="POSTapi-project-summery"
-               value="dignissimos"
+               value="harum"
                data-component="body">
     <br>
-<p>The company name of the project. Example: <code>dignissimos</code></p>
+<p>The company name of the project. Example: <code>harum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientPhone</code></b>&nbsp;&nbsp;
@@ -5897,10 +7501,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientPhone"                data-endpoint="POSTapi-project-summery"
-               value="possimus"
+               value="et"
                data-component="body">
     <br>
-<p>The phone number of the client. Example: <code>possimus</code></p>
+<p>The phone number of the client. Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientEmail</code></b>&nbsp;&nbsp;
@@ -5908,10 +7512,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientEmail"                data-endpoint="POSTapi-project-summery"
-               value="llueilwitz@example.com"
+               value="pink46@example.com"
                data-component="body">
     <br>
-<p>The email of the client. Example: <code>llueilwitz@example.com</code></p>
+<p>The email of the client. Example: <code>pink46@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientWebsite</code></b>&nbsp;&nbsp;
@@ -5919,10 +7523,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientWebsite"                data-endpoint="POSTapi-project-summery"
-               value="hic"
+               value="et"
                data-component="body">
     <br>
-<p>The website of the client. Example: <code>hic</code></p>
+<p>The website of the client. Example: <code>et</code></p>
         </div>
         </form>
 
@@ -5940,7 +7544,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery/17" \
+    --get "http://localhost:8000/api/project-summery/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5948,7 +7552,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/17"
+    "http://localhost:8000/api/project-summery/1"
 );
 
 const headers = {
@@ -6072,10 +7676,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-project-summery--id-"
-               value="17"
+               value="1"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>17</code></p>
+<p>Id of the transcript. Example: <code>1</code></p>
             </div>
                     </form>
 
@@ -6093,19 +7697,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-summery/12" \
+    "http://localhost:8000/api/project-summery/15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"summaryText\": 7
+    \"summaryText\": 16
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/12"
+    "http://localhost:8000/api/project-summery/15"
 );
 
 const headers = {
@@ -6115,7 +7719,7 @@ const headers = {
 };
 
 let body = {
-    "summaryText": 7
+    "summaryText": 16
 };
 
 fetch(url, {
@@ -6215,10 +7819,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-project-summery--id-"
-               value="12"
+               value="15"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>12</code></p>
+<p>Id of the transcript. Example: <code>15</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -6227,10 +7831,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="summaryText"                data-endpoint="PUTapi-project-summery--id-"
-               value="7"
+               value="16"
                data-component="body">
     <br>
-<p>summaryText of the SOW Meeting Summery. Example: <code>7</code></p>
+<p>summaryText of the SOW Meeting Summery. Example: <code>16</code></p>
         </div>
         </form>
 
@@ -6248,7 +7852,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-summery/7" \
+    "http://localhost:8000/api/project-summery/5" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6256,7 +7860,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/7"
+    "http://localhost:8000/api/project-summery/5"
 );
 
 const headers = {
@@ -6361,10 +7965,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-project-summery--id-"
-               value="7"
+               value="5"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>7</code></p>
+<p>Id of the transcript. Example: <code>5</code></p>
             </div>
                     </form>
 
@@ -6391,7 +7995,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 4
+    \"problemGoalID\": 18
 }"
 </code></pre></div>
 
@@ -6408,7 +8012,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 4
+    "problemGoalID": 18
 };
 
 fetch(url, {
@@ -6508,10 +8112,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-scope-of-work"
-               value="4"
+               value="18"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>4</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>18</code></p>
         </div>
         </form>
 
@@ -6529,19 +8133,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/scope-of-work/4" \
+    "http://localhost:8000/api/scope-of-work/7" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"scopeText\": \"facilis\"
+    \"scopeText\": \"iure\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/scope-of-work/4"
+    "http://localhost:8000/api/scope-of-work/7"
 );
 
 const headers = {
@@ -6551,7 +8155,7 @@ const headers = {
 };
 
 let body = {
-    "scopeText": "facilis"
+    "scopeText": "iure"
 };
 
 fetch(url, {
@@ -6651,10 +8255,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="4"
+               value="7"
                data-component="url">
     <br>
-<p>Id of the Scope of Work. Example: <code>4</code></p>
+<p>Id of the Scope of Work. Example: <code>7</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -6663,10 +8267,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="scopeText"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="facilis"
+               value="iure"
                data-component="body">
     <br>
-<p>text of the Scope of Work. Example: <code>facilis</code></p>
+<p>text of the Scope of Work. Example: <code>iure</code></p>
         </div>
         </form>
 
@@ -6688,7 +8292,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-deliverable-tasks?page=17&amp;serviceDeliverableId=15" \
+    --get "http://localhost:8000/api/service-deliverable-tasks?page=10&amp;serviceDeliverableId=4" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6700,8 +8304,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "17",
-    "serviceDeliverableId": "15",
+    "page": "10",
+    "serviceDeliverableId": "4",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -6827,10 +8431,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="17"
+               value="10"
                data-component="query">
     <br>
-<p>page number. Example: <code>17</code></p>
+<p>page number. Example: <code>10</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceDeliverableId</code></b>&nbsp;&nbsp;
@@ -6838,10 +8442,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceDeliverableId"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="15"
+               value="4"
                data-component="query">
     <br>
-<p>Service Deliverable Id. Example: <code>15</code></p>
+<p>Service Deliverable Id. Example: <code>4</code></p>
             </div>
                 </form>
 
@@ -7202,7 +8806,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"Updated Design Phase Task\",
     \"description\": \"Updated description\",
     \"cost\": 200,
-    \"serviceDeliverableId\": 8
+    \"serviceDeliverableId\": 9
 }"
 </code></pre></div>
 
@@ -7222,7 +8826,7 @@ let body = {
     "name": "Updated Design Phase Task",
     "description": "Updated description",
     "cost": 200,
-    "serviceDeliverableId": 8
+    "serviceDeliverableId": 9
 };
 
 fetch(url, {
@@ -7371,10 +8975,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceDeliverableId"                data-endpoint="PUTapi-service-deliverable-tasks--id-"
-               value="8"
+               value="9"
                data-component="body">
     <br>
-<p>The ID of the associated service deliverable. Example: <code>8</code></p>
+<p>The ID of the associated service deliverable. Example: <code>9</code></p>
         </div>
         </form>
 
@@ -7530,7 +9134,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-deliverables?page=18&amp;serviceScopeId=12" \
+    --get "http://localhost:8000/api/service-deliverables?page=19&amp;serviceScopeId=16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -7542,8 +9146,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "18",
-    "serviceScopeId": "12",
+    "page": "19",
+    "serviceScopeId": "16",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -7669,10 +9273,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-deliverables"
-               value="18"
+               value="19"
                data-component="query">
     <br>
-<p>page number. Example: <code>18</code></p>
+<p>page number. Example: <code>19</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceScopeId</code></b>&nbsp;&nbsp;
@@ -7680,10 +9284,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceScopeId"                data-endpoint="GETapi-service-deliverables"
-               value="12"
+               value="16"
                data-component="query">
     <br>
-<p>Service Scope Id. Example: <code>12</code></p>
+<p>Service Scope Id. Example: <code>16</code></p>
             </div>
                 </form>
 
@@ -8016,7 +9620,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Implementation Phase\",
-    \"serviceScopeId\": 2
+    \"serviceScopeId\": 14
 }"
 </code></pre></div>
 
@@ -8034,7 +9638,7 @@ const headers = {
 
 let body = {
     "name": "Implementation Phase",
-    "serviceScopeId": 2
+    "serviceScopeId": 14
 };
 
 fetch(url, {
@@ -8161,10 +9765,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceScopeId"                data-endpoint="PUTapi-service-deliverables--id-"
-               value="2"
+               value="14"
                data-component="body">
     <br>
-<p>The ID of the associated service scope. Example: <code>2</code></p>
+<p>The ID of the associated service scope. Example: <code>14</code></p>
         </div>
         </form>
 
@@ -8320,7 +9924,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-groups?page=1&amp;serviceId=6" \
+    --get "http://localhost:8000/api/service-groups?page=4&amp;serviceId=4" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -8332,8 +9936,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "1",
-    "serviceId": "6",
+    "page": "4",
+    "serviceId": "4",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -8459,10 +10063,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-groups"
-               value="1"
+               value="4"
                data-component="query">
     <br>
-<p>page number. Example: <code>1</code></p>
+<p>page number. Example: <code>4</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceId</code></b>&nbsp;&nbsp;
@@ -8470,10 +10074,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="GETapi-service-groups"
-               value="6"
+               value="4"
                data-component="query">
     <br>
-<p>Service Id. Example: <code>6</code></p>
+<p>Service Id. Example: <code>4</code></p>
             </div>
                 </form>
 
@@ -8806,7 +10410,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Advanced\",
-    \"serviceId\": 7
+    \"serviceId\": 2
 }"
 </code></pre></div>
 
@@ -8824,7 +10428,7 @@ const headers = {
 
 let body = {
     "name": "Advanced",
-    "serviceId": 7
+    "serviceId": 2
 };
 
 fetch(url, {
@@ -8951,10 +10555,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="PUTapi-service-groups--id-"
-               value="7"
+               value="2"
                data-component="body">
     <br>
-<p>The ID of the associated service. Example: <code>7</code></p>
+<p>The ID of the associated service. Example: <code>2</code></p>
         </div>
         </form>
 
@@ -9110,7 +10714,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-scopes?page=16&amp;serviceGroupId=18" \
+    --get "http://localhost:8000/api/service-scopes?page=12&amp;serviceGroupId=6" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -9122,8 +10726,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "16",
-    "serviceGroupId": "18",
+    "page": "12",
+    "serviceGroupId": "6",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -9249,10 +10853,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-scopes"
-               value="16"
+               value="12"
                data-component="query">
     <br>
-<p>page number. Example: <code>16</code></p>
+<p>page number. Example: <code>12</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceGroupId</code></b>&nbsp;&nbsp;
@@ -9260,10 +10864,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="GETapi-service-scopes"
-               value="18"
+               value="6"
                data-component="query">
     <br>
-<p>Service group Id. Example: <code>18</code></p>
+<p>Service group Id. Example: <code>6</code></p>
             </div>
                 </form>
 
@@ -9596,7 +11200,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Advanced\",
-    \"serviceGroupId\": 12
+    \"serviceGroupId\": 15
 }"
 </code></pre></div>
 
@@ -9614,7 +11218,7 @@ const headers = {
 
 let body = {
     "name": "Advanced",
-    "serviceGroupId": 12
+    "serviceGroupId": 15
 };
 
 fetch(url, {
@@ -9741,10 +11345,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="PUTapi-service-scopes--id-"
-               value="12"
+               value="15"
                data-component="body">
     <br>
-<p>The ID of the associated service. Example: <code>12</code></p>
+<p>The ID of the associated service. Example: <code>15</code></p>
         </div>
         </form>
 
@@ -9900,7 +11504,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/services?page=18" \
+    --get "http://localhost:8000/api/services?page=5" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -9912,7 +11516,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "18",
+    "page": "5",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -10038,10 +11642,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-services"
-               value="18"
+               value="5"
                data-component="query">
     <br>
-<p>page number. Example: <code>18</code></p>
+<p>page number. Example: <code>5</code></p>
             </div>
                 </form>
 
@@ -10643,6 +12247,865 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
+                <h1 id="users-management">Users Management</h1>
+
+    
+
+                                <h2 id="users-management-GETapi-users">Display a listing of users.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-GETapi-users">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/users?page=5" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/users"
+);
+
+const params = {
+    "page": "5",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-users">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-users" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-users"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-users"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-users" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-users">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-users" data-method="GET"
+      data-path="api/users"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-users', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-users"
+                    onclick="tryItOut('GETapi-users');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-users"
+                    onclick="cancelTryOut('GETapi-users');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-users"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/users</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-users"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-users"
+               value="5"
+               data-component="query">
+    <br>
+<p>page number. Example: <code>5</code></p>
+            </div>
+                </form>
+
+                    <h2 id="users-management-POSTapi-users">Store a newly created user.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTapi-users">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/users" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"\\\"user@example.com.\\\"\",
+    \"name\": \"\\\"Example user name.\\\"\",
+    \"password\": \"\\\"ashska.\\\"\",
+    \"password_confirmation\": \"\\\"ashska.\\\"\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/users"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "\"user@example.com.\"",
+    "name": "\"Example user name.\"",
+    "password": "\"ashska.\"",
+    "password_confirmation": "\"ashska.\""
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-users">
+</span>
+<span id="execution-results-POSTapi-users" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-users"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-users"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-users" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-users">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-users" data-method="POST"
+      data-path="api/users"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-users', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-users"
+                    onclick="tryItOut('POSTapi-users');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-users"
+                    onclick="cancelTryOut('POSTapi-users');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-users"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/users</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-users"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-users"
+               value=""user@example.com.""
+               data-component="body">
+    <br>
+<p>The email of the user. Example: <code>"user@example.com."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-users"
+               value=""Example user name.""
+               data-component="body">
+    <br>
+<p>The name of the user. Example: <code>"Example user name."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTapi-users"
+               value=""ashska.""
+               data-component="body">
+    <br>
+<p>The password of the user. Example: <code>"ashska."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password_confirmation"                data-endpoint="POSTapi-users"
+               value=""ashska.""
+               data-component="body">
+    <br>
+<p>The mathing password of the user. Example: <code>"ashska."</code></p>
+        </div>
+        </form>
+
+                    <h2 id="users-management-GETapi-users--id-">Display the specified user.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-GETapi-users--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/users/aperiam" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/users/aperiam"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-users--id-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">content-type: text/json; charset=UTF-8
+cache-control: no-cache, private
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;Error&quot;,
+    &quot;message&quot;: &quot;Unauthenticated&quot;,
+    &quot;code&quot;: 401,
+    &quot;errors&quot;: []
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-users--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-users--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-users--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-users--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-users--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-users--id-" data-method="GET"
+      data-path="api/users/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-users--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-users--id-"
+                    onclick="tryItOut('GETapi-users--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-users--id-"
+                    onclick="cancelTryOut('GETapi-users--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-users--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/users/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-users--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-users--id-"
+               value="aperiam"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>aperiam</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="user"                data-endpoint="GETapi-users--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the user to display. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="users-management-PUTapi-users--id-">Update the specified user.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-PUTapi-users--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/users/cumque" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"\\\"user@example.com.\\\"\",
+    \"name\": \"\\\"Example user name.\\\"\",
+    \"password\": \"\\\"ashska.\\\"\",
+    \"password_confirmation\": \"\\\"ashska.\\\"\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/users/cumque"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "\"user@example.com.\"",
+    "name": "\"Example user name.\"",
+    "password": "\"ashska.\"",
+    "password_confirmation": "\"ashska.\""
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-users--id-">
+</span>
+<span id="execution-results-PUTapi-users--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-users--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-users--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-users--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-users--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-users--id-" data-method="PUT"
+      data-path="api/users/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-users--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-users--id-"
+                    onclick="tryItOut('PUTapi-users--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-users--id-"
+                    onclick="cancelTryOut('PUTapi-users--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-users--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/users/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PUTapi-users--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="PUTapi-users--id-"
+               value="cumque"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>cumque</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="user"                data-endpoint="PUTapi-users--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the user to update. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="PUTapi-users--id-"
+               value=""user@example.com.""
+               data-component="body">
+    <br>
+<p>The email of the user. Example: <code>"user@example.com."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTapi-users--id-"
+               value=""Example user name.""
+               data-component="body">
+    <br>
+<p>The name of the user. Example: <code>"Example user name."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="PUTapi-users--id-"
+               value=""ashska.""
+               data-component="body">
+    <br>
+<p>nullable The password of the user. Example: <code>"ashska."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="password_confirmation"                data-endpoint="PUTapi-users--id-"
+               value=""ashska.""
+               data-component="body">
+    <br>
+<p>nullable The mathing password of the user. Example: <code>"ashska."</code></p>
+        </div>
+        </form>
+
+                    <h2 id="users-management-DELETEapi-users--id-">Remove the specified user from storage.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-DELETEapi-users--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/users/perferendis" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/users/perferendis"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-users--id-">
+</span>
+<span id="execution-results-DELETEapi-users--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-users--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-users--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-users--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-users--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-users--id-" data-method="DELETE"
+      data-path="api/users/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-users--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-users--id-"
+                    onclick="tryItOut('DELETEapi-users--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-users--id-"
+                    onclick="cancelTryOut('DELETEapi-users--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-users--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/users/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-users--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-users--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="DELETEapi-users--id-"
+               value="perferendis"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>perferendis</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="user"                data-endpoint="DELETEapi-users--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the user to delete. Example: <code>1</code></p>
+            </div>
+                    </form>
+
                 <h1 id="website-component-categories">Website Component Categories</h1>
 
     <p>APIs for managing website component categories.</p>
@@ -10933,14 +13396,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/categories/10?category_id=1" \
+    --get "http://localhost:8000/api/categories/15?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/10"
+    "http://localhost:8000/api/categories/15"
 );
 
 const params = {
@@ -11053,10 +13516,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="GETapi-categories--category_id-"
-               value="10"
+               value="15"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>10</code></p>
+<p>The ID of the category. Example: <code>15</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -11085,7 +13548,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/categories/9?category_id=1" \
+    "http://localhost:8000/api/categories/4?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -11096,7 +13559,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/9"
+    "http://localhost:8000/api/categories/4"
 );
 
 const params = {
@@ -11218,10 +13681,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="PUTapi-categories--category_id-"
-               value="9"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>9</code></p>
+<p>The ID of the category. Example: <code>4</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -11262,14 +13725,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/categories/8?category_id=1" \
+    "http://localhost:8000/api/categories/10?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/8"
+    "http://localhost:8000/api/categories/10"
 );
 
 const params = {
@@ -11377,10 +13840,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="DELETEapi-categories--category_id-"
-               value="8"
+               value="10"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>8</code></p>
+<p>The ID of the category. Example: <code>10</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -11752,14 +14215,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/components/15?component_id=1" \
+    --get "http://localhost:8000/api/components/13?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/15"
+    "http://localhost:8000/api/components/13"
 );
 
 const params = {
@@ -11881,10 +14344,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="GETapi-components--component_id-"
-               value="15"
+               value="13"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>15</code></p>
+<p>The ID of the component. Example: <code>13</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -11913,7 +14376,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/components/14?component_id=1" \
+    "http://localhost:8000/api/components/20?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -11927,7 +14390,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/14"
+    "http://localhost:8000/api/components/20"
 );
 
 const params = {
@@ -12061,10 +14524,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="PUTapi-components--component_id-"
-               value="14"
+               value="20"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>14</code></p>
+<p>The ID of the component. Example: <code>20</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -12138,14 +14601,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/components/13?component_id=1" \
+    "http://localhost:8000/api/components/19?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/13"
+    "http://localhost:8000/api/components/19"
 );
 
 const params = {
@@ -12253,10 +14716,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="DELETEapi-components--component_id-"
-               value="13"
+               value="19"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>13</code></p>
+<p>The ID of the component. Example: <code>19</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">

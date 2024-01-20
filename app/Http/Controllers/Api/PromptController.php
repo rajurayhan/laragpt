@@ -20,7 +20,7 @@ class PromptController extends Controller
      * Display a listing of prompts.
      *
      * @group Prompts Management
-     * * @queryParam page integer page number.
+     * @queryParam page integer page number.
      *
      * @return \Illuminate\Http\JsonResponse
      */

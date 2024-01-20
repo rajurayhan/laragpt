@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Services\ServiceGroupController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
 use App\Http\Controllers\Api\System\MeetingTypeController;
 use App\Http\Controllers\Api\System\ProjectTypeController;
+use App\Http\Controllers\Api\UserController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
@@ -38,6 +39,13 @@ use Illuminate\Support\Facades\Validator;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // Users routes
+    Route::get('/users', [UserController::class, 'index'])->name('user.list');
+    Route::post('/users', [UserController::class, 'store'])->name('user.create');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Prompts routes
     Route::get('/prompts', [PromptController::class, 'index'])->name('prompt.list');
