@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Http;
     public function storeMeetingSummery(Request $request){
         // return $taskId = $this->getLastPartOfUrl($request->clickupLink);
         // return $this->getLastPartOfUrl($request->tldvLink);
-        set_time_limit(500);
+        set_time_limit(1500);
         $prompt = PromptService::findPromptByType($this->promptType);
         if($prompt == null){
             $response = [
