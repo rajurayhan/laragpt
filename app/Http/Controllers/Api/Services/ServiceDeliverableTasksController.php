@@ -198,22 +198,23 @@ class ServiceDeliverableTasksController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            '*.name' => 'required|string',
-            '*.description' => 'required|string',
-            '*.cost' => 'required|numeric',
+            'tasks' => 'required|array', // Make sure 'tasks' is present and is an array
+            'tasks.*.name' => 'required|string',
+            'tasks.*.description' => 'required|string',
+            'tasks.*.cost' => 'required|numeric',
             'serviceDeliverableId' => 'required|integer|exists:service_deliverables,id',
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
 
         $tasks = [];
 
-        foreach ($validatedData as $data) {
+        foreach ($validatedData['tasks'] as $data) {
             $task = ServiceDeliverableTasks::create([
                 'name' => $data['name'],
                 'description' => $data['description'],
                 'cost' => $data['cost'],
                 'serviceDeliverableId' => $request->input('serviceDeliverableId'),
-                'parentTaskId' => $data['parentTaskId'],
+                'parentTaskId' => $request->input('parentTaskId') ?? null,
             ]);
 
             $tasks[] = $task;
