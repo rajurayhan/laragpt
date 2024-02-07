@@ -49,7 +49,7 @@ class ProjectTypeController extends Controller
     public function show($id)
     {
         try {
-            $projectType = ProjectType::with('services')->find($id);
+            $projectType = ProjectType::with('services.serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks')->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $projectType

@@ -10,9 +10,9 @@ class Services extends Model
     use HasFactory;
     protected $fillable = ['name', 'projectTypeId'];
 
-    public function serviceScopes()
+    public function serviceGroups()
     {
-        return $this->hasMany(ServiceScopes::class, 'serviceId', 'id');
+        return $this->hasMany(ServiceGroups::class, 'serviceId', 'id');
     }
 
     public function projectType()
