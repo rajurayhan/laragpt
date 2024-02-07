@@ -99,31 +99,68 @@ class ServiceScopeController extends Controller
         }
     }
 
+    // /**
+    //  * Store a new Service Scope
+    //  *
+    //  * Create a new Service Scope.
+    //  *
+    //  * @bodyParam name string required The name of the Service Scope. Example: Basic
+    //  * @bodyParam serviceGroupId integer required The ID of the associated service. Example: 2
+    //  */
+    // public function store(Request $request)
+    // {
+
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string',
+    //         'serviceGroupId' => 'required|integer|exists:service_groups,id',
+    //     ]);
+
+    //     $serviceScope = ServiceScopes::create($validatedData);
+    //     $response = [
+    //         'message' => 'Created Successfully',
+    //         'data' => $serviceScope->load('serviceGroup.service')
+    //     ];
+
+    //     return response()->json($response, 201);
+
+    // }
+
     /**
      * Store a new Service Scope
      *
      * Create a new Service Scope.
      *
-     * @bodyParam name string required The name of the Service Scope. Example: Basic
-     * @bodyParam serviceGroupId integer required The ID of the associated service. Example: 2
+     * @bodyParam names array required An array of names for the Service Scope. Example: ["Basic", "Standard"]
+     * @bodyParam serviceGroupId integer required The ID of the associated service group. Example: 2
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'names' => 'required|array',
+            'names.*' => 'required|string',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
         ]);
 
-        $serviceScope = ServiceScopes::create($validatedData);
+        $serviceScopes = [];
+
+        foreach ($validatedData['names'] as $name) {
+            $data = [
+                'name' => $name,
+                'serviceGroupId' => $validatedData['serviceGroupId'],
+            ];
+
+            $serviceScope = ServiceScopes::create($data);
+            $serviceScopes[] = $serviceScope->load('serviceGroup.service');
+        }
+
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceScope->load('serviceGroup.service')
+            'data' => $serviceScopes,
         ];
 
         return response()->json($response, 201);
-
     }
+
 
     /**
      * Update a Service Scope

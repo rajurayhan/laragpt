@@ -70,31 +70,68 @@ class ServiceGroupController extends Controller
         }
     }
 
+    // /**
+    //  * Store a new Service Group
+    //  *
+    //  * Create a new Service Group.
+    //  *
+    //  * @bodyParam name string required The name of the Service Group. Example: Basic
+    //  * @bodyParam serviceId integer required The ID of the associated service. Example: 2
+    //  */
+    // public function store(Request $request)
+    // {
+
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string',
+    //         'serviceId' => 'required|integer|exists:services,id',
+    //     ]);
+
+    //     $serviceGroup = ServiceGroups::create($validatedData);
+    //     $response = [
+    //         'message' => 'Created Successfully',
+    //         'data' => $serviceGroup->load('service')
+    //     ];
+
+    //     return response()->json($response, 201);
+
+    // }
+
     /**
      * Store a new Service Group
      *
      * Create a new Service Group.
      *
-     * @bodyParam name string required The name of the Service Group. Example: Basic
+     * @bodyParam names array required An array of names for the Service Group. Example: ["Basic", "Standard"]
      * @bodyParam serviceId integer required The ID of the associated service. Example: 2
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'names' => 'required|array',
+            'names.*' => 'required|string',
             'serviceId' => 'required|integer|exists:services,id',
         ]);
 
-        $serviceGroup = ServiceGroups::create($validatedData);
+        $serviceGroups = [];
+
+        foreach ($validatedData['names'] as $name) {
+            $data = [
+                'name' => $name,
+                'serviceId' => $validatedData['serviceId'],
+            ];
+
+            $serviceGroup = ServiceGroups::create($data);
+            $serviceGroups[] = $serviceGroup->load('service');
+        }
+
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceGroup->load('service')
+            'data' => $serviceGroups,
         ];
 
         return response()->json($response, 201);
-
     }
+
 
     /**
      * Update a Service Group
