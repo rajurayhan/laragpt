@@ -17,6 +17,6 @@ class ServiceDeliverables extends Model
 
     public function serviceDeliverableTasks()
     {
-        return $this->belongsTo(ServiceDeliverableTasks::class, 'serviceDeliverableId', 'id');
+        return $this->hasmany(ServiceDeliverableTasks::class, 'serviceDeliverableId', 'id');
     }
 }
