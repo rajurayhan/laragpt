@@ -21,15 +21,40 @@ class ServiceDeliverablesController extends Controller
      *
      * @queryParam page integer page number.
      * @queryParam serviceScopeId integer Service Scope Id.
+     * @queryParam serviceGroupId integer Service Group Id.
+     * @queryParam serviceId integer Service Id.
+     * @queryParam name string Filter by name.
+     * @queryParam per_page integer Number of items per page.
      */
     public function index(Request $request)
     {
         try {
             $query = ServiceDeliverables::query();
-            if($request->filled('serviceScopeId')){
-                $query->where('serviceScopeId', $request->serviceScopeId);
+            $query->with('serviceScope.serviceGroup.service');
+
+            if ($request->filled('serviceScopeId')) {
+                $query->where('serviceScopeId', $request->input('serviceScopeId'));
             }
-            $serviceDeliverables = $query->with('serviceScope.serviceGroup.service')->latest()->paginate(10);
+
+            if ($request->filled('serviceGroupId')) {
+                $query->whereHas('serviceScope.serviceGroup', function ($groupQuery) use ($request) {
+                    $groupQuery->where('id', $request->input('serviceGroupId'));
+                });
+            }
+
+            if ($request->filled('serviceId')) {
+                $query->whereHas('serviceScope.serviceGroup.service', function ($serviceQuery) use ($request) {
+                    $serviceQuery->where('id', $request->input('serviceId'));
+                });
+            }
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
+            $serviceDeliverables = $query->latest()->paginate($perPage);
+
             return response()->json([
                 'data' => $serviceDeliverables->items(),
                 'total' => $serviceDeliverables->total(),

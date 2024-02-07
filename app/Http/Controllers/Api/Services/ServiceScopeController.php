@@ -21,16 +21,53 @@ class ServiceScopeController extends Controller
      *
      * @queryParam page integer page number.
      * @queryParam serviceGroupId integer Service group Id.
+     * @queryParam serviceId integer Service Id.
+     * @queryParam name string Filter by name.
+     * @queryParam per_page integer Number of items per page.
+     * @response {
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "name": "Scope 1",
+     *             ...
+     *         },
+     *         {
+     *             "id": 2,
+     *             "name": "Scope 2",
+     *             ...
+     *         },
+     *         ...
+     *     ],
+     *     "total": 25,
+     *     "current_page": 1
+     * }
+     * @response 500 {
+     *     "message": "Error fetching service scopes",
+     *     "error": "Error message details"
+     * }
      */
     public function index(Request $request)
     {
         try {
-
             $query = ServiceScopes::query();
-            if($request->filled('serviceGroupId')){
-                $query->where('serviceGroupId', $request->serviceGroupId);
+
+            if ($request->filled('serviceGroupId')) {
+                $query->where('serviceGroupId', $request->input('serviceGroupId'));
             }
-            $serviceScopes = $query->with('serviceGroup.service')->latest()->paginate(10);
+
+            if ($request->filled('serviceId')) {
+                $query->whereHas('serviceGroup.service', function ($subQuery) use ($request) {
+                    $subQuery->where('id', $request->input('serviceId'));
+                });
+            }
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
+            $serviceScopes = $query->with('serviceGroup.service')->latest()->paginate($perPage);
+
             return response()->json([
                 'data' => $serviceScopes->items(),
                 'total' => $serviceScopes->total(),

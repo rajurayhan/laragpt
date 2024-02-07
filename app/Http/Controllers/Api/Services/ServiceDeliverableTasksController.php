@@ -19,22 +19,73 @@ class ServiceDeliverableTasksController extends Controller
      *
      * Get a list of all Service Deliverable Tasks.
      *
-     * @queryParam page integer page number.
      * @queryParam serviceDeliverableId integer Service Deliverable Id.
+     * @queryParam serviceScopeId integer Service Scope Id.
+     * @queryParam serviceGroupId integer Service Group Id.
+     * @queryParam serviceId integer Service Id.
+     * @queryParam name string Filter by name.
+     * @queryParam page integer page number.
+     * @queryParam per_page integer Number of items per page.
+     * @response {
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "name": "Task 1",
+     *             ...
+     *         },
+     *         {
+     *             "id": 2,
+     *             "name": "Task 2",
+     *             ...
+     *         },
+     *         ...
+     *     ],
+     *     "total": 25,
+     *     "current_page": 1
+     * }
+     * @response 500 {
+     *     "message": "Error fetching service deliverable tasks",
+     *     "error": "Error message details"
+     * }
      */
     public function index(Request $request)
     {
         try {
             $query = ServiceDeliverableTasks::query();
-            if($request->filled('serviceDeliverableId')){
-                $query->where('serviceDeliverableId', $request->serviceDeliverableId);
+            $query->with('serviceDeliverable.serviceScope.serviceGroup.service');
+
+            // Apply filters
+            if ($request->filled('serviceDeliverableId')) {
+                $query->where('serviceDeliverableId', $request->input('serviceDeliverableId'));
             }
 
-            $serviceDeliverableTasks = $query->with('serviceDeliverable.serviceScope.serviceGroup.service')->latest()->paginate(10);
+            if ($request->filled('serviceScopeId')) {
+                $query->whereHas('serviceDeliverable.serviceScope', function ($scopeQuery) use ($request) {
+                    $scopeQuery->where('id', $request->input('serviceScopeId'));
+                });
+            }
+
+            if ($request->filled('serviceGroupId')) {
+                $query->whereHas('serviceDeliverable.serviceScope.serviceGroup', function ($groupQuery) use ($request) {
+                    $groupQuery->where('id', $request->input('serviceGroupId'));
+                });
+            }
+
+            if ($request->filled('serviceId')) {
+                $query->whereHas('serviceDeliverable.serviceScope.serviceGroup.service', function ($serviceQuery) use ($request) {
+                    $serviceQuery->where('id', $request->input('serviceId'));
+                });
+            }
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            $perPage = $request->input('per_page', 10);
+            $serviceDeliverableTasks = $query->latest()->paginate($perPage);
+
             return response()->json([
-                'data' => $serviceDeliverableTasks->items(),
-                'total' => $serviceDeliverableTasks->total(),
-                'current_page' => $serviceDeliverableTasks->currentPage(),
+                'data' => $serviceDeliverableTasks,
             ]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service deliverable tasks', 'error' => $e->getMessage()], 500);

@@ -21,13 +21,23 @@ class ServiceController extends Controller
      *
      * Get a list of all Services.
      *
+     * @queryParam name string Filter by name.
+     * @queryParam per_page integer Number of items per page.
      * @queryParam page integer page number.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $services = Services::latest()->paginate(10);
+            $query = Services::query();
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
+
+            $services = $query->latest()->paginate($perPage);
             return response()->json([
                 'data' => $services->items(),
                 'total' => $services->total(),

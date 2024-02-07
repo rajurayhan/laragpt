@@ -20,7 +20,9 @@ class ServiceGroupController extends Controller
      * Get a list of all Service Groups.
      *
      * @queryParam page integer page number.
+     * @queryParam name string Filter by name.
      * @queryParam serviceId integer Service Id.
+     * @queryParam per_page integer Number of items per page.
      */
     public function index(Request $request)
     {
@@ -30,7 +32,13 @@ class ServiceGroupController extends Controller
             if($request->filled('serviceId')){
                 $query->where('serviceId', $request->serviceId);
             }
-            $serviceGroups = $query->with('service')->latest()->paginate(10);
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+            $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
+
+            $serviceGroups = $query->with('service')->latest()->paginate($perPage);
             return response()->json([
                 'data' => $serviceGroups->items(),
                 'total' => $serviceGroups->total(),

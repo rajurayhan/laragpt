@@ -1,0 +1,3154 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "95a10fd9-946e-4635-bed2-96a48d6ef812",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "\nAPIs for user registration",
+            "item": [
+                {
+                    "name": "Register a new user.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"john.doe@example.com\",\"password\":\"secret\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"created_at\": \"2023-07-28 12:00:00\",\n    \"updated_at\": \"2023-07-28 12:00:00\"\n  },\n  \"token\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"errors\": {\n    \"email\": [\"The email has already been taken.\"]\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Log in a user.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"john.doe@example.com\",\"password\":\"secret\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"created_at\": \"2023-07-28 12:00:00\",\n    \"updated_at\": \"2023-07-28 12:00:00\"\n  },\n  \"token\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"message\": \"Invalid credentials\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Deliverable",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/deliverables",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/deliverables"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"scopeOfWorkId\":16}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/deliverables\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/deliverables\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "10",
+                                    "description": "Id of the Deliverables."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"deliverablesText\":\"dolorem\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "POST api\/completion",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/completion",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/completion"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/image",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/image",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/image"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Meeting Summery",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get Meeting Summery List",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "15",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery?page=15"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "55"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"total\":6,\"current_page\":15}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"clickupLink\":\"fugit\",\"tldvLink\":\"labore\",\"transcriptText\":\"iusto\",\"meetingName\":\"nam\",\"meetingType\":3}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "12",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "54"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":{\"id\":12,\"transcriptText\":\"Hussain at LHG: And that requires some clarification. I know like obviously Jennifer would be the better person to do that. But if you can give us some context on that, so I think that would be real help until she's back. Okay. Perfect. so Oh, yeah.\\r\\n\\r\\nRaju at LHG: It is Jolene. So let me ask you some. Stuff that's needs to be cleared. So there are a lot of pages and forms in your existing website. So but on the front end part, there is one single lending page and there is a clickable link that makes you to a new website. So we are. Like confused how those forms and pages are being used is it? used by some external websites or like any idea on it?\\r\\n\\r\\nJolene: So when? The gsgla volunteerapps.com is the main website. right We have different departments within organization that require different forms for different business processes. So we create a form either formidable or gravity. And then we give it a URL slug that's specific to that process. So. it would be like gsgla volunteer apps if you go go into like the That's right. or yeah. Okay. And go down to pages. Go to all pages. yeah outages and then scroll down let's get a good one for you. Um click on the 2023 golden ticket contest listen Mm-hmm. And then on the right hand side the page there is a URL that's volunteer apps.org slash golden ticket. Go ahead and click it.\\r\\n\\r\\nRaju at LHG: On the right side. Yep. listen\\r\\n\\r\\nJolene: Yeah, there you go. And you can open that page from there. But this does not show anything. so It should be opening in a new window. It opened in a new window. Let me just hear that. Yeah, so that's the the form is closed. So that's why it says that but that's the idea where we have a department send us a layout for a form we build a form and then we make a unique URL slug for that form that URL is given hmm to the department that requested it and then they send that website link out to wherever it needs to go. so mostly it's sent via email, right? Okay. Yeah.\\r\\n\\r\\nRaju at LHG: Yeah, okay. So yeah Hussain I got done so actually\\r\\n\\r\\nHussain at LHG: Okay, and just one thing like this website that is connected to this like sorry linked not connected. It's Girl Scout La dot org. So this is a standalone website. It is only linked to this. right Yeah. And you are managing this from and from another dashboard or something.\\r\\n\\r\\nJolene: So the gsgla.org website is a separate. entity\\r\\n\\r\\nHussain at LHG: Okay, so like this is something built on some different.\\r\\n\\r\\nJolene: Yeah, this is designed by and maintained by a whole different department than ours.\\r\\n\\r\\nHussain at LHG: Okay. Okay. Perfect. So we are only responsible for gsgl level interior App Store.\\r\\n\\r\\nJolene: Yeah, that's all we really need to worry about. The gsgla.org is not.\\r\\n\\r\\nHussain at LHG: hmm Okay, so yeah Raju.\\r\\n\\r\\nRaju at LHG: And we need access on the Bluehost or dreamhost right Hussain hosting provider. Let me check. It's dream. Yeah. So. We had the credentials but we couldn't log in actually it says a link was sent to verify the device and location. But can you share on which email it was sent?\\r\\n\\r\\nJolene: Yeah, so it's set up with our data account email. so I know that you've been trying to log in because I've seen the emails pop up where it's asking you to verify your your your email address so can I hear our development email So, I don't know. so that you can adjust that? You sure.\\r\\n\\r\\nHussain at LHG: Are Raju if you can try accessing now, and if she receive any Ling or something? Oh, yeah, that would work. Do you want to share your screen I so I can stop presenting so she can see that. here one minute. So Jolene Jennifer is on vacations.\\r\\n\\r\\nJolene: Yeah, she's on holiday break and she won't be back until the 9th of January.\\r\\n\\r\\nHussain at LHG: Okay, and like she mostly deals with like these forms and like this part of the website, right I'm sorry. What was that question? Like she's more into this website thing. Oh, yeah. Okay, perfect. So I'm sharing my screen now. Perfect.\\r\\n\\r\\nRaju at LHG: So, can you please verify my request?\\r\\n\\r\\nJolene: Yeah. Still waiting for the email to come in. So you can set it again. I'm still waiting for the email to come in. It's still hasn't shown up yet.\\r\\n\\r\\nRaju at LHG: So this form is currently active, right? Yeah. Okay, can you guide me on which page it was used? which paid like this what? form is being used summer, right? on and\\r\\n\\r\\nJolene: Yeah, it is. um, I would search a hundred Girl Scout stories\\r\\n\\r\\nRaju at LHG: like it would help us to test real name. Okay. Got it.\\r\\n\\r\\nHussain at LHG: Right. There is a type of dreamhost Spelling is like. was it verified? And he had still hasn't come in yet. Oh, okay. but\\r\\n\\r\\nRaju at LHG: Okay, let me know. Let me show you our development Hussain. Can you confirm if there is already any existing client email setup for this account? dream of you No, no like. we have email for our every client, right?\\r\\n\\r\\nHussain at LHG: Yeah, yeah. Yeah, there is. Can you share that? Okay, just one second. So that is Girls, let me drop it in the chat.\\r\\n\\r\\nRaju at LHG: Yep. So Jolene, you can just adjust that email with this email Hussain just provided in that case will be able to verify ourselves. without interrupting you students\\r\\n\\r\\nJolene: Okay. Yeah, I have the email now. Do you want me to forward it to you or do you want me to just\\r\\n\\r\\nRaju at LHG: Okay, you can just verify it and we'll try logging in again.\\r\\n\\r\\nJolene: It's asking me to log in from the new IP address. yeah. So should I forward it to you? um, yeah, you can forward it to this Yep.\\r\\n\\r\\nHussain at LHG: email and Raju can pick it from there.\\r\\n\\r\\nJolene: to the Girl Scouts of Greater Los Angeles email Yeah. Okay.\\r\\n\\r\\nHussain at LHG: Because I think it is mentioned like click the link in that email from your current IP. Yeah, so Raju needs to click on that link that you would forward. Okay.\\r\\n\\r\\nRaju at LHG: Hussain is that email forwarded to a vegetablement? That will be forwarded to everywhere. Okay, I can see it here.\\r\\n\\r\\nHussain at LHG: I have not received it either. So I'm just waiting. Let me okay. Yeah. yeah, I this ask did you receive?\\r\\n\\r\\nRaju at LHG: yep. Perfect. Okay, sweet. Let me in. So I was able to log into the account actually. sorry. Yeah, I I was able to login.\\r\\n\\r\\nHussain at LHG: Okay, you're perfect. Perfect. and besides that there was that we can forward you are Jolene Uh-huh. that we require some plugging credentials so we can forward you that and And the exit that we have so there are some staff only pages I believe. so this is yeah. So we can forward you what our findings and besides that Raju. Do you have anything else? Now we are good support. Okay, good so far. Okay. All right. So since you are not feeling well, so we'll let you go and hope you would start feeling better soon and it Okay. would be anything so we will reach you out. Why email and until then have a good\\r\\n\\r\\n: Okay. Absolutely. Happy holidays to you both.\\r\\n\\r\\nHussain at LHG: Happy holidays. Thank you Jolene. Thank you for jumping in. get\\r\\n\\r\\nJolene: No problem. Bye guys. Thank you. by\\r\\n\\r\\nHussain at LHG: Good. Bye. Raju Hello.\",\"meetingSummeryText\":\"### Call\\\/Meeting Participants:\\n- Hussain at LHG (Lighthouse Group)\\n- Raju at LHG (Lighthouse Group)\\n- Jolene (Client representative)\\n\\n### Meeting Summary:\\nDuring the call, Hussain and Raju from LHG sought clarification on various aspects of the client's website, particularly about the use of forms and pages that were not immediately visible on the front-end. Jolene explained that their main website, gsgla volunteerapps.com, hosts various forms created with Formidable or Gravity Forms, each with a unique URL slug corresponding to different business processes within their organization. These links are distributed by the relevant departments as needed, often via email.\\n\\nThe discussion also touched upon the relationship between gsgla volunteerapps.com and another website, GirlScoutLA.org, which Jolene clarified as being a separate entity managed by a different department. Hussain and Raju's responsibility was confirmed to be limited to the gsgla volunteerapps.com website.\\n\\nRaju brought up issues with accessing the hosting provider, DreamHost, due to verification emails not being received. Jolene confirmed that she had seen the verification requests and that the emails were being sent to a specific data account. After some back-and-forth, Jolene agreed to adjust the email settings to use an email provided by Hussain, allowing the LHG team to verify themselves in the future without needing to interrupt Jolene.\\n\\nRaju managed to log into the DreamHost account successfully after the email was forwarded. Finally, Hussain mentioned that they would send Jolene a list of required plugin credentials and their findings on staff-only pages for further assistance.\\n\\n### Next Steps\\\/Tasks:\\n- **Jolene:**\\n  - [ ] Adjust the email settings in DreamHost to the email provided by Hussain to facilitate future verifications by the LHG team.\\n  - [ ] Forward the verification email to the LHG team to allow Raju to log in from the new IP address.\\n  - [ ] Receive and act upon the list of required plugin credentials and findings on staff-only pages that Hussain will send.\\n\\n- **Raju at LHG:**\\n  - [ ] Confirm successful login to DreamHost account and proceed with the necessary work.\\n  - [ ] Review the list of plugin credentials and findings on staff-only pages once forwarded by Hussain.\\n\\n- **Hussain at LHG:**\\n  - [ ] Provide Jolene with the list of required plugin credentials and findings on staff-only pages.\\n  - [ ] Follow up with any additional requests or queries via email during Jolene's colleague's absence.\",\"meetingName\":\"Meeting with Jolene (Girl Scouts LA)\",\"meetingType\":2,\"clickupLink\":\"https:\\\/\\\/app.clickup.com\\\/t\\\/86a1qnn0u\",\"tldvLink\":\"https:\\\/\\\/tldv.io\\\/app\\\/meetings\\\/65831d8a4805760013063c13?sortBy=by_tags\",\"created_at\":\"2023-12-20T17:25:05.000000Z\",\"updated_at\":\"2023-12-20T18:02:21.000000Z\",\"htmlText\":\"<h3>Call\\\/Meeting Participants:<\\\/h3>\\n<ul>\\n<li>Hussain at LHG (Lighthouse Group)<\\\/li>\\n<li>Raju at LHG (Lighthouse Group)<\\\/li>\\n<li>Jolene (Client representative)<\\\/li>\\n<\\\/ul>\\n<h3>Meeting Summary:<\\\/h3>\\n<p>During the call, Hussain and Raju from LHG sought clarification on various aspects of the client's website, particularly about the use of forms and pages that were not immediately visible on the front-end. Jolene explained that their main website, gsgla volunteerapps.com, hosts various forms created with Formidable or Gravity Forms, each with a unique URL slug corresponding to different business processes within their organization. These links are distributed by the relevant departments as needed, often via email.<\\\/p>\\n<p>The discussion also touched upon the relationship between gsgla volunteerapps.com and another website, GirlScoutLA.org, which Jolene clarified as being a separate entity managed by a different department. Hussain and Raju's responsibility was confirmed to be limited to the gsgla volunteerapps.com website.<\\\/p>\\n<p>Raju brought up issues with accessing the hosting provider, DreamHost, due to verification emails not being received. Jolene confirmed that she had seen the verification requests and that the emails were being sent to a specific data account. After some back-and-forth, Jolene agreed to adjust the email settings to use an email provided by Hussain, allowing the LHG team to verify themselves in the future without needing to interrupt Jolene.<\\\/p>\\n<p>Raju managed to log into the DreamHost account successfully after the email was forwarded. Finally, Hussain mentioned that they would send Jolene a list of required plugin credentials and their findings on staff-only pages for further assistance.<\\\/p>\\n<h3>Next Steps\\\/Tasks:<\\\/h3>\\n<ul>\\n<li>\\n<p><strong>Jolene:<\\\/strong><\\\/p>\\n<ul>\\n<li>[ ] Adjust the email settings in DreamHost to the email provided by Hussain to facilitate future verifications by the LHG team.<\\\/li>\\n<li>[ ] Forward the verification email to the LHG team to allow Raju to log in from the new IP address.<\\\/li>\\n<li>[ ] Receive and act upon the list of required plugin credentials and findings on staff-only pages that Hussain will send.<\\\/li>\\n<\\\/ul>\\n<\\\/li>\\n<li>\\n<p><strong>Raju at LHG:<\\\/strong><\\\/p>\\n<ul>\\n<li>[ ] Confirm successful login to DreamHost account and proceed with the necessary work.<\\\/li>\\n<li>[ ] Review the list of plugin credentials and findings on staff-only pages once forwarded by Hussain.<\\\/li>\\n<\\\/ul>\\n<\\\/li>\\n<li>\\n<p><strong>Hussain at LHG:<\\\/strong><\\\/p>\\n<ul>\\n<li>[ ] Provide Jolene with the list of required plugin credentials and findings on staff-only pages.<\\\/li>\\n<li>[ ] Follow up with any additional requests or queries via email during Jolene's colleague's absence.<\\\/li>\\n<\\\/ul>\\n<\\\/li>\\n<\\\/ul>\\n\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"pushToClickUp\":true,\"clickupLink\":\"quis\",\"summaryText\":\"quia\",\"tldvLink\":\"molestias\",\"transcriptText\":\"molestias\",\"meetingName\":\"animi\",\"meetingType\":19}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/meeting-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/meeting-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "5",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Problems and Goals",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create Problems and Goals",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/problems-and-goals",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/problems-and-goals"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"transcriptId\":10}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Problems and Goals",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/problems-and-goals\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/problems-and-goals\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "5",
+                                    "description": "Id of the problems and goals."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"problemGoalText\":\"vero\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Project Components",
+            "description": "\nAPIs for managing project components.",
+            "item": [
+                {
+                    "name": "Get all project components",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-components",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-components"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all project components.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"project_id\": 1,\n         \"component_id\": 1,\n         \"quantity\": 3,\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     {\n         \"project_id\": 1,\n         \"component_id\": 2,\n         \"quantity\": 2,\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-02T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Add components to a project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-components",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-components"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"project_id\":1,\"components\":[\"qui\"]}"
+                        },
+                        "description": "Add website components to a specific project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"project_id\": 1,\n         \"component_id\": 1,\n         \"quantity\": 3,\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     {\n         \"project_id\": 1,\n         \"component_id\": 2,\n         \"quantity\": 2,\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-02T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show a project component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-components\/:id",
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "value": "1",
+                                    "description": "The ID of the project.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/project-components\/:id?project_id=1&component_id=1",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "sapiente",
+                                    "description": "The ID of the project component."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific project component grouped by category_id.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"data\": {\n        \"category_id_1\": {\n            \"category_name\": \"Category A\",\n            \"total_cost\": 1500,\n            \"components\": [\n                {\n                    \"project_id\": 1,\n                    \"component_id\": 1,\n                    \"component_name\": \"Component X\",\n                    \"quantity\": 3,\n                    \"total_component_cost\": 900,\n                    \"created_at\": \"2023-07-01T12:00:00Z\",\n                    \"updated_at\": \"2023-07-01T12:30:00Z\"\n                },\n                {\n                    \"project_id\": 1,\n                    \"component_id\": 2,\n                    \"component_name\": \"Component Y\",\n                    \"quantity\": 2,\n                    \"total_component_cost\": 600,\n                    \"created_at\": \"2023-07-02T09:00:00Z\",\n                    \"updated_at\": \"2023-07-02T09:30:00Z\"\n                }\n            ]\n        },\n        \"category_id_2\": {\n            \"category_name\": \"Category B\",\n            \"total_cost\": 500,\n            \"components\": [\n                {\n                    \"project_id\": 1,\n                    \"component_id\": 3,\n                    \"component_name\": \"Component Z\",\n                    \"quantity\": 1,\n                    \"total_component_cost\": 500,\n                    \"created_at\": \"2023-07-03T10:00:00Z\",\n                    \"updated_at\": \"2023-07-03T10:30:00Z\"\n                }\n            ]\n        }\n    },\n    \"grand_total\": 2000\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update components of a project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-components\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-components\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "a",
+                                    "description": "The ID of the project component."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"components\":[\"vitae\"],\"project_id\":1}"
+                        },
+                        "description": "Update details of website components in a specific project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"project_id\": 1,\n         \"component_id\": 1,\n         \"quantity\": 5,\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-03T09:30:00Z\"\n     },\n     {\n         \"project_id\": 1,\n         \"component_id\": 2,\n         \"quantity\": 3,\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-03T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a project component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-components\/:id",
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "value": "1",
+                                    "description": "The ID of the project.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/project-components\/:id?project_id=1&component_id=1",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "fugiat",
+                                    "description": "The ID of the project component."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific project component.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Project component deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Project Overview",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create Project Overview",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-overview",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-overview"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"problemGoalID\":12}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Project Overview",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-overview\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-overview\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "3",
+                                    "description": "Id of the ProjectOverview."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"overviewText\":\"eos\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Projects",
+            "description": "\nAPIs for managing projects.",
+            "item": [
+                {
+                    "name": "Get all projects",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/projects",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/projects"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all projects.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"project_id\": 1,\n         \"project_name\": \"Project A\",\n         \"project_description\": \"This is project A\",\n         \"total_cost\": \"1000.00\",\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     {\n         \"project_id\": 2,\n         \"project_name\": \"Project B\",\n         \"project_description\": \"This is project B\",\n         \"total_cost\": \"2000.00\",\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-02T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/projects",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/projects"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"project_name\":\"Project C\",\"project_description\":\"This is project C\",\"total_cost\":\"3000.00\"}"
+                        },
+                        "description": "Create a new project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"project_id\": 3,\n     \"project_name\": \"Project C\",\n     \"project_description\": \"This is project C\",\n     \"total_cost\": \"3000.00\",\n     \"created_at\": \"2023-07-03T09:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show a project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/projects\/:project_id",
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "value": "1",
+                                    "description": "The ID of the project.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/projects\/:project_id?project_id=1",
+                            "variable": [
+                                {
+                                    "id": "project_id",
+                                    "key": "project_id",
+                                    "value": "8",
+                                    "description": "The ID of the project."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"project_id\": 1,\n     \"project_name\": \"Project A\",\n     \"project_description\": \"This is project A\",\n     \"total_cost\": \"1000.00\",\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-01T12:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/projects\/:project_id",
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "value": "1",
+                                    "description": "The ID of the project.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/projects\/:project_id?project_id=1",
+                            "variable": [
+                                {
+                                    "id": "project_id",
+                                    "key": "project_id",
+                                    "value": "16",
+                                    "description": "The ID of the project."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"project_name\":\"Updated Project A\",\"project_description\":\"Updated project A description\",\"total_cost\":\"1200.00\"}"
+                        },
+                        "description": "Update details of a specific project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"project_id\": 1,\n     \"project_name\": \"Updated Project A\",\n     \"project_description\": \"Updated project A description\",\n     \"total_cost\": \"1200.00\",\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a project",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/projects\/:project_id",
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "value": "1",
+                                    "description": "The ID of the project.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/projects\/:project_id?project_id=1",
+                            "variable": [
+                                {
+                                    "id": "project_id",
+                                    "key": "project_id",
+                                    "value": "5",
+                                    "description": "The ID of the project."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific project.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Project deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Prompts Management",
+            "description": "* @queryParam page integer page number.",
+            "item": [
+                {
+                    "name": "Display a listing of prompts.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prompts",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prompts"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "59"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":1,\"type\":1,\"name\":\"PROJECT_SUMMARY\",\"prompt\":\"This is a transcript of a sales call with a potential new client for our other company, Defense Acquisition Solutions Group. Can you help me turn the transcript into a summary of the call\\\/meeting and what we discussed? The format should include \\\"Call Participants,\\\" which should be in bullet point format; \\\"Meeting Summary,\\\" which should be in multiple paragraph format; and \\\"Next Steps,\\\" which should be in bullet point format. Be sure to identify which person from the \\\"Call Participants\\\" is responsible for each \\\"Next Steps\\\" item and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"},{\"id\":2,\"type\":2,\"name\":\"PROBLEMS_AND_GOALS\",\"prompt\":\"Help me turn the following transcript from a virtual meeting I had with a potential client into bullet points that address the client's problems and goals. The potential client is looking for help from our company, to help solve their problems and accomplish their goals with the services we offer.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"},{\"id\":3,\"type\":3,\"name\":\"PROJECT_OVERVIEW\",\"prompt\":\"Help me take the following points that were put together from a conversation I had with a potential client asking for our businesses to help and turn them into paragraphs. I need this text to be a very easy-to-read, well-written, and detailed project description\\\/overview. Put into paragraph format only that is easy to read.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"},{\"id\":4,\"type\":4,\"name\":\"SCOPE_OF_WORK\",\"prompt\":\"I need your help in creating a very detailed bullet list for a scope of work based on the following Problems & Goals bullet list I created before. I need your help in making sure the new scope of work list you will be creating is very detailed and expanded upon as much as you can so we make sure nothing is missed for the project scope. I will end up using what you come up with in a proposal for a potential client who reached out to our company, asking us for help in the form of the services we offer. Be sure to add in quality control and testing items if not already mentioned in the list that I am providing you with. Please feel free to add the additional scope of work points that you think are missing and need to be added based on the main service the client is asking for our help with.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"},{\"id\":5,\"type\":5,\"name\":\"DELIVERABLES\",\"prompt\":\"Help me take the following SOW list for a new project and turn them into matching \\\\\\\"Deliverables\\\\\\\" items. Remember that for every individual SOW list item, make sure you have a deliverable that matches. The formatting for this list should be in bullet point format. Then, take the same list you just created and provide me an estimate of how many hours and a timeline it would take to complete each of the deliverable items.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"},{\"id\":6,\"type\":6,\"name\":\"MEETING_SUMMARY\",\"prompt\":\"This is a transcript of a meeting that I had with a client. Can you help me turn the transcript into a summary of the call\\\/meeting and what we discussed? The format should include \\\"Call\\\/Meeting Participants,\\\" which should be in bullet point format; \\\"Meeting Summary,\\\" which should be in multiple paragraph format; and \\\"Next Steps\\\/Tasks,\\\" which should be in bullet point format. Be sure to identify which person from the \\\"Call\\\/Meeting Participants\\\" is responsible for each \\\"Next Steps\\\/Tasks\\\" item, break each item into individual bullet points and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"}],\"total\":6,\"current_page\":1}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created prompt.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prompts",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prompts"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"type\":1,\"prompt\":\"\\\"Example prompt content.\\\"\",\"name\":\"\\\"Example prompt name.\\\"\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified prompt.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prompts\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prompts\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the prompt."
+                                },
+                                {
+                                    "id": "prompt",
+                                    "key": "prompt",
+                                    "value": "1",
+                                    "description": "The ID of the prompt to display."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "58"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"View Successfully \",\"data\":{\"id\":1,\"type\":1,\"name\":\"PROJECT_SUMMARY\",\"prompt\":\"This is a transcript of a sales call with a potential new client for our other company, Defense Acquisition Solutions Group. Can you help me turn the transcript into a summary of the call\\\/meeting and what we discussed? The format should include \\\"Call Participants,\\\" which should be in bullet point format; \\\"Meeting Summary,\\\" which should be in multiple paragraph format; and \\\"Next Steps,\\\" which should be in bullet point format. Be sure to identify which person from the \\\"Call Participants\\\" is responsible for each \\\"Next Steps\\\" item and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.\",\"created_at\":\"2023-12-12T18:41:37.000000Z\",\"updated_at\":\"2023-12-12T18:41:37.000000Z\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified prompt.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prompts\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prompts\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the prompt."
+                                },
+                                {
+                                    "id": "prompt",
+                                    "key": "prompt",
+                                    "value": "1",
+                                    "description": "The ID of the prompt to update."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"type\":2,\"prompt\":\"\\\"Updated prompt content.\\\"\",\"name\":\"\\\"Updated prompt name.\\\"\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified prompt from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prompts\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prompts\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the prompt."
+                                },
+                                {
+                                    "id": "prompt",
+                                    "key": "prompt",
+                                    "value": "1",
+                                    "description": "The ID of the prompt to delete."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "SOW Meeting Summery",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get SOW Meeting Summery List",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-summery",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "16",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/project-summery?page=16"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "57"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"total\":6,\"current_page\":16}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create SOW Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-summery",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-summery"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"transcriptId\":20,\"transcriptText\":\"nihil\",\"projectName\":\"eos\",\"projectType\":4,\"company\":\"molestiae\",\"clientPhone\":\"minima\",\"clientEmail\":\"ernser.arlene@example.org\",\"clientWebsite\":\"reiciendis\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show SOW Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "6",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "56"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update SOW Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "3",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"summaryText\":2}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete SOW Meeting Summery",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/project-summery\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/project-summery\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "3",
+                                    "description": "Id of the transcript."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Scope Of Work",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create Scope Of Work",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/scope-of-work",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/scope-of-work"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"problemGoalID\":2}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Scope Of Work",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/scope-of-work\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/scope-of-work\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "11",
+                                    "description": "Id of the Scope of Work."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"scopeText\":\"illo\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Service Deliverable Tasks",
+            "description": "\nAPIs for managing service deliverable tasks.",
+            "item": [
+                {
+                    "name": "Get all Service Deliverable Tasks",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables-tasks",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "17",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables-tasks?page=17"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all Service Deliverable Tasks.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "47"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"total\":0,\"current_page\":17}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new Service Deliverable Task",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables-tasks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables-tasks"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Design Phase Task\",\"description\":\"Design logo\",\"cost\":150,\"serviceDeliverableId\":3}"
+                        },
+                        "description": "Create a new Service Deliverable Task.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show a Service Deliverable Task",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables-tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables-tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the Service Deliverable Task."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific Service Deliverable Task.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "46"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a Service Deliverable Task",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables-tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables-tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service deliverable task."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Updated Design Phase Task\",\"description\":\"Updated description\",\"cost\":200,\"serviceDeliverableId\":18}"
+                        },
+                        "description": "Update details of a specific service deliverable task.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete a Service Deliverable Task",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables-tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables-tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service deliverable task."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific service deliverable task.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Service Deliverables",
+            "description": "\nAPIs for managing service deliverables.",
+            "item": [
+                {
+                    "name": "Get all Service Deliverables",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables?page=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all Service Deliverables.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "49"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[{\"id\":1,\"name\":\"Implementation Phase\",\"serviceScopeId\":2,\"created_at\":\"2023-12-27T12:36:09.000000Z\",\"updated_at\":\"2023-12-27T12:36:24.000000Z\"}],\"total\":1,\"current_page\":1}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new Service Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Design Phase\",\"serviceScopeId\":3}"
+                        },
+                        "description": "Create a new Service Deliverable.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show a Service Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the Service Deliverable."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific Service Deliverable.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "48"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":{\"id\":1,\"name\":\"Implementation Phase\",\"serviceScopeId\":2,\"created_at\":\"2023-12-27T12:36:09.000000Z\",\"updated_at\":\"2023-12-27T12:36:24.000000Z\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a Service Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service deliverable."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Implementation Phase\",\"serviceScopeId\":20}"
+                        },
+                        "description": "Update details of a specific service deliverable.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete a Service Deliverable",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-deliverables\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-deliverables\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service deliverable."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific service deliverable.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Service Scopes",
+            "description": "\nAPIs for managing service scopes.",
+            "item": [
+                {
+                    "name": "Get all Service Scopes",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-scopes",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "5",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/service-scopes?page=5"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all Service Scopes.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "51"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"total\":2,\"current_page\":5}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new Service Scope",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-scopes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-scopes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Basic\",\"serviceId\":2}"
+                        },
+                        "description": "Create a new Service Scope.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show a Service Scope",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-scopes\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-scopes\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the Service Scope."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific Service Scope.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "50"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a Service Scope",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-scopes\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-scopes\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service scope."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Advanced\",\"serviceId\":1}"
+                        },
+                        "description": "Update details of a specific service scope.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete a Service Scope",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/service-scopes\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/service-scopes\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service scope."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific service scope.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Services",
+            "description": "\nAPIs for website services.",
+            "item": [
+                {
+                    "name": "Get all Services",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/services",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "16",
+                                    "description": "page number.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/services?page=16"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all Services.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "53"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"data\":[],\"total\":1,\"current_page\":16}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new Service",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/services",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/services"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Header\"}"
+                        },
+                        "description": "Create a new Service.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show a Service",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/services\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/services\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the Service."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific Service.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "52"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 201,
+                            "body": "{\"message\":\"Data Showed Successfully\",\"data\":null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/services\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/services\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the service."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Updated Header\"}"
+                        },
+                        "description": "Update details of a specific service.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete a website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/services\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/services\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the website component category."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific website component category.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Website component category deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Website Component Categories",
+            "description": "\nAPIs for managing website component categories.",
+            "item": [
+                {
+                    "name": "Get all website component categories",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all website component categories.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"category_id\": 1,\n         \"category_name\": \"Header\",\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     {\n         \"category_id\": 2,\n         \"category_name\": \"Footer\",\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-02T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"category_name\":\"Header\"}"
+                        },
+                        "description": "Create a new website component category.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"category_id\": 3,\n     \"category_name\": \"Sidebar\",\n     \"created_at\": \"2023-07-03T09:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show a website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:category_id",
+                            "query": [
+                                {
+                                    "key": "category_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component category.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/categories\/:category_id?category_id=1",
+                            "variable": [
+                                {
+                                    "id": "category_id",
+                                    "key": "category_id",
+                                    "value": "14",
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific website component category.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"category_id\": 1,\n     \"category_name\": \"Header\",\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-01T12:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:category_id",
+                            "query": [
+                                {
+                                    "key": "category_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component category.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/categories\/:category_id?category_id=1",
+                            "variable": [
+                                {
+                                    "id": "category_id",
+                                    "key": "category_id",
+                                    "value": "14",
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"category_name\":\"Updated Header\"}"
+                        },
+                        "description": "Update details of a specific website component category.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"category_id\": 1,\n     \"category_name\": \"Updated Header\",\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a website component category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:category_id",
+                            "query": [
+                                {
+                                    "key": "category_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component category.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/categories\/:category_id?category_id=1",
+                            "variable": [
+                                {
+                                    "id": "category_id",
+                                    "key": "category_id",
+                                    "value": "17",
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific website component category.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Website component category deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Website Components",
+            "description": "\nAPIs for managing website components.",
+            "item": [
+                {
+                    "name": "Get all website components",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/components",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/components"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all website components.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"component_id\": 1,\n         \"component_name\": \"Logo\",\n         \"category_id\": 1,\n         \"component_description\": \"Company logo for header\",\n         \"component_cost\": \"50.00\",\n         \"category\": {\n             \"category_id\": 1,\n             \"category_name\": \"Header\",\n             \"created_at\": \"2023-07-01T12:00:00Z\",\n             \"updated_at\": \"2023-07-01T12:30:00Z\"\n         },\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     {\n         \"component_id\": 2,\n         \"component_name\": \"Contact Form\",\n         \"category_id\": 1,\n         \"component_description\": \"Contact form for footer\",\n         \"component_cost\": \"100.00\",\n         \"category\": {\n             \"category_id\": 1,\n             \"category_name\": \"Footer\",\n             \"created_at\": \"2023-07-02T09:00:00Z\",\n             \"updated_at\": \"2023-07-02T09:30:00Z\"\n         },\n         \"created_at\": \"2023-07-02T09:00:00Z\",\n         \"updated_at\": \"2023-07-02T09:30:00Z\"\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new website component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/components",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/components"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"component_name\":\"Logo\",\"category_id\":1,\"component_description\":\"Company logo for header\",\"component_cost\":\"50.00\"}"
+                        },
+                        "description": "Create a new website component.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"component_id\": 3,\n     \"component_name\": \"Banner\",\n     \"category_id\": 1,\n     \"component_description\": \"Banner image for header\",\n     \"component_cost\": \"80.00\",\n     \"category\": {\n         \"category_id\": 1,\n         \"category_name\": \"Header\",\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     \"created_at\": \"2023-07-03T09:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show a website component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/components\/:component_id",
+                            "query": [
+                                {
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/components\/:component_id?component_id=1",
+                            "variable": [
+                                {
+                                    "id": "component_id",
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the component."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get details of a specific website component.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"component_id\": 1,\n     \"component_name\": \"Logo\",\n     \"category_id\": 1,\n     \"component_description\": \"Company logo for header\",\n     \"component_cost\": \"50.00\",\n     \"category\": {\n         \"category_id\": 1,\n         \"category_name\": \"Header\",\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-01T12:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a website component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/components\/:component_id",
+                            "query": [
+                                {
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/components\/:component_id?component_id=1",
+                            "variable": [
+                                {
+                                    "id": "component_id",
+                                    "key": "component_id",
+                                    "value": "15",
+                                    "description": "The ID of the component."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"component_name\":\"Updated Logo\",\"category_id\":1,\"component_description\":\"Updated company logo for header\",\"component_cost\":\"60.00\"}"
+                        },
+                        "description": "Update details of a specific website component.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": {\n     \"component_id\": 1,\n     \"component_name\": \"Updated Logo\",\n     \"category_id\": 1,\n     \"component_description\": \"Updated company logo for header\",\n     \"component_cost\": \"60.00\",\n     \"category\": {\n         \"category_id\": 1,\n         \"category_name\": \"Header\",\n         \"created_at\": \"2023-07-01T12:00:00Z\",\n         \"updated_at\": \"2023-07-01T12:30:00Z\"\n     },\n     \"created_at\": \"2023-07-01T12:00:00Z\",\n     \"updated_at\": \"2023-07-03T09:30:00Z\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a website component",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/components\/:component_id",
+                            "query": [
+                                {
+                                    "key": "component_id",
+                                    "value": "1",
+                                    "description": "The ID of the website component.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/components\/:component_id?component_id=1",
+                            "variable": [
+                                {
+                                    "id": "component_id",
+                                    "key": "component_id",
+                                    "value": "9",
+                                    "description": "The ID of the component."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a specific website component.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Website component deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

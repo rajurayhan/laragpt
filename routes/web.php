@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SoWGeneratorController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,47 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::get('/clickup', function () {
+    // $baseUrl = "https://api.clickup.com/api/v2/task/8677t70vw";
+
+    //     $response = Http::withHeaders([
+    //         "Authorization" => 'pk_26343077_E01A7RDPS0EA11BG6B7TI2A1T82L4WI5',
+    //         "Content-Type" => "application/json"
+    //     ])->get($baseUrl);
+    //     \Log::info(['ClickUp' => $response->json()]);
+    //     return $response->json();
+
+    $taskId = "86a18bw8u";
+    $query = array(
+    "custom_task_ids" => "false",
+    "include_subtasks" => "true",
+    "include_markdown_description" => "false"
+    );
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, [
+        CURLOPT_HTTPHEADER => [
+            "Authorization: pk_38254709_31XI582SYM6HN73D7ZZNAF17B51KI1Y2"
+        ],
+        CURLOPT_URL => "https://api.clickup.com/api/v2/task/" . $taskId . "?" . http_build_query($query),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => "GET",
+    ]);
+
+    $response = curl_exec($curl);
+    $error = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($error) {
+        echo "cURL Error #:" . $error;
+    } else {
+        return $response;
+        // return response()->json($response);
+    }
 })->name('home');
 
 // Route::get('/dashboard', function () {
