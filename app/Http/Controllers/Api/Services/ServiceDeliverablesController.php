@@ -86,29 +86,67 @@ class ServiceDeliverablesController extends Controller
         }
     }
 
+    // /**
+    //  * Store a new Service Deliverable
+    //  *
+    //  * Create a new Service Deliverable.
+    //  *
+    //  * @bodyParam name string required The name of the Service Deliverable. Example: Design Phase
+    //  * @bodyParam serviceScopeId integer required The ID of the associated service scope. Example: 3
+    //  */
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string',
+    //         'serviceScopeId' => 'required|integer|exists:service_scopes,id',
+    //     ]);
+
+    //     $serviceDeliverable = ServiceDeliverables::create($validatedData);
+    //     $response = [
+    //         'message' => 'Created Successfully',
+    //         'data' => $serviceDeliverable->load('serviceScope.serviceGroup.service')
+    //     ];
+
+    //     return response()->json($response, 201);
+    // }
+
     /**
      * Store a new Service Deliverable
      *
      * Create a new Service Deliverable.
      *
-     * @bodyParam name string required The name of the Service Deliverable. Example: Design Phase
+     * @bodyParam names array required An array of names for the Service Deliverable. Example: ["Design Phase", "Development Phase"]
      * @bodyParam serviceScopeId integer required The ID of the associated service scope. Example: 3
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'names' => 'required|array',
+            'names.*' => 'required|string',
             'serviceScopeId' => 'required|integer|exists:service_scopes,id',
         ]);
 
-        $serviceDeliverable = ServiceDeliverables::create($validatedData);
+        $serviceDeliverables = [];
+
+        foreach ($validatedData['names'] as $name) {
+            $data = [
+                'name' => $name,
+                'serviceScopeId' => $validatedData['serviceScopeId'],
+            ];
+
+            $serviceDeliverable = ServiceDeliverables::create($data);
+            $serviceDeliverables[] = $serviceDeliverable->load('serviceScope.serviceGroup.service');
+        }
+
         $response = [
             'message' => 'Created Successfully',
-            'data' => $serviceDeliverable->load('serviceScope.serviceGroup.service')
+            'data' => $serviceDeliverables,
         ];
 
         return response()->json($response, 201);
     }
+
+
 
     /**
      * Update a Service Deliverable
