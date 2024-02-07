@@ -84,9 +84,16 @@ class ServiceDeliverableTasksController extends Controller
             $perPage = $request->input('per_page', 10);
             $serviceDeliverableTasks = $query->latest()->paginate($perPage);
 
+            // return response()->json([
+            //     'data' => $serviceDeliverableTasks,
+            // ]);
+
             return response()->json([
-                'data' => $serviceDeliverableTasks,
+                'data' => $serviceDeliverableTasks->items(),
+                'total' => $serviceDeliverableTasks->total(),
+                'current_page' => $serviceDeliverableTasks->currentPage(),
             ]);
+
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service deliverable tasks', 'error' => $e->getMessage()], 500);
         }
