@@ -1,0 +1,61 @@
+{
+    "permissions": {
+        "project_sow": {
+            "view.project_sow": "View Project Summary",
+            "create.project_sow": "Create Project Summary",
+            "edit.project_sow": "Edit Project Summary",
+            "delete.project_sow": "Delete Project Summary"
+        },
+        "prompts": {
+            "view.prompts": "View Prompts",
+            "create.prompts": "Create Prompt",
+            "edit.prompts": "Edit Prompt",
+            "delete.prompts": "Delete Prompt"
+        },
+        "meeting_summary": {
+            "view.meeting_summary": "View Meeting Summary",
+            "create.meeting_summary": "Create Meeting Summary",
+            "edit.meeting_summary": "Edit Meeting Summary",
+            "delete.meeting_summary": "Delete Meeting Summary"
+        },
+        "services": {
+            "view.services": "View Services",
+            "create.services": "Create Service",
+            "edit.services": "Edit Service",
+            "delete.services": "Delete Service",
+            "view.service_groups": "View Service Groups",
+            "create.service_groups": "Create Service Group",
+            "edit.service_groups": "Edit Service Group",
+            "delete.service_groups": "Delete Service Group",
+            "view.service_scopes": "View Service Scopes",
+            "create.service_scopes": "Create Service Scope",
+            "edit.service_scopes": "Edit Service Scope",
+            "delete.service_scopes": "Delete Service Scope",
+            "view.service_deliverables": "View Service Deliverables",
+            "create.service_deliverables": "Create Service Deliverable",
+            "edit.service_deliverables": "Edit Service Deliverable",
+            "delete.service_deliverables": "Delete Service Deliverable",
+            "view.service_deliverable_tasks": "View Service Deliverable Tasks",
+            "create.service_deliverable_tasks": "Create Service Deliverable Task",
+            "edit.service_deliverable_tasks": "Edit Service Deliverable Task",
+            "delete.service_deliverable_tasks": "Delete Service Deliverable Task"
+        },
+        "settings": {
+            "view.settings": "View Settings",
+            "view.meeting_type": "View Meeting Type",
+            "create.meeting_type": "Create Meeting Type",
+            "edit.meeting_type": "Edit Meeting Type",
+            "delete.meeting_type": "Delete Meeting Type",
+            "view.project_type": "View Project Type",
+            "create.project_type": "Create Project Type",
+            "edit.project_type": "Edit Project Type",
+            "delete.project_type": "Delete Project Type"
+        },
+        "users": {
+            "view.users": "View Users",
+            "create.users": "Create User",
+            "edit.users": "Edit User",
+            "delete.users": "Delete User"
+        }
+    }
+}

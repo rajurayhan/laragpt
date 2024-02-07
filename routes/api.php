@@ -27,6 +27,7 @@ use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,11 +101,36 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
     Route::apiResource('roles', RoleController::class);
 
+    Route::get('/permissions', function () {
+        $permissions =  Permission::get('name');
 
+        $formattedPermissions = [];
+
+        foreach ($permissions as $permission) {
+            $nameParts = explode('.', $permission['name']);
+            $moduleName = $nameParts[1];
+
+            if(isset($formattedPermissions[$moduleName])){
+                array_push($formattedPermissions[$moduleName], $permission['name']);
+            }
+            else{
+                $formattedPermissions[$moduleName][] = $permission['name'];
+            }
+
+        }
+
+        $response = [
+                'message' => 'Data Fetched Successfully',
+                'data' => $formattedPermissions
+            ];
+
+            return response()->json($response, 201);
+    });
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
 });
 
 
