@@ -13,8 +13,8 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-/** 
- * @authenticated 
+/**
+ * @authenticated
  */
 
  class ProjectSummeryController extends Controller
@@ -47,7 +47,7 @@ use Illuminate\Http\Request;
      * @bodyParam transcriptId integer The id of the transcript to regenrate.
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
-     * @bodyParam projectType integer required The type of the project.
+     * @bodyParam projectTypeId integer required The type of the project.
      * @bodyParam company string required The company name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
@@ -68,7 +68,8 @@ use Illuminate\Http\Request;
             'transcriptId' => 'nullable|integer',
             'transcriptText' => 'required|string',
             'projectName' => 'required|string',
-            'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
+            // 'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
+            'projectTypeId' => 'required|integer|exists:project_types,id',
             'company' => 'required|string',
             'clientPhone' => 'nullable|string',
             // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
@@ -80,7 +81,8 @@ use Illuminate\Http\Request;
             $meetingObj = MeetingTranscript::findOrFail($request->transcriptId);
             $meetingObj->transcriptText = $request->transcriptText;
             $meetingObj->projectName = $request->projectName;
-            $meetingObj->projectType = $request->projectType;
+            $meetingObj->projectType = 0;
+            $meetingObj->projectTypeId = $request->projectTypeId;
             $meetingObj->company = $request->company;
             $meetingObj->clientPhone = $request->clientPhone;
             $meetingObj->clientEmail = $request->clientEmail;

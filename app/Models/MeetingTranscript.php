@@ -16,6 +16,7 @@ class MeetingTranscript extends Model
         'transcriptText',
         'projectName',
         'projectType',
+        'projectTypeId',
         'company',
         'clientPhone',
         'clientEmail',
@@ -35,5 +36,10 @@ class MeetingTranscript extends Model
     public function projectProposal()
     {
         return $this->hasOne(ProjectProposal::class, 'meetingID', 'meetingID');
+    }
+
+    public function projectTypedata()
+    {
+        return $this->belongsTo(ProjectType::class, 'projectTypeId');
     }
 }

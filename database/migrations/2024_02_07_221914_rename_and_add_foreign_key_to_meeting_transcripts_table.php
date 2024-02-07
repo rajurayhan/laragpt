@@ -9,14 +9,8 @@ class RenameAndAddForeignKeyToMeetingTranscriptsTable extends Migration
     public function up()
     {
         Schema::table('meeting_transcripts', function (Blueprint $table) {
-            // Rename the existing column
-            $table->renameColumn('projectType', 'projectTypeId');
-
-            // Add foreign key constraint to meeting_types table
-            $table->foreign('projectTypeId')
-                  ->references('id')
-                  ->on('meeting_types')
-                  ->onDelete('SET NULL'); // Or use any other suitable action
+            $table->unsignedBigInteger('projectTypeId')->nullable();
+                $table->foreign('projectTypeId')->references('id')->on('project_types');
         });
     }
 
@@ -26,8 +20,8 @@ class RenameAndAddForeignKeyToMeetingTranscriptsTable extends Migration
             // Drop the foreign key constraint
             $table->dropForeign(['projectTypeId']);
 
-            // Rename back to the original column name
-            $table->renameColumn('projectTypeId', 'projectType');
+            // Drop back to the original column name
+            $table->dropColumn('projectTypeId');
         });
     }
 }
