@@ -37,7 +37,7 @@ class ServiceController extends Controller
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
 
-            $services = $query->latest()->paginate($perPage);
+            $services = $query->with('projectType')->latest()->paginate($perPage);
             return response()->json([
                 'data' => $services->items(),
                 'total' => $services->total(),
@@ -59,7 +59,7 @@ class ServiceController extends Controller
     public function show($id)
     {
         try {
-            $service = Services::find($id);
+            $service = Services::with('projectType')->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $service
@@ -76,6 +76,7 @@ class ServiceController extends Controller
      * Create a new Service.
      *
      * @bodyParam name string required The name of the Service. Example: Header
+     * @bodyParam projectTypeId integer required The type of the project.
      *
      *
      */
@@ -84,12 +85,13 @@ class ServiceController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'projectTypeId' => 'required|integer|exists:project_types,id',
         ]);
 
         $service = Services::create($validatedData);
         $response = [
             'message' => 'Created Successfully',
-            'data' => $service
+            'data' => $service->load('projectType')
         ];
 
         return response()->json($response, 201);
@@ -104,6 +106,7 @@ class ServiceController extends Controller
      * @urlParam id required The ID of the service. Example: 1
      *
      * @bodyParam name string required The name of the service. Example: Updated Header
+     * @bodyParam projectTypeId integer required The type of the project.
      *
      *
      */
@@ -111,6 +114,7 @@ class ServiceController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'projectTypeId' => 'required|integer|exists:project_types,id',
         ]);
         $service = Services::findOrfail($id);
         $service->update($validatedData);

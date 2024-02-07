@@ -49,7 +49,7 @@ class ProjectTypeController extends Controller
     public function show($id)
     {
         try {
-            $projectType = ProjectType::find($id);
+            $projectType = ProjectType::with('services')->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $projectType
@@ -127,7 +127,7 @@ class ProjectTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $projectType = ProjectType::findOrfail($id); 
+            $projectType = ProjectType::findOrfail($id);
             $projectType->delete();
             $response = [
                 'message' => 'Deleted Successfully',
