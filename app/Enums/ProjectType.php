@@ -14,25 +14,26 @@ enum ProjectType : int
 
     public static function getTitle($id)
     {
+        // return $id;
         switch ($id) {
-            case self::LOGO_BRANDING:
+            case 1:
                 return 'Logo/Branding';
-            case self::GRAPHIC_DESIGN:
+            case 2:
                 return 'Graphic Design';
-            case self::PRINTING:
+            case 3:
                 return 'Printing';
-            case self::WEBSITE_DESIGN:
+            case 4:
                 return 'Website Design';
-            case self::WEBSITE_REDESIGN:
+            case 5:
                 return 'Website Redesign';
-            case self::RESEARCH:
+            case 6:
                 return 'Research';
-            case self::CUSTOM_DEVELOPMENT:
+            case 7:
                 return 'Custom Development';
-            case self::MARKETING:
+            case 8:
                 return 'Marketing';
             default:
-                return null;
+                return 'Not Found';
         }
     }
 
