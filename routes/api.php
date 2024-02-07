@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Services\WebsiteComponentCategoryController;
 use App\Http\Controllers\Api\Services\WebsiteComponentController;
 use App\Http\Controllers\Api\Services\ProjectComponentController;
 use App\Http\Controllers\Api\PromptController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\Services\ServiceController;
 use App\Http\Controllers\Api\Services\ServiceDeliverablesController;
 use App\Http\Controllers\Api\Services\ServiceDeliverableTasksController;
@@ -97,6 +98,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-scopes', ServiceScopeController::class);
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
+    Route::apiResource('roles', RoleController::class);
+
 
 
     Route::get('/user', function (Request $request) {
@@ -111,7 +114,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 
-// Others 
+// Others
 Route::post('/completion', function (Request $request) {
     $validator = Validator::make($request->all(), [
         'prompt' => 'required'
