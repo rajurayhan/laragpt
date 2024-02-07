@@ -120,29 +120,108 @@ class ServiceDeliverableTasksController extends Controller
         }
     }
 
+    // /**
+    //  * Store a new Service Deliverable Task
+    //  *
+    //  * Create a new Service Deliverable Task.
+    //  *
+    //  * @bodyParam name string required The name of the Service Deliverable Task. Example: Design Phase Task
+    //  * @bodyParam description string required The description of the Service Deliverable Task. Example: Design logo
+    //  * @bodyParam cost double required The cost of the Service Deliverable Task. Example: 150.00
+    //  * @bodyParam serviceDeliverableId integer required The ID of the associated service deliverable. Example: 3
+    //  */
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string',
+    //         'description' => 'required|string',
+    //         'cost' => 'required|numeric',
+    //         'serviceDeliverableId' => 'required|integer|exists:service_deliverables,id',
+    //     ]);
+
+    //     $serviceDeliverableTask = ServiceDeliverableTasks::create($validatedData);
+    //     $response = [
+    //         'message' => 'Created Successfully',
+    //         'data' => $serviceDeliverableTask->load('serviceDeliverable.serviceScope.serviceGroup.service')
+    //     ];
+
+    //     return response()->json($response, 201);
+    // }
+
     /**
-     * Store a new Service Deliverable Task
+     * Store Service Deliverable Tasks
      *
-     * Create a new Service Deliverable Task.
+     * Store multiple Service Deliverable Tasks against a single serviceDeliverableId.
      *
-     * @bodyParam name string required The name of the Service Deliverable Task. Example: Design Phase Task
-     * @bodyParam description string required The description of the Service Deliverable Task. Example: Design logo
-     * @bodyParam cost double required The cost of the Service Deliverable Task. Example: 150.00
-     * @bodyParam serviceDeliverableId integer required The ID of the associated service deliverable. Example: 3
+     * @bodyParam tasks array required An array of tasks to be created.
+     * @bodyParam tasks[].name string required The name of the task.
+     * @bodyParam tasks[].description string required The description of the task.
+     * @bodyParam tasks[].cost numeric required The cost of the task.
+     * @bodyParam serviceDeliverableId integer required The ID of the service deliverable.
+     * @bodyParam parentTaskId integer nullable The ID of the parent task.
+     *
+     * @response {
+     *     "message": "Tasks created successfully",
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "name": "Task1",
+     *             "description": "Description1",
+     *             "cost": 10,
+     *             "serviceDeliverableId": 1,
+     *             "created_at": "2024-02-09T00:00:00.000000Z",
+     *             "updated_at": "2024-02-09T00:00:00.000000Z"
+     *         },
+     *         {
+     *             "id": 2,
+     *             "name": "Task2",
+     *             "description": "Description2",
+     *             "cost": 15,
+     *             "serviceDeliverableId": 1,
+     *             "created_at": "2024-02-09T00:00:00.000000Z",
+     *             "updated_at": "2024-02-09T00:00:00.000000Z"
+     *         }
+     *     ]
+     * }
+     * @response 422 {
+     *     "message": "The given data was invalid.",
+     *     "errors": {
+     *         "tasks.0.name": [
+     *             "The tasks.0.name field is required."
+     *         ],
+     *         "tasks.0.description": [
+     *             "The tasks.0.description field is required."
+     *         ]
+     *     }
+     * }
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'cost' => 'required|numeric',
+            '*.name' => 'required|string',
+            '*.description' => 'required|string',
+            '*.cost' => 'required|numeric',
             'serviceDeliverableId' => 'required|integer|exists:service_deliverables,id',
+            'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
 
-        $serviceDeliverableTask = ServiceDeliverableTasks::create($validatedData);
+        $tasks = [];
+
+        foreach ($validatedData as $data) {
+            $task = ServiceDeliverableTasks::create([
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'cost' => $data['cost'],
+                'serviceDeliverableId' => $request->input('serviceDeliverableId'),
+                'parentTaskId' => $data['parentTaskId'],
+            ]);
+
+            $tasks[] = $task;
+        }
+
         $response = [
-            'message' => 'Created Successfully',
-            'data' => $serviceDeliverableTask->load('serviceDeliverable.serviceScope.serviceGroup.service')
+            'message' => 'Tasks created successfully',
+            'data' => $tasks,
         ];
 
         return response()->json($response, 201);
