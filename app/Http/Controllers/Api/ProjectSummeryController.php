@@ -81,7 +81,7 @@ use Illuminate\Http\Request;
             $meetingObj = MeetingTranscript::findOrFail($request->transcriptId);
             $meetingObj->transcriptText = $request->transcriptText;
             $meetingObj->projectName = $request->projectName;
-            $meetingObj->projectType = 0;
+            $meetingObj->projectType = 1;
             $meetingObj->projectTypeId = $request->projectTypeId;
             $meetingObj->company = $request->company;
             $meetingObj->clientPhone = $request->clientPhone;
