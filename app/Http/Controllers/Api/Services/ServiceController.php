@@ -154,4 +154,95 @@ class ServiceController extends Controller
             return response()->json(['message' => 'Error deleting service', 'error' => $e->getMessage()], 500);
         }
     }
+
+    /**
+     * Service Data Tree
+     *
+     * Send data as a tree structure
+     *
+     * @response {
+     *  "message": "Data fetched successfully"
+     * }
+     */
+    public function serviceTree()
+    {
+        try {
+            $servicesRawData =  Services::with([
+                'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
+                    $query->where('parentTaskId', null)->with('subTasks');
+                },
+            ])->get();
+
+            $services = [];
+
+            foreach ($servicesRawData as $service) {
+                $serviceData = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'groups' => [],
+                ];
+
+                foreach ($service->serviceGroups as $group) {
+                    $serviceGroupData = [
+                        'id' => $group->id,
+                        'name' => $group->name,
+                        'sows' => [],
+                    ];
+
+                    foreach ($group->serviceScopes as $scope) {
+                        $scopedata = [
+                            'id' => $scope->id,
+                            'name' => $scope->name,
+                            'deliverables' => [],
+                        ];
+
+                        foreach ($scope->serviceDeliverables as $deliverable) {
+                            $deliverableData = [
+                                'id' => $deliverable->id,
+                                'name' => $deliverable->name,
+                                'tasks' => [],
+                            ];
+
+                            foreach ($deliverable->serviceDeliverableTasks as $task) {
+                                $taskData = [
+                                    'id' => $task->id,
+                                    'name' => $task->name,
+                                    'description' => $task->description,
+                                    'sub_tasks' => [],
+                                ];
+
+                                foreach ($task->subTasks as $subTask) {
+                                    $subTaskData = [
+                                        'id' => $subTask->id,
+                                        'name' => $subTask->name,
+                                        'description' => $subTask->description,
+                                    ];
+
+                                    $taskData['sub_tasks'][] = $subTaskData;
+                                }
+
+                                $deliverableData['tasks'][] = $taskData;
+                            }
+
+                            $scopedata['deliverables'][] = $deliverableData;
+                        }
+
+                        $serviceGroupData['sows'][] = $scopedata;
+                    }
+
+                    $serviceData['groups'][] = $serviceGroupData;
+                }
+
+                $services[] = $serviceData;
+            }
+            $response = [
+                'message' => 'Data fetched successfully',
+                'data' => ['services' => $services]
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error fetching service', 'error' => $e->getMessage()], 500);
+        }
+    }
 }

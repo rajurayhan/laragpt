@@ -103,6 +103,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-user">
                                 <a href="#endpoints-GETapi-user">GET api/user</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-task-tree">
+                                <a href="#endpoints-GETapi-task-tree">GET api/task-tree</a>
+                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-completion">
                                 <a href="#endpoints-POSTapi-completion">POST api/completion</a>
                             </li>
@@ -434,6 +437,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="services-DELETEapi-services--id-">
                                 <a href="#services-DELETEapi-services--id-">Delete a website component category</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="services-GETapi-service-tree">
+                                <a href="#services-GETapi-service-tree">Service Data Tree</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-users-management" class="tocify-header">
@@ -511,7 +517,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: February 7, 2024</li>
+        <li>Last updated: February 8, 2024</li>
     </ul>
 </div>
 
@@ -909,7 +915,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"scopeOfWorkId\": 4
+    \"scopeOfWorkId\": 12
 }"
 </code></pre></div>
 
@@ -926,7 +932,7 @@ const headers = {
 };
 
 let body = {
-    "scopeOfWorkId": 4
+    "scopeOfWorkId": 12
 };
 
 fetch(url, {
@@ -1026,10 +1032,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="scopeOfWorkId"                data-endpoint="POSTapi-deliverables"
-               value="4"
+               value="12"
                data-component="body">
     <br>
-<p>Id of the ScopeOfWork. Example: <code>4</code></p>
+<p>Id of the ScopeOfWork. Example: <code>12</code></p>
         </div>
         </form>
 
@@ -1047,19 +1053,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/deliverables/18" \
+    "http://localhost:8000/api/deliverables/10" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"deliverablesText\": \"et\"
+    \"deliverablesText\": \"labore\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/deliverables/18"
+    "http://localhost:8000/api/deliverables/10"
 );
 
 const headers = {
@@ -1069,7 +1075,7 @@ const headers = {
 };
 
 let body = {
-    "deliverablesText": "et"
+    "deliverablesText": "labore"
 };
 
 fetch(url, {
@@ -1169,10 +1175,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-deliverables--id-"
-               value="18"
+               value="10"
                data-component="url">
     <br>
-<p>Id of the Deliverables. Example: <code>18</code></p>
+<p>Id of the Deliverables. Example: <code>10</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1181,10 +1187,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="deliverablesText"                data-endpoint="POSTapi-deliverables--id-"
-               value="et"
+               value="labore"
                data-component="body">
     <br>
-<p>text of the Deliverables. Example: <code>et</code></p>
+<p>text of the Deliverables. Example: <code>labore</code></p>
         </div>
         </form>
 
@@ -1446,6 +1452,257 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                    <h2 id="endpoints-GETapi-task-tree">GET api/task-tree</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-task-tree">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/task-tree" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/task-tree"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-task-tree">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;services&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Service&quot;,
+            &quot;groups&quot;: [
+                {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Groups&quot;,
+                    &quot;sows&quot;: [
+                        {
+                            &quot;id&quot;: 1,
+                            &quot;name&quot;: &quot;Scopes&quot;,
+                            &quot;deliverables&quot;: [
+                                {
+                                    &quot;id&quot;: 1,
+                                    &quot;name&quot;: &quot;ASD&quot;,
+                                    &quot;tasks&quot;: [
+                                        {
+                                            &quot;id&quot;: 1,
+                                            &quot;name&quot;: &quot;Task&quot;,
+                                            &quot;description&quot;: &quot;description&quot;,
+                                            &quot;sub_tasks&quot;: [
+                                                {
+                                                    &quot;id&quot;: 9,
+                                                    &quot;name&quot;: &quot;Task 1&quot;,
+                                                    &quot;description&quot;: &quot;Description for Task 1&quot;
+                                                },
+                                                {
+                                                    &quot;id&quot;: 10,
+                                                    &quot;name&quot;: &quot;Task 2&quot;,
+                                                    &quot;description&quot;: &quot;Description for Task 2&quot;
+                                                },
+                                                {
+                                                    &quot;id&quot;: 11,
+                                                    &quot;name&quot;: &quot;Task 3&quot;,
+                                                    &quot;description&quot;: &quot;Description for Task 3&quot;
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            &quot;id&quot;: 2,
+                                            &quot;name&quot;: &quot;Task2&quot;,
+                                            &quot;description&quot;: &quot;description&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 3,
+                                            &quot;name&quot;: &quot;Task 1&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 1&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 4,
+                                            &quot;name&quot;: &quot;Task 2&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 2&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 5,
+                                            &quot;name&quot;: &quot;Task 3&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 3&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 6,
+                                            &quot;name&quot;: &quot;Task 1&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 1&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 7,
+                                            &quot;name&quot;: &quot;Task 2&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 2&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        },
+                                        {
+                                            &quot;id&quot;: 8,
+                                            &quot;name&quot;: &quot;Task 3&quot;,
+                                            &quot;description&quot;: &quot;Description for Task 3&quot;,
+                                            &quot;sub_tasks&quot;: []
+                                        }
+                                    ]
+                                },
+                                {
+                                    &quot;id&quot;: 2,
+                                    &quot;name&quot;: &quot;Design Phase&quot;,
+                                    &quot;tasks&quot;: []
+                                },
+                                {
+                                    &quot;id&quot;: 3,
+                                    &quot;name&quot;: &quot;Development Phase&quot;,
+                                    &quot;tasks&quot;: []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    &quot;id&quot;: 2,
+                    &quot;name&quot;: &quot;G1&quot;,
+                    &quot;sows&quot;: [
+                        {
+                            &quot;id&quot;: 2,
+                            &quot;name&quot;: &quot;S1&quot;,
+                            &quot;deliverables&quot;: []
+                        },
+                        {
+                            &quot;id&quot;: 3,
+                            &quot;name&quot;: &quot;S2&quot;,
+                            &quot;deliverables&quot;: []
+                        }
+                    ]
+                },
+                {
+                    &quot;id&quot;: 3,
+                    &quot;name&quot;: &quot;G2&quot;,
+                    &quot;sows&quot;: []
+                }
+            ]
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Hello&quot;,
+            &quot;groups&quot;: []
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-task-tree" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-task-tree"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-task-tree"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-task-tree" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-task-tree">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-task-tree" data-method="GET"
+      data-path="api/task-tree"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-task-tree', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-task-tree"
+                    onclick="tryItOut('GETapi-task-tree');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-task-tree"
+                    onclick="cancelTryOut('GETapi-task-tree');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-task-tree"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/task-tree</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-task-tree"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-task-tree"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
                     <h2 id="endpoints-POSTapi-completion">POST api/completion</h2>
 
 <p>
@@ -1680,7 +1937,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/meeting-summery?page=3" \
+    --get "http://localhost:8000/api/meeting-summery?page=10" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1692,7 +1949,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "3",
+    "page": "10",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1818,10 +2075,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-meeting-summery"
-               value="3"
+               value="10"
                data-component="query">
     <br>
-<p>page number. Example: <code>3</code></p>
+<p>page number. Example: <code>10</code></p>
             </div>
                 </form>
 
@@ -1844,11 +2101,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"clickupLink\": \"recusandae\",
-    \"tldvLink\": \"eos\",
-    \"transcriptText\": \"ut\",
-    \"meetingName\": \"dolor\",
-    \"meetingType\": 13
+    \"clickupLink\": \"eum\",
+    \"tldvLink\": \"aperiam\",
+    \"transcriptText\": \"deserunt\",
+    \"meetingName\": \"possimus\",
+    \"meetingType\": 12
 }"
 </code></pre></div>
 
@@ -1865,11 +2122,11 @@ const headers = {
 };
 
 let body = {
-    "clickupLink": "recusandae",
-    "tldvLink": "eos",
-    "transcriptText": "ut",
-    "meetingName": "dolor",
-    "meetingType": 13
+    "clickupLink": "eum",
+    "tldvLink": "aperiam",
+    "transcriptText": "deserunt",
+    "meetingName": "possimus",
+    "meetingType": 12
 };
 
 fetch(url, {
@@ -1969,10 +2226,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clickupLink"                data-endpoint="POSTapi-meeting-summery"
-               value="recusandae"
+               value="eum"
                data-component="body">
     <br>
-<p>Task url for the meeting. Example: <code>recusandae</code></p>
+<p>Task url for the meeting. Example: <code>eum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tldvLink</code></b>&nbsp;&nbsp;
@@ -1980,10 +2237,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="tldvLink"                data-endpoint="POSTapi-meeting-summery"
-               value="eos"
+               value="aperiam"
                data-component="body">
     <br>
-<p>Tldv meeting url. Example: <code>eos</code></p>
+<p>Tldv meeting url. Example: <code>aperiam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -1991,10 +2248,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-meeting-summery"
-               value="ut"
+               value="deserunt"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>ut</code></p>
+<p>The text of the transcript. Example: <code>deserunt</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingName</code></b>&nbsp;&nbsp;
@@ -2002,10 +2259,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="meetingName"                data-endpoint="POSTapi-meeting-summery"
-               value="dolor"
+               value="possimus"
                data-component="body">
     <br>
-<p>Name of the meeting. Example: <code>dolor</code></p>
+<p>Name of the meeting. Example: <code>possimus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingType</code></b>&nbsp;&nbsp;
@@ -2013,10 +2270,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="meetingType"                data-endpoint="POSTapi-meeting-summery"
-               value="13"
+               value="12"
                data-component="body">
     <br>
-<p>Meeting type [1: Client, 2: Intenal]. Example: <code>13</code></p>
+<p>Meeting type [1: Client, 2: Intenal]. Example: <code>12</code></p>
         </div>
         </form>
 
@@ -2034,7 +2291,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/meeting-summery/8" \
+    --get "http://localhost:8000/api/meeting-summery/15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2042,7 +2299,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/8"
+    "http://localhost:8000/api/meeting-summery/15"
 );
 
 const headers = {
@@ -2166,10 +2423,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-meeting-summery--id-"
-               value="8"
+               value="15"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>8</code></p>
+<p>Id of the transcript. Example: <code>15</code></p>
             </div>
                     </form>
 
@@ -2187,25 +2444,25 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/meeting-summery/10" \
+    "http://localhost:8000/api/meeting-summery/20" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"pushToClickUp\": true,
-    \"clickupLink\": \"hic\",
-    \"summaryText\": \"aut\",
-    \"tldvLink\": \"delectus\",
-    \"transcriptText\": \"consequatur\",
-    \"meetingName\": \"ullam\",
-    \"meetingType\": 12
+    \"clickupLink\": \"rerum\",
+    \"summaryText\": \"totam\",
+    \"tldvLink\": \"sed\",
+    \"transcriptText\": \"exercitationem\",
+    \"meetingName\": \"dolores\",
+    \"meetingType\": 7
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/10"
+    "http://localhost:8000/api/meeting-summery/20"
 );
 
 const headers = {
@@ -2216,12 +2473,12 @@ const headers = {
 
 let body = {
     "pushToClickUp": true,
-    "clickupLink": "hic",
-    "summaryText": "aut",
-    "tldvLink": "delectus",
-    "transcriptText": "consequatur",
-    "meetingName": "ullam",
-    "meetingType": 12
+    "clickupLink": "rerum",
+    "summaryText": "totam",
+    "tldvLink": "sed",
+    "transcriptText": "exercitationem",
+    "meetingName": "dolores",
+    "meetingType": 7
 };
 
 fetch(url, {
@@ -2321,10 +2578,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="10"
+               value="20"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>10</code></p>
+<p>Id of the transcript. Example: <code>20</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2354,10 +2611,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clickupLink"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="hic"
+               value="rerum"
                data-component="body">
     <br>
-<p>Task url for the meeting. Example: <code>hic</code></p>
+<p>Task url for the meeting. Example: <code>rerum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>summaryText</code></b>&nbsp;&nbsp;
@@ -2365,10 +2622,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="summaryText"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="aut"
+               value="totam"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>totam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tldvLink</code></b>&nbsp;&nbsp;
@@ -2376,10 +2633,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="tldvLink"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="delectus"
+               value="sed"
                data-component="body">
     <br>
-<p>Tldv meeting url. Example: <code>delectus</code></p>
+<p>Tldv meeting url. Example: <code>sed</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -2387,10 +2644,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="consequatur"
+               value="exercitationem"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>consequatur</code></p>
+<p>The text of the transcript. Example: <code>exercitationem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingName</code></b>&nbsp;&nbsp;
@@ -2398,10 +2655,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="meetingName"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="ullam"
+               value="dolores"
                data-component="body">
     <br>
-<p>Name of the meeting. Example: <code>ullam</code></p>
+<p>Name of the meeting. Example: <code>dolores</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>meetingType</code></b>&nbsp;&nbsp;
@@ -2409,10 +2666,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="meetingType"                data-endpoint="PUTapi-meeting-summery--id-"
-               value="12"
+               value="7"
                data-component="body">
     <br>
-<p>Meeting type [1: Client, 2: Intenal]. Example: <code>12</code></p>
+<p>Meeting type [1: Client, 2: Intenal]. Example: <code>7</code></p>
         </div>
         </form>
 
@@ -2430,7 +2687,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/meeting-summery/17" \
+    "http://localhost:8000/api/meeting-summery/12" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2438,7 +2695,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/meeting-summery/17"
+    "http://localhost:8000/api/meeting-summery/12"
 );
 
 const headers = {
@@ -2543,10 +2800,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-meeting-summery--id-"
-               value="17"
+               value="12"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>17</code></p>
+<p>Id of the transcript. Example: <code>12</code></p>
             </div>
                     </form>
 
@@ -2568,7 +2825,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/meeting-type?page=10" \
+    --get "http://localhost:8000/api/meeting-type?page=7" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2580,7 +2837,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "10",
+    "page": "7",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -2706,10 +2963,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-meeting-type"
-               value="10"
+               value="7"
                data-component="query">
     <br>
-<p>page number. Example: <code>10</code></p>
+<p>page number. Example: <code>7</code></p>
             </div>
                 </form>
 
@@ -3334,7 +3591,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 10
+    \"transcriptId\": 7
 }"
 </code></pre></div>
 
@@ -3351,7 +3608,7 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 10
+    "transcriptId": 7
 };
 
 fetch(url, {
@@ -3451,10 +3708,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-problems-and-goals"
-               value="10"
+               value="7"
                data-component="body">
     <br>
-<p>Id of the transcript. Example: <code>10</code></p>
+<p>Id of the transcript. Example: <code>7</code></p>
         </div>
         </form>
 
@@ -3472,19 +3729,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/problems-and-goals/14" \
+    "http://localhost:8000/api/problems-and-goals/10" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalText\": \"ipsum\"
+    \"problemGoalText\": \"laboriosam\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/problems-and-goals/14"
+    "http://localhost:8000/api/problems-and-goals/10"
 );
 
 const headers = {
@@ -3494,7 +3751,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalText": "ipsum"
+    "problemGoalText": "laboriosam"
 };
 
 fetch(url, {
@@ -3594,10 +3851,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="14"
+               value="10"
                data-component="url">
     <br>
-<p>Id of the problems and goals. Example: <code>14</code></p>
+<p>Id of the problems and goals. Example: <code>10</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3606,10 +3863,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="problemGoalText"                data-endpoint="POSTapi-problems-and-goals--id-"
-               value="ipsum"
+               value="laboriosam"
                data-component="body">
     <br>
-<p>text of the ProblemsAndGoals. Example: <code>ipsum</code></p>
+<p>text of the ProblemsAndGoals. Example: <code>laboriosam</code></p>
         </div>
         </form>
 
@@ -3768,7 +4025,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"project_id\": 1,
     \"components\": [
-        \"consequatur\"
+        \"tenetur\"
     ]
 }"
 </code></pre></div>
@@ -3787,7 +4044,7 @@ const headers = {
 let body = {
     "project_id": 1,
     "components": [
-        "consequatur"
+        "tenetur"
     ]
 };
 
@@ -3921,10 +4178,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="POSTapi-project-components"
-               value="reprehenderit"
+               value="architecto"
                data-component="body">
     <br>
-<p>Example: <code>reprehenderit</code></p>
+<p>Example: <code>architecto</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -3932,10 +4189,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="components.0.quantity"                data-endpoint="POSTapi-project-components"
-               value="71"
+               value="1"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>71</code></p>
+<p>Must be at least 1. Example: <code>1</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -3987,14 +4244,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-components/voluptatem?project_id=1&amp;component_id=1" \
+    --get "http://localhost:8000/api/project-components/dicta?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/voluptatem"
+    "http://localhost:8000/api/project-components/dicta"
 );
 
 const params = {
@@ -4144,10 +4401,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-project-components--id-"
-               value="voluptatem"
+               value="dicta"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>voluptatem</code></p>
+<p>The ID of the project component. Example: <code>dicta</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -4187,12 +4444,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-components/et" \
+    "http://localhost:8000/api/project-components/in" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"components\": [
-        \"impedit\"
+        \"voluptates\"
     ],
     \"project_id\": 1
 }"
@@ -4201,7 +4458,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/et"
+    "http://localhost:8000/api/project-components/in"
 );
 
 const headers = {
@@ -4211,7 +4468,7 @@ const headers = {
 
 let body = {
     "components": [
-        "impedit"
+        "voluptates"
     ],
     "project_id": 1
 };
@@ -4330,10 +4587,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-project-components--id-"
-               value="et"
+               value="in"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>et</code></p>
+<p>The ID of the project component. Example: <code>in</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4351,10 +4608,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="components.0.component_id"                data-endpoint="PUTapi-project-components--id-"
-               value="deleniti"
+               value="est"
                data-component="body">
     <br>
-<p>Example: <code>deleniti</code></p>
+<p>Example: <code>est</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
@@ -4362,10 +4619,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="components.0.quantity"                data-endpoint="PUTapi-project-components--id-"
-               value="28"
+               value="21"
                data-component="body">
     <br>
-<p>Must be at least 1. Example: <code>28</code></p>
+<p>Must be at least 1. Example: <code>21</code></p>
                     </div>
                                                                 <div style=" margin-left: 14px; clear: unset;">
         <details>
@@ -4428,14 +4685,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-components/quis?project_id=1&amp;component_id=1" \
+    "http://localhost:8000/api/project-components/nihil?project_id=1&amp;component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-components/quis"
+    "http://localhost:8000/api/project-components/nihil"
 );
 
 const params = {
@@ -4544,10 +4801,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-project-components--id-"
-               value="quis"
+               value="nihil"
                data-component="url">
     <br>
-<p>The ID of the project component. Example: <code>quis</code></p>
+<p>The ID of the project component. Example: <code>nihil</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -4597,7 +4854,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 13
+    \"problemGoalID\": 4
 }"
 </code></pre></div>
 
@@ -4614,7 +4871,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 13
+    "problemGoalID": 4
 };
 
 fetch(url, {
@@ -4714,10 +4971,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-project-overview"
-               value="13"
+               value="4"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>13</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>4</code></p>
         </div>
         </form>
 
@@ -4735,19 +4992,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/project-overview/3" \
+    "http://localhost:8000/api/project-overview/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"overviewText\": \"dolorem\"
+    \"overviewText\": \"adipisci\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-overview/3"
+    "http://localhost:8000/api/project-overview/16"
 );
 
 const headers = {
@@ -4757,7 +5014,7 @@ const headers = {
 };
 
 let body = {
-    "overviewText": "dolorem"
+    "overviewText": "adipisci"
 };
 
 fetch(url, {
@@ -4857,10 +5114,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-project-overview--id-"
-               value="3"
+               value="16"
                data-component="url">
     <br>
-<p>Id of the ProjectOverview. Example: <code>3</code></p>
+<p>Id of the ProjectOverview. Example: <code>16</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4869,10 +5126,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="overviewText"                data-endpoint="POSTapi-project-overview--id-"
-               value="dolorem"
+               value="adipisci"
                data-component="body">
     <br>
-<p>text of the ProjectOverview. Example: <code>dolorem</code></p>
+<p>text of the ProjectOverview. Example: <code>adipisci</code></p>
         </div>
         </form>
 
@@ -4894,7 +5151,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-type?page=16" \
+    --get "http://localhost:8000/api/project-type?page=8" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4906,7 +5163,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "16",
+    "page": "8",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -5032,10 +5289,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-type"
-               value="16"
+               value="8"
                data-component="query">
     <br>
-<p>page number. Example: <code>16</code></p>
+<p>page number. Example: <code>8</code></p>
             </div>
                 </form>
 
@@ -5959,14 +6216,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/projects/12?project_id=1" \
+    --get "http://localhost:8000/api/projects/16?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/12"
+    "http://localhost:8000/api/projects/16"
 );
 
 const params = {
@@ -6081,10 +6338,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="GETapi-projects--project_id-"
-               value="12"
+               value="16"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>12</code></p>
+<p>The ID of the project. Example: <code>16</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6113,7 +6370,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/projects/11?project_id=1" \
+    "http://localhost:8000/api/projects/19?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -6126,7 +6383,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/11"
+    "http://localhost:8000/api/projects/19"
 );
 
 const params = {
@@ -6252,10 +6509,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="PUTapi-projects--project_id-"
-               value="11"
+               value="19"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>11</code></p>
+<p>The ID of the project. Example: <code>19</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6318,14 +6575,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/projects/12?project_id=1" \
+    "http://localhost:8000/api/projects/1?project_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/projects/12"
+    "http://localhost:8000/api/projects/1"
 );
 
 const params = {
@@ -6433,10 +6690,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="project_id"                data-endpoint="DELETEapi-projects--project_id-"
-               value="12"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the project. Example: <code>12</code></p>
+<p>The ID of the project. Example: <code>1</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -6470,7 +6727,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/prompts?page=13" \
+    --get "http://localhost:8000/api/prompts?page=6" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6482,7 +6739,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "13",
+    "page": "6",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -6608,10 +6865,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-prompts"
-               value="13"
+               value="6"
                data-component="query">
     <br>
-<p>page number. Example: <code>13</code></p>
+<p>page number. Example: <code>6</code></p>
             </div>
                 </form>
 
@@ -6798,7 +7055,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/prompts/cupiditate" \
+    --get "http://localhost:8000/api/prompts/nisi" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6806,7 +7063,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/cupiditate"
+    "http://localhost:8000/api/prompts/nisi"
 );
 
 const headers = {
@@ -6930,10 +7187,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-prompts--id-"
-               value="cupiditate"
+               value="nisi"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>cupiditate</code></p>
+<p>The ID of the prompt. Example: <code>nisi</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -6962,7 +7219,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/prompts/quis" \
+    "http://localhost:8000/api/prompts/sit" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -6976,7 +7233,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/quis"
+    "http://localhost:8000/api/prompts/sit"
 );
 
 const headers = {
@@ -7088,10 +7345,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-prompts--id-"
-               value="quis"
+               value="sit"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>quis</code></p>
+<p>The ID of the prompt. Example: <code>sit</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -7154,7 +7411,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/prompts/vel" \
+    "http://localhost:8000/api/prompts/eum" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -7162,7 +7419,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/prompts/vel"
+    "http://localhost:8000/api/prompts/eum"
 );
 
 const headers = {
@@ -7267,10 +7524,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-prompts--id-"
-               value="vel"
+               value="eum"
                data-component="url">
     <br>
-<p>The ID of the prompt. Example: <code>vel</code></p>
+<p>The ID of the prompt. Example: <code>eum</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>prompt</code></b>&nbsp;&nbsp;
@@ -7303,7 +7560,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/roles?per_page=17&amp;name=beatae" \
+    --get "http://localhost:8000/api/roles?per_page=15&amp;name=similique" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -7315,8 +7572,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "per_page": "17",
-    "name": "beatae",
+    "per_page": "15",
+    "name": "similique",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -7448,10 +7705,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-roles"
-               value="17"
+               value="15"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>17</code></p>
+<p>Number of items per page. Example: <code>15</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -7459,10 +7716,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-roles"
-               value="beatae"
+               value="similique"
                data-component="query">
     <br>
-<p>Name of Role. Example: <code>beatae</code></p>
+<p>Name of Role. Example: <code>similique</code></p>
             </div>
                 </form>
 
@@ -7485,9 +7742,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"quis\",
+    \"name\": \"cum\",
     \"permissions\": [
-        \"sint\"
+        \"dolor\"
     ]
 }"
 </code></pre></div>
@@ -7505,9 +7762,9 @@ const headers = {
 };
 
 let body = {
-    "name": "quis",
+    "name": "cum",
     "permissions": [
-        "sint"
+        "dolor"
     ]
 };
 
@@ -7622,10 +7879,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-roles"
-               value="quis"
+               value="cum"
                data-component="body">
     <br>
-<p>The name of the role. Example: <code>quis</code></p>
+<p>The name of the role. Example: <code>cum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>permissions</code></b>&nbsp;&nbsp;
@@ -7656,7 +7913,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/roles/voluptatum" \
+    --get "http://localhost:8000/api/roles/et" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -7664,7 +7921,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/voluptatum"
+    "http://localhost:8000/api/roles/et"
 );
 
 const headers = {
@@ -7783,10 +8040,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-roles--id-"
-               value="voluptatum"
+               value="et"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>voluptatum</code></p>
+<p>The ID of the role. Example: <code>et</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>role_id</code></b>&nbsp;&nbsp;
@@ -7794,10 +8051,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="role_id"                data-endpoint="GETapi-roles--id-"
-               value="7"
+               value="10"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>7</code></p>
+<p>The ID of the role. Example: <code>10</code></p>
             </div>
                     </form>
 
@@ -7815,14 +8072,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/roles/at" \
+    "http://localhost:8000/api/roles/ut" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"reprehenderit\",
+    \"name\": \"voluptatum\",
     \"permissions\": [
-        \"eligendi\"
+        \"voluptas\"
     ]
 }"
 </code></pre></div>
@@ -7830,7 +8087,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/at"
+    "http://localhost:8000/api/roles/ut"
 );
 
 const headers = {
@@ -7840,9 +8097,9 @@ const headers = {
 };
 
 let body = {
-    "name": "reprehenderit",
+    "name": "voluptatum",
     "permissions": [
-        "eligendi"
+        "voluptas"
     ]
 };
 
@@ -7961,10 +8218,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-roles--id-"
-               value="at"
+               value="ut"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>at</code></p>
+<p>The ID of the role. Example: <code>ut</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>role_id</code></b>&nbsp;&nbsp;
@@ -7972,10 +8229,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="role_id"                data-endpoint="PUTapi-roles--id-"
-               value="6"
+               value="1"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>6</code></p>
+<p>The ID of the role. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -7984,10 +8241,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="PUTapi-roles--id-"
-               value="reprehenderit"
+               value="voluptatum"
                data-component="body">
     <br>
-<p>The name of the role. Example: <code>reprehenderit</code></p>
+<p>The name of the role. Example: <code>voluptatum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>permissions</code></b>&nbsp;&nbsp;
@@ -8018,7 +8275,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/roles/hic" \
+    "http://localhost:8000/api/roles/recusandae" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -8026,7 +8283,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/roles/hic"
+    "http://localhost:8000/api/roles/recusandae"
 );
 
 const headers = {
@@ -8137,10 +8394,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-roles--id-"
-               value="hic"
+               value="recusandae"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>hic</code></p>
+<p>The ID of the role. Example: <code>recusandae</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>role_id</code></b>&nbsp;&nbsp;
@@ -8148,10 +8405,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="role_id"                data-endpoint="DELETEapi-roles--id-"
-               value="15"
+               value="12"
                data-component="url">
     <br>
-<p>The ID of the role. Example: <code>15</code></p>
+<p>The ID of the role. Example: <code>12</code></p>
             </div>
                     </form>
 
@@ -8173,7 +8430,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery?page=7" \
+    --get "http://localhost:8000/api/project-summery?page=12" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -8185,7 +8442,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "7",
+    "page": "12",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -8311,10 +8568,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-project-summery"
-               value="7"
+               value="12"
                data-component="query">
     <br>
-<p>page number. Example: <code>7</code></p>
+<p>page number. Example: <code>12</code></p>
             </div>
                 </form>
 
@@ -8337,14 +8594,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"transcriptId\": 13,
-    \"transcriptText\": \"voluptate\",
-    \"projectName\": \"a\",
+    \"transcriptId\": 17,
+    \"transcriptText\": \"aut\",
+    \"projectName\": \"est\",
     \"projectTypeId\": 13,
-    \"company\": \"et\",
-    \"clientPhone\": \"nam\",
-    \"clientEmail\": \"nkuhic@example.net\",
-    \"clientWebsite\": \"quaerat\"
+    \"company\": \"earum\",
+    \"clientPhone\": \"cumque\",
+    \"clientEmail\": \"cummerata.vickie@example.com\",
+    \"clientWebsite\": \"consequuntur\"
 }"
 </code></pre></div>
 
@@ -8361,14 +8618,14 @@ const headers = {
 };
 
 let body = {
-    "transcriptId": 13,
-    "transcriptText": "voluptate",
-    "projectName": "a",
+    "transcriptId": 17,
+    "transcriptText": "aut",
+    "projectName": "est",
     "projectTypeId": 13,
-    "company": "et",
-    "clientPhone": "nam",
-    "clientEmail": "nkuhic@example.net",
-    "clientWebsite": "quaerat"
+    "company": "earum",
+    "clientPhone": "cumque",
+    "clientEmail": "cummerata.vickie@example.com",
+    "clientWebsite": "consequuntur"
 };
 
 fetch(url, {
@@ -8468,10 +8725,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="transcriptId"                data-endpoint="POSTapi-project-summery"
-               value="13"
+               value="17"
                data-component="body">
     <br>
-<p>The id of the transcript to regenrate. Example: <code>13</code></p>
+<p>The id of the transcript to regenrate. Example: <code>17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>transcriptText</code></b>&nbsp;&nbsp;
@@ -8479,10 +8736,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="transcriptText"                data-endpoint="POSTapi-project-summery"
-               value="voluptate"
+               value="aut"
                data-component="body">
     <br>
-<p>The text of the transcript. Example: <code>voluptate</code></p>
+<p>The text of the transcript. Example: <code>aut</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectName</code></b>&nbsp;&nbsp;
@@ -8490,10 +8747,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="projectName"                data-endpoint="POSTapi-project-summery"
-               value="a"
+               value="est"
                data-component="body">
     <br>
-<p>The name of the project. Example: <code>a</code></p>
+<p>The name of the project. Example: <code>est</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>projectTypeId</code></b>&nbsp;&nbsp;
@@ -8512,10 +8769,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company"                data-endpoint="POSTapi-project-summery"
-               value="et"
+               value="earum"
                data-component="body">
     <br>
-<p>The company name of the project. Example: <code>et</code></p>
+<p>The company name of the project. Example: <code>earum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientPhone</code></b>&nbsp;&nbsp;
@@ -8523,10 +8780,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientPhone"                data-endpoint="POSTapi-project-summery"
-               value="nam"
+               value="cumque"
                data-component="body">
     <br>
-<p>The phone number of the client. Example: <code>nam</code></p>
+<p>The phone number of the client. Example: <code>cumque</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientEmail</code></b>&nbsp;&nbsp;
@@ -8534,10 +8791,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientEmail"                data-endpoint="POSTapi-project-summery"
-               value="nkuhic@example.net"
+               value="cummerata.vickie@example.com"
                data-component="body">
     <br>
-<p>The email of the client. Example: <code>nkuhic@example.net</code></p>
+<p>The email of the client. Example: <code>cummerata.vickie@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>clientWebsite</code></b>&nbsp;&nbsp;
@@ -8545,10 +8802,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="clientWebsite"                data-endpoint="POSTapi-project-summery"
-               value="quaerat"
+               value="consequuntur"
                data-component="body">
     <br>
-<p>The website of the client. Example: <code>quaerat</code></p>
+<p>The website of the client. Example: <code>consequuntur</code></p>
         </div>
         </form>
 
@@ -8566,7 +8823,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/project-summery/8" \
+    --get "http://localhost:8000/api/project-summery/9" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -8574,7 +8831,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/8"
+    "http://localhost:8000/api/project-summery/9"
 );
 
 const headers = {
@@ -8698,10 +8955,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-project-summery--id-"
-               value="8"
+               value="9"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>8</code></p>
+<p>Id of the transcript. Example: <code>9</code></p>
             </div>
                     </form>
 
@@ -8719,19 +8976,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/project-summery/11" \
+    "http://localhost:8000/api/project-summery/9" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"summaryText\": 16
+    \"summaryText\": 14
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/11"
+    "http://localhost:8000/api/project-summery/9"
 );
 
 const headers = {
@@ -8741,7 +8998,7 @@ const headers = {
 };
 
 let body = {
-    "summaryText": 16
+    "summaryText": 14
 };
 
 fetch(url, {
@@ -8841,10 +9098,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="PUTapi-project-summery--id-"
-               value="11"
+               value="9"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>11</code></p>
+<p>Id of the transcript. Example: <code>9</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -8853,10 +9110,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="summaryText"                data-endpoint="PUTapi-project-summery--id-"
-               value="16"
+               value="14"
                data-component="body">
     <br>
-<p>summaryText of the SOW Meeting Summery. Example: <code>16</code></p>
+<p>summaryText of the SOW Meeting Summery. Example: <code>14</code></p>
         </div>
         </form>
 
@@ -8874,7 +9131,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/project-summery/8" \
+    "http://localhost:8000/api/project-summery/7" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -8882,7 +9139,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/project-summery/8"
+    "http://localhost:8000/api/project-summery/7"
 );
 
 const headers = {
@@ -8987,10 +9244,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-project-summery--id-"
-               value="8"
+               value="7"
                data-component="url">
     <br>
-<p>Id of the transcript. Example: <code>8</code></p>
+<p>Id of the transcript. Example: <code>7</code></p>
             </div>
                     </form>
 
@@ -9017,7 +9274,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"problemGoalID\": 17
+    \"problemGoalID\": 2
 }"
 </code></pre></div>
 
@@ -9034,7 +9291,7 @@ const headers = {
 };
 
 let body = {
-    "problemGoalID": 17
+    "problemGoalID": 2
 };
 
 fetch(url, {
@@ -9134,10 +9391,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="problemGoalID"                data-endpoint="POSTapi-scope-of-work"
-               value="17"
+               value="2"
                data-component="body">
     <br>
-<p>Id of the ProblemsAndGoals. Example: <code>17</code></p>
+<p>Id of the ProblemsAndGoals. Example: <code>2</code></p>
         </div>
         </form>
 
@@ -9155,19 +9412,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/scope-of-work/13" \
+    "http://localhost:8000/api/scope-of-work/8" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"scopeText\": \"aperiam\"
+    \"scopeText\": \"magnam\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/scope-of-work/13"
+    "http://localhost:8000/api/scope-of-work/8"
 );
 
 const headers = {
@@ -9177,7 +9434,7 @@ const headers = {
 };
 
 let body = {
-    "scopeText": "aperiam"
+    "scopeText": "magnam"
 };
 
 fetch(url, {
@@ -9277,10 +9534,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="13"
+               value="8"
                data-component="url">
     <br>
-<p>Id of the Scope of Work. Example: <code>13</code></p>
+<p>Id of the Scope of Work. Example: <code>8</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -9289,10 +9546,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="scopeText"                data-endpoint="POSTapi-scope-of-work--id-"
-               value="aperiam"
+               value="magnam"
                data-component="body">
     <br>
-<p>text of the Scope of Work. Example: <code>aperiam</code></p>
+<p>text of the Scope of Work. Example: <code>magnam</code></p>
         </div>
         </form>
 
@@ -9314,7 +9571,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-deliverable-tasks?serviceDeliverableId=16&amp;serviceScopeId=8&amp;serviceGroupId=3&amp;serviceId=3&amp;name=velit&amp;page=12&amp;per_page=17" \
+    --get "http://localhost:8000/api/service-deliverable-tasks?serviceDeliverableId=5&amp;serviceScopeId=2&amp;serviceGroupId=17&amp;serviceId=13&amp;name=voluptates&amp;page=16&amp;per_page=5" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -9326,13 +9583,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "serviceDeliverableId": "16",
-    "serviceScopeId": "8",
-    "serviceGroupId": "3",
-    "serviceId": "3",
-    "name": "velit",
-    "page": "12",
-    "per_page": "17",
+    "serviceDeliverableId": "5",
+    "serviceScopeId": "2",
+    "serviceGroupId": "17",
+    "serviceId": "13",
+    "name": "voluptates",
+    "page": "16",
+    "per_page": "5",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -9472,10 +9729,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceDeliverableId"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="16"
+               value="5"
                data-component="query">
     <br>
-<p>Service Deliverable Id. Example: <code>16</code></p>
+<p>Service Deliverable Id. Example: <code>5</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceScopeId</code></b>&nbsp;&nbsp;
@@ -9483,10 +9740,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceScopeId"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="8"
+               value="2"
                data-component="query">
     <br>
-<p>Service Scope Id. Example: <code>8</code></p>
+<p>Service Scope Id. Example: <code>2</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceGroupId</code></b>&nbsp;&nbsp;
@@ -9494,10 +9751,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="3"
+               value="17"
                data-component="query">
     <br>
-<p>Service Group Id. Example: <code>3</code></p>
+<p>Service Group Id. Example: <code>17</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceId</code></b>&nbsp;&nbsp;
@@ -9505,10 +9762,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="3"
+               value="13"
                data-component="query">
     <br>
-<p>Service Id. Example: <code>3</code></p>
+<p>Service Id. Example: <code>13</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -9516,10 +9773,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="velit"
+               value="voluptates"
                data-component="query">
     <br>
-<p>Filter by name. Example: <code>velit</code></p>
+<p>Filter by name. Example: <code>voluptates</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
@@ -9527,10 +9784,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="12"
+               value="16"
                data-component="query">
     <br>
-<p>page number. Example: <code>12</code></p>
+<p>page number. Example: <code>16</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -9538,10 +9795,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-service-deliverable-tasks"
-               value="17"
+               value="5"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>17</code></p>
+<p>Number of items per page. Example: <code>5</code></p>
             </div>
                 </form>
 
@@ -9565,10 +9822,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"tasks\": [
-        \"libero\"
+        \"rerum\"
     ],
-    \"serviceDeliverableId\": 11,
-    \"parentTaskId\": 1
+    \"serviceDeliverableId\": 5,
+    \"parentTaskId\": 6
 }"
 </code></pre></div>
 
@@ -9586,10 +9843,10 @@ const headers = {
 
 let body = {
     "tasks": [
-        "libero"
+        "rerum"
     ],
-    "serviceDeliverableId": 11,
-    "parentTaskId": 1
+    "serviceDeliverableId": 5,
+    "parentTaskId": 6
 };
 
 fetch(url, {
@@ -9744,10 +10001,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tasks.0.name"                data-endpoint="POSTapi-service-deliverable-tasks"
-               value="labore"
+               value="placeat"
                data-component="body">
     <br>
-<p>The name of the task. Example: <code>labore</code></p>
+<p>The name of the task. Example: <code>placeat</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -9755,10 +10012,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tasks.0.description"                data-endpoint="POSTapi-service-deliverable-tasks"
-               value="Consectetur qui quia omnis id."
+               value="Non atque sed quaerat sed totam maxime consequuntur dolores."
                data-component="body">
     <br>
-<p>The description of the task. Example: <code>Consectetur qui quia omnis id.</code></p>
+<p>The description of the task. Example: <code>Non atque sed quaerat sed totam maxime consequuntur dolores.</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>cost</code></b>&nbsp;&nbsp;
@@ -9766,10 +10023,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tasks.0.cost"                data-endpoint="POSTapi-service-deliverable-tasks"
-               value="vero"
+               value="omnis"
                data-component="body">
     <br>
-<p>The cost of the task. Example: <code>vero</code></p>
+<p>The cost of the task. Example: <code>omnis</code></p>
                     </div>
                                     </details>
         </div>
@@ -9779,10 +10036,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceDeliverableId"                data-endpoint="POSTapi-service-deliverable-tasks"
-               value="11"
+               value="5"
                data-component="body">
     <br>
-<p>The ID of the service deliverable. Example: <code>11</code></p>
+<p>The ID of the service deliverable. Example: <code>5</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>parentTaskId</code></b>&nbsp;&nbsp;
@@ -9790,10 +10047,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="parentTaskId"                data-endpoint="POSTapi-service-deliverable-tasks"
-               value="1"
+               value="6"
                data-component="body">
     <br>
-<p>nullable The ID of the parent task. Example: <code>1</code></p>
+<p>nullable The ID of the parent task. Example: <code>6</code></p>
         </div>
         </form>
 
@@ -9972,7 +10229,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"Updated Design Phase Task\",
     \"description\": \"Updated description\",
     \"cost\": 200,
-    \"serviceDeliverableId\": 1
+    \"serviceDeliverableId\": 18
 }"
 </code></pre></div>
 
@@ -9992,7 +10249,7 @@ let body = {
     "name": "Updated Design Phase Task",
     "description": "Updated description",
     "cost": 200,
-    "serviceDeliverableId": 1
+    "serviceDeliverableId": 18
 };
 
 fetch(url, {
@@ -10141,10 +10398,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceDeliverableId"                data-endpoint="PUTapi-service-deliverable-tasks--id-"
-               value="1"
+               value="18"
                data-component="body">
     <br>
-<p>The ID of the associated service deliverable. Example: <code>1</code></p>
+<p>The ID of the associated service deliverable. Example: <code>18</code></p>
         </div>
         </form>
 
@@ -10300,7 +10557,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-deliverables?page=7&amp;serviceScopeId=16&amp;serviceGroupId=3&amp;serviceId=2&amp;name=quaerat&amp;per_page=13" \
+    --get "http://localhost:8000/api/service-deliverables?page=14&amp;serviceScopeId=17&amp;serviceGroupId=12&amp;serviceId=16&amp;name=inventore&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -10312,12 +10569,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "7",
-    "serviceScopeId": "16",
-    "serviceGroupId": "3",
-    "serviceId": "2",
-    "name": "quaerat",
-    "per_page": "13",
+    "page": "14",
+    "serviceScopeId": "17",
+    "serviceGroupId": "12",
+    "serviceId": "16",
+    "name": "inventore",
+    "per_page": "15",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -10443,10 +10700,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-deliverables"
-               value="7"
+               value="14"
                data-component="query">
     <br>
-<p>page number. Example: <code>7</code></p>
+<p>page number. Example: <code>14</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceScopeId</code></b>&nbsp;&nbsp;
@@ -10454,10 +10711,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceScopeId"                data-endpoint="GETapi-service-deliverables"
-               value="16"
+               value="17"
                data-component="query">
     <br>
-<p>Service Scope Id. Example: <code>16</code></p>
+<p>Service Scope Id. Example: <code>17</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceGroupId</code></b>&nbsp;&nbsp;
@@ -10465,10 +10722,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="GETapi-service-deliverables"
-               value="3"
+               value="12"
                data-component="query">
     <br>
-<p>Service Group Id. Example: <code>3</code></p>
+<p>Service Group Id. Example: <code>12</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceId</code></b>&nbsp;&nbsp;
@@ -10476,10 +10733,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="GETapi-service-deliverables"
-               value="2"
+               value="16"
                data-component="query">
     <br>
-<p>Service Id. Example: <code>2</code></p>
+<p>Service Id. Example: <code>16</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -10487,10 +10744,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-service-deliverables"
-               value="quaerat"
+               value="inventore"
                data-component="query">
     <br>
-<p>Filter by name. Example: <code>quaerat</code></p>
+<p>Filter by name. Example: <code>inventore</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -10498,10 +10755,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-service-deliverables"
-               value="13"
+               value="15"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>13</code></p>
+<p>Number of items per page. Example: <code>15</code></p>
             </div>
                 </form>
 
@@ -10842,7 +11099,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Implementation Phase\",
-    \"serviceScopeId\": 13
+    \"serviceScopeId\": 7
 }"
 </code></pre></div>
 
@@ -10860,7 +11117,7 @@ const headers = {
 
 let body = {
     "name": "Implementation Phase",
-    "serviceScopeId": 13
+    "serviceScopeId": 7
 };
 
 fetch(url, {
@@ -10987,10 +11244,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceScopeId"                data-endpoint="PUTapi-service-deliverables--id-"
-               value="13"
+               value="7"
                data-component="body">
     <br>
-<p>The ID of the associated service scope. Example: <code>13</code></p>
+<p>The ID of the associated service scope. Example: <code>7</code></p>
         </div>
         </form>
 
@@ -11146,7 +11403,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-groups?page=17&amp;name=explicabo&amp;serviceId=4&amp;per_page=6" \
+    --get "http://localhost:8000/api/service-groups?page=11&amp;name=vel&amp;serviceId=15&amp;per_page=9" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -11158,10 +11415,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "17",
-    "name": "explicabo",
-    "serviceId": "4",
-    "per_page": "6",
+    "page": "11",
+    "name": "vel",
+    "serviceId": "15",
+    "per_page": "9",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -11287,10 +11544,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-groups"
-               value="17"
+               value="11"
                data-component="query">
     <br>
-<p>page number. Example: <code>17</code></p>
+<p>page number. Example: <code>11</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -11298,10 +11555,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-service-groups"
-               value="explicabo"
+               value="vel"
                data-component="query">
     <br>
-<p>Filter by name. Example: <code>explicabo</code></p>
+<p>Filter by name. Example: <code>vel</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceId</code></b>&nbsp;&nbsp;
@@ -11309,10 +11566,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="GETapi-service-groups"
-               value="4"
+               value="15"
                data-component="query">
     <br>
-<p>Service Id. Example: <code>4</code></p>
+<p>Service Id. Example: <code>15</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -11320,10 +11577,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-service-groups"
-               value="6"
+               value="9"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>6</code></p>
+<p>Number of items per page. Example: <code>9</code></p>
             </div>
                 </form>
 
@@ -11664,7 +11921,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Advanced\",
-    \"serviceId\": 16
+    \"serviceId\": 14
 }"
 </code></pre></div>
 
@@ -11682,7 +11939,7 @@ const headers = {
 
 let body = {
     "name": "Advanced",
-    "serviceId": 16
+    "serviceId": 14
 };
 
 fetch(url, {
@@ -11809,10 +12066,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="PUTapi-service-groups--id-"
-               value="16"
+               value="14"
                data-component="body">
     <br>
-<p>The ID of the associated service. Example: <code>16</code></p>
+<p>The ID of the associated service. Example: <code>14</code></p>
         </div>
         </form>
 
@@ -11968,7 +12225,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/service-scopes?page=20&amp;serviceGroupId=14&amp;serviceId=6&amp;name=harum&amp;per_page=11" \
+    --get "http://localhost:8000/api/service-scopes?page=1&amp;serviceGroupId=6&amp;serviceId=13&amp;name=veniam&amp;per_page=1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -11980,11 +12237,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "20",
-    "serviceGroupId": "14",
-    "serviceId": "6",
-    "name": "harum",
-    "per_page": "11",
+    "page": "1",
+    "serviceGroupId": "6",
+    "serviceId": "13",
+    "name": "veniam",
+    "per_page": "1",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -12124,10 +12381,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-service-scopes"
-               value="20"
+               value="1"
                data-component="query">
     <br>
-<p>page number. Example: <code>20</code></p>
+<p>page number. Example: <code>1</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceGroupId</code></b>&nbsp;&nbsp;
@@ -12135,10 +12392,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="GETapi-service-scopes"
-               value="14"
+               value="6"
                data-component="query">
     <br>
-<p>Service group Id. Example: <code>14</code></p>
+<p>Service group Id. Example: <code>6</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>serviceId</code></b>&nbsp;&nbsp;
@@ -12146,10 +12403,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceId"                data-endpoint="GETapi-service-scopes"
-               value="6"
+               value="13"
                data-component="query">
     <br>
-<p>Service Id. Example: <code>6</code></p>
+<p>Service Id. Example: <code>13</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -12157,10 +12414,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-service-scopes"
-               value="harum"
+               value="veniam"
                data-component="query">
     <br>
-<p>Filter by name. Example: <code>harum</code></p>
+<p>Filter by name. Example: <code>veniam</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -12168,10 +12425,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-service-scopes"
-               value="11"
+               value="1"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>11</code></p>
+<p>Number of items per page. Example: <code>1</code></p>
             </div>
                 </form>
 
@@ -12512,7 +12769,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Advanced\",
-    \"serviceGroupId\": 5
+    \"serviceGroupId\": 3
 }"
 </code></pre></div>
 
@@ -12530,7 +12787,7 @@ const headers = {
 
 let body = {
     "name": "Advanced",
-    "serviceGroupId": 5
+    "serviceGroupId": 3
 };
 
 fetch(url, {
@@ -12657,10 +12914,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="serviceGroupId"                data-endpoint="PUTapi-service-scopes--id-"
-               value="5"
+               value="3"
                data-component="body">
     <br>
-<p>The ID of the associated service. Example: <code>5</code></p>
+<p>The ID of the associated service. Example: <code>3</code></p>
         </div>
         </form>
 
@@ -12816,7 +13073,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/services?name=et&amp;per_page=17&amp;page=1" \
+    --get "http://localhost:8000/api/services?name=qui&amp;per_page=6&amp;page=17" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -12828,9 +13085,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "name": "et",
-    "per_page": "17",
-    "page": "1",
+    "name": "qui",
+    "per_page": "6",
+    "page": "17",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -12956,10 +13213,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-services"
-               value="et"
+               value="qui"
                data-component="query">
     <br>
-<p>Filter by name. Example: <code>et</code></p>
+<p>Filter by name. Example: <code>qui</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -12967,10 +13224,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-services"
-               value="17"
+               value="6"
                data-component="query">
     <br>
-<p>Number of items per page. Example: <code>17</code></p>
+<p>Number of items per page. Example: <code>6</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
@@ -12978,10 +13235,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-services"
-               value="1"
+               value="17"
                data-component="query">
     <br>
-<p>page number. Example: <code>1</code></p>
+<p>page number. Example: <code>17</code></p>
             </div>
                 </form>
 
@@ -13314,7 +13571,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Updated Header\",
-    \"projectTypeId\": 11
+    \"projectTypeId\": 16
 }"
 </code></pre></div>
 
@@ -13332,7 +13589,7 @@ const headers = {
 
 let body = {
     "name": "Updated Header",
-    "projectTypeId": 11
+    "projectTypeId": 16
 };
 
 fetch(url, {
@@ -13459,10 +13716,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="projectTypeId"                data-endpoint="PUTapi-services--id-"
-               value="11"
+               value="16"
                data-component="body">
     <br>
-<p>The type of the project. Example: <code>11</code></p>
+<p>The type of the project. Example: <code>16</code></p>
         </div>
         </form>
 
@@ -13609,6 +13866,137 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
+                    <h2 id="services-GETapi-service-tree">Service Data Tree</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Send data as a tree structure</p>
+
+<span id="example-requests-GETapi-service-tree">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/service-tree" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/service-tree"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-service-tree">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Data fetched successfully&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-service-tree" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-service-tree"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-service-tree"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-service-tree" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-service-tree">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-service-tree" data-method="GET"
+      data-path="api/service-tree"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-service-tree', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-service-tree"
+                    onclick="tryItOut('GETapi-service-tree');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-service-tree"
+                    onclick="cancelTryOut('GETapi-service-tree');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-service-tree"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/service-tree</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-service-tree"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-service-tree"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-service-tree"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
                 <h1 id="users-management">Users Management</h1>
 
     
@@ -13627,7 +14015,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/users?page=19" \
+    --get "http://localhost:8000/api/users?page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -13639,7 +14027,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "19",
+    "page": "15",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -13765,10 +14153,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-users"
-               value="19"
+               value="15"
                data-component="query">
     <br>
-<p>page number. Example: <code>19</code></p>
+<p>page number. Example: <code>15</code></p>
             </div>
                 </form>
 
@@ -13794,6 +14182,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"email\": \"\\\"user@example.com.\\\"\",
     \"name\": \"\\\"Example user name.\\\"\",
     \"password\": \"\\\"ashska.\\\"\",
+    \"role\": \"\\\"Admin\\\"\",
     \"password_confirmation\": \"\\\"ashska.\\\"\"
 }"
 </code></pre></div>
@@ -13814,6 +14203,7 @@ let body = {
     "email": "\"user@example.com.\"",
     "name": "\"Example user name.\"",
     "password": "\"ashska.\"",
+    "role": "\"Admin\"",
     "password_confirmation": "\"ashska.\""
 };
 
@@ -13942,6 +14332,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>The password of the user. Example: <code>"ashska."</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>role</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="role"                data-endpoint="POSTapi-users"
+               value=""Admin""
+               data-component="body">
+    <br>
+<p>The name of the role. Example: <code>"Admin"</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
@@ -13968,7 +14369,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/users/soluta" \
+    --get "http://localhost:8000/api/users/quia" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -13976,7 +14377,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/soluta"
+    "http://localhost:8000/api/users/quia"
 );
 
 const headers = {
@@ -14100,10 +14501,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-users--id-"
-               value="soluta"
+               value="quia"
                data-component="url">
     <br>
-<p>The ID of the user. Example: <code>soluta</code></p>
+<p>The ID of the user. Example: <code>quia</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
@@ -14132,12 +14533,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/users/nam" \
+    "http://localhost:8000/api/users/qui" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"name\": \"\\\"Example user name.\\\"\",
+    \"role\": \"\\\"Admin\\\"\",
     \"email\": \"\\\"user@example.com.\\\"\",
     \"password\": \"\\\"ashska.\\\"\",
     \"password_confirmation\": \"\\\"ashska.\\\"\"
@@ -14147,7 +14549,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/nam"
+    "http://localhost:8000/api/users/qui"
 );
 
 const headers = {
@@ -14158,6 +14560,7 @@ const headers = {
 
 let body = {
     "name": "\"Example user name.\"",
+    "role": "\"Admin\"",
     "email": "\"user@example.com.\"",
     "password": "\"ashska.\"",
     "password_confirmation": "\"ashska.\""
@@ -14260,10 +14663,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-users--id-"
-               value="nam"
+               value="qui"
                data-component="url">
     <br>
-<p>The ID of the user. Example: <code>nam</code></p>
+<p>The ID of the user. Example: <code>qui</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
@@ -14287,6 +14690,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>The name of the user. Example: <code>"Example user name."</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>role</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="role"                data-endpoint="PUTapi-users--id-"
+               value=""Admin""
+               data-component="body">
+    <br>
+<p>The name of the role. Example: <code>"Admin"</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -14337,7 +14751,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/users/illum" \
+    "http://localhost:8000/api/users/cum" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -14345,7 +14759,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/users/illum"
+    "http://localhost:8000/api/users/cum"
 );
 
 const headers = {
@@ -14450,10 +14864,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-users--id-"
-               value="illum"
+               value="cum"
                data-component="url">
     <br>
-<p>The ID of the user. Example: <code>illum</code></p>
+<p>The ID of the user. Example: <code>cum</code></p>
             </div>
                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
@@ -14758,14 +15172,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/categories/4?category_id=1" \
+    --get "http://localhost:8000/api/categories/12?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/4"
+    "http://localhost:8000/api/categories/12"
 );
 
 const params = {
@@ -14878,10 +15292,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="GETapi-categories--category_id-"
-               value="4"
+               value="12"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>4</code></p>
+<p>The ID of the category. Example: <code>12</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -14910,7 +15324,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/categories/8?category_id=1" \
+    "http://localhost:8000/api/categories/4?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -14921,7 +15335,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/8"
+    "http://localhost:8000/api/categories/4"
 );
 
 const params = {
@@ -15043,10 +15457,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="PUTapi-categories--category_id-"
-               value="8"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>8</code></p>
+<p>The ID of the category. Example: <code>4</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -15087,14 +15501,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/categories/2?category_id=1" \
+    "http://localhost:8000/api/categories/5?category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/categories/2"
+    "http://localhost:8000/api/categories/5"
 );
 
 const params = {
@@ -15202,10 +15616,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="category_id"                data-endpoint="DELETEapi-categories--category_id-"
-               value="2"
+               value="5"
                data-component="url">
     <br>
-<p>The ID of the category. Example: <code>2</code></p>
+<p>The ID of the category. Example: <code>5</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -15577,14 +15991,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/components/19?component_id=1" \
+    --get "http://localhost:8000/api/components/4?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/19"
+    "http://localhost:8000/api/components/4"
 );
 
 const params = {
@@ -15706,10 +16120,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="GETapi-components--component_id-"
-               value="19"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>19</code></p>
+<p>The ID of the component. Example: <code>4</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -15738,7 +16152,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost:8000/api/components/10?component_id=1" \
+    "http://localhost:8000/api/components/18?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -15752,7 +16166,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/10"
+    "http://localhost:8000/api/components/18"
 );
 
 const params = {
@@ -15886,10 +16300,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="PUTapi-components--component_id-"
-               value="10"
+               value="18"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>10</code></p>
+<p>The ID of the component. Example: <code>18</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">
@@ -15963,14 +16377,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/components/11?component_id=1" \
+    "http://localhost:8000/api/components/4?component_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/components/11"
+    "http://localhost:8000/api/components/4"
 );
 
 const params = {
@@ -16078,10 +16492,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="component_id"                data-endpoint="DELETEapi-components--component_id-"
-               value="11"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the component. Example: <code>11</code></p>
+<p>The ID of the component. Example: <code>4</code></p>
             </div>
                         <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
                                     <div style="padding-left: 28px; clear: unset;">

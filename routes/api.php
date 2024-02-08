@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
+use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -99,7 +100,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-scopes', ServiceScopeController::class);
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
+
     Route::apiResource('roles', RoleController::class);
+
+    Route::get('/service-tree', [ServiceController::class, 'serviceTree'])->name('service.tree');
 
     Route::get('/permissions', function () {
         $permissions =  Permission::get('name');
@@ -133,6 +137,143 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 });
 
+Route::get('/task-tree', function () {
+    $servicesRawData =  Services::with([
+        'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
+            $query->where('parentTaskId', null)->with('subTasks');
+        },
+    ])->get();
+
+    $services = [];
+
+    foreach ($servicesRawData as $service) {
+        $serviceData = [
+            'id' => $service->id,
+            'name' => $service->name,
+            'groups' => [],
+        ];
+
+        foreach ($service->serviceGroups as $group) {
+            $serviceGroupData = [
+                'id' => $group->id,
+                'name' => $group->name,
+                'sows' => [],
+            ];
+
+            foreach ($group->serviceScopes as $scope) {
+                $scopedata = [
+                    'id' => $scope->id,
+                    'name' => $scope->name,
+                    'deliverables' => [],
+                ];
+
+                foreach ($scope->serviceDeliverables as $deliverable) {
+                    $deliverableData = [
+                        'id' => $deliverable->id,
+                        'name' => $deliverable->name,
+                        'tasks' => [],
+                    ];
+
+                    foreach ($deliverable->serviceDeliverableTasks as $task) {
+                        $taskData = [
+                            'id' => $task->id,
+                            'name' => $task->name,
+                            'description' => $task->description,
+                            'sub_tasks' => [],
+                        ];
+
+                        foreach ($task->subTasks as $subTask) {
+                            $subTaskData = [
+                                'id' => $subTask->id,
+                                'name' => $subTask->name,
+                                'description' => $subTask->description,
+                            ];
+
+                            $taskData['sub_tasks'][] = $subTaskData;
+                        }
+
+                        $deliverableData['tasks'][] = $taskData;
+                    }
+
+                    $scopedata['deliverables'][] = $deliverableData;
+                }
+
+                $serviceGroupData['sows'][] = $scopedata;
+            }
+
+            $serviceData['groups'][] = $serviceGroupData;
+        }
+
+        $services[] = $serviceData;
+    }
+
+    return response()->json(['services' => $services]);
+
+
+    // Process the data
+    // foreach ($servicesRawData as $service) {
+    //     $serviceItem = [
+    //         'id' => $service['id'],
+    //         'name' => $service['name'],
+    //         'groups' => []
+    //     ];
+
+    //     if(isset($service['service_groups'])){
+    //         foreach ($service['service_groups'] as $group) {
+    //             $groupItem = [
+    //                 'id' => $group['id'],
+    //                 'name' => $group['name'],
+    //                 'scopes' => []
+    //             ];
+
+    //             if(isset($group['service_scopes'])){
+    //                 foreach ($group['service_scopes'] as $scope) {
+    //                     $scopeItem = [
+    //                         'id' => $scope['id'],
+    //                         'name' => $scope['name'],
+    //                         'deliverables' => []
+    //                     ];
+
+    //                     if(isset($scope['service_deliverables'])){
+    //                         foreach ($scope['service_deliverables'] as $deliverable) {
+    //                             $deliverableItem = [
+    //                                 'id' => $deliverable['id'],
+    //                                 'name' => $deliverable['name'],
+    //                                 'tasks' => []
+    //                             ];
+
+    //                             if(isset($deliverable['service_deliverable_tasks'])){
+    //                                 foreach ($deliverable['service_deliverable_tasks'] as $task) {
+    //                                     $taskItem = [
+    //                                         'id' => $task['id'],
+    //                                         'name' => $task['name']
+    //                                     ];
+
+    //                                     $deliverableItem['tasks'][] = $taskItem;
+    //                                 }
+    //                             }
+
+    //                             $scopeItem['deliverables'][] = $deliverableItem;
+    //                         }
+    //                     }
+
+    //                     $groupItem['scopes'][] = $scopeItem;
+    //                 }
+    //             }
+
+    //             $serviceItem['groups'][] = $groupItem;
+    //         }
+    //     }
+
+    //     $services[] = $serviceItem;
+    // }
+
+    // Prepare the expected format
+    $expectedFormat = ['services' => $services];
+
+    return response()->json($expectedFormat);
+
+});
 
 
 
