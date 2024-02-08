@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Enums\UserType;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 /**
  * @group Users Management
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::with('roles')->paginate(10);
 
         return response()->json([
             'data' => $users->items(),
@@ -43,6 +44,7 @@ class UserController extends Controller
      *
      * @bodyParam email string required The email of the user. Example: "user@example.com."
      * @bodyParam name string required The name of the user. Example: "Example user name."
+     * @bodyParam role string required The name of the role. Example: "Admin"
      * @bodyParam password string required The password of the user. Example: "ashska."
      * @bodyParam password_confirmation string required The mathing password of the user. Example: "ashska."
      *
@@ -56,6 +58,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'name' => 'required|string',
             'password' => 'required|string|confirmed',
+            'role' => 'required|string'
         ]);
 
         $user = new User;
@@ -63,6 +66,13 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+
+        // Assign role to user
+        $role = Role::findByName($request->role);
+        if($role){
+            $user->assignRole($role);
+        }
+
 
         $response = [
             'message' => 'Created Successfully ',
@@ -84,7 +94,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('roles')->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $user,
@@ -100,6 +110,7 @@ class UserController extends Controller
      * @urlParam user required The ID of the user to update. Example: 1
      * @bodyParam email string required The email of the user. Example: "user@example.com."
      * @bodyParam name string required The name of the user. Example: "Example user name."
+     * @bodyParam role string required The name of the role. Example: "Admin"
      * @bodyParam password string nullable The password of the user. Example: "ashska."
      * @bodyParam password_confirmation string nullable The mathing password of the user. Example: "ashska."
      *
@@ -112,6 +123,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'string|max:255',
+            'role' => 'required|string',
             'email' => 'email|unique:users,email,' . $id,
             'password' => 'nullable|string|confirmed',
         ]);
@@ -124,6 +136,11 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
+        $role = Role::findByName($request->role);
+        if($role){
+            $user->syncRoles([$role->id]);
+        }
 
         $response = [
             'message' => 'Created Successfully ',
