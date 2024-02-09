@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Services;
+use App\Services\ClickUpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -209,70 +210,48 @@ Route::get('/task-tree', function () {
 
     return response()->json(['services' => $services]);
 
+});
 
-    // Process the data
-    // foreach ($servicesRawData as $service) {
-    //     $serviceItem = [
-    //         'id' => $service['id'],
-    //         'name' => $service['name'],
-    //         'groups' => []
-    //     ];
+Route::get('/clickup/list', function (Request $request) {
+    // https://app.clickup.com/1272651/v/li/901301004038
+    try {
+        $parsedUrl = parse_url($request->clickupLink);
 
-    //     if(isset($service['service_groups'])){
-    //         foreach ($service['service_groups'] as $group) {
-    //             $groupItem = [
-    //                 'id' => $group['id'],
-    //                 'name' => $group['name'],
-    //                 'scopes' => []
-    //             ];
+        // Get the path part
+        $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : null;
+        $listId = basename($path);
+        $tasks = ClickUpService::getClickUpTasksByListId($listId);
+        $parentTasks = [];
+        $childTasks = [];
+        foreach ($tasks as $key => $task) {
+            $taskDetails = [
+                'name' => $task['name'],
+                'id' => $task['id'],
+                'description' => $task['description'],
+                'parent' => $task['parent'],
+                'subTasks' => [],
+            ];
 
-    //             if(isset($group['service_scopes'])){
-    //                 foreach ($group['service_scopes'] as $scope) {
-    //                     $scopeItem = [
-    //                         'id' => $scope['id'],
-    //                         'name' => $scope['name'],
-    //                         'deliverables' => []
-    //                     ];
+            if($task['parent'] == null){
+                $parentTasks[$task['id']] = $taskDetails;
+            }
+            else{
+                $childTasks[$task['id']] = $taskDetails;
+            }
 
-    //                     if(isset($scope['service_deliverables'])){
-    //                         foreach ($scope['service_deliverables'] as $deliverable) {
-    //                             $deliverableItem = [
-    //                                 'id' => $deliverable['id'],
-    //                                 'name' => $deliverable['name'],
-    //                                 'tasks' => []
-    //                             ];
+            # code...
+        }
 
-    //                             if(isset($deliverable['service_deliverable_tasks'])){
-    //                                 foreach ($deliverable['service_deliverable_tasks'] as $task) {
-    //                                     $taskItem = [
-    //                                         'id' => $task['id'],
-    //                                         'name' => $task['name']
-    //                                     ];
+        foreach ($childTasks as $task) {
+            if(isset($parentTasks[$task['parent']])){
+                $parentTasks[$task['parent']]['subTasks'][] = $task;
+            }
+        }
 
-    //                                     $deliverableItem['tasks'][] = $taskItem;
-    //                                 }
-    //                             }
-
-    //                             $scopeItem['deliverables'][] = $deliverableItem;
-    //                         }
-    //                     }
-
-    //                     $groupItem['scopes'][] = $scopeItem;
-    //                 }
-    //             }
-
-    //             $serviceItem['groups'][] = $groupItem;
-    //         }
-    //     }
-
-    //     $services[] = $serviceItem;
-    // }
-
-    // Prepare the expected format
-    $expectedFormat = ['services' => $services];
-
-    return response()->json($expectedFormat);
-
+        return $parentTasks;
+    } catch (\Throwable $th) {
+        throw $th;
+    }
 });
 
 

@@ -83,7 +83,7 @@ class Handler extends ExceptionHandler
             return WebApiResponse::error(405, $errors = [$exception->getMessage()], 'Query Exception');
         }
         if ($exception instanceof ErrorException) {
-            return WebApiResponse::error(405, $errors = [$exception->getMessage()], 'Query Exception');
+            return WebApiResponse::error(405, $errors = [$exception->getMessage()], 'Something Went Wrong');
         }
         if ($exception instanceof UnauthorizedException) {
             return WebApiResponse::error(403, $errors = [$exception->getMessage()], 'Unauthorized Access!');
