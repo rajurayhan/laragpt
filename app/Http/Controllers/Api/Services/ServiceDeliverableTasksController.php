@@ -306,8 +306,8 @@ class ServiceDeliverableTasksController extends Controller
             $childTasks = [];
             foreach ($tasks as $key => $task) {
                 $taskDetails = [
-                    'name' => $task['name'],
                     'id' => $task['id'],
+                    'name' => $task['name'],
                     'description' => $task['description'],
                     'parent' => $task['parent'],
                     'subTasks' => [],
@@ -325,13 +325,14 @@ class ServiceDeliverableTasksController extends Controller
 
             foreach ($childTasks as $task) {
                 if(isset($parentTasks[$task['parent']])){
+                    unset($task['subTasks']);
                     $parentTasks[$task['parent']]['subTasks'][] = $task;
                 }
             }
 
             $response = [
                 'message' => 'Data Fetched Successfully',
-                'data' => $parentTasks
+                'data' => array_values($parentTasks)
             ];
 
             return response()->json($response, 200);
