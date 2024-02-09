@@ -136,6 +136,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
+    // Route::get('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTasksFromListId'])->name('task.from.clickup');
+
 });
 
 Route::get('/task-tree', function () {
@@ -212,47 +214,7 @@ Route::get('/task-tree', function () {
 
 });
 
-Route::get('/clickup/list', function (Request $request) {
-    // https://app.clickup.com/1272651/v/li/901301004038
-    try {
-        $parsedUrl = parse_url($request->clickupLink);
-
-        // Get the path part
-        $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : null;
-        $listId = basename($path);
-        $tasks = ClickUpService::getClickUpTasksByListId($listId);
-        $parentTasks = [];
-        $childTasks = [];
-        foreach ($tasks as $key => $task) {
-            $taskDetails = [
-                'name' => $task['name'],
-                'id' => $task['id'],
-                'description' => $task['description'],
-                'parent' => $task['parent'],
-                'subTasks' => [],
-            ];
-
-            if($task['parent'] == null){
-                $parentTasks[$task['id']] = $taskDetails;
-            }
-            else{
-                $childTasks[$task['id']] = $taskDetails;
-            }
-
-            # code...
-        }
-
-        foreach ($childTasks as $task) {
-            if(isset($parentTasks[$task['parent']])){
-                $parentTasks[$task['parent']]['subTasks'][] = $task;
-            }
-        }
-
-        return $parentTasks;
-    } catch (\Throwable $th) {
-        throw $th;
-    }
-});
+Route::post('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTasksFromListId'])->name('task.from.clickup');
 
 
 

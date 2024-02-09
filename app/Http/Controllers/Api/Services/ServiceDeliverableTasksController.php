@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceDeliverableTasks;
+use App\Services\ClickUpService;
 use Illuminate\Http\Request;
 
 /**
@@ -278,6 +279,64 @@ class ServiceDeliverableTasksController extends Controller
             return response()->json($response, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error deleting service deliverable task', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Fetch task and Subtasks from clickup
+     *
+     * Fetch task and Subtasks from clickup by list id
+     *
+     * @bodyParam clickupLink required Clickup task link. Example: "https://app.clickup.com/1272651/v/li/901301004038"
+     */
+    public function fetchTasksFromListId(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'clickupLink' => 'required|string',
+        ]);
+        try {
+            $parsedUrl = parse_url($request->clickupLink);
+
+            // Get the path part
+            $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : null;
+            $listId = basename($path);
+            $tasks = ClickUpService::getClickUpTasksByListId($listId);
+            $parentTasks = [];
+            $childTasks = [];
+            foreach ($tasks as $key => $task) {
+                $taskDetails = [
+                    'name' => $task['name'],
+                    'id' => $task['id'],
+                    'description' => $task['description'],
+                    'parent' => $task['parent'],
+                    'subTasks' => [],
+                ];
+
+                if($task['parent'] == null){
+                    $parentTasks[$task['id']] = $taskDetails;
+                }
+                else{
+                    $childTasks[$task['id']] = $taskDetails;
+                }
+
+                # code...
+            }
+
+            foreach ($childTasks as $task) {
+                if(isset($parentTasks[$task['parent']])){
+                    $parentTasks[$task['parent']]['subTasks'][] = $task;
+                }
+            }
+
+            $response = [
+                'message' => 'Data Fetched Successfully',
+                'data' => $parentTasks
+            ];
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
