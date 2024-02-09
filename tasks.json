@@ -1,0 +1,555 @@
+{
+    "message": "Data Fetched Successfully",
+    "data": [
+        {
+            "id": "86a18bx5a",
+            "name": "Home Page  - Round 3 (Final)",
+            "description": "Remind the client what round of revision this is for and how many the client still has left.  If needed, define what a round of revisions includes",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bx5p",
+                    "name": "Meeting: Final Home Page Review & Interior Discussion",
+                    "description": "Meet with the client and gather all their feedback. If you can, try to send a loom review beforehand. Make sure to discuss what you want for the interior pages while finalizing the home page.",
+                    "parent": "86a18bx5a"
+                },
+                {
+                    "id": "86a18bx5f",
+                    "name": "Home Page Designs (Round 3)",
+                    "description": "take the client's feedback and task it here for the designer.",
+                    "parent": "86a18bx5a"
+                }
+            ]
+        },
+        {
+            "id": "86a18bx4r",
+            "name": "Pre-Design Hand-Off",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bx4x",
+                    "name": "Design QC",
+                    "description": "checking the website for spelling errors, and design errors that don't match up with the XD file. Make sure all the elements discussed in the design phase are implemented properly in development",
+                    "parent": "86a18bx4r"
+                }
+            ]
+        },
+        {
+            "id": "86a18bx2g",
+            "name": "Pre Build",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bx4j",
+                    "name": "Sync Bugherd and Slack",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                },
+                {
+                    "id": "86a18bx4d",
+                    "name": "Add Bugherd to site",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                },
+                {
+                    "id": "86a18bx43",
+                    "name": "Create Bugherd project",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                },
+                {
+                    "id": "86a18bx3x",
+                    "name": "Create install on Flywheel or WPMU-Dev",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                },
+                {
+                    "id": "86a18bx2w",
+                    "name": "Provide list of Plugins and Themes Required",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                },
+                {
+                    "id": "86a18bx2q",
+                    "name": "Grab Screen shots of current site and put on G Drive - *Only for Redesign*",
+                    "description": "",
+                    "parent": "86a18bx2g"
+                }
+            ]
+        },
+        {
+            "id": "86a18bx1b",
+            "name": "Home Page - Round 2",
+            "description": "Remind the client what round of revision this is for and how many the client still has left.  If needed, define what a round of revisions includes",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bx27",
+                    "name": "Review Client Feedback Home Page Designs (Round 2)",
+                    "description": "Review the client feedback and make sure everything makes sense and you have no questions. You will task the changes in the next task",
+                    "parent": "86a18bx1b"
+                },
+                {
+                    "id": "86a18bx20",
+                    "name": "Follow Up with Client for Home Page Designs (Round 2) Feedback",
+                    "description": "Send the client a follow up email getting their feedback",
+                    "parent": "86a18bx1b"
+                },
+                {
+                    "id": "86a18bx1t",
+                    "name": "Meeting: Home Page Designs (Round 2)",
+                    "description": "Meet with the client and gather all their feedback. If you can, try to send a loom review beforehand.",
+                    "parent": "86a18bx1b"
+                },
+                {
+                    "id": "86a18bx1f",
+                    "name": "Round 2 Home Page Design",
+                    "description": "take the client's feedback and task it here for the designer.",
+                    "parent": "86a18bx1b"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwzg",
+            "name": "Pre-Launch",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a249rk9",
+                    "name": "Design QC",
+                    "description": "Checking the website for spelling errors, and design errors that don't match up with the original design. Make sure all the elements discussed in the design phase are implemented properly in development",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bx0v",
+                    "name": "Finalize Site Build with Client",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bx0n",
+                    "name": "Write plugin report: explain which plugin used for which purpose",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bx0g",
+                    "name": "Install Spam Blocked on Post Comments",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bx06",
+                    "name": "Install Contact Form Spam Blocker/ReCaptcha",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bx01",
+                    "name": "Update Plugins, Themes, Wordpress if Applicable",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bwzv",
+                    "name": "Add Favicon",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                },
+                {
+                    "id": "86a18bwzp",
+                    "name": "Delete any unused posts, pages, categories, plugins, and tags",
+                    "description": "",
+                    "parent": "86a18bwzg"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwye",
+            "name": "Revision Review with Client",
+            "description": "Schedule a call with client to review website.",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwz8",
+                    "name": "Client Revision Review Meeting",
+                    "description": "",
+                    "parent": "86a18bwye"
+                },
+                {
+                    "id": "86a18bwz1",
+                    "name": "Client Revision Review Meeting",
+                    "description": "",
+                    "parent": "86a18bwye"
+                },
+                {
+                    "id": "86a18bwyq",
+                    "name": "Client Review Meeting",
+                    "description": "",
+                    "parent": "86a18bwye"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwwf",
+            "name": "Site Launch - Hosting With LHG",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwy4",
+                    "name": "Add [Client Name] website to WPMU dashboard and turn on alerts",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwxz",
+                    "name": "Email: send congratulations email to client",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwxu",
+                    "name": "Launch Site",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwxk",
+                    "name": "Add to WPMU-Dev for Site Monitoring",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwxc",
+                    "name": "Follow up on Migration.",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwx5",
+                    "name": "Review Site with Client",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwwy",
+                    "name": "Add project, site license, server info, etc. to hosting Google Sheet",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwwp",
+                    "name": "Client site training videos",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                },
+                {
+                    "id": "86a18bwwj",
+                    "name": "Create and Confirm Client Login Via Flywheel for WP Admin",
+                    "description": "",
+                    "parent": "86a18bwwf"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwve",
+            "name": "Project Portfolio Items",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bww3",
+                    "name": "Post to Social Media",
+                    "description": "",
+                    "parent": "86a18bwve"
+                },
+                {
+                    "id": "86a18bwvz",
+                    "name": "Input Content on Portfolio Page",
+                    "description": "",
+                    "parent": "86a18bwve"
+                },
+                {
+                    "id": "86a18bwvu",
+                    "name": "Create Portfolio Page from Screenshots",
+                    "description": "",
+                    "parent": "86a18bwve"
+                },
+                {
+                    "id": "86a18bwvn",
+                    "name": "Create Portfolio Images",
+                    "description": "",
+                    "parent": "86a18bwve"
+                },
+                {
+                    "id": "86a18bwvh",
+                    "name": "Pull Website Screenshots",
+                    "description": "",
+                    "parent": "86a18bwve"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwtx",
+            "name": "Internal Development QC",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwuq",
+                    "name": "Finalize Site Build Internally",
+                    "description": "",
+                    "parent": "86a18bwtx"
+                },
+                {
+                    "id": "86a18bwuj",
+                    "name": "QC of all forms/inputs",
+                    "description": "",
+                    "parent": "86a18bwtx"
+                },
+                {
+                    "id": "86a18bwud",
+                    "name": "Cross-browser walkthrough",
+                    "description": "",
+                    "parent": "86a18bwtx"
+                },
+                {
+                    "id": "86a18bwu9",
+                    "name": "Responsiveness walkthrough",
+                    "description": "",
+                    "parent": "86a18bwtx"
+                },
+                {
+                    "id": "86a18bwu2",
+                    "name": "Functional walkthrough",
+                    "description": "",
+                    "parent": "86a18bwtx"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwtm",
+            "name": "Design Hand-Off",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwtu",
+                    "name": "Hand Off to Development",
+                    "description": "Dropbox Folder:\n\nXD Link: XD Prototype\n\nLoom Review:",
+                    "parent": "86a18bwtm"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwph",
+            "name": "Interior Pages",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwta",
+                    "name": "Internal Meeting: FINAL Pages Approval of Design and Development",
+                    "description": "",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwt5",
+                    "name": "Client Meeting: Interior Page Design and Development Review",
+                    "description": "",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwry",
+                    "name": "Share Design with Development Lead",
+                    "description": "",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwru",
+                    "name": "Interior Page Design (Round 3)",
+                    "description": "take the client's feedback and task it here for the designer.",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwr0",
+                    "name": "Content - *If Included in Scope*",
+                    "description": "If Content is included in Scope, Add the Content Scope here. If it is not, mark task completed.",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwqr",
+                    "name": "Review Client Feedback for Round 2",
+                    "description": "Review the client feedback and make sure everything makes sense and you have no questions. You will task the changes in the next task",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwqj",
+                    "name": "Follow Up with Client for Round 2 Feedback",
+                    "description": "Send the client a follow up email getting their feedback",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwqd",
+                    "name": "Interior Page Design (Round 2)",
+                    "description": "take the client's feedback and task it here for the designer.",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwq9",
+                    "name": "Review Client Feedback for Round 1",
+                    "description": "Review the client feedback and make sure everything makes sense and you have no questions. You will task the changes in the next task",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwq3",
+                    "name": "Follow Up with Client for Interior Design Changes Rd 1 Feedback",
+                    "description": "Send the client a follow up email getting their feedback",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwpy",
+                    "name": "Meeting: Interior Page Design Review",
+                    "description": "Meet with the client and gather all their feedback. If you can, try to send a loom review beforehand.",
+                    "parent": "86a18bwph"
+                },
+                {
+                    "id": "86a18bwpp",
+                    "name": "Interior Page Design (Round 1)",
+                    "description": "task the interior pages here for the designers. Make sure you are as clear as possible, provide the samples and the site map with all pages.",
+                    "parent": "86a18bwph"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwku",
+            "name": "Server Configuration",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwp9",
+                    "name": "Verify: licenses obtained/installed for plugins",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwp4",
+                    "name": "Verify: licenses obtained/installed for theme(s)",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwnx",
+                    "name": "Turn on CDN on Flywheel",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwnn",
+                    "name": "Turn on SSL in Flywheel",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwng",
+                    "name": "Point Cloudflare to Flywheel",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwne",
+                    "name": "Add @ Record to cloudflare",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwn2",
+                    "name": "Verify: client domain DNS pointed to cloudflare",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwmj",
+                    "name": "Verify: DNS copied to cloudflare",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwmc",
+                    "name": "Create cloudflare acct",
+                    "description": "Log into Cloudflare and select LHG, then add site, and then enter URL, select Free, get the Nameservers, and update the registrar Nameservers",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwm6",
+                    "name": "Set up final domain(s) for live site",
+                    "description": "",
+                    "parent": "86a18bwku"
+                },
+                {
+                    "id": "86a18bwm0",
+                    "name": "Confirm DNS/hosting plan",
+                    "description": "",
+                    "parent": "86a18bwku"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwjh",
+            "name": "Site Build - Start",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwke",
+                    "name": "Test Contact Forms",
+                    "description": "",
+                    "parent": "86a18bwjh"
+                },
+                {
+                    "id": "86a18bwk7",
+                    "name": "Fix the 404 Page",
+                    "description": "",
+                    "parent": "86a18bwjh"
+                },
+                {
+                    "id": "86a18bwjy",
+                    "name": "Review Progress of Site Build Internally",
+                    "description": "",
+                    "parent": "86a18bwjh"
+                },
+                {
+                    "id": "86a18bwjt",
+                    "name": "Interior Pages Build",
+                    "description": "",
+                    "parent": "86a18bwjh"
+                },
+                {
+                    "id": "86a18bwjq",
+                    "name": "Home Page Build",
+                    "description": "",
+                    "parent": "86a18bwjh"
+                }
+            ]
+        },
+        {
+            "id": "86a18bwhm",
+            "name": "Design Phase Setup",
+            "description": "",
+            "parent": null,
+            "subTasks": [
+                {
+                    "id": "86a18bwj9",
+                    "name": "Add Contractor Expenses in Kimai",
+                    "description": "",
+                    "parent": "86a18bwhm"
+                }
+            ]
+        }
+    ]
+}
