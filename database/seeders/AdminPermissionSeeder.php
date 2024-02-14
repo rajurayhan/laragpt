@@ -20,12 +20,19 @@ class AdminPermissionSeeder extends Seeder
         $permissionsArray = json_decode($permissionsJson, true);
 
         // Create Admin role if not exists
-        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+        $adminRole = Role::updateOrCreate(
+            ['name' => 'Admin'],
+            ['guard_name' => 'sanctum']
+        );
 
         // Assign all permissions to Admin role
         foreach ($permissionsArray['permissions'] as $modulePermissions) {
             foreach ($modulePermissions as $permissionName => $permissionLabel) {
-                $permission = Permission::firstOrCreate(['name' => $permissionName]);
+                // $permission = Permission::firstOrCreate(['name' => $permissionName]);
+                $permission = Permission::updateOrCreate(
+                    ['name' => $permissionName],
+                    ['guard_name' => 'sanctum']
+                );
                 $adminRole->givePermissionTo($permission);
             }
         }
