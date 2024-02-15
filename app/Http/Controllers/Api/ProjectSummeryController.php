@@ -68,7 +68,7 @@ use Illuminate\Http\Request;
             'transcriptId' => 'nullable|integer',
             'transcriptText' => 'required|string',
             'projectName' => 'required|string',
-            // 'projectType' => 'required|integer|in:' . implode(',', ProjectType::getValues()),
+            'projectType' => 'nullable|integer',
             'projectTypeId' => 'required|integer|exists:project_types,id',
             'company' => 'required|string',
             'clientPhone' => 'nullable|string',
