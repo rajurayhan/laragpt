@@ -90,7 +90,18 @@ use Illuminate\Http\Request;
             $meetingObj->save();
         }
         else{
-            $meetingObj = MeetingTranscript::create($validatedData);
+            // $meetingObj = MeetingTranscript::create($validatedData);
+
+            $meetingObj = new MeetingTranscript();
+            $meetingObj->transcriptText = $request->transcriptText;
+            $meetingObj->projectName = $request->projectName;
+            $meetingObj->projectType = $request->projectTypeId;
+            $meetingObj->projectTypeId = $request->projectTypeId;
+            $meetingObj->company = $request->company;
+            $meetingObj->clientPhone = $request->clientPhone;
+            $meetingObj->clientEmail = $request->clientEmail;
+            $meetingObj->clientWebsite = $request->clientWebsite;
+            $meetingObj->save();
         }
 
 
