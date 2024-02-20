@@ -102,11 +102,7 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        // Call OpenAI API and handle the response
-
         $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt);
-
-        // Insert another row into conversation_messages with the OpenAI API response
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
