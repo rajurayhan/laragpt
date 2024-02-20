@@ -57,7 +57,7 @@ class PromptController extends Controller
         ]);
 
         // $prompt = Prompt::create($validatedData);
-        if($request->type == !PromptType::OTHER){
+        if($request->type != PromptType::OTHER){
                 $prompt = Prompt::updateOrCreate(
                 ['type' => $request->type],
                 ['prompt' => $request->prompt],

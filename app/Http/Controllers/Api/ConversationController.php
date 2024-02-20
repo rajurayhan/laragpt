@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
+use App\Models\Prompt;
+use App\Services\OpenAIGeneratorService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -91,18 +93,38 @@ class ConversationController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        $message = ConversationMessage::create([
+        $userMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
             'message_content' => $validatedData['message_content'],
         ]);
 
+        $prompt = Prompt::find($request->prompt_id);
+
         // Call OpenAI API and handle the response
+
+        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt);
 
         // Insert another row into conversation_messages with the OpenAI API response
 
-        return response()->json(['message' => 'Conversation created successfully']);
+        $aiMessage = ConversationMessage::create([
+            'conversation_id' => $conversation->id,
+            'prompt_id' => $validatedData['prompt_id'],
+            'user_id' => auth()->id(),
+            'message_content' => $aiResponse,
+        ]);
+
+        $data = [
+            'conversation' => $conversation,
+            'messages' => [$userMessage, $aiMessage]
+        ];
+
+        $response = [
+            'message' => 'Created Successfully ',
+            'data' => $data,
+        ];
+        return response()->json($response, 201);
     }
 
     /**

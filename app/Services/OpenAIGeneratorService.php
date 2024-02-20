@@ -126,6 +126,24 @@
             return $deliverables;
         }
 
+        public static function chatWithAI($content, $promptText){
+
+            $chatResult = OpenAI::chat()->create([
+                'model' => 'gpt-4-1106-preview',
+                'messages' => [
+                    ['role' => 'system', 'content' => $promptText],
+                    ['role' => 'system', 'content' => 'Your output will be in markdown'],
+                    ['role' => 'user', 'content' => $content],
+                ],
+                'max_tokens' => 4096,
+                'temperature' => 0.5
+            ]);
+
+            $chat = $chatResult['choices'][0]['message']['content'];
+            // \Log::info(['deliverables' => $deliverables]);
+            return $chat;
+        }
+
 
         public static function prepareTranscript($transcript){
             // return preg_replace('/\d{2}:\d{2}\s/', '', $transcript);
