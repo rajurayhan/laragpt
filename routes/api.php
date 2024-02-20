@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\DeliverablesController;
 use App\Http\Controllers\Api\MeetingSummeryController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
@@ -135,6 +136,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::group(['prefix' => 'conversations'], function () {
+        Route::get('/', [ConversationController::class, 'index']);
+        Route::get('/{id}', [ConversationController::class, 'show']);
+        Route::post('/create', [ConversationController::class, 'createConversation']);
+        Route::post('/continue', [ConversationController::class, 'continueConversation']);
+    });
+
 
     // Route::get('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTasksFromListId'])->name('task.from.clickup');
 
