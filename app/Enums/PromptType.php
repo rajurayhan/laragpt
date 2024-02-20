@@ -10,6 +10,7 @@ enum PromptType : int
     case SCOPE_OF_WORK = 4;
     case DELIVERABLES = 5;
     case MEETING_SUMMARY = 6;
+    case OTHER = 7;
 
     public static function getValues(): array
     {

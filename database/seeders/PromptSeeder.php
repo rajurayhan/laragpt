@@ -39,6 +39,10 @@ class PromptSeeder extends Seeder
                 'name' => 'MEETING_SUMMARY',
                 'prompt' => 'This is a transcript of a meeting that I had with a client. Can you help me turn the transcript into a summary of the call/meeting and what we discussed? The format should include "Call/Meeting Participants," which should be in bullet point format; "Meeting Summary," which should be in multiple paragraph format; and "Next Steps/Tasks," which should be in bullet point format. Be sure to identify which person from the "Call/Meeting Participants" is responsible for each "Next Steps/Tasks" item, break each item into individual bullet points and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.'
             ],
+            PromptType::OTHER->value => [
+                'name' => 'MEETING_SUMMARY',
+                'prompt' => 'This is a transcript of a meeting that I had with a client. Can you help me turn the transcript into a summary of the call/meeting and what we discussed? The format should include "Call/Meeting Participants," which should be in bullet point format; "Meeting Summary," which should be in multiple paragraph format; and "Next Steps/Tasks," which should be in bullet point format. Be sure to identify which person from the "Call/Meeting Participants" is responsible for each "Next Steps/Tasks" item, break each item into individual bullet points and give some additional context and information in order to make sure each Next Step is clear for the person that needs to complete it.'
+            ],
         ];
 
         foreach($prompts as $type => $prompt){
