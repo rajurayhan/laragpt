@@ -128,13 +128,18 @@
 
         public static function chatWithAI($content, $promptText){
 
+            $messages =[
+                ['role' => 'user', 'content' => $content],
+                ['role' => 'system', 'content' => 'Your output will be in markdown'],
+            ];
+
+            if($promptText){
+                $messages[] = ['role' => 'system', 'content' => $promptText];
+            }
+
             $chatResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
-                'messages' => [
-                    ['role' => 'system', 'content' => $promptText],
-                    ['role' => 'system', 'content' => 'Your output will be in markdown'],
-                    ['role' => 'user', 'content' => $content],
-                ],
+                'messages' => $messages,
                 'max_tokens' => 4096,
                 'temperature' => 0.5
             ]);

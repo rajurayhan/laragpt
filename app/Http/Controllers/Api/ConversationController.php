@@ -84,7 +84,7 @@ class ConversationController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'prompt_id' => 'exists:prompts,id',
+            'prompt_id' => 'nullable|exists:prompts,id',
             'message_content' => 'required|string',
         ]);
 
@@ -102,7 +102,7 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt);
+        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt ?? null);
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
@@ -136,7 +136,7 @@ class ConversationController extends Controller
     {
         $validatedData = $request->validate([
             'conversation_id' => 'required|exists:conversations,id',
-            'prompt_id' => 'exists:prompts,id',
+            'prompt_id' => 'nullable|exists:prompts,id',
             'message_content' => 'required|string',
         ]);
 
@@ -151,7 +151,7 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt);
+        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt?? null);
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
