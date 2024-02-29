@@ -84,7 +84,7 @@ class ConversationController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'prompt_id' => 'required|exists:prompts,id',
+            'prompt_id' => 'exists:prompts,id',
             'message_content' => 'required|string',
         ]);
 
@@ -136,7 +136,7 @@ class ConversationController extends Controller
     {
         $validatedData = $request->validate([
             'conversation_id' => 'required|exists:conversations,id',
-            'prompt_id' => 'required|exists:prompts,id',
+            'prompt_id' => 'exists:prompts,id',
             'message_content' => 'required|string',
         ]);
 
