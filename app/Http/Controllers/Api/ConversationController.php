@@ -60,7 +60,7 @@ class ConversationController extends Controller
     public function show($id)
     {
         try {
-            $conversation = Conversation::find($id);
+            $conversation = Conversation::with('messages')->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $conversation,
@@ -140,17 +140,35 @@ class ConversationController extends Controller
             'message_content' => 'required|string',
         ]);
 
-        $message = ConversationMessage::create([
+        $conversation = Conversation::with('messages')->find($request->conversation_id);
+
+        $userMessage = ConversationMessage::create([
             'conversation_id' => $validatedData['conversation_id'],
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
             'message_content' => $validatedData['message_content'],
         ]);
 
-        // Call OpenAI API and handle the response
+        $prompt = Prompt::find($request->prompt_id);
 
-        // Insert another row into conversation_messages with the OpenAI API response
+        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt);
 
-        return response()->json(['message' => 'Message added to the conversation']);
+        $aiMessage = ConversationMessage::create([
+            'conversation_id' => $conversation->id,
+            'prompt_id' => $validatedData['prompt_id'],
+            'user_id' => auth()->id(),
+            'message_content' => $aiResponse,
+        ]);
+
+        $data = [
+            'conversation' => $conversation,
+            'messages' => [$userMessage, $aiMessage]
+        ];
+
+        $response = [
+            'message' => 'Created Successfully ',
+            'data' => $data,
+        ];
+        return response()->json($response, 201);
     }
 }
