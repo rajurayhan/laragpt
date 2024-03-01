@@ -112,6 +112,7 @@ class ServiceController extends Controller
      *
      * @bodyParam name string required The name of the service. Example: Updated Header
      * @bodyParam projectTypeId integer required The type of the project.
+     * @bodyParam order  integer required Data Order
      *
      *
      */
