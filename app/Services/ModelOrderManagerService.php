@@ -3,6 +3,25 @@
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
 
+
+// Algorithm:
+
+// Step  : Add New Entry
+//     -> Fetch All Data with order greater than or equal 'n', Here n is provided order.
+//     -> If data Exists, Shift all data order by +1 (Right Shift).
+//     -> Save all shifted order and then finaly save the new entry.
+
+// Step: Update an existing Entry:
+//     -> Find the existing entry and it's order. Refer as 'm'
+//     -> Check if existing order is greater or less than new order.
+//     -> If 'm' is greater than 'n',
+//         => Find all entries greatet than or equal 'n', and less than 'm'
+//             -> Shift all data order by +1 (Right Shift).
+//             -> Update the record.
+//     -> Else,
+//         => Find all entries greater than 'm' and less than or equal 'n'
+//             -> Shift all data order by -1 (Left Shift).
+//             -> Update the record.
 class ModelOrderManagerService
 {
     private $modelClass;
