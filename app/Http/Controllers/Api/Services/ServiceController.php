@@ -176,10 +176,11 @@ class ServiceController extends Controller
     {
         try {
             $servicesRawData =  Services::with([
+                'projectType',
                 'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
                     $query->where('parentTaskId', null)->with('subTasks');
                 },
-            ])->orderBy('order', 'asc')->get();
+            ])->orderBy('order')->get();
 
             $services = [];
 
@@ -187,7 +188,12 @@ class ServiceController extends Controller
                 $serviceData = [
                     'id' => $service->id,
                     'name' => $service->name,
+                    'order' => $service->order,
                     'groups' => [],
+                    'projectType' => $service->projectType ? [
+                        'id' => $service->projectType->id,
+                        'name' => $service->projectType->name,
+                    ] : null,
                 ];
 
                 foreach ($service->serviceGroups as $group) {
