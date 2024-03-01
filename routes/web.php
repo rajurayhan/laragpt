@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SoWGeneratorController;
+use App\Models\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,58 @@ Route::middleware('auth')->group(function () {
 Route::post('/generate-sow', [SoWGeneratorController::class, 'generate'])->name('generate.sow');
 Route::get('/sows', [SoWGeneratorController::class, 'index'])->name('generate.index');
 Route::get('/view-sow/{id}', [SoWGeneratorController::class, 'view'])->name('sow.view');
+
+// Order Reorder
+Route::get('/order', function () {
+
+    // $newItem = ["id" => 2, "name" => "Service 2", "order" => 2]; // Existing 4
+    $newItem = ["name" => "Service 5", "order" => 5]; // Existing 4
+
+    if(isset($newItem['id'])){
+        $service = Services::find($newItem['id']);
+
+        if($service->order > $newItem['order']){
+            $shiftRight = Services::where('order', '>=', $newItem['order'])->where('order', '<', $service->order)->get();
+            if($shiftRight){
+                foreach ($shiftRight as $key => $right) {
+                    $right->order = $right->order+1;
+                    $right->save();
+                }
+            }
+        }
+        else{
+            $shiftLeft = Services::where('order', '<=', $newItem['order'])->where('order', '>', $service->order)->get();
+            if($shiftLeft){
+                foreach ($shiftLeft as $key => $left) {
+                    $left->order = $left->order-1;
+                    $left->save();
+                }
+            }
+        }
+
+        $service->order = $newItem['order'];
+        $service->save();
+    }
+
+    else{
+        $existingData = Services::where('order', '>=', $newItem['order'])->get();
+
+        if($existingData){
+            foreach ($existingData as $key => $exist) {
+                $exist->order = $exist->order+1;
+                $exist->save();
+            }
+        }
+
+        Services::create($newItem);
+    }
+
+    $data = Services::orderBy('order')->get();
+
+    return response()->json($data);
+
+
+});
 
 
 require __DIR__.'/auth.php';
