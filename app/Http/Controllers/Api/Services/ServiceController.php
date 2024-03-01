@@ -179,7 +179,7 @@ class ServiceController extends Controller
                 'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
                     $query->where('parentTaskId', null)->with('subTasks');
                 },
-            ])->get();
+            ])->orderBy('order', 'asc')->get();
 
             $services = [];
 
