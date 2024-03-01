@@ -33,12 +33,15 @@ class ModelOrderManagerService
 
     public function addOrUpdateItem(array $newItem, $id = null)
     {
-        return DB::transaction(function () use ($newItem) {
+        // \Log::info($id);
+        return DB::transaction(function () use ($newItem, $id) {
             $model = app($this->modelClass);
 
             if (isset($id)) {
+                // \Log::info('On Update');
                 return $this->updateExistingItem($model, $newItem, $id);
             } else {
+                // \Log::info('On Create');
                 return $this->insertNewItem($model, $newItem);
             }
         });
