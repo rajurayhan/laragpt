@@ -118,6 +118,7 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $id;
         $validatedData = $request->validate([
             'name' => 'required|string',
             'projectTypeId' => 'required|integer|exists:project_types,id',
@@ -167,15 +168,21 @@ class ServiceController extends Controller
      * Service Data Tree
      *
      * Send data as a tree structure
+     * @queryParam projectTypeId integer projectTypeId filter.
      *
      * @response {
      *  "message": "Data fetched successfully"
      * }
      */
-    public function serviceTree()
+    public function serviceTree(Request $request)
     {
         try {
-            $servicesRawData =  Services::with([
+            $query = Services::query();
+
+            if($request->projectTypeId){
+                $query->where('projectTypeId', $request->projectTypeId);
+            }
+            $servicesRawData =  $query->with([
                 'projectType',
                 'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
                     $query->where('parentTaskId', null)->with('subTasks');

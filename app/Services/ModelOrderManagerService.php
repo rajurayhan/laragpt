@@ -31,7 +31,7 @@ class ModelOrderManagerService
         $this->modelClass = $modelClass;
     }
 
-    public function addOrUpdateItem(array $newItem, integer $id = null)
+    public function addOrUpdateItem(array $newItem, $id = null)
     {
         return DB::transaction(function () use ($newItem) {
             $model = app($this->modelClass);
