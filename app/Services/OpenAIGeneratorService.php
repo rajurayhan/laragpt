@@ -126,17 +126,22 @@
             return $deliverables;
         }
 
-        public static function chatWithAI($content, $promptText){
+        public static function chatWithAI($content, $promptText, $context = null){
 
             $messages =[
                 ['role' => 'user', 'content' => $content],
                 ['role' => 'system', 'content' => 'Your output will be in markdown'],
             ];
 
+            if(isset($context)){
+                $messages = array_merge($context, $messages);
+            }
+
             if($promptText){
                 $messages[] = ['role' => 'system', 'content' => $promptText];
             }
 
+            // \Log::info($messages);
             $chatResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
                 'messages' => $messages,

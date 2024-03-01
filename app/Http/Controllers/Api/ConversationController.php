@@ -95,7 +95,7 @@ class ConversationController extends Controller
 
         $userMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
-            'prompt_id' => $validatedData['prompt_id'],
+            'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'user',
             'message_content' => $validatedData['message_content'],
@@ -107,7 +107,7 @@ class ConversationController extends Controller
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
-            'prompt_id' => $validatedData['prompt_id'],
+            'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'system',
             'message_content' => $aiResponse,
@@ -142,11 +142,11 @@ class ConversationController extends Controller
             'message_content' => 'required|string',
         ]);
 
-        $conversation = Conversation::with('messages')->find($request->conversation_id);
+        $conversation = Conversation::with('messages.user')->find($request->conversation_id);
 
         $userMessage = ConversationMessage::create([
             'conversation_id' => $validatedData['conversation_id'],
-            'prompt_id' => $validatedData['prompt_id'],
+            'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'user',
             'message_content' => $validatedData['message_content'],
@@ -154,11 +154,22 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt?? null);
+        // Context Management
+        $context = [];
+        foreach ($conversation->messages as $key => $message) {
+            if($message->role == 'user'){
+                $context[] = ['role' => 'user', 'content' => $message->message_content];
+            }
+            else{
+                $context[] = ['role' => 'system', 'content' => $message->message_content];
+            }
+        }
+
+        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt?? null, $context);
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
-            'prompt_id' => $validatedData['prompt_id'],
+            'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'system',
             'message_content' => $aiResponse,
@@ -166,7 +177,7 @@ class ConversationController extends Controller
 
         $data = [
             'conversation' => $conversation,
-            'messages' => [$userMessage, $aiMessage]
+            'messages' => [$userMessage->load('user'), $aiMessage]
         ];
 
         $response = [
