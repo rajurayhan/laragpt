@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\Services;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
 
@@ -77,6 +78,7 @@ class ServiceController extends Controller
      *
      * @bodyParam name string required The name of the Service. Example: Header
      * @bodyParam projectTypeId integer required The type of the project.
+     * @bodyParam order  integer required Data Order
      *
      *
      */
@@ -86,9 +88,12 @@ class ServiceController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'projectTypeId' => 'required|integer|exists:project_types,id',
+            'order' => 'required|integer',
         ]);
 
-        $service = Services::create($validatedData);
+        // $service = Services::create($validatedData);
+        $orderManager = new ModelOrderManagerService(Services::class);
+        $service = $orderManager->addOrUpdateItem($validatedData);
         $response = [
             'message' => 'Created Successfully',
             'data' => $service->load('projectType')
@@ -115,10 +120,12 @@ class ServiceController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'projectTypeId' => 'required|integer|exists:project_types,id',
+            'order' => 'required|integer',
         ]);
-        $service = Services::findOrfail($id);
-        $service->update($validatedData);
-
+        // $service = Services::findOrfail($id);
+        // $service->update($validatedData);
+        $orderManager = new ModelOrderManagerService(Services::class);
+        $service = $orderManager->addOrUpdateItem($validatedData, $id);
         $response = [
             'message' => 'Created Successfully',
             'data' => $service

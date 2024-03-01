@@ -2,7 +2,7 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
-
+use Ramsey\Uuid\Type\Integer;
 
 // Algorithm:
 
@@ -31,22 +31,22 @@ class ModelOrderManagerService
         $this->modelClass = $modelClass;
     }
 
-    public function addOrUpdateItem(array $newItem)
+    public function addOrUpdateItem(array $newItem, integer $id = null)
     {
-        DB::transaction(function () use ($newItem) {
+        return DB::transaction(function () use ($newItem) {
             $model = app($this->modelClass);
 
-            if (isset($newItem['id'])) {
-                $this->updateExistingItem($model, $newItem);
+            if (isset($id)) {
+                return $this->updateExistingItem($model, $newItem, $id);
             } else {
-                $this->insertNewItem($model, $newItem);
+                return $this->insertNewItem($model, $newItem);
             }
         });
     }
 
-    private function updateExistingItem($model, $newItem)
+    private function updateExistingItem($model, $newItem, $id)
     {
-        $instance = $model->find($newItem['id']);
+        $instance = $model->find($id);
 
         if ($instance->order > $newItem['order']) {
             $shiftData = $model->where('order', '>=', $newItem['order'])
@@ -62,8 +62,10 @@ class ModelOrderManagerService
             $this->shiftOrder($shiftData, -1);
         }
 
-        $instance->order = $newItem['order'];
-        $instance->save();
+        // $instance->order = $newItem['order'];
+        // $instance->save();
+        $instance->update($newItem);
+        return $instance;
     }
 
     private function insertNewItem($model, $newItem)
@@ -73,7 +75,9 @@ class ModelOrderManagerService
 
         $this->shiftOrder($existingData, 1);
 
-        $model->create($newItem);
+        $createdModel = $model->create($newItem);
+
+        return $createdModel;
     }
 
     private function shiftOrder($data, $shiftValue)
