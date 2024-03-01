@@ -38,7 +38,7 @@ class ConversationController extends Controller
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
 
-            $conversations = $query->latest()->paginate($perPage);
+            $conversations = $query->with('user')->latest()->paginate($perPage);
 
             return response()->json([
                 'data' => $conversations->items(),
@@ -60,7 +60,7 @@ class ConversationController extends Controller
     public function show($id)
     {
         try {
-            $conversation = Conversation::with('messages')->find($id);
+            $conversation = Conversation::with(['messages.user', 'messages.prompt'])->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $conversation,
@@ -97,6 +97,7 @@ class ConversationController extends Controller
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
+            'role' => 'user',
             'message_content' => $validatedData['message_content'],
         ]);
 
@@ -108,6 +109,7 @@ class ConversationController extends Controller
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
+            'role' => 'system',
             'message_content' => $aiResponse,
         ]);
 
@@ -146,6 +148,7 @@ class ConversationController extends Controller
             'conversation_id' => $validatedData['conversation_id'],
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
+            'role' => 'user',
             'message_content' => $validatedData['message_content'],
         ]);
 
@@ -157,6 +160,7 @@ class ConversationController extends Controller
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'],
             'user_id' => auth()->id(),
+            'role' => 'system',
             'message_content' => $aiResponse,
         ]);
 
