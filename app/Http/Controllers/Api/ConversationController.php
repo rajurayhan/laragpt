@@ -38,7 +38,7 @@ class ConversationController extends Controller
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
 
-            $conversations = $query->with('user')->latest()->paginate($perPage);
+            $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
 
             return response()->json([
                 'data' => $conversations->items(),
