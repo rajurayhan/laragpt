@@ -18,36 +18,46 @@ class ModelOrderManagerService
             $model = app($this->modelClass);
 
             if (isset($newItem['id'])) {
-                $instance = $model->find($newItem['id']);
-
-                if ($instance->order > $newItem['order']) {
-                    $shiftData = $model->where('order', '>=', $newItem['order'])
-                        ->where('order', '<', $instance->order)
-                        ->get();
-
-                    self::shiftOrder($shiftData, 1);
-                } else {
-                    $shiftData = $model->where('order', '<=', $newItem['order'])
-                        ->where('order', '>', $instance->order)
-                        ->get();
-
-                    self::shiftOrder($shiftData, -1);
-                }
-
-                $instance->order = $newItem['order'];
-                $instance->save();
+                $this->updateExistingItem($model, $newItem);
             } else {
-                $existingData = $model->where('order', '>=', $newItem['order'])
-                    ->get();
-
-                self::shiftOrder($existingData, 1);
-
-                $model->create($newItem);
+                $this->insertNewItem($model, $newItem);
             }
         });
     }
 
-    private static function shiftOrder($data, $shiftValue)
+    private function updateExistingItem($model, $newItem)
+    {
+        $instance = $model->find($newItem['id']);
+
+        if ($instance->order > $newItem['order']) {
+            $shiftData = $model->where('order', '>=', $newItem['order'])
+                ->where('order', '<', $instance->order)
+                ->get();
+
+            $this->shiftOrder($shiftData, 1);
+        } else {
+            $shiftData = $model->where('order', '<=', $newItem['order'])
+                ->where('order', '>', $instance->order)
+                ->get();
+
+            $this->shiftOrder($shiftData, -1);
+        }
+
+        $instance->order = $newItem['order'];
+        $instance->save();
+    }
+
+    private function insertNewItem($model, $newItem)
+    {
+        $existingData = $model->where('order', '>=', $newItem['order'])
+            ->get();
+
+        $this->shiftOrder($existingData, 1);
+
+        $model->create($newItem);
+    }
+
+    private function shiftOrder($data, $shiftValue)
     {
         foreach ($data as $item) {
             $item->order = $item->order + $shiftValue;
