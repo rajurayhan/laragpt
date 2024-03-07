@@ -12,7 +12,7 @@ class DeleteSlackMessages extends Command
 
     public function handle()
     {
-        $slackToken = 'xoxp-8666569908-1216297276278-6750628571495-00d30c110255379f837a8455f1d7de02';
+        $slackToken = 'xoxp-8666569908-1216297276278-6788300560656-c2bf75bf722db5a7e53904a9e311156e';
 
         $channelId = 'C067C7YLA7Q';
 
@@ -30,9 +30,12 @@ class DeleteSlackMessages extends Command
         ])->get('https://slack.com/api/conversations.history', [
             'channel' => $channelId,
             'limit' => 1000,
+            'text' => '.',
             'oldest' => strtotime($startTimestamp),
             'latest' => strtotime($endTimestamp),
         ]);
+
+        \Log::info(['Response' => $response->json()]);
 
         $messages = $response->json()['messages'];
 
