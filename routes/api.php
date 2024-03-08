@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\DeliverablesController;
+use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\MeetingSummeryController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectOverviewController;
@@ -96,6 +97,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('meeting-type', MeetingTypeController::class);
     Route::apiResource('project-type', ProjectTypeController::class);
+
+    Route::apiResource('leads', LeadController::class);
 
     Route::apiResource('services', ServiceController::class);
     Route::apiResource('service-groups', ServiceGroupController::class);
