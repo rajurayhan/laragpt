@@ -12,7 +12,7 @@ class DeleteSlackMessages extends Command
 
     public function handle()
     {
-        $slackToken = 'xoxp-8666569908-1216297276278-6788300560656-c2bf75bf722db5a7e53904a9e311156e';
+        $slackToken = 'STACK_TOKEN';
 
         $channelId = 'C067C7YLA7Q';
 
