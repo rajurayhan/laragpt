@@ -192,7 +192,7 @@ class ConversationController extends Controller
      *
      * Update an existing Conversation.
      *
-     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1 
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      * @bodyParam name string required The content of the message. Example: How can I assist you further?
      */
 
@@ -211,7 +211,7 @@ class ConversationController extends Controller
             'data' => $data,
         ];
         return response()->json($response, 200);
-        
+
     }
 
     /**
@@ -219,7 +219,7 @@ class ConversationController extends Controller
      *
      * Update an existing Conversation Message.
      *
-     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1 
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      * @bodyParam name string required The content of the message. Example: How can I assist you further?
      */
 
@@ -238,7 +238,7 @@ class ConversationController extends Controller
             'data' => $data,
         ];
         return response()->json($response, 200);
-        
+
     }
 
 
@@ -247,13 +247,13 @@ class ConversationController extends Controller
      *
      * Dpdate an existing Conversation.
      *
-     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1  
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      */
 
-    public function delete($id, Request $request){ 
+    public function delete($id, Request $request){
 
-        $data = Conversation::findOrFail($id); 
-        $data->messages->delete();
+        $data = Conversation::findOrFail($id);
+        $data->messages()->delete();
         $data->delete();
 
         $response = [
@@ -261,6 +261,6 @@ class ConversationController extends Controller
             'data' => [],
         ];
         return response()->json($response, 200);
-        
+
     }
 }
