@@ -143,6 +143,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'conversations'], function () {
         Route::get('/', [ConversationController::class, 'index']);
         Route::get('/{id}', [ConversationController::class, 'show']);
+        Route::put('/{id}', [ConversationController::class, 'update']);
+        Route::delete('/{id}', [ConversationController::class, 'delete']);
         Route::post('/create', [ConversationController::class, 'createConversation']);
         Route::post('/continue', [ConversationController::class, 'continueConversation']);
     });

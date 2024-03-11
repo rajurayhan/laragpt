@@ -186,4 +186,52 @@ class ConversationController extends Controller
         ];
         return response()->json($response, 201);
     }
+
+    /**
+     * Update a Conversation
+     *
+     * Update an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1 
+     * @bodyParam name string required The content of the message. Example: How can I assist you further?
+     */
+
+    public function update($id, Request $request){
+        $validatedData = $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $data = Conversation::findOrFail($id);
+
+        $data->name = $request->name;
+        $data->save();
+
+        $response = [
+            'message' => 'Created Successfully ',
+            'data' => $data,
+        ];
+        return response()->json($response, 200);
+        
+    }
+    /**
+     * Delete a Conversation
+     *
+     * Dpdate an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1  
+     */
+
+    public function delete($id, Request $request){ 
+
+        $data = Conversation::findOrFail($id); 
+        $data->messages->delete();
+        $data->delete();
+
+        $response = [
+            'message' => 'Deleted Successfully ',
+            'data' => [],
+        ];
+        return response()->json($response, 200);
+        
+    }
 }
