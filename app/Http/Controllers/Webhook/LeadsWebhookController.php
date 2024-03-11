@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Webhook;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lead;
+use App\Models\ProjectType;
 use Illuminate\Http\Request;
 
 class LeadsWebhookController extends Controller
@@ -33,6 +34,8 @@ class LeadsWebhookController extends Controller
             return response()->json(['message' => 'Lead with the given email already exists.'], 409);
         }
 
+        $projectTypeData = ProjectType::where('name', $projectType)->first();
+
         // Create a new lead
         $lead = new Lead();
         $lead->firstName = $firstName;
@@ -40,7 +43,7 @@ class LeadsWebhookController extends Controller
         $lead->company = $company;
         $lead->email = $email;
         $lead->phone = $phone;
-        $lead->projectType = $projectType;
+        $lead->projectTypeId = $projectTypeData ? $projectTypeData->id : null;
         $lead->description = $description;
 
         // Save the lead to the database
