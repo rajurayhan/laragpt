@@ -93,6 +93,9 @@ class ServiceDeliverablesController extends Controller
      * Create a new Service Deliverable.
      *
      * @bodyParam deliverables array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
+     * 
+     * @bodyParam deliverables[].name string required The name of the task.
+     * @bodyParam deliverables[].order integer required The order of the task.
 
      * @bodyParam serviceScopeId integer required The ID of the associated service scope. Example: 3
      */

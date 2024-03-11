@@ -77,7 +77,8 @@ class ServiceGroupController extends Controller
      * Create a new Service Group.
      *
      * @bodyParam groups array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
-
+     * @bodyParam groups[].name string required The name of the task.
+     * @bodyParam groups[].order integer required The order of the task.
      * @bodyParam serviceId integer required The ID of the associated service. Example: 2
      */
     public function store(Request $request)

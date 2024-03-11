@@ -129,7 +129,7 @@ class ServiceDeliverableTasksController extends Controller
      *
      * @bodyParam tasks array required An array of tasks to be created.
      * @bodyParam tasks[].name string required The name of the task.
-     * @bodyParam tasks[].integer string required The order of the task.
+     * @bodyParam tasks[].order integer required The order of the task.
      * @bodyParam tasks[].description string required The description of the task.
      * @bodyParam tasks[].cost numeric required The cost of the task.
      * @bodyParam serviceDeliverableId integer required The ID of the service deliverable.

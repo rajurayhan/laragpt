@@ -106,6 +106,8 @@ class ServiceScopeController extends Controller
      * Create a new Service Scope.
      *
      * @bodyParam scopes array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
+     * @bodyParam scopes[].name string required The name of the task.
+     * @bodyParam scopes[].order integer required The order of the task.
      * @bodyParam serviceGroupId integer required The ID of the associated service group. Example: 2
      */
     public function store(Request $request)
