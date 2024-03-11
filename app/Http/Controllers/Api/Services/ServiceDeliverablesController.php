@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceDeliverables;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
 /**
@@ -84,57 +85,38 @@ class ServiceDeliverablesController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service deliverable details', 'error' => $e->getMessage()], 500);
         }
-    }
-
-    // /**
-    //  * Store a new Service Deliverable
-    //  *
-    //  * Create a new Service Deliverable.
-    //  *
-    //  * @bodyParam name string required The name of the Service Deliverable. Example: Design Phase
-    //  * @bodyParam serviceScopeId integer required The ID of the associated service scope. Example: 3
-    //  */
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string',
-    //         'serviceScopeId' => 'required|integer|exists:service_scopes,id',
-    //     ]);
-
-    //     $serviceDeliverable = ServiceDeliverables::create($validatedData);
-    //     $response = [
-    //         'message' => 'Created Successfully',
-    //         'data' => $serviceDeliverable->load('serviceScope.serviceGroup.service')
-    //     ];
-
-    //     return response()->json($response, 201);
-    // }
+    } 
 
     /**
      * Store a new Service Deliverable
      *
      * Create a new Service Deliverable.
      *
-     * @bodyParam names array required An array of names for the Service Deliverable. Example: ["Design Phase", "Development Phase"]
+     * @bodyParam deliverables array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
+
      * @bodyParam serviceScopeId integer required The ID of the associated service scope. Example: 3
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'names' => 'required|array',
-            'names.*' => 'required|string',
+            'deliverables' => 'required|array', 
+            'deliverables.*.name' => 'required|string',
+            'deliverables.*.order' => 'required|integer',
             'serviceScopeId' => 'required|integer|exists:service_scopes,id',
         ]);
 
         $serviceDeliverables = [];
 
-        foreach ($validatedData['names'] as $name) {
+        foreach ($validatedData['deliverables'] as $deliverable) {
             $data = [
-                'name' => $name,
+                'name' => $deliverable['name'],
+                'order' => $deliverable['order'],
                 'serviceScopeId' => $validatedData['serviceScopeId'],
             ];
 
-            $serviceDeliverable = ServiceDeliverables::create($data);
+            $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
+            $serviceDeliverable = $orderManager->addOrUpdateItem($data); 
+
             $serviceDeliverables[] = $serviceDeliverable->load('serviceScope.serviceGroup.service');
         }
 
@@ -155,16 +137,19 @@ class ServiceDeliverablesController extends Controller
      *
      * @urlParam id required The ID of the service deliverable. Example: 1
      * @bodyParam name string required The name of the service deliverable. Example: Implementation Phase
+     * @bodyParam order integer required The order of the service deliverables. Example: 1
      * @bodyParam serviceScopeId integer The ID of the associated service scope.
      */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'order' => 'required|integer',
             'serviceScopeId' => 'integer|exists:service_scopes,id',
         ]);
         $serviceDeliverable = ServiceDeliverables::findOrFail($id);
-        $serviceDeliverable->update($validatedData);
+        $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
+        $serviceDeliverable = $orderManager->addOrUpdateItem($validatedData, $id); 
 
         $response = [
             'message' => 'Updated Successfully',

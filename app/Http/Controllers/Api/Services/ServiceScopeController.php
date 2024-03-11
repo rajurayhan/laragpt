@@ -119,7 +119,7 @@ class ServiceScopeController extends Controller
 
         $serviceScopes = [];
 
-        foreach ($validatedData['group'] as $scope) {
+        foreach ($validatedData['scopes'] as $scope) {
             $data = [
                 'name' => $scope['name'],
                 'order' => $scope['order'],

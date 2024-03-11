@@ -76,22 +76,22 @@ class ServiceGroupController extends Controller
      *
      * Create a new Service Group.
      *
-     * @bodyParam group array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
+     * @bodyParam groups array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
 
      * @bodyParam serviceId integer required The ID of the associated service. Example: 2
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'group' => 'required|array',
-            'group.*.name' => 'required|string',
-            'group.*.order' => 'required|integer',
+            'groups' => 'required|array',
+            'groups.*.name' => 'required|string',
+            'groups.*.order' => 'required|integer',
             'serviceId' => 'required|integer|exists:services,id',
         ]);
 
         $serviceGroups = [];
 
-        foreach ($validatedData['group'] as $group) {
+        foreach ($validatedData['groups'] as $group) {
             $data = [
                 'name' => $group['name'],
                 'order' => $group['order'],
