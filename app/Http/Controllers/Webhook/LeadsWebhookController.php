@@ -13,9 +13,9 @@ class LeadsWebhookController extends Controller
         $webhookData = $request->all();
 
         // \Log::info(["webhookData" => $webhookData]);
-        if($webhookData['status'] == 'spam'){
-            return response()->json(['error' => 'Smap Detected'], 409);
-        }
+        // if($webhookData['status'] == 'spam'){
+        //     return response()->json(['error' => 'Smap Detected'], 409);
+        // }
 
         // Extract relevant information from the webhook data
         $firstName = $webhookData['field_values'][1] ?? null;
