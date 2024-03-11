@@ -119,6 +119,7 @@ class ServiceGroupController extends Controller
      *
      * @urlParam id required The ID of the service scope. Example: 1
      * @bodyParam name string required The name of the service scope. Example: Advanced
+     * @bodyParam order integer required The order of the service group. Example: 1
      * @bodyParam serviceId integer The ID of the associated service.
      */
     public function update(Request $request, $id)

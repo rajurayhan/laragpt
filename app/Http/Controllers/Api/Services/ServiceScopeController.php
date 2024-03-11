@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceScopes;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
 /**
@@ -97,59 +98,36 @@ class ServiceScopeController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service scope details', 'error' => $e->getMessage()], 500);
         }
-    }
-
-    // /**
-    //  * Store a new Service Scope
-    //  *
-    //  * Create a new Service Scope.
-    //  *
-    //  * @bodyParam name string required The name of the Service Scope. Example: Basic
-    //  * @bodyParam serviceGroupId integer required The ID of the associated service. Example: 2
-    //  */
-    // public function store(Request $request)
-    // {
-
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string',
-    //         'serviceGroupId' => 'required|integer|exists:service_groups,id',
-    //     ]);
-
-    //     $serviceScope = ServiceScopes::create($validatedData);
-    //     $response = [
-    //         'message' => 'Created Successfully',
-    //         'data' => $serviceScope->load('serviceGroup.service')
-    //     ];
-
-    //     return response()->json($response, 201);
-
-    // }
+    } 
 
     /**
      * Store a new Service Scope
      *
      * Create a new Service Scope.
      *
-     * @bodyParam names array required An array of names for the Service Scope. Example: ["Basic", "Standard"]
+     * @bodyParam scopes array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
      * @bodyParam serviceGroupId integer required The ID of the associated service group. Example: 2
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'names' => 'required|array',
-            'names.*' => 'required|string',
+            'scopes' => 'required|array', 
+            'scopes.*.name' => 'required|string',
+            'scopes.*.order' => 'required|integer',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
         ]);
 
         $serviceScopes = [];
 
-        foreach ($validatedData['names'] as $name) {
+        foreach ($validatedData['group'] as $scope) {
             $data = [
-                'name' => $name,
+                'name' => $scope['name'],
+                'order' => $scope['order'],
                 'serviceGroupId' => $validatedData['serviceGroupId'],
             ];
 
-            $serviceScope = ServiceScopes::create($data);
+            $orderManager = new ModelOrderManagerService(ServiceScopes::class);
+            $serviceScope = $orderManager->addOrUpdateItem($data); 
             $serviceScopes[] = $serviceScope->load('serviceGroup.service');
         }
 
@@ -169,6 +147,7 @@ class ServiceScopeController extends Controller
      *
      * @urlParam id required The ID of the service scope. Example: 1
      * @bodyParam name string required The name of the service scope. Example: Advanced
+     * @bodyParam order integer required The order of the service scope. Example: 1
      * @bodyParam serviceGroupId integer The ID of the associated service.
      */
     public function update(Request $request, $id)
@@ -176,14 +155,15 @@ class ServiceScopeController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'order' => 'required|integer',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
-        ]);
-        $serviceScope = ServiceScopes::findOrFail($id);
-        $serviceScope->update($validatedData);
+        ]); 
+        $orderManager = new ModelOrderManagerService(ServiceScopes::class);
+        $serviceScope = $orderManager->addOrUpdateItem($validatedData, $id);
 
         $response = [
             'message' => 'Updated Successfully',
-            'data' => $serviceScope
+            'data' => $serviceScope->load('serviceGroup.service')
         ];
 
         return response()->json($response, 201);
