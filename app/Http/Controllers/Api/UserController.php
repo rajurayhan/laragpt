@@ -68,7 +68,7 @@ class UserController extends Controller
         $user->save();
 
         // Assign role to user
-        $role = Role::findByName($request->role);
+        $role = Role::findByName($request->role, 'sanctum');
         if($role){
             $user->assignRole($role);
         }
@@ -137,7 +137,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        $role = Role::findByName($request->role);
+        $role = Role::findByName($request->role, 'sanctum');
         if($role){
             $user->syncRoles([$role->id]);
         }
