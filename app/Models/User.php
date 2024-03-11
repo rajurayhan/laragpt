@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
+    protected function getDefaultGuardName(): string { return 'sanctum'; }
+
     /**
      * The attributes that are mass assignable.
      *
