@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Services;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceDeliverableTasks;
 use App\Services\ClickUpService;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
 /**
@@ -121,34 +122,6 @@ class ServiceDeliverableTasksController extends Controller
         }
     }
 
-    // /**
-    //  * Store a new Service Deliverable Task
-    //  *
-    //  * Create a new Service Deliverable Task.
-    //  *
-    //  * @bodyParam name string required The name of the Service Deliverable Task. Example: Design Phase Task
-    //  * @bodyParam description string required The description of the Service Deliverable Task. Example: Design logo
-    //  * @bodyParam cost double required The cost of the Service Deliverable Task. Example: 150.00
-    //  * @bodyParam serviceDeliverableId integer required The ID of the associated service deliverable. Example: 3
-    //  */
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string',
-    //         'description' => 'required|string',
-    //         'cost' => 'required|numeric',
-    //         'serviceDeliverableId' => 'required|integer|exists:service_deliverables,id',
-    //     ]);
-
-    //     $serviceDeliverableTask = ServiceDeliverableTasks::create($validatedData);
-    //     $response = [
-    //         'message' => 'Created Successfully',
-    //         'data' => $serviceDeliverableTask->load('serviceDeliverable.serviceScope.serviceGroup.service')
-    //     ];
-
-    //     return response()->json($response, 201);
-    // }
-
     /**
      * Store Service Deliverable Tasks
      *
@@ -156,6 +129,7 @@ class ServiceDeliverableTasksController extends Controller
      *
      * @bodyParam tasks array required An array of tasks to be created.
      * @bodyParam tasks[].name string required The name of the task.
+     * @bodyParam tasks[].integer string required The order of the task.
      * @bodyParam tasks[].description string required The description of the task.
      * @bodyParam tasks[].cost numeric required The cost of the task.
      * @bodyParam serviceDeliverableId integer required The ID of the service deliverable.
@@ -201,6 +175,7 @@ class ServiceDeliverableTasksController extends Controller
         $validatedData = $request->validate([
             'tasks' => 'required|array', // Make sure 'tasks' is present and is an array
             'tasks.*.name' => 'required|string',
+            'tasks.*.order' => 'required|integer',
             'tasks.*.description' => 'required|string',
             'tasks.*.cost' => 'required|numeric',
             'serviceDeliverableId' => 'required|integer|exists:service_deliverables,id',
@@ -210,13 +185,17 @@ class ServiceDeliverableTasksController extends Controller
         $tasks = [];
 
         foreach ($validatedData['tasks'] as $data) {
-            $task = ServiceDeliverableTasks::create([
+            $taskData = [
                 'name' => $data['name'],
+                'order' => $data['order'],
                 'description' => $data['description'],
                 'cost' => $data['cost'],
                 'serviceDeliverableId' => $request->input('serviceDeliverableId'),
                 'parentTaskId' => $request->input('parentTaskId') ?? null,
-            ]);
+            ];
+
+            $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
+            $task = $orderManager->addOrUpdateItem($taskData); 
 
             $tasks[] = $task;
         }
@@ -236,6 +215,7 @@ class ServiceDeliverableTasksController extends Controller
      *
      * @urlParam id required The ID of the service deliverable task. Example: 1
      * @bodyParam name string required The name of the service deliverable task. Example: Updated Design Phase Task
+     * @bodyParam order integer required The order of the service deliverable task. Example: 1
      * @bodyParam description string The description of the service deliverable task. Example: Updated description
      * @bodyParam cost double The cost of the service deliverable task. Example: 200.00
      * @bodyParam serviceDeliverableId integer The ID of the associated service deliverable.
@@ -244,12 +224,15 @@ class ServiceDeliverableTasksController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'order' => 'required|integer',
             'description' => 'string',
             'cost' => 'numeric',
             'serviceDeliverableId' => 'integer|exists:service_deliverables,id',
         ]);
         $serviceDeliverableTask = ServiceDeliverableTasks::findOrFail($id);
-        $serviceDeliverableTask->update($validatedData);
+
+        $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
+        $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);  
 
         $response = [
             'message' => 'Updated Successfully',
