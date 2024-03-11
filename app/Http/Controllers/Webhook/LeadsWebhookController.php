@@ -11,6 +11,8 @@ class LeadsWebhookController extends Controller
     public function handleLHGLeadWebookData(Request $request){
         $webhookData = $request->all();
 
+        \Log::info(["webhookData" => $webhookData]);
+
         // Extract relevant information from the webhook data
         $firstName = $webhookData['field_values'][1] ?? null;
         $lastName = $webhookData['field_values'][9] ?? null;
@@ -43,6 +45,8 @@ class LeadsWebhookController extends Controller
 
         // Save the lead to the database
         $lead->save();
+
+        \Log::info(["Lead" => $lead]);
 
         // You can perform additional actions or return a response here
         return response()->json(['message' => 'Lead Saved successfully.'], 201);
