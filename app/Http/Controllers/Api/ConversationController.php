@@ -235,7 +235,7 @@ class ConversationController extends Controller
 
         $response = [
             'message' => 'Update Successfully ',
-            'data' => $data,
+            'data' => $data->load('user'),
         ];
         return response()->json($response, 200);
 
