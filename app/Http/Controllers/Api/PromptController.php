@@ -56,16 +56,21 @@ class PromptController extends Controller
             'name' => 'required|string',
         ]);
 
+
         // $prompt = Prompt::create($validatedData);
-        if($request->type != PromptType::OTHER){
-                $prompt = Prompt::updateOrCreate(
-                ['type' => $request->type],
-                ['prompt' => $request->prompt],
-                ['name' => $request->name]
-            );
+        if($request->type == 7){
+            // return 'create type7';
+            $prompt = Prompt::create($validatedData); 
         }
         else{
-            $prompt = Prompt::create($validatedData);
+            // return 'Update Exiting';
+            $prompt = Prompt::updateOrCreate(
+                ['type' => $request->type],
+                [
+                    ['prompt' => $request->prompt],
+                    ['name' => $request->name]
+                ]
+            );        
         }
         $response = [
             'message' => 'Created Successfully ',
