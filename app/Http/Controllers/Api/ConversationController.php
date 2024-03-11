@@ -207,12 +207,41 @@ class ConversationController extends Controller
         $data->save();
 
         $response = [
-            'message' => 'Created Successfully ',
+            'message' => 'Updated Successfully ',
             'data' => $data,
         ];
         return response()->json($response, 200);
         
     }
+
+    /**
+     * Update a Conversation Message
+     *
+     * Update an existing Conversation Message.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1 
+     * @bodyParam name string required The content of the message. Example: How can I assist you further?
+     */
+
+    public function updateConversationMessage($id, Request $request){
+        $validatedData = $request->validate([
+            'message_content' => 'required|string'
+        ]);
+
+        $data = ConversationMessage::findOrFail($id);
+
+        $data->message_content = $request->message_content;
+        $data->save();
+
+        $response = [
+            'message' => 'Update Successfully ',
+            'data' => $data,
+        ];
+        return response()->json($response, 200);
+        
+    }
+
+
     /**
      * Delete a Conversation
      *
