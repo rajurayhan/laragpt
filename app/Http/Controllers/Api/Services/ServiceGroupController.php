@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceGroups;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
 /**
@@ -68,59 +69,37 @@ class ServiceGroupController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service scope details', 'error' => $e->getMessage()], 500);
         }
-    }
-
-    // /**
-    //  * Store a new Service Group
-    //  *
-    //  * Create a new Service Group.
-    //  *
-    //  * @bodyParam name string required The name of the Service Group. Example: Basic
-    //  * @bodyParam serviceId integer required The ID of the associated service. Example: 2
-    //  */
-    // public function store(Request $request)
-    // {
-
-    //     $validatedData = $request->validate([
-    //         'name' => 'required|string',
-    //         'serviceId' => 'required|integer|exists:services,id',
-    //     ]);
-
-    //     $serviceGroup = ServiceGroups::create($validatedData);
-    //     $response = [
-    //         'message' => 'Created Successfully',
-    //         'data' => $serviceGroup->load('service')
-    //     ];
-
-    //     return response()->json($response, 201);
-
-    // }
+    } 
 
     /**
      * Store a new Service Group
      *
      * Create a new Service Group.
      *
-     * @bodyParam names array required An array of names for the Service Group. Example: ["Basic", "Standard"]
+     * @bodyParam group array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
+
      * @bodyParam serviceId integer required The ID of the associated service. Example: 2
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'names' => 'required|array',
-            'names.*' => 'required|string',
+            'group' => 'required|array',
+            'group.*.name' => 'required|string',
+            'group.*.order' => 'required|integer',
             'serviceId' => 'required|integer|exists:services,id',
         ]);
 
         $serviceGroups = [];
 
-        foreach ($validatedData['names'] as $name) {
+        foreach ($validatedData['group'] as $group) {
             $data = [
-                'name' => $name,
+                'name' => $group['name'],
+                'order' => $group['order'],
                 'serviceId' => $validatedData['serviceId'],
-            ];
+            ]; 
 
-            $serviceGroup = ServiceGroups::create($data);
+            $orderManager = new ModelOrderManagerService(ServiceGroups::class);
+            $serviceGroup = $orderManager->addOrUpdateItem($data);
             $serviceGroups[] = $serviceGroup->load('service');
         }
 
@@ -147,10 +126,14 @@ class ServiceGroupController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'order' => 'required|integer',
             'serviceId' => 'required|integer|exists:services,id',
         ]);
-        $serviceGroup = ServiceGroups::findOrFail($id);
-        $serviceGroup->update($validatedData);
+
+        $orderManager = new ModelOrderManagerService(ServiceGroups::class);
+        $serviceGroup = $orderManager->addOrUpdateItem($validatedData, $id);
+        // $serviceGroup = ServiceGroups::findOrFail($id);
+        // $serviceGroup->update($validatedData);
 
         $response = [
             'message' => 'Updated Successfully',
