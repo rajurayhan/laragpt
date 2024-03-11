@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Services\ServiceGroupController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
 use App\Http\Controllers\Api\System\MeetingTypeController;
 use App\Http\Controllers\Api\System\ProjectTypeController;
+use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -109,6 +110,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('roles', RoleController::class);
 
     Route::get('/service-tree', [ServiceController::class, 'serviceTree'])->name('service.tree');
+
+    Route::resource('update-logs', UpdateLogController::class);
 
     Route::get('/permissions', function () {
         $permissions =  Permission::get('name');
