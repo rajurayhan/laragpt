@@ -206,6 +206,7 @@ class ServiceController extends Controller
                 foreach ($service->serviceGroups as $group) {
                     $serviceGroupData = [
                         'id' => $group->id,
+                        'service_id' => $service->id,
                         'name' => $group->name,
                         'sows' => [],
                     ];
@@ -213,6 +214,7 @@ class ServiceController extends Controller
                     foreach ($group->serviceScopes as $scope) {
                         $scopedata = [
                             'id' => $scope->id,
+                            'group_id' => $group->id,
                             'name' => $scope->name,
                             'deliverables' => [],
                         ];
@@ -220,6 +222,7 @@ class ServiceController extends Controller
                         foreach ($scope->serviceDeliverables as $deliverable) {
                             $deliverableData = [
                                 'id' => $deliverable->id,
+                                'scope_id' => $scope->id,
                                 'name' => $deliverable->name,
                                 'tasks' => [],
                             ];
@@ -227,6 +230,7 @@ class ServiceController extends Controller
                             foreach ($deliverable->serviceDeliverableTasks as $task) {
                                 $taskData = [
                                     'id' => $task->id,
+                                    'deliverable_id' => $deliverable->id,
                                     'name' => $task->name,
                                     'description' => $task->description,
                                     'sub_tasks' => [],
@@ -235,6 +239,7 @@ class ServiceController extends Controller
                                 foreach ($task->subTasks as $subTask) {
                                     $subTaskData = [
                                         'id' => $subTask->id,
+                                        'task_id' => $task->id,
                                         'name' => $subTask->name,
                                         'description' => $subTask->description,
                                     ];
