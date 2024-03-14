@@ -38,6 +38,7 @@ class SetDefaultOrderOnServiceModule extends Command
         }
         foreach($filteredData as $dataset){
             foreach ($dataset as $key => $data) {
+                $data->order = $key+1;
                 $data->save();
             }
         }
@@ -50,6 +51,7 @@ class SetDefaultOrderOnServiceModule extends Command
         }
         foreach($filteredData as $dataset){
             foreach ($dataset as $key => $data) {
+                $data->order = $key+1;
                 $data->save();
             }
         }
@@ -62,6 +64,7 @@ class SetDefaultOrderOnServiceModule extends Command
         }
         foreach($filteredData as $dataset){
             foreach ($dataset as $key => $data) {
+                $data->order = $key+1;
                 $data->save();
             }
         }
@@ -74,6 +77,7 @@ class SetDefaultOrderOnServiceModule extends Command
         }
         foreach($filteredData as $dataset){
             foreach ($dataset as $key => $data) {
+                $data->order = $key+1;
                 $data->save();
             }
         }
