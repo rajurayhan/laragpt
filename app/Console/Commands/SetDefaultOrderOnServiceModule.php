@@ -69,7 +69,7 @@ class SetDefaultOrderOnServiceModule extends Command
             }
         }
 
-        $serviceDeliverableTask = ServiceDeliverableTasks::get();
+        $serviceDeliverableTask = ServiceDeliverableTasks::with('subTasks')->get();
 
         $filteredData = [];
         foreach ($serviceDeliverableTask as $key => $task) {
@@ -79,6 +79,11 @@ class SetDefaultOrderOnServiceModule extends Command
             foreach ($dataset as $key => $data) {
                 $data->order = $key+1;
                 $data->save();
+
+                foreach($task->subTasks as $subkey => $sub){
+                    $sub->order = $subkey+1;
+                    $sub->save();
+                }
             }
         }
 
