@@ -33,15 +33,12 @@ class ModelOrderManagerService
 
     public function addOrUpdateItem(array $newItem, $id = null, $parentField = null, $parentId = null)
     {
-        // \Log::info($newItem);
         return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
 
             if (isset($id)) {
-                // \Log::info('On Update');
                 return $this->updateExistingItem($model, $newItem, $id, $parentField, $parentId);
             } else {
-                // \Log::info('On Create');
                 return $this->insertNewItem($model, $newItem, $parentField, $parentId);
             }
         });
@@ -49,27 +46,11 @@ class ModelOrderManagerService
 
     private function updateExistingItem($model, $newItem, $id, $parentField = null, $parentId = null)
     {
-        $modelQuery = $model::query();
-
         $instance = $model->find($id);
 
-        if($parentField && $parentId){
-            $modelQuery->where($parentField, $parentId);
-        }
+        $query = $this->buildQuery($model, $newItem['order'], $instance->order, $parentField, $parentId);
 
-        if ($instance->order > $newItem['order']) {
-            $shiftData = $modelQuery->where('order', '>=', $newItem['order'])
-                ->where('order', '<', $instance->order)
-                ->get();
-
-            $this->shiftOrder($shiftData, 1);
-        } else {
-            $shiftData = $modelQuery->where('order', '<=', $newItem['order'])
-                ->where('order', '>', $instance->order)
-                ->get();
-
-            $this->shiftOrder($shiftData, -1);
-        }
+        $this->shiftOrder($query->get(), $newItem['order'] < $instance->order ? 1 : -1);
 
         $instance->update($newItem);
         return $instance;
@@ -77,26 +58,35 @@ class ModelOrderManagerService
 
     private function insertNewItem($model, $newItem, $parentField = null, $parentId = null)
     {
-        $modelQuery = $model::query();
-        if($parentField && $parentId){
-            $modelQuery->where($parentField, $parentId);
+        $query = $this->buildQuery($model, $newItem['order'], null, $parentField, $parentId);
+
+        $this->shiftOrder($query->get(), 1);
+
+        return $model->create($newItem);
+    }
+
+    private function buildQuery($model, $newOrder, $instanceOrder, $parentField, $parentId)
+    {
+        $query = $model::query();
+
+        if ($parentField && $parentId) {
+            $query->where($parentField, $parentId);
         }
-        $existingData = $modelQuery->where('order', '>=', $newItem['order'])
-            ->get();
 
-        $this->shiftOrder($existingData, 1);
+        if ($instanceOrder !== null) {
+            $query->where('order', $newOrder < $instanceOrder ? '>=' : '<=', $newOrder)
+                  ->where('order', $newOrder < $instanceOrder ? '<' : '>', $instanceOrder);
+        } else {
+            $query->where('order', '>=', $newOrder);
+        }
 
-        $createdModel = $model->create($newItem);
-
-        return $createdModel;
+        return $query;
     }
 
     private function shiftOrder($data, $shiftValue)
     {
-        // \Log::info(['ShiftData' => $data]);
         foreach ($data as $item) {
-            $item->order = $item->order + $shiftValue;
-            $item->save();
+            $item->update(['order' => $item->order + $shiftValue]);
         }
     }
 }
