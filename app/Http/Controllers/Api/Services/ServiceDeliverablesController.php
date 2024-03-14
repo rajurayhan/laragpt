@@ -85,7 +85,7 @@ class ServiceDeliverablesController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service deliverable details', 'error' => $e->getMessage()], 500);
         }
-    } 
+    }
 
     /**
      * Store a new Service Deliverable
@@ -93,7 +93,7 @@ class ServiceDeliverablesController extends Controller
      * Create a new Service Deliverable.
      *
      * @bodyParam deliverables array required An array of groups for the Service Group. Each group should have 'name' and 'order'. Example: [{"name": "Basic", "order": 1}, {"name": "Standard", "order": 2}]
-     * 
+     *
      * @bodyParam deliverables[].name string required The name of the task.
      * @bodyParam deliverables[].order integer required The order of the task.
 
@@ -102,7 +102,7 @@ class ServiceDeliverablesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'deliverables' => 'required|array', 
+            'deliverables' => 'required|array',
             'deliverables.*.name' => 'required|string',
             'deliverables.*.order' => 'required|integer',
             'serviceScopeId' => 'required|integer|exists:service_scopes,id',
@@ -118,7 +118,7 @@ class ServiceDeliverablesController extends Controller
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
-            $serviceDeliverable = $orderManager->addOrUpdateItem($data); 
+            $serviceDeliverable = $orderManager->addOrUpdateItem($data, null, 'serviceScopeId', $validatedData['serviceScopeId']);
 
             $serviceDeliverables[] = $serviceDeliverable->load('serviceScope.serviceGroup.service');
         }
@@ -152,7 +152,7 @@ class ServiceDeliverablesController extends Controller
         ]);
         $serviceDeliverable = ServiceDeliverables::findOrFail($id);
         $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
-        $serviceDeliverable = $orderManager->addOrUpdateItem($validatedData, $id); 
+        $serviceDeliverable = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceScopeId', $validatedData['serviceScopeId']);
 
         $response = [
             'message' => 'Updated Successfully',

@@ -98,7 +98,7 @@ class ServiceScopeController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service scope details', 'error' => $e->getMessage()], 500);
         }
-    } 
+    }
 
     /**
      * Store a new Service Scope
@@ -113,7 +113,7 @@ class ServiceScopeController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'scopes' => 'required|array', 
+            'scopes' => 'required|array',
             'scopes.*.name' => 'required|string',
             'scopes.*.order' => 'required|integer',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
@@ -129,7 +129,7 @@ class ServiceScopeController extends Controller
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceScopes::class);
-            $serviceScope = $orderManager->addOrUpdateItem($data); 
+            $serviceScope = $orderManager->addOrUpdateItem($data, null, 'serviceGroupId', $validatedData['serviceGroupId']);
             $serviceScopes[] = $serviceScope->load('serviceGroup.service');
         }
 
@@ -159,9 +159,9 @@ class ServiceScopeController extends Controller
             'name' => 'required|string',
             'order' => 'required|integer',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
-        ]); 
+        ]);
         $orderManager = new ModelOrderManagerService(ServiceScopes::class);
-        $serviceScope = $orderManager->addOrUpdateItem($validatedData, $id);
+        $serviceScope = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceGroupId', $validatedData['serviceGroupId']);
 
         $response = [
             'message' => 'Updated Successfully',

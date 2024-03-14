@@ -195,7 +195,14 @@ class ServiceDeliverableTasksController extends Controller
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
-            $task = $orderManager->addOrUpdateItem($taskData); 
+            // $task = $orderManager->addOrUpdateItem($taskData, null, 'serviceScopeId', $validatedData['serviceScopeId']);
+            if($taskData == null){
+                $task = $orderManager->addOrUpdateItem($taskData, null, 'serviceDeliverableId', $taskData['serviceDeliverableId']);
+            }
+            else{
+                $task = $orderManager->addOrUpdateItem($taskData, null, 'parentTaskId', $taskData['parentTaskId']);
+            }
+
 
             $tasks[] = $task;
         }
@@ -228,11 +235,19 @@ class ServiceDeliverableTasksController extends Controller
             'description' => 'string',
             'cost' => 'numeric',
             'serviceDeliverableId' => 'integer|exists:service_deliverables,id',
+            'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
         $serviceDeliverableTask = ServiceDeliverableTasks::findOrFail($id);
 
         $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
-        $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);  
+        // $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);
+        if($validatedData['parentTaskId'] == null){
+                $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceDeliverableId', $validatedData['serviceDeliverableId']);
+            }
+            else{
+                $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id, 'parentTaskId', $validatedData['parentTaskId']);
+            }
+        // $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);
 
         $response = [
             'message' => 'Updated Successfully',

@@ -69,7 +69,7 @@ class ServiceGroupController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching service scope details', 'error' => $e->getMessage()], 500);
         }
-    } 
+    }
 
     /**
      * Store a new Service Group
@@ -97,10 +97,10 @@ class ServiceGroupController extends Controller
                 'name' => $group['name'],
                 'order' => $group['order'],
                 'serviceId' => $validatedData['serviceId'],
-            ]; 
+            ];
 
             $orderManager = new ModelOrderManagerService(ServiceGroups::class);
-            $serviceGroup = $orderManager->addOrUpdateItem($data);
+            $serviceGroup = $orderManager->addOrUpdateItem($data, null,'serviceId', $validatedData['serviceId']);
             $serviceGroups[] = $serviceGroup->load('service');
         }
 
@@ -133,7 +133,7 @@ class ServiceGroupController extends Controller
         ]);
 
         $orderManager = new ModelOrderManagerService(ServiceGroups::class);
-        $serviceGroup = $orderManager->addOrUpdateItem($validatedData, $id);
+        $serviceGroup = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceId', $validatedData['serviceId']);
         // $serviceGroup = ServiceGroups::findOrFail($id);
         // $serviceGroup->update($validatedData);
 
