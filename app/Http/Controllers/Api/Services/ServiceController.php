@@ -184,10 +184,25 @@ class ServiceController extends Controller
             }
             $servicesRawData =  $query->with([
                 'projectType',
+                'serviceGroups' => function ($query) {
+                    $query->orderBy('order');
+                },
+                'serviceGroups.serviceScopes' => function ($query) {
+                    $query->orderBy('order');
+                },
+                'serviceGroups.serviceScopes.serviceDeliverables' => function ($query) {
+                    $query->orderBy('order');
+                },
                 'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
-                    $query->where('parentTaskId', null)->with('subTasks');
+                    $query->where('parentTaskId', null)->orderBy('order')->with('subTasks');
                 },
             ])->orderBy('order')->get();
+            // $servicesRawData =  $query->with([
+            //     'projectType',
+            //     'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
+            //         $query->where('parentTaskId', null)->with('subTasks');
+            //     },
+            // ])->orderBy('order')->get();
 
             $services = [];
 
