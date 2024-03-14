@@ -10,7 +10,7 @@ class ServiceGroups extends Model
     use HasFactory;
 
     use HasFactory;
-    protected $fillable = ['name' , 'serviceId'];
+    protected $fillable = ['name' , 'serviceId', 'order'];
 
     public function service()
     {

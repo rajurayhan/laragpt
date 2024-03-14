@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceDeliverables extends Model
 {
     use HasFactory;
-    protected $fillable = ['name' , 'serviceScopeId'];
+    protected $fillable = ['name' , 'serviceScopeId', 'order'];
 
     public function serviceScope()
     {

@@ -33,7 +33,7 @@ class ModelOrderManagerService
 
     public function addOrUpdateItem(array $newItem, $id = null, $parentField = null, $parentId = null)
     {
-        // \Log::info($id);
+        \Log::info($newItem);
         return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
 

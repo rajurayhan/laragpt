@@ -99,6 +99,8 @@ class ServiceGroupController extends Controller
                 'serviceId' => $validatedData['serviceId'],
             ];
 
+            // return $data;
+
             $orderManager = new ModelOrderManagerService(ServiceGroups::class);
             $serviceGroup = $orderManager->addOrUpdateItem($data, null,'serviceId', $validatedData['serviceId']);
             $serviceGroups[] = $serviceGroup->load('service');
