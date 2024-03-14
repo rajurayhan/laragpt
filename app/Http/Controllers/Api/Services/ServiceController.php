@@ -208,6 +208,7 @@ class ServiceController extends Controller
                         'id' => $group->id,
                         'serviceId' => $service->id,
                         'name' => $group->name,
+                        'order' => $group->order,
                         'sows' => [],
                     ];
 
@@ -216,6 +217,7 @@ class ServiceController extends Controller
                             'id' => $scope->id,
                             'groupId' => $group->id,
                             'name' => $scope->name,
+                            'order' => $scope->order,
                             'deliverables' => [],
                         ];
 
@@ -224,6 +226,7 @@ class ServiceController extends Controller
                                 'id' => $deliverable->id,
                                 'scopeId' => $scope->id,
                                 'name' => $deliverable->name,
+                                'order' => $deliverable->order,
                                 'tasks' => [],
                             ];
 
@@ -232,6 +235,7 @@ class ServiceController extends Controller
                                     'id' => $task->id,
                                     'deliverableId' => $deliverable->id,
                                     'name' => $task->name,
+                                    'order' => $task->order,
                                     'description' => $task->description,
                                     'sub_tasks' => [],
                                 ];
