@@ -93,7 +93,7 @@ class ModelOrderManagerService
 
     private function shiftOrder($data, $shiftValue)
     {
-        \Log::info(['ShiftData' => $data]);
+        // \Log::info(['ShiftData' => $data]);
         foreach ($data as $item) {
             $item->order = $item->order + $shiftValue;
             $item->save();
