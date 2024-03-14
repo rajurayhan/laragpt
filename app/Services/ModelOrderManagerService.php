@@ -33,7 +33,7 @@ class ModelOrderManagerService
 
     public function addOrUpdateItem(array $newItem, $id = null, $parentField = null, $parentId = null)
     {
-        \Log::info($newItem);
+        // \Log::info($newItem);
         return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
 
@@ -77,7 +77,11 @@ class ModelOrderManagerService
 
     private function insertNewItem($model, $newItem, $parentField = null, $parentId = null)
     {
-        $existingData = $model->where('order', '>=', $newItem['order'])
+        $modelQuery = $model::query();
+        if($parentField && $parentId){
+            $modelQuery->where($parentField, $parentId);
+        }
+        $existingData = $modelQuery->where('order', '>=', $newItem['order'])
             ->get();
 
         $this->shiftOrder($existingData, 1);
@@ -89,6 +93,7 @@ class ModelOrderManagerService
 
     private function shiftOrder($data, $shiftValue)
     {
+        \Log::info(['ShiftData' => $data]);
         foreach ($data as $item) {
             $item->order = $item->order + $shiftValue;
             $item->save();

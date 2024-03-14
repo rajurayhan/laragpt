@@ -234,7 +234,7 @@ class ServiceDeliverableTasksController extends Controller
             'order' => 'required|integer',
             'description' => 'string',
             'cost' => 'numeric',
-            'serviceDeliverableId' => 'integer|exists:service_deliverables,id',
+            'serviceDeliverableId' => 'required_without:parentTaskId|integer|exists:service_deliverables,id',
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
         $serviceDeliverableTask = ServiceDeliverableTasks::findOrFail($id);
