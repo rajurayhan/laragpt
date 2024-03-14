@@ -31,47 +31,51 @@ class ModelOrderManagerService
         $this->modelClass = $modelClass;
     }
 
-    public function addOrUpdateItem(array $newItem, $id = null)
+    public function addOrUpdateItem(array $newItem, $id = null, $parentField = null, $parentId = null)
     {
         // \Log::info($id);
-        return DB::transaction(function () use ($newItem, $id) {
+        return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
 
             if (isset($id)) {
                 // \Log::info('On Update');
-                return $this->updateExistingItem($model, $newItem, $id);
+                return $this->updateExistingItem($model, $newItem, $id, $parentField, $parentId);
             } else {
                 // \Log::info('On Create');
-                return $this->insertNewItem($model, $newItem);
+                return $this->insertNewItem($model, $newItem, $parentField, $parentId);
             }
         });
     }
 
-    private function updateExistingItem($model, $newItem, $id)
+    private function updateExistingItem($model, $newItem, $id, $parentField = null, $parentId = null)
     {
+        $modelQuery = $model::query();
+
         $instance = $model->find($id);
 
+        if($parentField && $parentId){
+            $modelQuery->where($parentField, $parentId);
+        }
+
         if ($instance->order > $newItem['order']) {
-            $shiftData = $model->where('order', '>=', $newItem['order'])
+            $shiftData = $modelQuery->where('order', '>=', $newItem['order'])
                 ->where('order', '<', $instance->order)
                 ->get();
 
             $this->shiftOrder($shiftData, 1);
         } else {
-            $shiftData = $model->where('order', '<=', $newItem['order'])
+            $shiftData = $modelQuery->where('order', '<=', $newItem['order'])
                 ->where('order', '>', $instance->order)
                 ->get();
 
             $this->shiftOrder($shiftData, -1);
         }
 
-        // $instance->order = $newItem['order'];
-        // $instance->save();
         $instance->update($newItem);
         return $instance;
     }
 
-    private function insertNewItem($model, $newItem)
+    private function insertNewItem($model, $newItem, $parentField = null, $parentId = null)
     {
         $existingData = $model->where('order', '>=', $newItem['order'])
             ->get();
