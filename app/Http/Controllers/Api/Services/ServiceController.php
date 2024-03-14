@@ -260,6 +260,7 @@ class ServiceController extends Controller
                                         'id' => $subTask->id,
                                         'taskId' => $task->id,
                                         'name' => $subTask->name,
+                                        'order' => $subTask->order,
                                         'description' => $subTask->description,
                                     ];
 
