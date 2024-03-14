@@ -35,7 +35,7 @@ class DeleteSlackMessages extends Command
             'latest' => strtotime($endTimestamp),
         ]);
 
-        \Log::info(['Response' => $response->json()]);
+        // \Log::info(['Response' => $response->json()]);
 
         $messages = $response->json()['messages'];
 
@@ -52,7 +52,7 @@ class DeleteSlackMessages extends Command
                 ]);
                 $this->info($i++.' - '.$message['text'] . ' => Deleted ? ' .$deleteResponse->json()["ok"]);
 
-                \Log::info([$message['ts'] => $deleteResponse->json()["ok"]]);
+                // \Log::info([$message['ts'] => $deleteResponse->json()["ok"]]);
 
                 if (($index + 1) % 100 === 0) {
                     $this->info("Waiting for 1 minutes...");

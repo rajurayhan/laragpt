@@ -31,28 +31,70 @@ class SetDefaultOrderOnServiceModule extends Command
         }
 
         $serviceGroup = ServiceGroups::get();
+
+        $filteredData = [];
         foreach ($serviceGroup as $key => $group) {
-            $group->order = $key+1;
-            $group->save();
+            $filteredData[$group->serviceId][] = $group;
+        }
+        foreach($filteredData as $dataset){
+            foreach ($dataset as $key => $data) {
+                $data->save();
+            }
         }
 
         $serviceScope = ServiceScopes::get();
+
+        $filteredData = [];
         foreach ($serviceScope as $key => $scope) {
-            $scope->order = $key+1;
-            $scope->save();
+            $filteredData[$scope->serviceGroupId][] = $scope;
+        }
+        foreach($filteredData as $dataset){
+            foreach ($dataset as $key => $data) {
+                $data->save();
+            }
         }
 
         $serviceDeliverables = ServiceDeliverables::get();
+
+        $filteredData = [];
         foreach ($serviceDeliverables as $key => $deliverable) {
-            $deliverable->order = $key+1;
-            $deliverable->save();
+            $filteredData[$deliverable->serviceScopeId][] = $deliverable;
+        }
+        foreach($filteredData as $dataset){
+            foreach ($dataset as $key => $data) {
+                $data->save();
+            }
         }
 
-        $serviceDeliverableTasks = ServiceDeliverableTasks::get();
-        foreach ($serviceDeliverableTasks as $key => $task) {
-            $task->order = $key+1;
-            $task->save();
+        $serviceDeliverableTask = ServiceDeliverableTasks::get();
+
+        $filteredData = [];
+        foreach ($serviceDeliverableTask as $key => $task) {
+            $filteredData[$task->serviceDeliverableId][] = $task;
         }
+        foreach($filteredData as $dataset){
+            foreach ($dataset as $key => $data) {
+                $data->save();
+            }
+        }
+
+        // $serviceScope = ServiceScopes::get();
+        // foreach ($serviceScope as $key => $scope) {
+        //     $scope->order = $key+1;
+        //     $scope->save();
+        // }
+
+        // $serviceDeliverables = ServiceDeliverables::get();
+        // foreach ($serviceDeliverables as $key => $deliverable) {
+        //     $deliverable->order = $key+1;
+        //     $deliverable->save();
+        // }
+
+        // $serviceDeliverableTasks = ServiceDeliverableTasks::get();
+        // foreach ($serviceDeliverableTasks as $key => $task) {
+        //     $task->order = $key+1;
+        //     $task->save();
+        // }
 
         $this->info('Order Set Successfully');
 
