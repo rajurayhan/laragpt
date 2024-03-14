@@ -73,7 +73,9 @@ class SetDefaultOrderOnServiceModule extends Command
 
         $filteredData = [];
         foreach ($serviceDeliverableTask as $key => $task) {
-            $filteredData[$task->serviceDeliverableId][] = $task;
+            if(sizeof($task->subTasks) > 0){
+                $filteredData[$task->serviceDeliverableId][] = $task;
+            }
         }
         foreach($filteredData as $dataset){
             foreach ($dataset as $key => $data) {
