@@ -12,8 +12,8 @@ use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-/** 
- * @authenticated 
+/**
+ * @authenticated
  */
 
  class MeetingSummeryController extends Controller
@@ -168,6 +168,7 @@ use Illuminate\Support\Facades\Http;
         $meetingSummeryObj = MeetingSummery::find($id);
         $htmlData = Markdown2Html::convert($meetingSummeryObj->meetingSummeryText);
         $meetingSummeryObj->htmlText = html_entity_decode((string)$htmlData);
+        $meetingSummeryObj->summaryText = $meetingSummeryObj->meetingSummeryText ?? null;
         // $meetingSummeryObj->htmlText = (string)$htmlData;
         $response = [
             'message' => 'Data Showed Successfully',
