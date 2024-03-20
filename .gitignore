@@ -2,6 +2,7 @@
 /node_modules
 /public/hot
 /public/docs
+/resources/views/scribe
 /public/storage
 /storage/*.key
 /vendor

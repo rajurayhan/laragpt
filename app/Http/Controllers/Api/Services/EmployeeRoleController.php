@@ -7,6 +7,12 @@ use App\Models\EmployeeRole;
 use App\Models\EmployeeRoles;
 use Illuminate\Http\Request;
 
+/**
+ * @group Employee Roles
+ * @authenticated
+ *
+ * APIs for website services.
+ */
 class EmployeeRoleController extends Controller
 {
     /**
