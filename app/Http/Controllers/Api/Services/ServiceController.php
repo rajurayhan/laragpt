@@ -194,7 +194,7 @@ class ServiceController extends Controller
                     $query->orderBy('order');
                 },
                 'serviceGroups.serviceScopes.serviceDeliverables.serviceDeliverableTasks' => function ($query) {
-                    $query->where('parentTaskId', null)->orderBy('order')->with('subTasks');
+                    $query->where('parentTaskId', null)->orderBy('order')->with('subTasks.employeeRole', 'employeeRole');
                 },
             ])->orderBy('order')->get();
             // $servicesRawData =  $query->with([
@@ -252,6 +252,11 @@ class ServiceController extends Controller
                                     'name' => $task->name,
                                     'order' => $task->order,
                                     'description' => $task->description,
+                                    'employeeRole' => $task->employeeRole ? [
+                                        'id' => $task->employeeRole->id,
+                                        'name' => $task->employeeRole->name,
+                                        'average_hourly' => $task->employeeRole->average_hourly,
+                                    ] : null,
                                     'sub_tasks' => [],
                                 ];
 
@@ -262,6 +267,11 @@ class ServiceController extends Controller
                                         'name' => $subTask->name,
                                         'order' => $subTask->order,
                                         'description' => $subTask->description,
+                                        'employeeRole' => $subTask->employeeRole ? [
+                                            'id' => $task->employeeRole->id,
+                                            'name' => $task->employeeRole->name,
+                                            'average_hourly' => $task->employeeRole->average_hourly,
+                                        ] : null,
                                     ];
 
                                     $taskData['sub_tasks'][] = $subTaskData;
