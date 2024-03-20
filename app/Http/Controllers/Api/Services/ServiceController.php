@@ -264,6 +264,7 @@ class ServiceController extends Controller
                                     $subTaskData = [
                                         'id' => $subTask->id,
                                         'taskId' => $task->id,
+                                        'deliverableId' => $deliverable->id,
                                         'name' => $subTask->name,
                                         'order' => $subTask->order,
                                         'description' => $subTask->description,
