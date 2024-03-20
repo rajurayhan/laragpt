@@ -132,6 +132,7 @@ class ServiceDeliverableTasksController extends Controller
      * @bodyParam tasks[].order integer required The order of the task.
      * @bodyParam tasks[].description string required The description of the task.
      * @bodyParam tasks[].cost numeric required The cost of the task.
+     * @bodyParam tasks[].employeeRoleId integer The Employee role id who will perform this task.
      * @bodyParam serviceDeliverableId integer required The ID of the service deliverable.
      * @bodyParam parentTaskId integer nullable The ID of the parent task.
      *
@@ -178,6 +179,7 @@ class ServiceDeliverableTasksController extends Controller
             'tasks.*.order' => 'required|integer',
             'tasks.*.description' => 'required|string',
             'tasks.*.cost' => 'required|numeric',
+            'tasks.*.employeeRoleId' => 'nullable|integer|exists:employee_roles,id',
             'serviceDeliverableId' => 'required_without:parentTaskId|integer|exists:service_deliverables,id',
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
@@ -190,6 +192,7 @@ class ServiceDeliverableTasksController extends Controller
                 'order' => $data['order'],
                 'description' => $data['description'],
                 'cost' => $data['cost'],
+                'employeeRoleId' => $data['employeeRoleId'] ?? null,
                 'serviceDeliverableId' => $request->input('serviceDeliverableId'),
                 'parentTaskId' => $request->input('parentTaskId') ?? null,
             ];
@@ -225,6 +228,7 @@ class ServiceDeliverableTasksController extends Controller
      * @bodyParam order integer required The order of the service deliverable task. Example: 1
      * @bodyParam description string The description of the service deliverable task. Example: Updated description
      * @bodyParam cost double The cost of the service deliverable task. Example: 200.00
+     * @bodyParam employeeRoleId integer The Employee role id who will perform this task.
      * @bodyParam serviceDeliverableId integer The ID of the associated service deliverable.
      */
     public function update(Request $request, $id)
@@ -234,6 +238,7 @@ class ServiceDeliverableTasksController extends Controller
             'order' => 'required|integer',
             'description' => 'string',
             'cost' => 'numeric',
+            'employeeRoleId' => 'nullable|integer|exists:employee_roles,id',
             'serviceDeliverableId' => 'required_without:parentTaskId|integer|exists:service_deliverables,id',
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
