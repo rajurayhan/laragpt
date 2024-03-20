@@ -54,7 +54,8 @@ class ServiceDeliverableTasksController extends Controller
     {
         try {
             $query = ServiceDeliverableTasks::query();
-            $query->with('serviceDeliverable.serviceScope.serviceGroup.service');
+            // $query->with('employeeRole');
+            $query->with('serviceDeliverable.serviceScope.serviceGroup.service', 'employeeRole');
 
             // Apply filters
             if ($request->filled('serviceDeliverableId')) {
@@ -111,7 +112,7 @@ class ServiceDeliverableTasksController extends Controller
     public function show($id)
     {
         try {
-            $serviceDeliverableTask = ServiceDeliverableTasks::find($id);
+            $serviceDeliverableTask = ServiceDeliverableTasks::with('serviceDeliverable.serviceScope.serviceGroup.service', 'employeeRole')->find($id);
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $serviceDeliverableTask
