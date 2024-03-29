@@ -26,8 +26,19 @@ use Illuminate\Support\Facades\Http;
      *
      * @queryParam page integer page number.
      */
-    public function indexMeetingSummery(){
-        $meetings = MeetingSummery::with('createdBy')->latest()->paginate(10);
+    public function indexMeetingSummery(Request $request){
+        // $meetings = MeetingSummery::with('createdBy')->latest()->paginate(10);
+        $currentUser = auth()->user(); 
+        $meetings = MeetingSummery::where(function($query) use ($currentUser) {
+            // Public summaries
+            $query->where('is_private', false)
+                  ->orWhere(function($query) use ($currentUser) {
+                      // Private summaries created by the current user
+                      $query->where('is_private', true)
+                            ->where('createdById', $currentUser->id);
+                  });
+        })
+        ->paginate($request->page ?? 10);
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
