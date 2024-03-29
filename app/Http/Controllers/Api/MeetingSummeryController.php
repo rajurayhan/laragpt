@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Http;
      * @bodyParam meetingType integer required Meeting type [1: Client, 2: Intenal].
      * @bodyParam clickupLink string Task url for the meeting.
      * @bodyParam tldvLink string Tldv meeting url.
+     * @bodyParam is_private boolean Privacy of the meeting summery. If true, it will be only available to it's creator.
      */
 
     public function storeMeetingSummery(Request $request){
@@ -63,6 +64,7 @@ use Illuminate\Support\Facades\Http;
         $validatedData = $request->validate([
             'clickupLink' => 'required|string',
             'tldvLink' => 'nullable|string',
+            'is_private' => 'nullable|boolean',
             'transcriptText' => 'required_without:tldvLink',
             'meetingName' => 'required|string',
             'meetingType' => 'required|integer',
@@ -116,6 +118,7 @@ use Illuminate\Support\Facades\Http;
      * @bodyParam meetingType integer required Meeting type [1: Client, 2: Intenal].
      * @bodyParam clickupLink string Task url for the meeting.
      * @bodyParam tldvLink string Tldv meeting url.
+     * @bodyParam is_private boolean Privacy of the meeting summery. If true, it will be only available to it's creator.
      */
 
     public function updateMeetingSummery($id, Request $request){
@@ -124,6 +127,7 @@ use Illuminate\Support\Facades\Http;
             'clickupLink' => 'required_if:pushToClickUp,true',
             'summaryText' => 'required|string',
             'tldvLink' => 'nullable|string',
+            'is_private' => 'nullable|boolean',
             'transcriptText' => 'required_without:tldvLink',
             'meetingName' => 'required|string',
             'meetingType' => 'required|integer',

@@ -18,7 +18,8 @@ class MeetingSummery extends Model
         'meetingType',
         'clickupLink',
         'tldvLink',
-        'createdById'
+        'createdById',
+        'is_private'
     ];
 
     public function createdBy()
