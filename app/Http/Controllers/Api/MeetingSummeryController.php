@@ -26,10 +26,10 @@ use Illuminate\Support\Facades\Http;
      *
      * @queryParam page integer page number.
      */
-    public function indexMeetingSummery(Request $request){ 
+    public function indexMeetingSummery(Request $request){
 
-        $currentUser = auth()->user();  
-        $meetings = MeetingSummery::where(function($query) use ($currentUser) { 
+        $currentUser = auth()->user();
+        $meetings = MeetingSummery::where(function($query) use ($currentUser) {
                 $query->where('is_private', false)
                     ->orWhere(function($query) use ($currentUser) {
                         $query->where('is_private', true)
@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Http;
             })
             ->with('createdBy')->latest()
             ->paginate(10);
-            
+
         return response()->json([
             'data' => $meetings->items(),
             'total' => $meetings->total(),
@@ -96,6 +96,7 @@ use Illuminate\Support\Facades\Http;
         $meetingSummeryObj->meetingName = $request->meetingName;
         $meetingSummeryObj->meetingType = $request->meetingType;
         $meetingSummeryObj->tldvLink = $request->tldvLink;
+        $meetingSummeryObj->is_private = $request->is_private ?? null;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
         $meetingSummeryObj->meetingSummeryText = $summery;
         $meetingSummeryObj->transcriptText = isset($transcript) ? $transcript : $request->transcriptText;
@@ -152,6 +153,7 @@ use Illuminate\Support\Facades\Http;
         $meetingSummeryObj->meetingType = $request->meetingType;
         $meetingSummeryObj->transcriptText = $request->transcriptText;
         $meetingSummeryObj->tldvLink = $request->tldvLink;
+        $meetingSummeryObj->is_private = $request->is_private ?? null;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
 
         $meetingSummeryObj->save();
