@@ -24,6 +24,7 @@ class LeadController extends Controller
      * @queryParam company string Filter by company.
      * @queryParam phone string Filter by phone.
      * @queryParam email string Filter by email.
+     * @queryParam projectTypeId string Filter by projectTypeId.
      * @queryParam per_page integer Number of items per page.
      * @queryParam page integer page number.
      *
@@ -51,6 +52,9 @@ class LeadController extends Controller
 
             if ($request->filled('email')) {
                 $query->where('email', 'like', '%' . $request->input('email') . '%');
+            }
+            if ($request->filled('projectTypeId')) {
+                $query->where('projectTypeId', $request->input('projectTypeId'));
             }
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
