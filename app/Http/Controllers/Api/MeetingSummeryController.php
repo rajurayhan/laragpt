@@ -24,20 +24,38 @@ use Illuminate\Support\Facades\Http;
      *
      * @group Meeting Summery
      *
+     * @queryParam meetingName string Filter by meetingName.
+     * @queryParam meetingType string Filter by meetingType.
+     * @queryParam createdById string Filter by createdById.
      * @queryParam page integer page number.
      */
     public function indexMeetingSummery(Request $request){
 
         $currentUser = auth()->user();
-        $meetings = MeetingSummery::where(function($query) use ($currentUser) {
+        $query = MeetingSummery::query();
+        $query->where(function($query) use ($currentUser) {
                 $query->where('is_private', false)
                     ->orWhere(function($query) use ($currentUser) {
                         $query->where('is_private', true)
                                 ->where('createdById', $currentUser->id);
                     });
-            })
-            ->with('createdBy')->latest()
-            ->paginate(10);
+            });
+            // ->with('createdBy')->latest()
+            // ->paginate(10);
+        
+        if($request->filled('meetingName')){
+            $query->where('meetingName', 'like', '%' . $request->input('meetingName') . '%');
+        }
+
+        if($request->filled('meetingType')){
+            $query->where('meetingType', $request->input('meetingType'));
+        }
+
+        if($request->filled('createdById')){
+            $query->where('createdById', $request->input('createdById'));
+        }
+
+        $meetings = $query->with('createdBy')->latest()->paginate(10);
 
         return response()->json([
             'data' => $meetings->items(),
