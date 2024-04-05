@@ -246,21 +246,33 @@ class ServiceController extends Controller
                             ];
 
                             foreach ($deliverable->serviceDeliverableTasks as $task) {
+                                $taskEmployeeRole = null;
+                                if(isset($task->employeeRole)){
+                                    $taskEmployeeRole = [
+                                        'id' => $task->employeeRole->id,
+                                        'name' => $task->employeeRole->name,
+                                        'average_hourly' => $task->employeeRole->average_hourly,
+                                    ];
+                                }
                                 $taskData = [
                                     'id' => $task->id,
                                     'deliverableId' => $deliverable->id,
                                     'name' => $task->name,
                                     'order' => $task->order,
                                     'description' => $task->description,
-                                    'employeeRole' => $task->employeeRole ? [
-                                        'id' => $task->employeeRole->id,
-                                        'name' => $task->employeeRole->name,
-                                        'average_hourly' => $task->employeeRole->average_hourly,
-                                    ] : null,
+                                    'employeeRole' => $taskEmployeeRole,
                                     'sub_tasks' => [],
                                 ];
 
                                 foreach ($task->subTasks as $subTask) {
+                                    $subTaskEmployeeRole = null;
+                                    if(isset($subTask->employeeRole)){
+                                        $subTaskEmployeeRole = [
+                                            'id' => $subTask->employeeRole->id,
+                                            'name' => $subTask->employeeRole->name,
+                                            'average_hourly' => $subTask->employeeRole->average_hourly,
+                                        ];
+                                    }
                                     $subTaskData = [
                                         'id' => $subTask->id,
                                         'taskId' => $task->id,
@@ -268,11 +280,7 @@ class ServiceController extends Controller
                                         'name' => $subTask->name,
                                         'order' => $subTask->order,
                                         'description' => $subTask->description,
-                                        'employeeRole' => $subTask->employeeRole ? [
-                                            'id' => $task->employeeRole->id,
-                                            'name' => $task->employeeRole->name,
-                                            'average_hourly' => $task->employeeRole->average_hourly,
-                                        ] : null,
+                                        'employeeRole' => $subTaskEmployeeRole,
                                     ];
 
                                     $taskData['sub_tasks'][] = $subTaskData;
@@ -299,6 +307,7 @@ class ServiceController extends Controller
 
             return response()->json($response, 200);
         } catch (\Exception $e) {
+            \Log::info($e);
             return response()->json(['message' => 'Error fetching service', 'error' => $e->getMessage()], 500);
         }
     }
