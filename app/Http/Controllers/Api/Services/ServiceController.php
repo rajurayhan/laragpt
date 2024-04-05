@@ -259,6 +259,7 @@ class ServiceController extends Controller
                                     'deliverableId' => $deliverable->id,
                                     'name' => $task->name,
                                     'order' => $task->order,
+                                    'cost' => $task->cost,
                                     'description' => $task->description,
                                     'employeeRole' => $taskEmployeeRole,
                                     'sub_tasks' => [],
@@ -279,6 +280,7 @@ class ServiceController extends Controller
                                         'deliverableId' => $deliverable->id,
                                         'name' => $subTask->name,
                                         'order' => $subTask->order,
+                                        'cost' => $task->cost,
                                         'description' => $subTask->description,
                                         'employeeRole' => $subTaskEmployeeRole,
                                     ];

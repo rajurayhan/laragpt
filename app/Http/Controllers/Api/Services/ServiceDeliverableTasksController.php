@@ -238,7 +238,7 @@ class ServiceDeliverableTasksController extends Controller
             'name' => 'required|string',
             'order' => 'required|integer',
             'description' => 'string',
-            'cost' => 'numeric',
+            'cost' => 'required|numeric',
             'employeeRoleId' => 'nullable|integer|exists:employee_roles,id',
             'serviceDeliverableId' => 'required_without:parentTaskId|integer|exists:service_deliverables,id',
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
