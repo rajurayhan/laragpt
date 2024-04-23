@@ -245,7 +245,7 @@ use Illuminate\Support\Facades\Http;
 
     private function getTldvTranscript($id){
         $apiUrl = 'https://pasta.tldv.io/v1alpha1/meetings/'.$id.'/transcript';
-        $apiKey = env('TLDV_API_KEY', 'd78e73c0-f2d8-468d-87c2-140518f98846');
+        $apiKey = env('TLDV_API_KEY', '77473b23-47cf-471f-8f4e-adbb7605b0f0');
 
         try {
             $response = Http::withHeaders([
