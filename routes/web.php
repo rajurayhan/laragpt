@@ -101,10 +101,34 @@ Route::get('/order', function () {
 
 // Yelp Lead API Integration Routes
 Route::get('/yelp', function () {
-    return 'Yelp Authorization';
+    // https://biz.yelp.com/oauth2/authorize?client_id=itk2LQ1r9e88jEjKiGae1w&redirect_uri=http://www.example.com/redirect_endpoint&response_type=code&scope=r2r&state=some_unique_string
+    $clientId = 'oK3YK1pZry6tElPSi0gMrw';
+    $redirectURI = env('APP_URL');
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < 15 ; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    $redeirectURL = env('APP_URL').'/yelp-auth-callback';
+
+    $baseUrl = 'https://biz.yelp.com/oauth2/authorize';
+    $queryParams = [
+        'client_id' => $clientId,
+        'redirect_uri' => $redeirectURL,
+        'response_type' => 'code',
+        'scope' => 'leads',
+        'state' => $randomString
+    ];
+
+    $queryString = http_build_query($queryParams);
+    $yelpUrl = $baseUrl . '?' . $queryString;
+    return redirect()->away($yelpUrl);
+    // return 'Yelp Authorization';
 });
 
-Route::get('/yelp-auth-callback', function () {
+Route::get('/yelp-auth-callback', function (Request $request) {
+    \Log::info(['Yelp Authorization' => $request->all()]);
     return 'Yelp Authorization Callback';
 });
 
