@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SoWGeneratorController;
 use App\Models\Services;
 use App\Services\ModelOrderManagerService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -107,7 +108,8 @@ Route::get('/yelp-auth-callback', function () {
     return 'Yelp Authorization Callback';
 });
 
-Route::get('/yelp-leads-webhook', function () {
+Route::get('/yelp-leads-webhook', function (Request $request) {
+    \Log::info(['Yelp Lead' => $request->all()]);
     return response()->json(['verification' => 'success']);
 });
 
