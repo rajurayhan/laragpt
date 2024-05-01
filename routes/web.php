@@ -98,5 +98,17 @@ Route::get('/order', function () {
 
 });
 
+// Yelp Lead API Integration Routes
+Route::get('/yelp', function () {
+    return 'Yelp Authorization';
+});
+
+Route::get('/yelp-auth-callback', function () {
+    return 'Yelp Authorization Callback';
+});
+
+Route::get('/yelp-leads-webhook', function () {
+    return response()->json(['verification' => 'success']);
+});
 
 require __DIR__.'/auth.php';
