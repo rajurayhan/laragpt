@@ -110,7 +110,7 @@ Route::get('/yelp-auth-callback', function () {
 
 Route::get('/yelp-leads-webhook', function (Request $request) {
     \Log::info(['Yelp Lead' => $request->all()]);
-    return response()->json(['verification' => 'success']);
+    return response()->json(['verification' => $request->verification]);
 });
 
 require __DIR__.'/auth.php';
