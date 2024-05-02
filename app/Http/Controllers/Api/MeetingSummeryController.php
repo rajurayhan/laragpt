@@ -55,10 +55,20 @@ use Illuminate\Support\Facades\Http;
             $query->where('createdById', $request->input('createdById'));
         }
 
-        $meetings = $query->with('createdBy')->latest()->paginate(10);
+        $meetings = $query->with('createdBy', 'meetingTypeData')->latest()->paginate(10);
+
+        // $meetingsData = $meetings->items(); 
+
+        $meetingsData = array_map(function ($meeting) { 
+            $meeting->meeting_type_id = $meeting->meetingTypeData ? $meeting->meetingTypeData->id : null;
+            $meeting->meeting_type = $meeting->meetingTypeData ?? null;
+            return $meeting;
+        }, $meetings->items());
+    
+    
 
         return response()->json([
-            'data' => $meetings->items(),
+            'data' => $meetingsData,
             'total' => $meetings->total(),
             'current_page' => $meetings->currentPage(),
         ]);

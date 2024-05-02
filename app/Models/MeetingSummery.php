@@ -26,4 +26,9 @@ class MeetingSummery extends Model
     {
         return $this->belongsTo(User::class, 'createdById', 'id');
     }
+
+    public function meetingTypeData()
+    {
+        return $this->belongsTo(MeetingType::class, 'meetingType', 'id');
+    }
 }
