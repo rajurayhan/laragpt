@@ -11,6 +11,7 @@ use App\Models\ProjectSummary;
 use App\Rules\USPhoneNumber;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
+use App\Services\TldvService;
 use Illuminate\Http\Request;
 
 /**
@@ -44,7 +45,7 @@ use Illuminate\Http\Request;
      *
      * @group SOW Meeting Summery
      *
-     * @bodyParam transcriptId integer The id of the transcript to regenrate.
+     * @bodyParam transcriptId integer The id of the transcript to regenerate.
      * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectName string required The name of the project.
      * @bodyParam projectTypeId integer required The type of the project.
@@ -56,6 +57,9 @@ use Illuminate\Http\Request;
 
     public function store(Request $request){
         set_time_limit(500);
+        $tldv = new TldvService();
+        $transcript = $tldv->getTranscriptFromUrl('https://tldv.io/app/meetings/663e283b70cff500132a9bbd');
+        dd($transcript);
         $prompt = PromptService::findPromptByType($this->promptType);
         if($prompt == null){
             $response = [
