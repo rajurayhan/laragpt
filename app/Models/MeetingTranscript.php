@@ -42,4 +42,8 @@ class MeetingTranscript extends Model
     {
         return $this->belongsTo(ProjectType::class, 'projectTypeId');
     }
+    public function meetingLinks()
+    {
+        return $this->hasMany(MeetingLink::class, 'transcriptId', 'id');
+    }
 }
