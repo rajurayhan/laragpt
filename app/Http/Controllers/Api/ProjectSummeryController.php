@@ -68,7 +68,7 @@ use Illuminate\Http\Request;
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
      * @bodyParam clientWebsite string The website of the client.
-     * @bodyParam meetingLinks array required An array of meeting links. Example: ['https://tldv.io/app/meetings/663e283b70cff500132a9bbd']
+     * @bodyParam meetingLinks string[] required An array of meeting links. Example: ["https://tldv.io/app/meetings/663e283b70cff500132a9bbd"]
      */
 
     public function store(Request $request){
@@ -189,22 +189,22 @@ use Illuminate\Http\Request;
         return response()->json($response, 201);
     }
 
-//    /**
-//     * Update SOW Meeting Summery
-//     *
-//     * @group SOW Meeting Summery
-//     *
-//     * @urlParam id int Id of the transcript.
-//     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
-//     */
+    /**
+     * Update SOW Meeting Summery
+     *
+     * @group SOW Meeting Summery
+     *
+     * @urlParam id int Id of the transcript.
+     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
+     */
 
-    /*public function update($id, Request $request){
+    public function update($id, Request $request){
 
         $validatedData = $request->validate([
             'summaryText' => 'required|string',
         ]);
 
-        $projectSummeryObj = ProjectSummary::with('meetingTranscript')->find($id);
+        $projectSummeryObj = ProjectSummary::with('meetingTranscript','meetingTranscript.meetingLinks')->find($id);
         $projectSummeryObj->summaryText = $request->summaryText;
 
         $projectSummeryObj->save();
@@ -214,7 +214,7 @@ use Illuminate\Http\Request;
         ];
 
         return response()->json($response, 201);
-    }*/
+    }
 
     /**
      * Delete SOW Meeting Summery

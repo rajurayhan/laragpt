@@ -67,7 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/project-summery', [ProjectSummeryController::class, 'index'])->name('project.summery.list');
     Route::post('/project-summery', [ProjectSummeryController::class, 'store'])->name('project.summery.create');
     Route::get('/project-summery/{id}', [ProjectSummeryController::class, 'show'])->name('project.summery.show');
-    //Route::put('/project-summery/{id}', [ProjectSummeryController::class, 'update'])->name('project.summery.update');
+    Route::put('/project-summery/{id}', [ProjectSummeryController::class, 'update'])->name('project.summery.update');
     Route::delete('/project-summery/{id}', [ProjectSummeryController::class, 'delete'])->name('project.summery.delete');
 
     Route::get('/meeting-summery', [MeetingSummeryController::class, 'indexMeetingSummery'])->name('meeting.summery.list');
