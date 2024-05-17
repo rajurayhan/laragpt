@@ -10,11 +10,11 @@ class CreateMeetingLinksTable extends Migration
     {
         Schema::create('meeting_links', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transcript_id');
-            $table->string('meeting_link');
-            $table->string('transcriptText');
+            $table->unsignedBigInteger('transcriptId');
+            $table->string('meetingLink');
+            $table->longText('transcriptText');
             $table->integer('serial');
-            $table->foreign('transcript_id')->references('id')->on('meeting_transcripts')->onDelete('cascade');
+            $table->foreign('transcriptId')->references('id')->on('meeting_transcripts')->onDelete('cascade');
             $table->timestamps();
         });
     }

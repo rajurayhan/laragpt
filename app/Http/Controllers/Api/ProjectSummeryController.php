@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\ProjectType;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Models\MeetingLink;
 use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
@@ -29,16 +30,29 @@ use Illuminate\Http\Request;
      * @group SOW Meeting Summery
      *
      * @queryParam page integer page number.
+     * @queryParam perPage integer page number.
      */
-    public function index(){
-        $meetings = ProjectSummary::latest()->with('meetingTranscript', 'createdBy')->paginate(10);
-        return response()->json([
-            'data' => $meetings->items(),
-            'total' => $meetings->total(),
-            'current_page' => $meetings->currentPage(),
-        ]);
+     public function index(Request $request)
+     {
+         $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'createdBy');
 
-    }
+         // Paginate the results if a page number is provided
+         if ($request->has('page')) {
+             $meetings = $query->paginate($request->filled('perPage') ? $request->perPage : 10);
+             return response()->json([
+                 'data' => $meetings->items(),
+                 'total' => $meetings->total(),
+                 'current_page' => $meetings->currentPage(),
+                 'per_page' => $meetings->perPage(),
+             ]);
+         }
+
+         // Fetch all data if no page number is provided
+         $meetings = $query->get();
+         return response()->json([
+             'data' => $meetings,
+         ]);
+     }
 
     /**
      * Create SOW Meeting Summery
@@ -47,91 +61,112 @@ use Illuminate\Http\Request;
      *
      * @bodyParam transcriptId integer The id of the transcript to regenerate.
      * @bodyParam transcriptText string required The text of the transcript.
+     * @bodyParam projectTypePrefix string required The name of the project.
      * @bodyParam projectName string required The name of the project.
      * @bodyParam projectTypeId integer required The type of the project.
      * @bodyParam company string required The company name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
      * @bodyParam clientWebsite string The website of the client.
+     * @bodyParam meetingLinks array required An array of meeting links. Example: ['https://tldv.io/app/meetings/663e283b70cff500132a9bbd']
      */
 
     public function store(Request $request){
-        set_time_limit(500);
-        $tldv = new TldvService();
-        $transcript = $tldv->getTranscriptFromUrl('https://tldv.io/app/meetings/663e283b70cff500132a9bbd');
-        dd($transcript);
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        try{
+            set_time_limit(500);
+            $prompt = PromptService::findPromptByType($this->promptType);
+            if($prompt == null){
+                $response = [
+                    'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                    'data' => []
+                ];
+                return response()->json($response, 422);
+            }
+            $validatedData = $request->validate([
+                'transcriptId' => 'nullable|integer',
+                'projectTypePrefix' => 'required|string',
+                'projectName' => 'required|string',
+                'projectType' => 'nullable|integer',
+                'projectTypeId' => 'required|integer|exists:project_types,id',
+                'company' => 'required|string',
+                'clientPhone' => 'nullable|string',
+                // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
+                'clientEmail' => 'nullable|email',
+                'clientWebsite' => 'nullable|string',
+                'meetingLinks' => 'required|array',
+            ]);
+            //$meetingTranscript = MeetingTranscript::findOrFail(20);
+
+
+            $existingMeetingLinks = [];
+            if($request->filled('transcriptId')) {
+                $meetingTranscript = MeetingTranscript::findOrFail($request->transcriptId);
+                $existingMeetingLinks = MeetingLink::where('transcriptId',$meetingTranscript->id)->get()->pluck('id')->toArray();;
+            }else{
+                $meetingTranscript = new MeetingTranscript();
+            }
+            $meetingTranscript->projectName = $request->projectName;
+            $meetingTranscript->projectType = $request->projectTypeId;
+            $meetingTranscript->projectTypeId = $request->projectTypeId;
+            $meetingTranscript->company = $request->company;
+            $meetingTranscript->clientPhone = $request->clientPhone;
+            $meetingTranscript->clientEmail = $request->clientEmail;
+            $meetingTranscript->clientWebsite = $request->clientWebsite;
+            $meetingTranscript->save();
+
+
+            $transcriptText1stValue = null;
+            foreach($validatedData['meetingLinks'] as $index => $link){
+                $tldv = new TldvService();
+                $transcriptText = $tldv->getTranscriptFromUrl($link);
+                if($index === 0){
+                    $transcriptText1stValue = $transcriptText;
+                }
+                $meetingLink = new MeetingLink();
+                $meetingLink->transcriptId = $meetingTranscript->id;
+                $meetingLink->meetingLink = $link;
+                $meetingLink->transcriptText = $transcriptText;
+                $meetingLink->serial = $index + 1;
+                $meetingLink->save();
+            }
+            if(is_array($existingMeetingLinks) && count($existingMeetingLinks) > 0){
+                MeetingLink::whereIn('id',$existingMeetingLinks)->delete();
+            }
+
+            $meetingTranscript = $meetingTranscript->load(['meetingLinks']);
+
+
+
+            // Generate Summery
+            $summery = OpenAIGeneratorService::generateSummery($transcriptText1stValue, $prompt->prompt);
+
+            // $projectSummeryObj = new ProjectSummary();
+            // $projectSummeryObj->summaryText = $summery;
+            // $projectSummeryObj->transcriptId = $meetingObj->id;
+
+            // $projectSummeryObj->save();
+
+            $projectSummeryObj = ProjectSummary::updateOrCreate(
+                ['transcriptId' => $meetingTranscript->id],
+                ['summaryText' => $summery]
+            );
+
+            $projectSummeryObj->meetingTranscript = $meetingTranscript;
+
             $response = [
-                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
-                'data' => []
+                'message' => 'Created Successfully',
+                'data' => $projectSummeryObj->load('createdBy')
             ];
-            return response()->json($response, 422);
-        }
-        $validatedData = $request->validate([
-            'transcriptId' => 'nullable|integer',
-            'transcriptText' => 'required|string',
-            'projectName' => 'required|string',
-            'projectType' => 'nullable|integer',
-            'projectTypeId' => 'required|integer|exists:project_types,id',
-            'company' => 'required|string',
-            'clientPhone' => 'nullable|string',
-            // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
-            'clientEmail' => 'nullable|email',
-            'clientWebsite' => 'nullable|string',
-        ]);
 
-        if($request->filled('transcriptId')){
-            $meetingObj = MeetingTranscript::findOrFail($request->transcriptId);
-            $meetingObj->transcriptText = $request->transcriptText;
-            $meetingObj->projectName = $request->projectName;
-            $meetingObj->projectType = $request->projectTypeId;
-            $meetingObj->projectTypeId = $request->projectTypeId;
-            $meetingObj->company = $request->company;
-            $meetingObj->clientPhone = $request->clientPhone;
-            $meetingObj->clientEmail = $request->clientEmail;
-            $meetingObj->clientWebsite = $request->clientWebsite;
-            $meetingObj->save();
-        }
-        else{
-            // $meetingObj = MeetingTranscript::create($validatedData);
+            return response()->json($response, 201);
 
-            $meetingObj = new MeetingTranscript();
-            $meetingObj->transcriptText = $request->transcriptText;
-            $meetingObj->projectName = $request->projectName;
-            $meetingObj->projectType = $request->projectTypeId;
-            $meetingObj->projectTypeId = $request->projectTypeId;
-            $meetingObj->company = $request->company;
-            $meetingObj->clientPhone = $request->clientPhone;
-            $meetingObj->clientEmail = $request->clientEmail;
-            $meetingObj->clientWebsite = $request->clientWebsite;
-            $meetingObj->save();
+        }catch (\Exception $exception){
+            return response()->json([
+                'message'=> 'Failed to save transcript. Please try again.',
+                'error' => $exception->getMessage()
+            ], 500);
         }
 
-
-
-        // Generate Summery
-        $summery = OpenAIGeneratorService::generateSummery($request->transcriptText, $prompt->prompt);
-
-        // $projectSummeryObj = new ProjectSummary();
-        // $projectSummeryObj->summaryText = $summery;
-        // $projectSummeryObj->transcriptId = $meetingObj->id;
-
-        // $projectSummeryObj->save();
-
-        $projectSummeryObj = ProjectSummary::updateOrCreate(
-            ['transcriptId' => $meetingObj->id],
-            ['summaryText' => $summery]
-        );
-
-        $projectSummeryObj->meetingTranscript = $meetingObj;
-
-        $response = [
-            'message' => 'Created Successfully',
-            'data' => $projectSummeryObj->load('createdBy')
-        ];
-
-        return response()->json($response, 201);
     }
 
 
@@ -143,7 +178,9 @@ use Illuminate\Http\Request;
      * @urlParam id int Id of the transcript.
      */
     public function show($id){
-        $projectSummeryObj = ProjectSummary::with(['meetingTranscript.problemsAndGoals.projectOverview', 'meetingTranscript.problemsAndGoals.scopeOfWork.deliverables'])->find($id);
+        $projectSummeryObj = ProjectSummary::with(
+            ['meetingTranscript','meetingTranscript.meetingLinks','meetingTranscript.problemsAndGoals.projectOverview', 'meetingTranscript.problemsAndGoals.scopeOfWork.deliverables']
+        )->findOrFail($id);
         $response = [
             'message' => 'Data Showed Successfully',
             'data' => $projectSummeryObj
@@ -152,16 +189,16 @@ use Illuminate\Http\Request;
         return response()->json($response, 201);
     }
 
-    /**
-     * Update SOW Meeting Summery
-     *
-     * @group SOW Meeting Summery
-     *
-     * @urlParam id int Id of the transcript.
-     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
-     */
+//    /**
+//     * Update SOW Meeting Summery
+//     *
+//     * @group SOW Meeting Summery
+//     *
+//     * @urlParam id int Id of the transcript.
+//     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
+//     */
 
-    public function update($id, Request $request){
+    /*public function update($id, Request $request){
 
         $validatedData = $request->validate([
             'summaryText' => 'required|string',
@@ -177,7 +214,7 @@ use Illuminate\Http\Request;
         ];
 
         return response()->json($response, 201);
-    }
+    }*/
 
     /**
      * Delete SOW Meeting Summery
@@ -186,7 +223,7 @@ use Illuminate\Http\Request;
      * @urlParam id int Id of the transcript.
      */
     public function delete($id){
-        $projectSummeryObj = ProjectSummary::find($id);
+        $projectSummeryObj = ProjectSummary::findOrFail($id);
         if($projectSummeryObj->meetingTranscript->problemsAndGoals){
             $projectSummeryObj->meetingTranscript->problemsAndGoals->delete();
             if($projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork){
@@ -200,7 +237,10 @@ use Illuminate\Http\Request;
             }
         }
         $projectSummeryObj->delete();
-        $projectSummeryObj->meetingTranscript->delete();
+        if($projectSummeryObj->meetingTranscript){
+            MeetingLink::where('transcriptId',$projectSummeryObj->meetingTranscript->id)->delete();
+            $projectSummeryObj->meetingTranscript->delete();
+        }
         $response = [
             'message' => 'Deleted Successfully',
             'data' => []

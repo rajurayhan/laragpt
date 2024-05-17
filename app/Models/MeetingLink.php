@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class MeetingLink extends Model
 {
     use HasFactory;
-    use CreatedByTrait;
     protected $table = 'meeting_links';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'transcript_id',
-        'meeting_link',
+        'transcriptId',
+        'meetingLink',
         'transcriptText',
         'serial',
     ];

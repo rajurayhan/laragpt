@@ -50,7 +50,6 @@ class TldvService{
                 }
                 return $transcript;
             } else {
-                dd($response);
                 $errorMessage = $response->status() . ' ' . $response->reason();
                 return null;
             }
