@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\ProjectType;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
 use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
@@ -14,6 +15,8 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * @authenticated
@@ -97,10 +100,11 @@ use Illuminate\Http\Request;
             ]);
             //$meetingTranscript = MeetingTranscript::findOrFail(20);
 
+            DB::beginTransaction();
 
             $existingMeetingLinks = [];
             if($request->filled('transcriptId')) {
-                $meetingTranscript = MeetingTranscript::findOrFail($request->transcriptId);
+                $meetingTranscript = MeetingTranscript::find($request->transcriptId);
                 $existingMeetingLinks = MeetingLink::where('transcriptId',$meetingTranscript->id)->get()->pluck('id')->toArray();;
             }else{
                 $meetingTranscript = new MeetingTranscript();
@@ -152,7 +156,7 @@ use Illuminate\Http\Request;
             );
 
             $projectSummeryObj->meetingTranscript = $meetingTranscript;
-
+            DB::commit();
             $response = [
                 'message' => 'Created Successfully',
                 'data' => $projectSummeryObj->load('createdBy')
@@ -161,10 +165,8 @@ use Illuminate\Http\Request;
             return response()->json($response, 201);
 
         }catch (\Exception $exception){
-            return response()->json([
-                'message'=> 'Failed to save transcript. Please try again.',
-                'error' => $exception->getMessage()
-            ], 500);
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
         }
 
     }
