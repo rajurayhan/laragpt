@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Libraries\WebApiResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -50,12 +51,10 @@ class TldvService{
                 }
                 return $transcript;
             } else {
-                $errorMessage = $response->status() . ' ' . $response->reason();
-                return null;
+                throw new \Exception($response->reason());
             }
         } catch (\Exception $exception) {
-            dd($exception);
-            return null;
+            throw new \Exception('Tldv Transcript fetching failed: '.$exception->getMessage());
         }
     }
 
