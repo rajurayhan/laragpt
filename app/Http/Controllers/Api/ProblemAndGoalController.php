@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-/** 
- * @authenticated 
+/**
+ * @authenticated
  */
 
  class ProblemAndGoalController extends Controller
@@ -43,7 +44,9 @@ use Illuminate\Http\Request;
         ]);
 
         $transcriptObj      = MeetingTranscript::findOrFail($request->transcriptId);
-        $problemsAndGoals   = OpenAIGeneratorService::generateProblemsAndGoals($transcriptObj->transcriptText, $prompt->prompt);
+        $meetingLink = MeetingLink::where('transcriptId',$transcriptObj->id)->where('serial',1)->firstOrFail();
+
+        $problemsAndGoals   = OpenAIGeneratorService::generateProblemsAndGoals($meetingLink->transcriptText, $prompt->prompt);
 
         $problemsAndGoalsObj = ProblemsAndGoals::updateOrCreate(
             ['transcriptId' => $request->transcriptId],

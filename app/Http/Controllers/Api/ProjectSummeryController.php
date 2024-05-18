@@ -63,7 +63,6 @@ use Illuminate\Support\Facades\DB;
      * @group SOW Meeting Summery
      *
      * @bodyParam transcriptId integer The id of the transcript to regenerate.
-     * @bodyParam transcriptText string required The text of the transcript.
      * @bodyParam projectTypePrefix string required The name of the project.
      * @bodyParam projectName string required The name of the project.
      * @bodyParam projectTypeId integer required The type of the project.
