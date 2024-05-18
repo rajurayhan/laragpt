@@ -25,15 +25,25 @@ class ProjectTypeController extends Controller
      * @queryParam page integer page number.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $projectType = ProjectType::latest()->paginate(10);
-            return response()->json([
-                'data' => $projectType->items(),
-                'total' => $projectType->total(),
-                'current_page' => $projectType->currentPage(),
-            ]);
+            $query = ProjectType::latest();
+
+            // Check if page parameter is provided
+            if ($request->has('page')) {
+                $projectType = $query->paginate(10);
+                return response()->json([
+                    'data' => $projectType->items(),
+                    'total' => $projectType->total(),
+                    'current_page' => $projectType->currentPage(),
+                ]);
+            } else {
+                $projectType = $query->get();
+                return response()->json([
+                    'data' => $projectType,
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching projectType', 'error' => $e->getMessage()], 500);
         }
