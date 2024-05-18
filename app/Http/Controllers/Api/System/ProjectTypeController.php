@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\System;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 /**
@@ -66,6 +67,7 @@ class ProjectTypeController extends Controller
      * Create a new ProjectType.
      *
      * @bodyParam name string required The name of the ProjectType. Example: Header
+     * @bodyParam projectTypePrefix string required The name of the project.
      *
      *
      */
@@ -73,7 +75,14 @@ class ProjectTypeController extends Controller
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('project_types')->where(function ($query) use ($request) {
+                    return $query->where('projectTypePrefix', $request->projectTypePrefix);
+                }),
+            ],
+            'projectTypePrefix' => 'required|string',
         ]);
 
         $projectType = ProjectType::create($validatedData);
@@ -94,19 +103,29 @@ class ProjectTypeController extends Controller
      * @urlParam id required The ID of the projectType. Example: 1
      *
      * @bodyParam name string required The name of the projectType. Example: Updated Header
+     * @bodyParam projectTypePrefix string required The name of the project.
      *
      *
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-        ]);
         $projectType = ProjectType::findOrfail($id);
+        $validatedData = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('project_types')->where(function ($query) use ($request, $projectType) {
+                    return $query->where('projectTypePrefix', $request->projectTypePrefix)
+                        ->where('id', '!=', $projectType->id);
+                }),
+            ],
+            'projectTypePrefix' => 'required|string',
+        ]);
+
         $projectType->update($validatedData);
 
         $response = [
-            'message' => 'Created Successfully',
+            'message' => 'Update Successfully',
             'data' => $projectType
         ];
 

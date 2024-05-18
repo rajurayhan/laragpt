@@ -63,7 +63,6 @@ use Illuminate\Support\Facades\DB;
      * @group SOW Meeting Summery
      *
      * @bodyParam transcriptId integer The id of the transcript to regenerate.
-     * @bodyParam projectTypePrefix string required The name of the project.
      * @bodyParam projectName string required The name of the project.
      * @bodyParam projectTypeId integer required The type of the project.
      * @bodyParam company string required The company name of the project.
@@ -86,7 +85,6 @@ use Illuminate\Support\Facades\DB;
             }
             $validatedData = $request->validate([
                 'transcriptId' => 'nullable|integer',
-                'projectTypePrefix' => 'required|string',
                 'projectName' => 'required|string',
                 'projectType' => 'nullable|integer',
                 'projectTypeId' => 'required|integer|exists:project_types,id',
