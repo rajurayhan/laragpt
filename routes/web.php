@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SoWGeneratorController;
+use App\Http\Controllers\YelpFusionApiController;
 use App\Models\Services;
 use App\Services\ModelOrderManagerService;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -132,13 +134,32 @@ Route::get('/yelp-auth-callback', function (Request $request) {
     return 'Yelp Authorization Callback';
 });
 
-Route::get('/yelp-leads-webhook', function (Request $request) {
-    \Log::info(['Yelp Lead' => $request->all()]);
-    return response()->json(['verification' => $request->verification]);
-});
-Route::get('/webhooks', function (Request $request) {
-    \Log::info(['Yelp Lead' => $request->all()]);
-    return response()->json(['verification' => $request->verification]);
-});
+Route::match(['get', 'post'], '/yelp-leads-webhook', [YelpFusionApiController::class, 'receiveYelpWebhook']);
+// Route::get('/yelp-leads-webhook', function (Request $request) {
+//     \Log::info(['Yelp Lead' => $request->all()]);
+//     return response()->json(['verification' => $request->verification]);
+// });
+Route::match(['get', 'post'], '/webhooks', [YelpFusionApiController::class, 'receiveYelpWebhook']);
+// Route::get('/webhooks', function (Request $request) {
+//     \Log::info(['Yelp Lead' => $request->all()]);
+//     return response()->json(['verification' => $request->verification]);
+// });
 
+Route::get('/yelp-awesome', function (Request $request) {
+    try {
+        $businessID = 'SNa1ugk6DNIuvIPu8-AiGA';
+        $appKey = 'WkrBjdVzQwvr1dQdXkL1PWw7yvdD5MQ1_rOFdoyBuv3DsnmUprvCi-6kAjovufELQFHDwh9cZt4GVCCmsbXwfz2nwdTg_0Td02FIv009y8NMCE6wKwoeD-QwOfdHZnYx';
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $appKey,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->post('https://api.yelp.com/v3/businesses/subscriptions', [
+            'business_ids' => [$businessID],
+            'subscription_types' => ['WEBHOOK'],
+        ]);
+        return response()->json($response->json());
+    } catch (RequestException $e) {
+        // Handle Exception
+    }
+});
 require __DIR__.'/auth.php';
