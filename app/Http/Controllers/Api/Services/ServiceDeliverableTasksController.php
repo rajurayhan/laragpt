@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
+use App\Models\ServiceDeliverables;
 use App\Models\ServiceDeliverableTasks;
 use App\Services\ClickUpService;
 use App\Services\ModelOrderManagerService;
@@ -185,6 +186,8 @@ class ServiceDeliverableTasksController extends Controller
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
 
+        $serviceDeliverable = ServiceDeliverables::findOrFail($request->input('serviceDeliverableId'));
+
         $tasks = [];
 
         foreach ($validatedData['tasks'] as $data) {
@@ -196,6 +199,10 @@ class ServiceDeliverableTasksController extends Controller
                 'employeeRoleId' => $data['employeeRoleId'] ?? null,
                 'serviceDeliverableId' => $request->input('serviceDeliverableId'),
                 'parentTaskId' => $request->input('parentTaskId') ?? null,
+                'serviceId'=> $serviceDeliverable->serviceId,
+                'serviceGroupId'=> $serviceDeliverable->serviceGroupId,
+                'projectTypeId'=> $serviceDeliverable->projectTypeId,
+                'serviceScopeId'=> $serviceDeliverable->serviceScopeId,
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
@@ -244,14 +251,39 @@ class ServiceDeliverableTasksController extends Controller
             'parentTaskId' => 'nullable|integer|exists:service_deliverable_tasks,id',
         ]);
         $serviceDeliverableTask = ServiceDeliverableTasks::findOrFail($id);
+        $serviceDeliverable = ServiceDeliverables::findOrFail($request->input('serviceDeliverableId'));
+
 
         $orderManager = new ModelOrderManagerService(ServiceDeliverableTasks::class);
         // $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);
         if($validatedData['parentTaskId'] == null){
-                $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceDeliverableId', $validatedData['serviceDeliverableId']);
+                $serviceDeliverableTask = $orderManager->addOrUpdateItem(
+                    array_merge(
+                        $validatedData,
+                        [
+                            'serviceId'=> $serviceDeliverable->serviceId,
+                            'serviceGroupId'=> $serviceDeliverable->serviceGroupId,
+                            'projectTypeId'=> $serviceDeliverable->projectTypeId,
+                            'serviceScopeId'=> $serviceDeliverable->serviceScopeId,
+                        ]
+                    ),
+                    $id,
+                    'serviceDeliverableId',
+                    $validatedData['serviceDeliverableId']
+                );
             }
             else{
-                $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id, 'parentTaskId', $validatedData['parentTaskId']);
+                $serviceDeliverableTask = $orderManager->addOrUpdateItem(
+                    array_merge(
+                        $validatedData,
+                        [
+                            'serviceId'=> $serviceDeliverable->serviceId,
+                            'serviceGroupId'=> $serviceDeliverable->serviceGroupId,
+                            'projectTypeId'=> $serviceDeliverable->projectTypeId,
+                            'serviceScopeId'=> $serviceDeliverable->serviceScopeId,
+                        ]
+                    )
+                    , $id, 'parentTaskId', $validatedData['parentTaskId']);
             }
         // $serviceDeliverableTask = $orderManager->addOrUpdateItem($validatedData, $id);
 

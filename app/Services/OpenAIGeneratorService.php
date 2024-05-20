@@ -93,7 +93,7 @@
                     ['role' => 'system', 'content' => $promptText],
                     // ['role' => 'system', 'content' => "I need your help in creating a very detailed bullet list for a scope of work based on the following Problems & Goals bullet list I created before. I need your help in making sure the new scope of work list you will be creating is very detailed and expanded upon as much as you can so we make sure nothing is missed for the project scope. I will end up using what you come up with in a proposal for a potential client who reached out to our company, asking us for help in the form of the services we offer. Be sure to add in quality control and testing items if not already mentioned in the list that I am providing you with. Please feel free to add the additional scope of work points that you think are missing and need to be added based on the main service the client is asking for our help with."],
 
-                    ['role' => 'system', 'content' => 'I am sending you markdown and you will always return output in markdown format with proper line braeks.'],
+                    ['role' => 'system', 'content' => 'I am sending you markdown and you will always return output in a list with array of json string. structure: [{"title":"scope of work title","details":"Scope of work details"}] follow the exact pattern without new line and tab, etc. follow php array pattern'],
                     ['role' => 'user', 'content' => $problemsAndGoals],
                 ],
                 'max_tokens' => 4096,

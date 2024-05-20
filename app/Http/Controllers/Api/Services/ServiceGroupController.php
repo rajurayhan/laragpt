@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceGroups;
+use App\Models\Services;
 use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
@@ -90,6 +91,8 @@ class ServiceGroupController extends Controller
             'serviceId' => 'required|integer|exists:services,id',
         ]);
 
+        $findService = Services::findOrFail($validatedData['serviceId']);
+
         $serviceGroups = [];
 
         foreach ($validatedData['groups'] as $group) {
@@ -97,6 +100,7 @@ class ServiceGroupController extends Controller
                 'name' => $group['name'],
                 'order' => $group['order'],
                 'serviceId' => $validatedData['serviceId'],
+                'projectTypeId'=> $findService->projectTypeId,
             ];
 
             // return $data;
@@ -134,8 +138,9 @@ class ServiceGroupController extends Controller
             'serviceId' => 'required|integer|exists:services,id',
         ]);
 
+        $findService = Services::findOrFail($validatedData['serviceId']);
         $orderManager = new ModelOrderManagerService(ServiceGroups::class);
-        $serviceGroup = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceId', $validatedData['serviceId']);
+        $serviceGroup = $orderManager->addOrUpdateItem(array_merge($validatedData, ['projectTypeId'=> $findService->projectTypeId,]), $id, 'serviceId', $validatedData['serviceId']);
         // $serviceGroup = ServiceGroups::findOrFail($id);
         // $serviceGroup->update($validatedData);
 

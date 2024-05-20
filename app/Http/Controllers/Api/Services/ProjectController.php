@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateProjectRequest;
 
 /**
  * @group Projects
+ * @authenticated
  *
  * APIs for managing projects.
  */
