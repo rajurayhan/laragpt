@@ -103,36 +103,16 @@ Route::get('/order', function () {
 
 // Yelp Lead API Integration Routes
 Route::get('/yelp', function () {
-    // https://biz.yelp.com/oauth2/authorize?client_id=itk2LQ1r9e88jEjKiGae1w&redirect_uri=http://www.example.com/redirect_endpoint&response_type=code&scope=r2r&state=some_unique_string
-    $clientId = 'oK3YK1pZry6tElPSi0gMrw';
-    $redirectURI = env('APP_URL');
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < 15 ; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    $redeirectURL = env('APP_URL').'/yelp-auth-callback';
-
-    $baseUrl = 'https://biz.yelp.com/oauth2/authorize';
-    $queryParams = [
-        'client_id' => $clientId,
-        'redirect_uri' => $redeirectURL,
-        'response_type' => 'code',
-        'scope' => 'leads',
-        'state' => $randomString
-    ];
-
-    $queryString = http_build_query($queryParams);
-    $yelpUrl = $baseUrl . '?' . $queryString;
-    return redirect()->away($yelpUrl);
-    // return 'Yelp Authorization';
+    return 'Yelp Authorization';
 });
 
-Route::get('/yelp-auth-callback', function (Request $request) {
-    \Log::info(['Yelp Authorization' => $request->all()]);
-    return 'Yelp Authorization Callback';
-});
+Route::get('/yelp-oauth', [YelpFusionApiController::class, 'yelpInitOAuth'])->name('yelp.oauth.init');
+Route::get('/yelp-oauth-callback', [YelpFusionApiController::class, 'yelpInitOAuthCallback'])->name('yelp.oauth.callback');
+
+// Route::get('/yelp-auth-callback', function (Request $request) {
+//     \Log::info(['Yelp Authorization' => $request->all()]);
+//     return 'Yelp Authorization Callback';
+// });
 
 Route::match(['get', 'post'], '/yelp-leads-webhook', [YelpFusionApiController::class, 'receiveYelpWebhook']);
 // Route::get('/yelp-leads-webhook', function (Request $request) {
@@ -145,10 +125,10 @@ Route::match(['get', 'post'], '/webhooks', [YelpFusionApiController::class, 'rec
 //     return response()->json(['verification' => $request->verification]);
 // });
 
-Route::get('/yelp-awesome', function (Request $request) {
+Route::get('/yelp-business-subscribe', function (Request $request) {
     try {
-        $businessID = '****';
-        $appKey = '****';
+        $businessID = 'SNa1ugk6DNIuvIPu8-AiGA';
+        $appKey = env('YELP_APP_KEY');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $appKey,
             'Accept' => 'application/json',
