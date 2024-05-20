@@ -147,8 +147,8 @@ Route::match(['get', 'post'], '/webhooks', [YelpFusionApiController::class, 'rec
 
 Route::get('/yelp-awesome', function (Request $request) {
     try {
-        $businessID = 'SNa1ugk6DNIuvIPu8-AiGA';
-        $appKey = 'WkrBjdVzQwvr1dQdXkL1PWw7yvdD5MQ1_rOFdoyBuv3DsnmUprvCi-6kAjovufELQFHDwh9cZt4GVCCmsbXwfz2nwdTg_0Td02FIv009y8NMCE6wKwoeD-QwOfdHZnYx';
+        $businessID = '****';
+        $appKey = '****';
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $appKey,
             'Accept' => 'application/json',
