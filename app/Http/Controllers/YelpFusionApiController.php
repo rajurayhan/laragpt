@@ -35,7 +35,7 @@ class YelpFusionApiController extends Controller
         for ($i = 0; $i < 15 ; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        $redeirectURL = route('yelp.oauth.callback');
+        $redeirectURL = env('YELP_OAUTH_CALLBACK_URI');
 
         $baseUrl = 'https://biz.yelp.com/oauth2/authorize';
         $queryParams = [
@@ -59,7 +59,7 @@ class YelpFusionApiController extends Controller
                 'client_secret' => env('YELP_OAUTH_CLIENT_SECRET'),
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => route('yelp.oauth.callback')
+                'redirect_uri' => env('YELP_OAUTH_CALLBACK_URI')
             ]);
 
             if ($response->successful()) {
@@ -90,6 +90,13 @@ class YelpFusionApiController extends Controller
                 'status' => $response->status()
             ], $response->status());
         }
+    }
+
+    public function checkTokenExpiry(){
+
+    }
+    public function checkRefreshTokenExpiry(){
+
     }
 
     public function getAccessTokenFromRefreshToken(){
