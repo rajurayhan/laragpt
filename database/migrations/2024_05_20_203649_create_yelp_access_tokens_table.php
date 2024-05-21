@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('yelp_access_tokens', function (Blueprint $table) {
             $table->id();
+            $table->string('access_token');
+            $table->integer('expires_in');
+            $table->dateTimeTz('expires_on');
+            $table->string('token_type')->default('Bearer');
+            $table->string('refresh_token');
+            $table->integer('refresh_token_expires_in');
+            $table->dateTimeTz('refresh_token_expires_on');
+            $table->string('scope');
             $table->timestamps();
         });
     }
