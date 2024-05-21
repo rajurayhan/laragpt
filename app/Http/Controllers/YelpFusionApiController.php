@@ -18,10 +18,9 @@ class YelpFusionApiController extends Controller
                 if($lead['event_type'] == 'NEW_EVENT'){
                     $leadId = $lead['lead_id'];
 
-                    $leadDetails = $this->markLeadAsRepliedById($leadId);
+                    $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                    $replyMessageResponse = $this->writeLeadEventById($leadId);
                     // $leadDetails = $this->getLeadDetailsById($leadId);
-
-                    return $leadDetails;
                 }
             }
         }
@@ -113,6 +112,28 @@ class YelpFusionApiController extends Controller
 
         return response()->json([
             'error' => 'Failed to mark lead as replied on Yelp',
+            'details' => $response->body(),
+            'status' => $response->status()
+        ], $response->status());
+    }
+
+    public function writeLeadEventById($leadId){
+        $yelpToken = YelpAccessToken::first();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $yelpToken->access_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/events', [
+            'request_type' => 'TEXT',
+            'request_content' => 'Hi, We have received your request and will respond as soon as possible. Thanks!'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'error' => 'Failed to reply on Yelp',
             'details' => $response->body(),
             'status' => $response->status()
         ], $response->status());
