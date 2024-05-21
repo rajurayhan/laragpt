@@ -19,7 +19,7 @@ class YelpFusionApiController extends Controller
                     $leadId = $lead['lead_id'];
 
                     $repliedResponse = $this->markLeadAsRepliedById($leadId);
-                    $replyMessageResponse = $this->writeLeadEventById($leadId);
+                    // $replyMessageResponse = $this->writeLeadEventById($leadId);
                     // $leadDetails = $this->getLeadDetailsById($leadId);
                 }
             }
@@ -110,7 +110,7 @@ class YelpFusionApiController extends Controller
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/mark_as_replied', [
-            'reply_type' => 'PHONE'
+            'reply_type' => 'EMAIL'
         ]);
 
         if ($response->successful()) {
