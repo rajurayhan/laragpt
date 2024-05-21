@@ -12,23 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('service_groups', function (Blueprint $table) {
-            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');;;
+            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');
         });
 
         Schema::table('service_scopes', function (Blueprint $table) {
-            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');;;
-            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');;;
+            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');
+            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');
         });
         Schema::table('service_deliverables', function (Blueprint $table) {
-            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');;;
-            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');;;
-            $table->unsignedBigInteger('serviceGroupId')->nullable()->references('id')->on('service_groups')->onDelete('cascade');;;
+            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');
+            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');
+            $table->unsignedBigInteger('serviceGroupId')->nullable()->references('id')->on('service_groups')->onDelete('cascade');
         });
         Schema::table('service_deliverable_tasks', function (Blueprint $table) {
-            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');;;
-            $table->unsignedBigInteger('serviceGroupId')->nullable()->references('id')->on('service_groups')->onDelete('cascade');;;
-            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');;;
-            $table->unsignedBigInteger('serviceScopeId')->nullable()->references('id')->on('service_scopes')->onDelete('cascade');;
+            $table->unsignedBigInteger('serviceId')->nullable()->references('id')->on('services')->onDelete('cascade');
+            $table->unsignedBigInteger('serviceGroupId')->nullable()->references('id')->on('service_groups')->onDelete('cascade');
+            $table->unsignedBigInteger('projectTypeId')->nullable()->references('id')->on('project_types')->onDelete('cascade');
+            $table->unsignedBigInteger('serviceScopeId')->nullable()->references('id')->on('service_scopes')->onDelete('cascade');
         });
     }
 
