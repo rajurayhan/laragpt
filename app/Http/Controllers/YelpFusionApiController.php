@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\YelpAccessToken;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class YelpFusionApiController extends Controller
 {
     public function receiveYelpWebhook(Request $request){
-        \Log::info(['Yelp Lead' => $request->all()]);
+        if(isset($request->data['updates'])){
+            $leads = $request->data['updates'];
+            foreach ($leads as $key => $lead) {
+                if($lead['event_type'] == 'NEW_EVENT'){
+                    $leadId = $lead['lead_id'];
+
+                    $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                    $replyMessageResponse = $this->writeLeadEventById($leadId);
+                    // $leadDetails = $this->getLeadDetailsById($leadId);
+                }
+            }
+        }
         return response()->json(['verification' => $request->verification]);
     }
 
     public function yelpInitOAuth(Request $request){
         $clientId = env('YELP_OAUTH_CLIENT_ID');
-        // $clientSecret = env('YELP_OAUTH_CLIENT_SECRET');
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -38,13 +52,9 @@ class YelpFusionApiController extends Controller
     }
 
     public function yelpInitOAuthCallback(Request $request){
-        return 'Yelp Authorization Callback';
         $code = $request->code;
         if($code){
-            $response = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ])->post('https://api.yelp.com/v3/businesses/subscriptions', [
+            $response = Http::asForm()->post('https://api.yelp.com/oauth2/token', [
                 'client_id' => env('YELP_OAUTH_CLIENT_ID'),
                 'client_secret' => env('YELP_OAUTH_CLIENT_SECRET'),
                 'grant_type' => 'authorization_code',
@@ -52,7 +62,99 @@ class YelpFusionApiController extends Controller
                 'redirect_uri' => route('yelp.oauth.callback')
             ]);
 
-            return response()->json($response->json());
+            if ($response->successful()) {
+                $data = $response->json();
+                $yelpToken = YelpAccessToken::first();
+
+                if(!$yelpToken){
+                    $yelpToken = new YelpAccessToken();
+                }
+
+                $yelpToken->access_token = $data['access_token'];
+                $yelpToken->expires_in = $data['expires_in'];
+                $yelpToken->expires_on = Carbon::parse($data['expires_on'])->format('Y-m-d H:m:s');
+                $yelpToken->token_type = $data['token_type'];
+                $yelpToken->refresh_token = $data['refresh_token'];
+                $yelpToken->refresh_token_expires_in = $data['refresh_token_expires_in'];
+                $yelpToken->refresh_token_expires_on = Carbon::parse($data['refresh_token_expires_on'])->format('Y-m-d H:m:s');
+                $yelpToken->scope = $data['scope'];
+
+                $yelpToken->save();
+
+                return redirect()->away('https://hive.lhgdev.com/leads?status="success"');
+            }
+
+            return response()->json([
+                'error' => 'Failed to retrieve token from Yelp',
+                'details' => $response->body(),
+                'status' => $response->status()
+            ], $response->status());
         }
+    }
+
+    public function getAccessTokenFromRefreshToken(){
+
+    }
+
+    public function markLeadAsRepliedById($leadId){
+        $yelpToken = YelpAccessToken::first();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $yelpToken->access_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/mark_as_replied', [
+            'reply_type' => 'PHONE'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'error' => 'Failed to mark lead as replied on Yelp',
+            'details' => $response->body(),
+            'status' => $response->status()
+        ], $response->status());
+    }
+
+    public function writeLeadEventById($leadId){
+        $yelpToken = YelpAccessToken::first();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $yelpToken->access_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/events', [
+            'request_type' => 'TEXT',
+            'request_content' => 'Hi, We have received your request and will respond as soon as possible. Thanks!'
+        ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'error' => 'Failed to reply on Yelp',
+            'details' => $response->body(),
+            'status' => $response->status()
+        ], $response->status());
+    }
+
+    public function getLeadDetailsById($leadId){
+        $yelpToken = YelpAccessToken::first();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $yelpToken->access_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->get('https://api.yelp.com/v3/leads/'.$leadId);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'error' => 'Failed to retrieve lead details from Yelp',
+            'details' => $response->body(),
+            'status' => $response->status()
+        ], $response->status());
     }
 }
