@@ -19,7 +19,7 @@ class YelpFusionApiController extends Controller
                 if($lead['event_type'] == 'NEW_EVENT'){
                     $leadId = $lead['lead_id'];
 
-                    $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                    return $repliedResponse = $this->markLeadAsRepliedById($leadId);
                     \Log::info($repliedResponse);
                 }
             }
@@ -121,7 +121,7 @@ class YelpFusionApiController extends Controller
         }
 
         return response()->json([
-            'error' => 'Failed to mark lead as replied on Yelp',
+            'error' => 'Failed to get access token',
             'details' => $response->body(),
             'status' => $response->status()
         ], $response->status());
