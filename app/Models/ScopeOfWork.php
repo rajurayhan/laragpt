@@ -14,7 +14,10 @@ class ScopeOfWork extends Model
 
     protected $fillable = [
         'problemGoalID',
+        'transcriptId',
+        'serviceScopeId',
         'scopeText',
+        'title',
     ];
 
     public function problemsAndGoals()
