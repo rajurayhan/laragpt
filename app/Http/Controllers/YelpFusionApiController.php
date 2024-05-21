@@ -38,6 +38,7 @@ class YelpFusionApiController extends Controller
     }
 
     public function yelpInitOAuthCallback(Request $request){
+        return 'Yelp Authorization Callback';
         $code = $request->code;
         if($code){
             $response = Http::withHeaders([
