@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 class YelpFusionApiController extends Controller
 {
     public function receiveYelpWebhook(Request $request){
+        \Log::info($request->all());
         if(isset($request->data['updates'])){
             $leads = $request->data['updates'];
             foreach ($leads as $key => $lead) {
@@ -19,8 +20,7 @@ class YelpFusionApiController extends Controller
                     $leadId = $lead['lead_id'];
 
                     $repliedResponse = $this->markLeadAsRepliedById($leadId);
-                    // $replyMessageResponse = $this->writeLeadEventById($leadId);
-                    // $leadDetails = $this->getLeadDetailsById($leadId);
+                    \Log::info($repliedResponse);
                 }
             }
         }
