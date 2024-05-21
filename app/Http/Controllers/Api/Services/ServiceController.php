@@ -30,20 +30,25 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Services::query();
+            $query = Services::query()->with('projectType')->latest();
 
             if ($request->filled('name')) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
             }
 
-            $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
-
-            $services = $query->with('projectType')->latest()->paginate($perPage);
-            return response()->json([
-                'data' => $services->items(),
-                'total' => $services->total(),
-                'current_page' => $services->currentPage(),
-            ]);
+            if ($request->has('page')) {
+                $services = $query->paginate($request->get('per_page')??10);
+                return response()->json([
+                    'data' => $services->items(),
+                    'total' => $services->total(),
+                    'current_page' => $services->currentPage(),
+                    'per_page' => $services->perPage(),
+                ]);
+            }else{
+                return response()->json([
+                    'data' => $query->get(),
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching services', 'error' => $e->getMessage()], 500);
         }
