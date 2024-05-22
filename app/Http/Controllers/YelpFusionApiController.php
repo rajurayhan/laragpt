@@ -72,6 +72,7 @@ class YelpFusionApiController extends Controller
             ]);
 
             if ($response->successful()) {
+                Log::info(["Access Token" => $response->json()]);
                 $this->storeTokenData($response->json());
                 return redirect()->away('https://hive.lhgdev.com/leads?status=success');
             }
@@ -132,6 +133,7 @@ class YelpFusionApiController extends Controller
         ]);
 
         if ($response->successful()) {
+            Log::info(["Refresh Token" => $response->json()]);
             $data = $response->json();
 
             $yelpToken->access_token = $data['access_token'];
