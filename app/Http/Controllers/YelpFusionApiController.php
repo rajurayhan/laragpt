@@ -8,12 +8,11 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class YelpFusionApiController extends Controller
 {
     public function receiveYelpWebhook(Request $request){
-        Log::info($request->all());
+        \Log::info($request->all());
         if(isset($request->data['updates'])){
             $leads = $request->data['updates'];
             foreach ($leads as $key => $lead) {
@@ -21,7 +20,7 @@ class YelpFusionApiController extends Controller
                     $leadId = $lead['lead_id'];
 
                     return $repliedResponse = $this->markLeadAsRepliedById($leadId);
-                    Log::info($repliedResponse);
+                    \Log::info($repliedResponse);
                 }
             }
         }
@@ -108,6 +107,8 @@ class YelpFusionApiController extends Controller
             'grant_type' => 'refresh_token',
             'refresh_token' => $yelpToken->refresh_token,
         ]);
+
+        \Log::info(['Refresh Token Response' => $response->body()]);
 
         if ($response->successful()) {
             $data =  $response->json();
