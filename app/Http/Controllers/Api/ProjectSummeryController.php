@@ -33,15 +33,15 @@ use Illuminate\Support\Facades\DB;
      * @group SOW Meeting Summery
      *
      * @queryParam page integer page number.
-     * @queryParam perPage integer page number.
+     * @queryParam per_page integer page number.
      */
      public function index(Request $request)
      {
-         $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'createdBy');
+         $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'meetingTranscript.serviceInfo', 'createdBy');
 
          // Paginate the results if a page number is provided
          if ($request->has('page')) {
-             $meetings = $query->paginate($request->filled('perPage') ? $request->perPage : 10);
+             $meetings = $query->paginate($request->get('per_page')??10);
              return response()->json([
                  'data' => $meetings->items(),
                  'total' => $meetings->total(),
@@ -63,10 +63,8 @@ use Illuminate\Support\Facades\DB;
      * @group SOW Meeting Summery
      *
      * @bodyParam transcriptId integer The id of the transcript to regenerate.
-     * @bodyParam transcriptText string required The text of the transcript.
-     * @bodyParam projectTypePrefix string required The name of the project.
      * @bodyParam projectName string required The name of the project.
-     * @bodyParam projectTypeId integer required The type of the project.
+     * @bodyParam serviceId integer required The type of the project.
      * @bodyParam company string required The company name of the project.
      * @bodyParam clientPhone string The phone number of the client.
      * @bodyParam clientEmail string The email of the client.
@@ -87,10 +85,9 @@ use Illuminate\Support\Facades\DB;
             }
             $validatedData = $request->validate([
                 'transcriptId' => 'nullable|integer',
-                'projectTypePrefix' => 'required|string',
                 'projectName' => 'required|string',
                 'projectType' => 'nullable|integer',
-                'projectTypeId' => 'required|integer|exists:project_types,id',
+                'serviceId' => 'required|integer|exists:project_types,id',
                 'company' => 'required|string',
                 'clientPhone' => 'nullable|string',
                 // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
@@ -110,8 +107,7 @@ use Illuminate\Support\Facades\DB;
                 $meetingTranscript = new MeetingTranscript();
             }
             $meetingTranscript->projectName = $request->projectName;
-            $meetingTranscript->projectType = $request->projectTypeId;
-            $meetingTranscript->projectTypeId = $request->projectTypeId;
+            $meetingTranscript->serviceId = $request->serviceId;
             $meetingTranscript->company = $request->company;
             $meetingTranscript->clientPhone = $request->clientPhone;
             $meetingTranscript->clientEmail = $request->clientEmail;
@@ -137,7 +133,7 @@ use Illuminate\Support\Facades\DB;
                 MeetingLink::whereIn('id',$existingMeetingLinks)->delete();
             }
 
-            $meetingTranscript = $meetingTranscript->load(['meetingLinks']);
+            $meetingTranscript = $meetingTranscript->load(['meetingLinks','serviceInfo']);
 
 
 
@@ -181,7 +177,7 @@ use Illuminate\Support\Facades\DB;
      */
     public function show($id){
         $projectSummeryObj = ProjectSummary::with(
-            ['meetingTranscript','meetingTranscript.meetingLinks','meetingTranscript.problemsAndGoals.projectOverview', 'meetingTranscript.problemsAndGoals.scopeOfWork.deliverables']
+            ['meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.meetingLinks','meetingTranscript.problemsAndGoals.projectOverview', 'meetingTranscript.problemsAndGoals.scopeOfWork.deliverables']
         )->findOrFail($id);
         $response = [
             'message' => 'Data Showed Successfully',
@@ -206,7 +202,7 @@ use Illuminate\Support\Facades\DB;
             'summaryText' => 'required|string',
         ]);
 
-        $projectSummeryObj = ProjectSummary::with('meetingTranscript','meetingTranscript.meetingLinks')->find($id);
+        $projectSummeryObj = ProjectSummary::with('meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.meetingLinks')->find($id);
         $projectSummeryObj->summaryText = $request->summaryText;
 
         $projectSummeryObj->save();

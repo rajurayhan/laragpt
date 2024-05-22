@@ -15,8 +15,7 @@ class MeetingTranscript extends Model
     protected $fillable = [
         'transcriptText',
         'projectName',
-        'projectType',
-        'projectTypeId',
+        'serviceId',
         'company',
         'clientPhone',
         'clientEmail',
@@ -38,9 +37,9 @@ class MeetingTranscript extends Model
         return $this->hasOne(ProjectProposal::class, 'meetingID', 'meetingID');
     }
 
-    public function projectTypedata()
+    public function serviceInfo()
     {
-        return $this->belongsTo(ProjectType::class, 'projectTypeId');
+        return $this->belongsTo(Services::class, 'serviceId');
     }
     public function meetingLinks()
     {

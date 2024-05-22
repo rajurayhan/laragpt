@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServiceDeliverables;
+use App\Models\ServiceScopes;
 use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 
@@ -108,6 +109,8 @@ class ServiceDeliverablesController extends Controller
             'serviceScopeId' => 'required|integer|exists:service_scopes,id',
         ]);
 
+        $serviceScope = ServiceScopes::findOrFail($request->input('serviceScopeId'));
+
         $serviceDeliverables = [];
 
         foreach ($validatedData['deliverables'] as $deliverable) {
@@ -115,6 +118,9 @@ class ServiceDeliverablesController extends Controller
                 'name' => $deliverable['name'],
                 'order' => $deliverable['order'],
                 'serviceScopeId' => $validatedData['serviceScopeId'],
+                'projectTypeId' => $serviceScope->projectTypeId,
+                'serviceId' => $serviceScope->serviceId,
+                'serviceGroupId' => $serviceScope->serviceGroupId,
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
@@ -150,9 +156,22 @@ class ServiceDeliverablesController extends Controller
             'order' => 'required|integer',
             'serviceScopeId' => 'integer|exists:service_scopes,id',
         ]);
+        $serviceScope = ServiceScopes::findOrFail($request->input('serviceScopeId'));
         $serviceDeliverable = ServiceDeliverables::findOrFail($id);
         $orderManager = new ModelOrderManagerService(ServiceDeliverables::class);
-        $serviceDeliverable = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceScopeId', $validatedData['serviceScopeId']);
+        $serviceDeliverable = $orderManager->addOrUpdateItem(
+            array_merge(
+                $validatedData,
+                [
+                    'projectTypeId' => $serviceScope->projectTypeId,
+                    'serviceId' => $serviceScope->serviceId,
+                    'serviceGroupId' => $serviceScope->serviceGroupId,
+                ]
+            ),
+            $id,
+            'serviceScopeId',
+            $validatedData['serviceScopeId']
+        );
 
         $response = [
             'message' => 'Updated Successfully',

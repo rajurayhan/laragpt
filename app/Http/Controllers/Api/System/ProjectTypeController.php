@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\System;
 use App\Http\Controllers\Controller;
 use App\Models\ProjectType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 /**
@@ -24,15 +25,25 @@ class ProjectTypeController extends Controller
      * @queryParam page integer page number.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $projectType = ProjectType::latest()->paginate(10);
-            return response()->json([
-                'data' => $projectType->items(),
-                'total' => $projectType->total(),
-                'current_page' => $projectType->currentPage(),
-            ]);
+            $query = ProjectType::latest();
+
+            // Check if page parameter is provided
+            if ($request->has('page')) {
+                $projectType = $query->paginate(10);
+                return response()->json([
+                    'data' => $projectType->items(),
+                    'total' => $projectType->total(),
+                    'current_page' => $projectType->currentPage(),
+                ]);
+            } else {
+                $projectType = $query->get();
+                return response()->json([
+                    'data' => $projectType,
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching projectType', 'error' => $e->getMessage()], 500);
         }
@@ -66,6 +77,7 @@ class ProjectTypeController extends Controller
      * Create a new ProjectType.
      *
      * @bodyParam name string required The name of the ProjectType. Example: Header
+     * @bodyParam projectTypePrefix string required The name of the project.
      *
      *
      */
@@ -73,7 +85,14 @@ class ProjectTypeController extends Controller
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('project_types')->where(function ($query) use ($request) {
+                    return $query->where('projectTypePrefix', $request->projectTypePrefix);
+                }),
+            ],
+            'projectTypePrefix' => 'required|string',
         ]);
 
         $projectType = ProjectType::create($validatedData);
@@ -94,19 +113,29 @@ class ProjectTypeController extends Controller
      * @urlParam id required The ID of the projectType. Example: 1
      *
      * @bodyParam name string required The name of the projectType. Example: Updated Header
+     * @bodyParam projectTypePrefix string required The name of the project.
      *
      *
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-        ]);
         $projectType = ProjectType::findOrfail($id);
+        $validatedData = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('project_types')->where(function ($query) use ($request, $projectType) {
+                    return $query->where('projectTypePrefix', $request->projectTypePrefix)
+                        ->where('id', '!=', $projectType->id);
+                }),
+            ],
+            'projectTypePrefix' => 'required|string',
+        ]);
+
         $projectType->update($validatedData);
 
         $response = [
-            'message' => 'Created Successfully',
+            'message' => 'Update Successfully',
             'data' => $projectType
         ];
 

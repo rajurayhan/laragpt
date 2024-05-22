@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Services;
 
 use App\Http\Controllers\Controller;
+use App\Models\ServiceGroups;
 use App\Models\ServiceScopes;
 use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
@@ -120,12 +121,16 @@ class ServiceScopeController extends Controller
         ]);
 
         $serviceScopes = [];
+        $serviceGroup = ServiceGroups::findOrFail($request->input('serviceGroupId'));
 
         foreach ($validatedData['scopes'] as $scope) {
             $data = [
                 'name' => $scope['name'],
                 'order' => $scope['order'],
                 'serviceGroupId' => $validatedData['serviceGroupId'],
+                'serviceId' => $serviceGroup->serviceId,
+                'projectTypeId' => $serviceGroup->projectTypeId,
+
             ];
 
             $orderManager = new ModelOrderManagerService(ServiceScopes::class);
@@ -160,8 +165,17 @@ class ServiceScopeController extends Controller
             'order' => 'required|integer',
             'serviceGroupId' => 'required|integer|exists:service_groups,id',
         ]);
+        $serviceGroup = ServiceGroups::findOrFail($request->input('serviceGroupId'));
         $orderManager = new ModelOrderManagerService(ServiceScopes::class);
-        $serviceScope = $orderManager->addOrUpdateItem($validatedData, $id, 'serviceGroupId', $validatedData['serviceGroupId']);
+        $serviceScope = $orderManager->addOrUpdateItem(
+            array_merge($validatedData, [
+                'serviceId' => $serviceGroup->serviceId,
+                'projectTypeId' => $serviceGroup->projectTypeId,
+            ]),
+            $id,
+            'serviceGroupId',
+            $validatedData['serviceGroupId']
+        );
 
         $response = [
             'message' => 'Updated Successfully',
