@@ -88,8 +88,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');
     Route::post('/project-overview/{id}', [ProjectOverviewController::class, 'update'])->name('project.overview.update');
 
+    Route::get('/scope-of-work', [ScopeOfWorkController::class, 'index'])->name('scope.of.work.list');
+    Route::post('/scope-of-work/add-new', [ScopeOfWorkController::class, 'addNew'])->name('scope.of.work.add.new');
     Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
     Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
+    Route::post('/scope-of-work-select', [ScopeOfWorkController::class, 'select'])->name('scope.of.work.select');
 
     Route::apiResource('projects', ProjectController::class);
 

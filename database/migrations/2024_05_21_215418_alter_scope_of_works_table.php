@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('serviceScopeId')->nullable()->references('id')->on('service_scopes')->onDelete('cascade');
             $table->string('title');
             $table->longText('scopeText')->nullable()->change();
+            $table->integer('isChecked')->default(1)->comment('0: Active, 1: Inactive');
+            $table->string('batchId')->nullable();
+            $table->softDeletes();
         });
     }
 
@@ -25,7 +28,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('scope_of_works', function (Blueprint $table) {
-            $table->dropColumn(['transcriptId','title','serviceScopeId']);
+            $table->dropColumn(['transcriptId','title','serviceScopeId','isChecked','batchId']);
+            $table->dropSoftDeletes();
         });
     }
 };
