@@ -19,4 +19,9 @@ class Services extends Model
     {
         return $this->belongsTo(ProjectType::class, 'projectTypeId');
     }
+
+    public function deliveries()
+    {
+        return $this->hasMany(ServiceDeliverables::class, 'serviceId');
+    }
 }

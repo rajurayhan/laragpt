@@ -81,8 +81,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/problems-and-goals/{id}', [ProblemAndGoalController::class, 'update'])->name('problems.goals.update');
 
     // deliverables api
+
+    Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
+    Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
     Route::post('/deliverables', [DeliverablesController::class, 'create'])->name('deliverables.create');
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
+    Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
 
     // project-overview routes
     Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');

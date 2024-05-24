@@ -71,13 +71,11 @@ use Illuminate\Support\Str;
      */
 
     public function addNew(Request $request){
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+            'title' => 'required|string'
+        ]);
        try{
-
-           $validatedData = $request->validate([
-               'problemGoalId' => 'required|int',
-               'title' => 'required|string'
-           ]);
-
            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
 
            $scopeWork = new ScopeOfWork();

@@ -19,6 +19,9 @@ class ScopeOfWork extends Model
         'serviceScopeId',
         'scopeText',
         'title',
+        'transcriptId',
+        'isChecked',
+        'batchId',
     ];
 
     public function problemsAndGoals()
@@ -29,5 +32,9 @@ class ScopeOfWork extends Model
     public function deliverables()
     {
         return $this->hasOne(Deliberable::class, 'scopeOfWorkId', 'id');
+    }
+    public function meetingTranscript()
+    {
+        return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
 }

@@ -12,6 +12,12 @@ class Deliberable extends Model
     protected $fillable = [
         'scopeOfWorkId',
         'deliverablesText',
+        'transcriptId',
+        'serviceScopeId',
+        'problemGoalId',
+        'title',
+        'isChecked',
+        'batchId',
     ];
 
     public function scopeOfWork()
