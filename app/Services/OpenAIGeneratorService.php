@@ -2,6 +2,7 @@
 
     namespace App\Services;
     use OpenAI\Laravel\Facades\OpenAI;
+    use Illuminate\Support\Facades\Log;
 
     class OpenAIGeneratorService
     {
@@ -22,7 +23,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            // \Log::info(['summery' => $summery]);
+            Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -41,7 +42,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            // \Log::info(['summery' => $summery]);
+            Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -61,7 +62,7 @@
             ]);
 
             $problemsAndGoals = $problemsAndGoalsResult['choices'][0]['message']['content'];
-            // \Log::info(['problemsAndGoals' => $problemsAndGoals]);
+            Log::info(['problemsAndGoals' => $problemsAndGoals]);
 
             return $problemsAndGoals;
         }
@@ -81,7 +82,7 @@
             ]);
 
             $projectOverView = $projectOverViewResult['choices'][0]['message']['content'];
-            // \Log::info(['projectOverView' => $projectOverView]);
+            Log::info(['projectOverView' => $projectOverView]);
 
             return $projectOverView;
         }
@@ -101,7 +102,7 @@
             ]);
 
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
-            // \Log::info(['scopeOfWork' => $scopeOfWork]);
+             Log::info(['scopeOfWork' => $scopeOfWork]);
 
             return json_decode(trim(trim(trim(trim($scopeOfWork,'`'),'json'))));
         }
@@ -119,7 +120,7 @@
             //You should prioritize the user list input, where serviceId is available.
 
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
-            // \Log::info(['scopeOfWork' => $scopeOfWork]);
+            Log::info(['scopeOfWork' => $scopeOfWork]);
 
             return json_decode(trim(trim(trim(trim($scopeOfWork,'`'),'json'))));
         }
@@ -140,7 +141,7 @@
             ]);
 
             $deliverables = $deliverablesResult['choices'][0]['message']['content'];
-            // \Log::info(['deliverables' => $deliverables]);
+            Log::info(['deliverables' => $deliverables]);
             return json_decode(trim(trim(trim(trim($deliverables,'`'),'json'))));
         }
 
@@ -159,7 +160,7 @@
                 $messages[] = ['role' => 'system', 'content' => $promptText];
             }
 
-            // \Log::info($messages);
+            Log::info($messages);
             $chatResult = OpenAI::chat()->create([
                 'model' => 'gpt-4-1106-preview',
                 'messages' => $messages,
@@ -168,7 +169,7 @@
             ]);
 
             $chat = $chatResult['choices'][0]['message']['content'];
-            // \Log::info(['deliverables' => $deliverables]);
+            Log::info(['deliverables' => $deliverables]);
             return $chat;
         }
 
