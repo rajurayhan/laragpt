@@ -169,7 +169,6 @@
             ]);
 
             $chat = $chatResult['choices'][0]['message']['content'];
-            Log::info(['deliverables' => $deliverables]);
             return $chat;
         }
 
