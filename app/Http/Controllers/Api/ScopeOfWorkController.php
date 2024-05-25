@@ -100,8 +100,6 @@ use Illuminate\Support\Str;
      */
 
     public function create(Request $request){
-        sleep(120);
-        return response()->json(['status'=>true], 201);
 
         $prompt = PromptService::findPromptByType($this->promptType);
         if($prompt == null){
