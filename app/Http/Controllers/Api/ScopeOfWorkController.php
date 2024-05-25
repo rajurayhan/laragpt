@@ -100,20 +100,21 @@ use Illuminate\Support\Str;
      */
 
     public function create(Request $request){
+        $prompt = PromptService::findPromptByType($this->promptType);
+        if($prompt == null){
+            $response = [
+                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                'data' => []
+            ];
+            return response()->json($response, 422);
+        }
+        $validatedData = $request->validate([
+            'problemGoalID' => 'required|int'
+        ]);
        try{
            set_time_limit(500);
 
-           $prompt = PromptService::findPromptByType($this->promptType);
-           if($prompt == null){
-               $response = [
-                   'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
-                   'data' => []
-               ];
-               return response()->json($response, 422);
-           }
-           $validatedData = $request->validate([
-               'problemGoalID' => 'required|int'
-           ]);
+
            $batchId = (string) Str::uuid();
 
 
@@ -128,40 +129,39 @@ use Illuminate\Support\Str;
 
            $serviceScope = ServiceScopes::where('projectTypeId',$problemGoalsObj->meetingTranscript->serviceInfo->projectTypeId)->get();
 
-           $serviceScopeList = ($serviceScope->map(function($scope){
-               return [
-                   'scopeId' => $scope->id,
-                   'title' => strip_tags($scope->name),
-               ];
-           }))->toJson();
 
 
+            DB::beginTransaction();
 
             $problemGoalsObj = ProblemsAndGoals::findOrFail($request->problemGoalID);
-            Log::debug(['$serviceScopeList',$serviceScopeList]);
+
 
             $aiScopes   = OpenAIGeneratorService::generateScopeOfWork($problemGoalsObj->problemGoalText, $prompt->prompt);
-            Log::debug(['$aiScopes',json_encode($aiScopes)]);
+            Log::debug(['$aiScopes',$aiScopes]);
 
-            $mergedScope   = OpenAIGeneratorService::mergeScopeOfWork($serviceScopeList, json_encode($aiScopes));
-            Log::debug(['$mergedScope',$mergedScope]);
+            if (!is_array($aiScopes) || count($aiScopes) < 1 || !isset($aiScopes[0]->title)) {
+               return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
+            }
 
-           if (!is_array($mergedScope) || count($mergedScope) < 1 || !isset($mergedScope[0]->title)) {
-               return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
-           }
+            if(count($serviceScope)>0){
+                $serviceScopeList = $serviceScope->map(function($scope){
+                    return [
+                        'scopeId' => $scope->id,
+                        'title' => strip_tags($scope->name),
+                    ];
+                })->toJson();
+                Log::debug(['$serviceScopeList',$serviceScopeList]);
+                $mergedScope = OpenAIGeneratorService::mergeScopeOfWork($serviceScopeList, json_encode($aiScopes));
+                Log::debug(['$mergedScope',$mergedScope]);
 
-           DB::beginTransaction();
+                if (!is_array($mergedScope) || count($mergedScope) < 1 || !isset($mergedScope[0]->title)) {
+                    return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
+                }
+                $this->storeScopeOfWork($mergedScope, $batchId, $problemGoalsObj);
+            }else{
+                $this->storeScopeOfWork($aiScopes, $batchId, $problemGoalsObj);
+            }
 
-           foreach($mergedScope as $scope){
-               $scopeWork = new ScopeOfWork();
-               $scopeWork->problemGoalID = $problemGoalsObj->id;
-               $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
-               $scopeWork->serviceScopeId = $scope->scopeId?: null;
-               $scopeWork->scopeText = $scope->details;
-               $scopeWork->title = $scope->title;
-               $scopeWork->batchId = $batchId;
-               $scopeWork->save();
-           }
            DB::commit();
            $scopeOfWorks = ScopeOfWork::where('problemGoalID', $problemGoalsObj->id)->get();
            return response()->json($scopeOfWorks, 201);
@@ -170,6 +170,19 @@ use Illuminate\Support\Str;
            DB::rollBack();
            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
        }
+    }
+
+    private  function storeScopeOfWork($mergedScope, $batchId, $problemGoalsObj){
+        foreach($mergedScope as $scope){
+            $scopeWork = new ScopeOfWork();
+            $scopeWork->problemGoalID = $problemGoalsObj->id;
+            $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
+            $scopeWork->serviceScopeId = !empty($scope->scopeId)? $scope->scopeId : null;
+            $scopeWork->scopeText = $scope->details;
+            $scopeWork->title = $scope->title;
+            $scopeWork->batchId = $batchId;
+            $scopeWork->save();
+        }
     }
 
     /**

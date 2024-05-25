@@ -88,7 +88,6 @@ use Illuminate\Support\Facades\DB;
         ]);
         //$meetingTranscript = MeetingTranscript::findOrFail(20);
 
-
         try{
             set_time_limit(500);
             $prompt = PromptService::findPromptByType($this->promptType);
