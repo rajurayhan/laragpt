@@ -10,6 +10,7 @@ use App\Models\MeetingLink;
 use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
+use App\Models\Services;
 use App\Rules\USPhoneNumber;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
@@ -28,9 +29,9 @@ use Illuminate\Support\Facades\DB;
     private $promptType = PromptType::MEETING_SUMMARY;
 
     /**
-     * Get SOW Meeting Summery List
+     * Get Project Summery List
      *
-     * @group SOW Meeting Summery
+     * @group Project Summery
      *
      * @queryParam page integer page number.
      * @queryParam per_page integer page number.
@@ -58,9 +59,9 @@ use Illuminate\Support\Facades\DB;
      }
 
     /**
-     * Create SOW Meeting Summery
+     * Create Project Summery
      *
-     * @group SOW Meeting Summery
+     * @group Project Summery
      *
      * @bodyParam transcriptId integer The id of the transcript to regenerate.
      * @bodyParam projectName string required The name of the project.
@@ -73,6 +74,21 @@ use Illuminate\Support\Facades\DB;
      */
 
     public function store(Request $request){
+        $validatedData = $request->validate([
+            'transcriptId' => 'nullable|integer',
+            'projectName' => 'required|string',
+            'projectType' => 'nullable|integer',
+            'serviceId' => 'required|integer|exists:services,id',
+            'company' => 'required|string',
+            'clientPhone' => 'nullable|string',
+            // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
+            'clientEmail' => 'nullable|email',
+            'clientWebsite' => 'nullable|string',
+            'meetingLinks' => 'required|array',
+        ]);
+        //$meetingTranscript = MeetingTranscript::findOrFail(20);
+
+
         try{
             set_time_limit(500);
             $prompt = PromptService::findPromptByType($this->promptType);
@@ -83,19 +99,7 @@ use Illuminate\Support\Facades\DB;
                 ];
                 return response()->json($response, 422);
             }
-            $validatedData = $request->validate([
-                'transcriptId' => 'nullable|integer',
-                'projectName' => 'required|string',
-                'projectType' => 'nullable|integer',
-                'serviceId' => 'required|integer|exists:project_types,id',
-                'company' => 'required|string',
-                'clientPhone' => 'nullable|string',
-                // 'clientPhone' => ['nullable', 'string', new USPhoneNumber],
-                'clientEmail' => 'nullable|email',
-                'clientWebsite' => 'nullable|string',
-                'meetingLinks' => 'required|array',
-            ]);
-            //$meetingTranscript = MeetingTranscript::findOrFail(20);
+
 
             DB::beginTransaction();
 
@@ -169,9 +173,9 @@ use Illuminate\Support\Facades\DB;
 
 
     /**
-     * Show SOW Meeting Summery
+     * Show Project Summery
      *
-     * @group SOW Meeting Summery
+     * @group Project Summery
      *
      * @urlParam id int Id of the transcript.
      */
@@ -188,12 +192,12 @@ use Illuminate\Support\Facades\DB;
     }
 
     /**
-     * Update SOW Meeting Summery
+     * Update Project Summery
      *
-     * @group SOW Meeting Summery
+     * @group Project Summery
      *
      * @urlParam id int Id of the transcript.
-     * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
+     * @bodyParam summaryText int required summaryText of the Project Summery.
      */
 
     public function update($id, Request $request){
@@ -215,9 +219,9 @@ use Illuminate\Support\Facades\DB;
     }
 
     /**
-     * Delete SOW Meeting Summery
+     * Delete Project Summery
      *
-     * @group SOW Meeting Summery
+     * @group Project Summery
      * @urlParam id int Id of the transcript.
      */
     public function delete($id){
@@ -300,7 +304,7 @@ use Illuminate\Support\Facades\DB;
     //  * @group Meeting Summery
     //  *
     //  * @urlParam id int Id of the transcript.
-    //  * @bodyParam summaryText int required summaryText of the SOW Meeting Summery.
+    //  * @bodyParam summaryText int required summaryText of the Project Summery.
     //  */
 
     // public function updateMeetingSummery($id, Request $request){
