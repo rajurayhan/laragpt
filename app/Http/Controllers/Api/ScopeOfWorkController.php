@@ -100,6 +100,9 @@ use Illuminate\Support\Str;
      */
 
     public function create(Request $request){
+        sleep(10);
+        return response()->json(['status'=>true], 201);
+
         $prompt = PromptService::findPromptByType($this->promptType);
         if($prompt == null){
             $response = [
@@ -178,7 +181,7 @@ use Illuminate\Support\Str;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->serviceScopeId = !empty($scope->scopeId)? $scope->scopeId : null;
-            $scopeWork->scopeText = $scope->details;
+            $scopeWork->scopeText = !empty($scope->details)? $scope->details: null;
             $scopeWork->title = $scope->title;
             $scopeWork->batchId = $batchId;
             $scopeWork->save();
