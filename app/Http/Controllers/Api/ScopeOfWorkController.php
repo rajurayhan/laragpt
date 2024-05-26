@@ -179,7 +179,7 @@ use Illuminate\Support\Str;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->serviceScopeId = !empty($scope['scopeId'])? $scope['scopeId'] : null;
-            $scopeWork->scopeText = !empty($scope->details)? $scope['details']: null;
+            $scopeWork->scopeText = !empty($scope['details'])? $scope['details']: null;
             $scopeWork->title = $scope['title'];
             $scopeWork->batchId = $batchId;
             $scopeWork->save();
