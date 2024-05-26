@@ -28,36 +28,20 @@ class DeliverablesController extends Controller
      * Get Deliverable list
      *
      * @group Deliverable
-     * @queryParam page integer page number.
      * @queryParam problemGoalId integer page number.
-     * @queryParam per_page integer page number.
-     * @queryParam isChecked int filter the selected or not or all, Example: 1
      */
     public function index(Request $request)
     {
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
         ]);
-        $query = Deliberable::latest()->where('problemGoalId',$request->get('problemGoalId'));
+        $deliverables = Deliberable::latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();;
 
-        if($request->has('isChecked')){
-            $query->where('isChecked',$request->isChecked);
-        }
-        // Paginate the results if a page number is provided
-        if ($request->has('page')) {
-            $data = $query->paginate($request->get('per_page')??10);
-            return response()->json([
-                'data' => $data->items(),
-                'total' => $data->total(),
-                'current_page' => $data->currentPage(),
-                'per_page' => $data->perPage(),
-            ]);
-        }
 
         // Fetch all data if no page number is provided
-        $data = $query->get();
+
         return response()->json([
-            'data' => $data,
+            'deliverables' => $deliverables,
         ]);
     }
 
@@ -97,7 +81,7 @@ class DeliverablesController extends Controller
 
 
     /**
-     * Generate Deliverable with AI
+     * Generate Deliverable
      *
      * @group Deliverable
      *
@@ -119,7 +103,9 @@ class DeliverablesController extends Controller
         }
 
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
-        $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.serviceInfo.deliveries'])->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)->get();
+        $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.serviceInfo.deliveries'])
+            ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
+            ->whereNull('additionalServiceId')->get();
 
         $serviceScopeList = $scopeOfWorks->filter(function ($value) {
             return !empty($value->serviceScopeId);

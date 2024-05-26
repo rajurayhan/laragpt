@@ -37,7 +37,7 @@ use Illuminate\Support\Str;
              'problemGoalId' => 'required|int',
          ]);
 
-         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();
+         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$validatedData['problemGoalId'])->whereNull('additionalServiceId')->get();
          $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get();
 
 
@@ -160,13 +160,14 @@ use Illuminate\Support\Str;
        }
     }
 
-    private  function storeScopeOfWork($mergedScope, $batchId, $problemGoalsObj){
-        foreach($mergedScope as $scope){
+    private  function storeScopeOfWork($scopes, $batchId, $problemGoalsObj){
+        foreach($scopes as $scope){
             $scopeWork = new ScopeOfWork();
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->serviceScopeId = !empty($scope['scopeId'])? $scope['scopeId'] : null;
             $scopeWork->scopeText = !empty($scope['details'])? $scope['details']: null;
+            $scopeWork->additionalServiceId = !empty($scope['additionalServiceId'])? $scope['additionalServiceId']: null;
             $scopeWork->title = $scope['title'];
             $scopeWork->batchId = $batchId;
             $scopeWork->save();
@@ -188,7 +189,7 @@ use Illuminate\Support\Str;
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'scopeOfWorkIds' => 'required|array',
-            'serviceIds' => 'required|array',
+            'serviceIds' => 'present|array',
         ]);
         try{
             $problemGoalId = $validatedData['problemGoalId'];
@@ -216,13 +217,30 @@ use Illuminate\Support\Str;
             $serviceIdsToAdd = array_diff($serviceIds, $existingServiceIds);
             $serviceIdsToDelete = array_diff($existingServiceIds, $serviceIds);
 
+            $additionalServiceScopes = ServiceScopes::whereIn('serviceId', $serviceIdsToAdd)->get()->groupBy('serviceId');
+            $batchId = (string) Str::uuid();
+
             foreach ($serviceIdsToAdd as $serviceIdValue) {
                 $scopeOfWorkAdditionalService = new ScopeOfWorkAdditionalService();
                 $scopeOfWorkAdditionalService->problemGoalId = $problemGoalId;
                 $scopeOfWorkAdditionalService->transcriptId = $problemGoalsObj->transcriptId;
                 $scopeOfWorkAdditionalService->selectedServiceId = $serviceIdValue;
                 $scopeOfWorkAdditionalService->save();
+
+                $this->storeScopeOfWork(
+                    $additionalServiceScopes[$serviceIdValue]->map(function($scope){
+                        return [
+                            'scopeId' => $scope->id,
+                            'title' => strip_tags($scope->name),
+                            'additionalServiceId' => $scope->serviceId,
+                        ];
+                    })->toArray(),
+                    $batchId,
+                    $problemGoalsObj,
+                );
             }
+
+            ScopeOfWork::where('problemGoalId', $problemGoalId)->whereIn('additionalServiceId', $serviceIdsToDelete)->delete();
 
             ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)
                 ->whereIn('selectedServiceId', $serviceIdsToDelete)

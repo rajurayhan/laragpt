@@ -22,6 +22,7 @@ class ScopeOfWork extends Model
         'transcriptId',
         'isChecked',
         'batchId',
+        'additionalServiceId',
     ];
 
     public function problemsAndGoals()
