@@ -29,56 +29,24 @@ use Illuminate\Support\Str;
       * Get Scope of work list
       *
       * @group Scope Of Work
-      * @queryParam page integer page number.
       * @queryParam problemGoalId integer page number.
-      * @queryParam per_page integer page number.
-      * @queryParam isChecked int filter the selected or not or all, Example: 1
       */
      public function index(Request $request)
      {
          $validatedData = $request->validate([
              'problemGoalId' => 'required|int',
          ]);
-         $query = ScopeOfWork::latest()->where('problemGoalId',$request->get('problemGoalId'));
 
-         if($request->has('isChecked')){
-             $query->where('isChecked',$request->isChecked);
-         }
-         // Paginate the results if a page number is provided
-         if ($request->has('page')) {
-             $data = $query->paginate($request->get('per_page')??10);
-             return response()->json([
-                 'data' => $data->items(),
-                 'total' => $data->total(),
-                 'current_page' => $data->currentPage(),
-                 'per_page' => $data->perPage(),
-             ]);
-         }
+         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();
+         $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get();
 
-         // Fetch all data if no page number is provided
-         $data = $query->get();
+
          return response()->json([
-             'data' => $data,
+             'scopeOfWorks' => $scopeOfWorks,
+             'additionalServices' => $additionalServices,
          ]);
      }
 
-     /**
-      * Get additional service list
-      *
-      * @group Scope Of Work
-      * @queryParam problemGoalId integer page number.
-      */
-     public function additionalServiceList(Request $request)
-     {
-         $validatedData = $request->validate([
-             'problemGoalId' => 'required|int',
-         ]);
-         $data = ScopeOfWorkAdditionalService::oldest()->where('problemGoalId',$validatedData['problemGoalId'])->get();
-
-         return response()->json([
-             'data' => $data,
-         ]);
-     }
 
     /**
      * Create a new Scope Of Work
