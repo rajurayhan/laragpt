@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\ProblemsAndGoals;
 use App\Models\ScopeOfWork;
+use App\Models\ScopeOfWorkAdditionalService;
 use App\Models\ServiceScopes;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
@@ -56,6 +57,24 @@ use Illuminate\Support\Str;
 
          // Fetch all data if no page number is provided
          $data = $query->get();
+         return response()->json([
+             'data' => $data,
+         ]);
+     }
+
+     /**
+      * Get additional service list
+      *
+      * @group Scope Of Work
+      * @queryParam problemGoalId integer page number.
+      */
+     public function additionalServiceList(Request $request)
+     {
+         $validatedData = $request->validate([
+             'problemGoalId' => 'required|int',
+         ]);
+         $data = ScopeOfWorkAdditionalService::oldest()->where('problemGoalId',$validatedData['problemGoalId'])->get();
+
          return response()->json([
              'data' => $data,
          ]);
@@ -193,17 +212,20 @@ use Illuminate\Support\Str;
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam scopeOfWorkId string[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam serviceId string[] required An array of services. Example: [1,2,3]
      *
      */
 
     public function select(Request $request){
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+            'scopeOfWorkId' => 'required|array',
+            'serviceId' => 'required|array',
+        ]);
         try{
-            $validatedData = $request->validate([
-                'problemGoalId' => 'required|int',
-                'scopeOfWorkId' => 'required|array',
-            ]);
             $problemGoalId = $validatedData['problemGoalId'];
             $scopeOfWorkIds = $validatedData['scopeOfWorkId'];
+            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
 
             DB::beginTransaction();
 
@@ -215,6 +237,14 @@ use Illuminate\Support\Str;
             ScopeOfWork::where('problemGoalId', $problemGoalId)
                 ->whereNotIn('id', $scopeOfWorkIds)
                 ->update(['isChecked' => 0]);
+
+            foreach ($validatedData['serviceId'] as $serviceIdValue){
+                $scopeOfWorkAdditionalService = new ScopeOfWorkAdditionalService();
+                $scopeOfWorkAdditionalService->problemGoalId = $problemGoalId;
+                $scopeOfWorkAdditionalService->transcriptId = $problemGoalsObj->transcriptId;
+                $scopeOfWorkAdditionalService->selectedServiceId = $serviceIdValue;
+                $scopeOfWorkAdditionalService->save();
+            }
 
             DB::commit();
 
