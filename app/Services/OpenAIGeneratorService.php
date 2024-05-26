@@ -133,7 +133,7 @@
                     ['role' => 'system', 'content' => $promptText],
                     // ['role' => 'system', 'content' => "Help me take the following SOW list for a new project and turn them into matching \"Deliverables\" items. Remember that for every individual SOW list item, make sure you have a deliverable that matches. The formatting for this list should be in bullet point format. Then, take the same list you just created and provide me an estimate of how many hours and a timeline it would take to complete each of the deliverable items."],
 
-                    ['role' => 'system', 'content' => 'Return a single list of JSON objects with the structure [{"title":"", "details": "", "scopeOfWorkId": ""}]. Exclude new lines and tabs from the output.'],
+                    ['role' => 'system', 'content' => 'Return a single list of JSON objects with the structure [{"title":"", "details": "", "scopeOfWorkId": ""}]. Exclude new lines and tabs from the output, Please follow JSON structure '],
                     ['role' => 'user', 'content' => $scopeOfWork],
                 ],
                 'max_tokens' => 4096,

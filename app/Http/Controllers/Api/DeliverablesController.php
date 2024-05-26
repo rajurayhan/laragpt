@@ -97,7 +97,7 @@ class DeliverablesController extends Controller
 
 
     /**
-     * Create Deliverable
+     * Generate Deliverable with AI
      *
      * @group Deliverable
      *
@@ -149,21 +149,21 @@ class DeliverablesController extends Controller
         $deliverables = OpenAIGeneratorService::generateDeliverables($serviceAiScopeListJson, $prompt->prompt);
 
 
-        if (!is_array($deliverables) || count($deliverables) < 1 || !isset($deliverables[0]->title)) {
+        if (!is_array($deliverables) || count($deliverables) < 1 || !isset($deliverables[0]['title'])) {
             return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
         }
 
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
         foreach($deliverables as $deliverable){
-            $scopeOfWork = $scopeOfWorksKeyById[$deliverable->scopeOfWorkId];
+            $scopeOfWork = $scopeOfWorksKeyById[$deliverable['scopeOfWorkId']];
             $deliverableObj = new Deliberable();
             $deliverableObj->scopeOfWorkId = $scopeOfWork->id;
             $deliverableObj->transcriptId = $scopeOfWork->transcriptId;
             $deliverableObj->serviceScopeId = $scopeOfWork->serviceScopeId;
             $deliverableObj->problemGoalId = $scopeOfWork->problemGoalID;
-            $deliverableObj->title = $deliverable->title;
-            $deliverableObj->deliverablesText = $deliverable->details;
+            $deliverableObj->title = $deliverable['title'];
+            $deliverableObj->deliverablesText = $deliverable['details'];
             $deliverableObj->isChecked = 1;
             $deliverableObj->batchId = $batchId;
             $deliverableObj->save();
