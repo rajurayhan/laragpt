@@ -211,20 +211,22 @@ use Illuminate\Support\Str;
      * @group Scope Of Work
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
-     * @bodyParam scopeOfWorkId string[] required An array of meeting links. Example: [1,2,3]
-     * @bodyParam serviceId string[] required An array of services. Example: [1,2,3]
+     * @bodyParam scopeOfWorkIds string[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam serviceIds string[] required An array of services. Example: [1,2,3]
      *
      */
 
     public function select(Request $request){
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
-            'scopeOfWorkId' => 'required|array',
-            'serviceId' => 'required|array',
+            'scopeOfWorkIds' => 'required|array',
+            'serviceIds' => 'required|array',
         ]);
         try{
             $problemGoalId = $validatedData['problemGoalId'];
-            $scopeOfWorkIds = $validatedData['scopeOfWorkId'];
+            $scopeOfWorkIds = $validatedData['scopeOfWorkIds'];
+            $serviceIds = $validatedData['serviceIds'];
+
             $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
 
             DB::beginTransaction();
@@ -238,13 +240,25 @@ use Illuminate\Support\Str;
                 ->whereNotIn('id', $scopeOfWorkIds)
                 ->update(['isChecked' => 0]);
 
-            foreach ($validatedData['serviceId'] as $serviceIdValue){
+            $existingServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)
+                ->pluck('selectedServiceId')
+                ->toArray();
+
+            // Determine service IDs to add and to delete
+            $serviceIdsToAdd = array_diff($serviceIds, $existingServiceIds);
+            $serviceIdsToDelete = array_diff($existingServiceIds, $serviceIds);
+
+            foreach ($serviceIdsToAdd as $serviceIdValue) {
                 $scopeOfWorkAdditionalService = new ScopeOfWorkAdditionalService();
                 $scopeOfWorkAdditionalService->problemGoalId = $problemGoalId;
                 $scopeOfWorkAdditionalService->transcriptId = $problemGoalsObj->transcriptId;
                 $scopeOfWorkAdditionalService->selectedServiceId = $serviceIdValue;
                 $scopeOfWorkAdditionalService->save();
             }
+
+            ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)
+                ->whereIn('selectedServiceId', $serviceIdsToDelete)
+                ->delete();
 
             DB::commit();
 
