@@ -140,7 +140,7 @@ use Illuminate\Support\Str;
             $aiScopes   = OpenAIGeneratorService::generateScopeOfWork($problemGoalsObj->problemGoalText, $prompt->prompt);
             Log::debug(['$aiScopes',$aiScopes]);
 
-            if (!is_array($aiScopes) || count($aiScopes) < 1 || !isset($aiScopes[0]->title)) {
+            if (!is_array($aiScopes) || count($aiScopes) < 1 || !isset($aiScopes[0]['title'])) {
                return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
             }
 
@@ -178,9 +178,9 @@ use Illuminate\Support\Str;
             $scopeWork = new ScopeOfWork();
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
-            $scopeWork->serviceScopeId = !empty($scope->scopeId)? $scope->scopeId : null;
-            $scopeWork->scopeText = !empty($scope->details)? $scope->details: null;
-            $scopeWork->title = $scope->title;
+            $scopeWork->serviceScopeId = !empty($scope['scopeId'])? $scope['scopeId'] : null;
+            $scopeWork->scopeText = !empty($scope->details)? $scope['details']: null;
+            $scopeWork->title = $scope['title'];
             $scopeWork->batchId = $batchId;
             $scopeWork->save();
         }

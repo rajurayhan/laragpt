@@ -104,7 +104,7 @@
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
              Log::info(['scopeOfWork' => $scopeOfWork]);
 
-            return json_decode(trim(trim(trim(trim($scopeOfWork,'`'),'json'))));
+            return self::extractJsonFromString($scopeOfWork);
         }
         public static function mergeScopeOfWork($serviceScopes, $aiScopes){
             $scopeOfWorkResult = OpenAI::chat()->create([
@@ -120,9 +120,9 @@
             //You should prioritize the user list input, where serviceId is available.
 
             $scopeOfWork = $scopeOfWorkResult['choices'][0]['message']['content'];
-            Log::info(['scopeOfWork' => $scopeOfWork]);
+            Log::info(['mregeScopeOfWork' => $scopeOfWork]);
 
-            return json_decode(trim(trim(trim(trim($scopeOfWork,'`'),'json'))));
+            return self::extractJsonFromString($scopeOfWork);
         }
 
         public static function generateDeliverables($scopeOfWork, $promptText){
@@ -142,7 +142,7 @@
 
             $deliverables = $deliverablesResult['choices'][0]['message']['content'];
             Log::info(['deliverables' => $deliverables]);
-            return json_decode(trim(trim(trim(trim($deliverables,'`'),'json'))));
+            return self::extractJsonFromString($deliverables);
         }
 
         public static function chatWithAI($content, $promptText, $context = null){
@@ -177,4 +177,59 @@
             // return preg_replace('/\d{2}:\d{2}\s/', '', $transcript);
             return $transcript;
         }
+        /**
+         * Extracts a JSON string from a given input string enclosed between ```json and ```
+         * and returns it as an array.
+         *
+         * @param string $inputString The input string containing the JSON segment.
+         * @return array|null The extracted JSON data as an array, or null if an error occurs.
+         */
+        public static function extractJsonFromString($inputString)
+        {
+            if(\Str::isJson($inputString)){
+                return json_decode($inputString, true);
+            }
+            // Define the start and end markers
+            $startMarker = '```json';
+            $endMarker = '```';
+
+            // Find the position of the start marker
+            $startPos = strpos($inputString, $startMarker);
+
+            // If the start marker is found, find the position of the end marker
+            if ($startPos !== false) {
+                $startPos += strlen($startMarker); // Move the starting position to the end of the start marker
+                $endPos = strpos($inputString, $endMarker, $startPos);
+
+                // If the end marker is found, extract the JSON string
+                if ($endPos !== false) {
+                    $jsonString = substr($inputString, $startPos, $endPos - $startPos);
+
+                    // Trim any leading or trailing whitespace/newlines from the extracted string
+                    $jsonString = trim($jsonString);
+
+                    // Decode the JSON string to an array
+                    $jsonArray = json_decode($jsonString, true);
+
+                    // Check for JSON errors
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        return $jsonArray; // Successfully decoded JSON
+                    } else {
+                        // Log or handle JSON decoding errors as needed
+                        // For example, you could use Laravel's Log facade:
+                        Log::error('JSON Error: ' . json_last_error_msg());
+                        return null;
+                    }
+                } else {
+                    // Log or handle the missing end marker as needed
+                    Log::error('End marker not found.');
+                    return null;
+                }
+            } else {
+                // Log or handle the missing start marker as needed
+                Log::error('Start marker not found.');
+                return null;
+            }
+        }
+
     }
