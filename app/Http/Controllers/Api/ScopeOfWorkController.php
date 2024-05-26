@@ -155,7 +155,7 @@ use Illuminate\Support\Str;
                 $mergedScope = OpenAIGeneratorService::mergeScopeOfWork($serviceScopeList, json_encode($aiScopes));
                 Log::debug(['$mergedScope',$mergedScope]);
 
-                if (!is_array($mergedScope) || count($mergedScope) < 1 || !isset($mergedScope[0]->title)) {
+                if (!is_array($mergedScope) || count($mergedScope) < 1 || !isset($mergedScope[0]['title'])) {
                     return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
                 }
                 $this->storeScopeOfWork($mergedScope, $batchId, $problemGoalsObj);
