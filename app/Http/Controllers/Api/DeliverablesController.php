@@ -6,6 +6,7 @@ use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\Deliberable;
+use App\Models\DeliverablesNotes;
 use App\Models\ProblemsAndGoals;
 use App\Models\ScopeOfWork;
 use App\Models\ServiceDeliverables;
@@ -187,6 +188,9 @@ class DeliverablesController extends Controller
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam deliverableId string[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam notes array required An array of component details.
+     * @bodyParam notes.*.noteLink string required. Example: "https://tldv.io/app/meetings/663e283b70cff500132a9bbd"
+     * @bodyParam notes.*.note string required. Example: "lorem ipsum"
      *
      */
 
@@ -195,19 +199,38 @@ class DeliverablesController extends Controller
             $validatedData = $request->validate([
                 'problemGoalId' => 'required|int',
                 'deliverableId' => 'required|array',
+                'notes' => 'present|array',
+                'notes.*.note' => 'required|string',
+                'notes.*.noteLink' => 'required|url',
             ]);
             $problemGoalId = $validatedData['problemGoalId'];
             $deliverableIds = $validatedData['deliverableId'];
+            $notes = $validatedData['notes'];
+            $problemAndGoal = ProblemsAndGoals::findOrFail($problemGoalId);
 
             DB::beginTransaction();
             Deliberable::where('problemGoalId', $problemGoalId)
                 ->whereIn('id', $deliverableIds)
+                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 1]);
 
             // Update the records that should not be checked
             Deliberable::where('problemGoalId', $problemGoalId)
                 ->whereNotIn('id', $deliverableIds)
+                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 0]);
+
+            DeliverablesNotes::where('problemGoalId', $problemGoalId)->delete();
+
+            foreach ($notes as $note){
+                $deliverablesNotes = new DeliverablesNotes();
+                $deliverablesNotes->transcriptId = $problemAndGoal->transcriptId;
+                $deliverablesNotes->problemGoalId = $problemAndGoal->id;
+                $deliverablesNotes->note = $note['note'];
+                $deliverablesNotes->noteLink = $note['noteLink'];
+                $deliverablesNotes->save();
+            }
+
 
             DB::commit();
 
