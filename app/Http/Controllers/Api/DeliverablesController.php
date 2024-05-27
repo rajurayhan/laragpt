@@ -36,16 +36,22 @@ class DeliverablesController extends Controller
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
         ]);
-        $deliverables = Deliberable::with(['scopeOfWork'])->latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();;
-        $deliverableNotes = DeliverablesNotes::where('problemGoalId',$validatedData['problemGoalId'])->get();;
 
+        $data = $this->getDeliverables($validatedData['problemGoalId']);
         // Fetch all data if no page number is provided
         return response()->json([
-            'data'=> [
-                'deliverables'=> $deliverables,
-                'deliverableNotes'=> $deliverableNotes,
-            ],
+            'data'=> $data,
         ]);
+    }
+
+    public static function getDeliverables($problemGoalId){
+        $deliverables = Deliberable::with(['scopeOfWork'])->latest()->where('problemGoalId',$problemGoalId)->get();;
+        $deliverableNotes = DeliverablesNotes::where('problemGoalId',$problemGoalId)->get();;
+
+        return [
+            'deliverables'=> $deliverables,
+            'deliverableNotes'=> $deliverableNotes,
+        ];
     }
 
     /**

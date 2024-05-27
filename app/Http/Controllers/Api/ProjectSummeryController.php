@@ -190,7 +190,18 @@ use Illuminate\Support\Facades\DB;
                 'additionalServices' => [],
             ];
         }
+
+        if(!empty($projectSummeryObj->meetingTranscript->problemsAndGoals->id)){
+            $deliverablesData = DeliverablesController::getDeliverables($projectSummeryObj->meetingTranscript->problemsAndGoals->id);
+        }else{
+            $deliverablesData = [
+                'deliverables' => [],
+                'deliverableNotes' => [],
+            ];
+        }
         $projectSummeryObj->scopeOfWorksData = $scopeOfWorksData;
+        $projectSummeryObj->deliverablesData = $deliverablesData;
+
         $response = [
             'message' => 'Data Showed Successfully',
             'data' => $projectSummeryObj
