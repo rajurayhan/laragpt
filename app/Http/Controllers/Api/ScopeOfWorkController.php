@@ -37,14 +37,20 @@ use Illuminate\Support\Str;
              'problemGoalId' => 'required|int',
          ]);
 
-         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$validatedData['problemGoalId'])->whereNull('additionalServiceId')->get();
-         $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get();
+         $data = $this::getScopeOfWorks($validatedData['problemGoalId']);
 
 
          return response()->json([
+             'data'=> $data         ]);
+     }
+
+     public static function getScopeOfWorks($problemGoalId){
+         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$problemGoalId)->whereNull('additionalServiceId')->get();
+         $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId',$problemGoalId)->get();
+         return [
              'scopeOfWorks' => $scopeOfWorks,
              'additionalServices' => $additionalServices,
-         ]);
+         ];
      }
 
 
@@ -70,7 +76,9 @@ use Illuminate\Support\Str;
            $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
            $scopeWork->title = $request->get("title");
            $scopeWork->save();
-           return response()->json($scopeWork, 201);
+           return response()->json([
+               'data'=> $scopeWork
+           ], 201);
 
        }catch (\Exception $exception){
            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
@@ -152,7 +160,9 @@ use Illuminate\Support\Str;
 
            DB::commit();
            $scopeOfWorks = ScopeOfWork::where('problemGoalID', $problemGoalsObj->id)->get();
-           return response()->json($scopeOfWorks, 201);
+           return response()->json([
+               'data' => $scopeOfWorks
+           ], 201);
 
        }catch (\Exception $exception){
            DB::rollBack();

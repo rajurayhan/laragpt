@@ -187,14 +187,77 @@ class DeliverablesController extends Controller
      * @group Deliverable
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
-     * @bodyParam deliverableId string[] required An array of meeting links. Example: [1,2,3]
-     * @bodyParam notes array required An array of component details.
+     * @bodyParam deliverableIds string[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam notes array required An array of notes details.
      * @bodyParam notes.*.noteLink string required. Example: "https://tldv.io/app/meetings/663e283b70cff500132a9bbd"
      * @bodyParam notes.*.note string required. Example: "lorem ipsum"
      *
      */
 
     public function select(Request $request){
+        try{
+            $validatedData = $request->validate([
+                'problemGoalId' => 'required|int',
+                'deliverableIds' => 'required|array',
+                'notes' => 'present|array',
+                'notes.*.note' => 'required|string',
+                'notes.*.noteLink' => 'required|url',
+            ]);
+            $problemGoalId = $validatedData['problemGoalId'];
+            $deliverableIds = $validatedData['deliverableIds'];
+            $notes = $validatedData['notes'];
+            $problemAndGoal = ProblemsAndGoals::findOrFail($problemGoalId);
+
+            DB::beginTransaction();
+            Deliberable::where('problemGoalId', $problemGoalId)
+                ->whereIn('id', $deliverableIds)
+                ->whereNull('additionalServiceId')
+                ->update(['isChecked' => 1]);
+
+            // Update the records that should not be checked
+            Deliberable::where('problemGoalId', $problemGoalId)
+                ->whereNotIn('id', $deliverableIds)
+                ->whereNull('additionalServiceId')
+                ->update(['isChecked' => 0]);
+
+            DeliverablesNotes::where('problemGoalId', $problemGoalId)->delete();
+
+            foreach ($notes as $note){
+                $deliverablesNotes = new DeliverablesNotes();
+                $deliverablesNotes->transcriptId = $problemAndGoal->transcriptId;
+                $deliverablesNotes->problemGoalId = $problemAndGoal->id;
+                $deliverablesNotes->note = $note['note'];
+                $deliverablesNotes->noteLink = $note['noteLink'];
+                $deliverablesNotes->save();
+            }
+
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Deliverable selected successfully',
+            ];
+            return response()->json($response, 201);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
+
+    /**
+     * Update select Deliverable
+     *
+     * @group Deliverable
+     *
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
+     * @bodyParam deliverableId string[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam notes array required An array of notes details.
+     * @bodyParam notes.*.noteLink string required. Example: "https://tldv.io/app/meetings/663e283b70cff500132a9bbd"
+     * @bodyParam notes.*.note string required. Example: "lorem ipsum"
+     *
+     */
+
+    public function selectDeleverableOfAdditionalService(Request $request){
         try{
             $validatedData = $request->validate([
                 'problemGoalId' => 'required|int',

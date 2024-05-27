@@ -182,6 +182,15 @@ use Illuminate\Support\Facades\DB;
         $projectSummeryObj = ProjectSummary::with(
             ['meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.meetingLinks','meetingTranscript.problemsAndGoals.projectOverview', 'meetingTranscript.problemsAndGoals.scopeOfWork.deliverables']
         )->findOrFail($id);
+        if(!empty($projectSummeryObj->meetingTranscript->problemsAndGoals->id)){
+            $scopeOfWorksData = ScopeOfWorkController::getScopeOfWorks($projectSummeryObj->meetingTranscript->problemsAndGoals->id);
+        }else{
+            $scopeOfWorksData = [
+                'scopeOfWorks' => [],
+                'additionalServices' => [],
+            ];
+        }
+        $projectSummeryObj->scopeOfWorksData = $scopeOfWorksData;
         $response = [
             'message' => 'Data Showed Successfully',
             'data' => $projectSummeryObj
