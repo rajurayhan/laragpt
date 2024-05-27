@@ -86,6 +86,7 @@ class DeliverablesController extends Controller
      * @group Deliverable
      *
      * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     *
      */
 
     public function create(Request $request){
@@ -102,19 +103,26 @@ class DeliverablesController extends Controller
             return response()->json($response, 422);
         }
 
+        $findExisting = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->first();
+
+        if($findExisting){
+            return WebApiResponse::error(500, $errors = [], 'The deliverable already generated.');
+        }
+
+
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
-        $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','meetingTranscript.serviceInfo','meetingTranscript.serviceInfo.deliveries'])
+        $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
             ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
-            ->whereNull('additionalServiceId')->get();
+            ->get();
 
         $serviceScopeList = $scopeOfWorks->filter(function ($value) {
             return !empty($value->serviceScopeId);
         });
 
         $scopeDeliveryList = $serviceScopeList->reduce(function ($carry, $item) {
-            return $carry->merge($item->meetingTranscript->serviceInfo->deliveries->map(function ($delivery) use($item){
-                unset($item->meetingTranscript->serviceInfo->deliveries);
-                $delivery->scope_of_work = $item;
+            return $carry->merge($item->deliverables->map(function ($delivery) use($item){
+                unset($item->deliverables);
+                $delivery->scopeOfWork = $item;
                 $delivery->name = strip_tags($delivery->name);
                 return $delivery;
             }));
@@ -131,9 +139,7 @@ class DeliverablesController extends Controller
                 'scopeText' => strip_tags($scopeOfWork->scopeText),
             ];
         }))->toJson();
-
         $deliverables = OpenAIGeneratorService::generateDeliverables($serviceAiScopeListJson, $prompt->prompt);
-
 
         if (!is_array($deliverables) || count($deliverables) < 1 || !isset($deliverables[0]['title'])) {
             return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
@@ -156,9 +162,10 @@ class DeliverablesController extends Controller
         }
         foreach($scopeDeliveryList as $deliverable){
             $deliverableObj = new Deliberable();
-
-            $deliverableObj->scopeOfWorkId = $deliverable->scope_of_work->id;
-            $deliverableObj->transcriptId = $deliverable->scope_of_work->meetingTranscript->id;
+            $deliverableObj->serviceDeliverablesId = $deliverable->id;
+            $deliverableObj->additionalServiceId = $deliverable->scopeOfWork->additionalServiceId;
+            $deliverableObj->scopeOfWorkId = $deliverable->scopeOfWork->id;
+            $deliverableObj->transcriptId = $deliverable->scopeOfWork->meetingTranscript->id;
             $deliverableObj->serviceScopeId = $deliverable->serviceScopeId;
             $deliverableObj->problemGoalId = $problemAndGoal->id;
             $deliverableObj->title = $deliverable->name;

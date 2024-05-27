@@ -32,10 +32,11 @@ class ScopeOfWork extends Model
 
     public function deliverables()
     {
-        return $this->hasOne(Deliberable::class, 'scopeOfWorkId', 'id');
+        return $this->hasMany(ServiceDeliverables::class, 'serviceScopeId', 'serviceScopeId');
     }
     public function meetingTranscript()
     {
         return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
+
 }

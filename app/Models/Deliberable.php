@@ -18,6 +18,8 @@ class Deliberable extends Model
         'title',
         'isChecked',
         'batchId',
+        'serviceDeliverablesId',
+        'additionalServiceId',
     ];
 
     public function scopeOfWork()

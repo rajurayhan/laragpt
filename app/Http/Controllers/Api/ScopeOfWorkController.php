@@ -202,11 +202,13 @@ use Illuminate\Support\Str;
 
             ScopeOfWork::where('problemGoalId', $problemGoalId)
                 ->whereIn('id', $scopeOfWorkIds)
+                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 1]);
 
             // Update the records that should not be checked
             ScopeOfWork::where('problemGoalId', $problemGoalId)
                 ->whereNotIn('id', $scopeOfWorkIds)
+                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 0]);
 
             $existingServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)
