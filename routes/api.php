@@ -87,6 +87,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/deliverables', [DeliverablesController::class, 'create'])->name('deliverables.create');
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
+    Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
 
     // project-overview routes
     Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');

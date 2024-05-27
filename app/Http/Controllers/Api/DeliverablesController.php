@@ -36,13 +36,15 @@ class DeliverablesController extends Controller
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
         ]);
-        $deliverables = Deliberable::latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();;
-
+        $deliverables = Deliberable::with(['scopeOfWork'])->latest()->where('problemGoalId',$validatedData['problemGoalId'])->get();;
+        $deliverableNotes = DeliverablesNotes::where('problemGoalId',$validatedData['problemGoalId'])->get();;
 
         // Fetch all data if no page number is provided
-
         return response()->json([
-            'deliverables' => $deliverables,
+            'data'=> [
+                'deliverables'=> $deliverables,
+                'deliverableNotes'=> $deliverableNotes,
+            ],
         ]);
     }
 
@@ -73,7 +75,9 @@ class DeliverablesController extends Controller
             $deliverable->title = $validatedData['title'];
             $deliverable->isChecked = 1;
             $deliverable->save();
-            return response()->json($scopeWork, 201);
+            return response()->json([
+                'data'=>$scopeWork
+            ], 201);
 
         }catch (\Exception $exception){
             return WebApiResponse::error(500, $errors = [], $exception->getMessage());
@@ -115,6 +119,9 @@ class DeliverablesController extends Controller
         $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
             ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
             ->get();
+        if(count($scopeOfWorks)<1){
+            return WebApiResponse::error(400, $errors = [], 'Scope of works not available.');
+        }
 
         $serviceScopeList = $scopeOfWorks->filter(function ($value) {
             return !empty($value->serviceScopeId);
@@ -178,19 +185,21 @@ class DeliverablesController extends Controller
         DB::commit();
 
         $deliverableList = Deliberable::where('problemGoalId', $request->get('problemGoalId'))->get();
-        return response()->json($deliverableList, 201);
+        return response()->json([
+            'data'=>$deliverableList
+        ], 201);
     }
 
     /**
-     * Update select Deliverable
+     * Select Deliverable
      *
      * @group Deliverable
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
-     * @bodyParam deliverableIds string[] required An array of meeting links. Example: [1,2,3]
-     * @bodyParam notes array required An array of notes details.
-     * @bodyParam notes.*.noteLink string required. Example: "https://tldv.io/app/meetings/663e283b70cff500132a9bbd"
-     * @bodyParam notes.*.note string required. Example: "lorem ipsum"
+     * @bodyParam deliverableIds int[] required An array of meeting links. Example: [1,2,3]
+     * @bodyParam notes object[] required An array of notes details.
+     * @bodyParam notes[].noteLink string required. Example: https://tldv.io/app/meetings/663e283b70cff500132a9bbd
+     * @bodyParam notes[].note string required. Example: lorem ipsum
      *
      */
 
@@ -245,55 +254,41 @@ class DeliverablesController extends Controller
     }
 
     /**
-     * Update select Deliverable
-     *
      * @group Deliverable
+     * Select additional deliverables for a problem goal.
      *
-     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
-     * @bodyParam deliverableId string[] required An array of meeting links. Example: [1,2,3]
-     * @bodyParam notes array required An array of notes details.
-     * @bodyParam notes.*.noteLink string required. Example: "https://tldv.io/app/meetings/663e283b70cff500132a9bbd"
-     * @bodyParam notes.*.note string required. Example: "lorem ipsum"
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals. Example: 1
+     * @bodyParam additionalService object[] required An array of additional services.
+     * @bodyParam additionalService[].additionalServiceId int required The ID of the additional service. Example: 2
+     * @bodyParam additionalService[].deliverableIds int[] required An array of deliverable IDs to be marked. Example: [3,4,5]
      *
      */
 
-    public function selectDeleverableOfAdditionalService(Request $request){
+    public function selectAdditionalDeliverable(Request $request){
         try{
             $validatedData = $request->validate([
                 'problemGoalId' => 'required|int',
-                'deliverableId' => 'required|array',
-                'notes' => 'present|array',
-                'notes.*.note' => 'required|string',
-                'notes.*.noteLink' => 'required|url',
+                'additionalService' => 'present|array',
+                'additionalService.*.additionalServiceId' => 'required|int',
+                'additionalService.*.deliverableIds' => 'present|array',
             ]);
             $problemGoalId = $validatedData['problemGoalId'];
-            $deliverableIds = $validatedData['deliverableId'];
-            $notes = $validatedData['notes'];
+            $additionalService = $validatedData['additionalService'];
             $problemAndGoal = ProblemsAndGoals::findOrFail($problemGoalId);
 
             DB::beginTransaction();
-            Deliberable::where('problemGoalId', $problemGoalId)
-                ->whereIn('id', $deliverableIds)
-                ->whereNull('additionalServiceId')
-                ->update(['isChecked' => 1]);
+            foreach($additionalService as $additionalService){
+                Deliberable::where('problemGoalId', $problemGoalId)
+                    ->whereIn('id', $additionalService['deliverableIds'])
+                    ->where('additionalServiceId', $additionalService['additionalServiceId'])
+                    ->update(['isChecked' => 1]);
 
-            // Update the records that should not be checked
-            Deliberable::where('problemGoalId', $problemGoalId)
-                ->whereNotIn('id', $deliverableIds)
-                ->whereNull('additionalServiceId')
-                ->update(['isChecked' => 0]);
-
-            DeliverablesNotes::where('problemGoalId', $problemGoalId)->delete();
-
-            foreach ($notes as $note){
-                $deliverablesNotes = new DeliverablesNotes();
-                $deliverablesNotes->transcriptId = $problemAndGoal->transcriptId;
-                $deliverablesNotes->problemGoalId = $problemAndGoal->id;
-                $deliverablesNotes->note = $note['note'];
-                $deliverablesNotes->noteLink = $note['noteLink'];
-                $deliverablesNotes->save();
+                // Update the records that should not be checked
+                Deliberable::where('problemGoalId', $problemGoalId)
+                    ->whereNotIn('id', $additionalService['deliverableIds'])
+                    ->where('additionalServiceId', $additionalService['additionalServiceId'])
+                    ->update(['isChecked' => 0]);
             }
-
 
             DB::commit();
 

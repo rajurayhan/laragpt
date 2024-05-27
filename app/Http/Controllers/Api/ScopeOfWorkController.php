@@ -191,7 +191,7 @@ use Illuminate\Support\Str;
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam scopeOfWorkIds string[] required An array of meeting links. Example: [1,2,3]
-     * @bodyParam serviceIds string[] required An array of services. Example: [1,2,3]
+     * @bodyParam serviceIds int[] required An array of services. Example: [1,2,3]
      *
      */
 
