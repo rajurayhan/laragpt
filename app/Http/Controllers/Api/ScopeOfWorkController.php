@@ -233,6 +233,9 @@ use Illuminate\Support\Str;
             $batchId = (string) Str::uuid();
 
             foreach ($serviceIdsToAdd as $serviceIdValue) {
+                if(!isset($additionalServiceScopes[$serviceIdValue])){
+                    continue;
+                }
                 $scopeOfWorkAdditionalService = new ScopeOfWorkAdditionalService();
                 $scopeOfWorkAdditionalService->problemGoalId = $problemGoalId;
                 $scopeOfWorkAdditionalService->transcriptId = $problemGoalsObj->transcriptId;
