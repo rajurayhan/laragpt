@@ -9,6 +9,7 @@ use App\Services\ClickUpCommentUploader;
 use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
+use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -42,7 +43,7 @@ use Illuminate\Support\Facades\Http;
             });
             // ->with('createdBy')->latest()
             // ->paginate(10);
-        
+
         if($request->filled('meetingName')){
             $query->where('meetingName', 'like', '%' . $request->input('meetingName') . '%');
         }
@@ -57,15 +58,15 @@ use Illuminate\Support\Facades\Http;
 
         $meetings = $query->with('createdBy', 'meetingTypeData')->latest()->paginate(10);
 
-        // $meetingsData = $meetings->items(); 
+        // $meetingsData = $meetings->items();
 
-        $meetingsData = array_map(function ($meeting) { 
+        $meetingsData = array_map(function ($meeting) {
             $meeting->meeting_type_id = $meeting->meetingTypeData ? $meeting->meetingTypeData->id : null;
             $meeting->meeting_type = $meeting->meetingTypeData ?? null;
             return $meeting;
         }, $meetings->items());
-    
-    
+
+
 
         return response()->json([
             'data' => $meetingsData,
@@ -110,11 +111,12 @@ use Illuminate\Support\Facades\Http;
         ]);
 
         if($request->filled('tldvLink')){
-            $meetingId = $this->getLastPartOfUrl($request->tldvLink);
+            $transcript = TldvService::getTranscriptFromUrl($request->tldvLink);
+            // $meetingId = $this->getLastPartOfUrl($request->tldvLink);
 
-            if(isset($meetingId)){
-                $transcript = $this->getTldvTranscript($meetingId);
-            }
+            // if(isset($meetingId)){
+            //     $transcript = $this->getTldvTranscript($meetingId);
+            // }
         }
 
         // Generate Summery
