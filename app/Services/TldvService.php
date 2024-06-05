@@ -64,9 +64,15 @@ class TldvService{
     }
 
     private static function secondsToTime($seconds) {
+        // Calculate the hours, minutes, and remaining seconds
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds % 3600) / 60);
         $remainingSeconds = $seconds % 60;
+
+        // Add leading zeros to values less than 10
+        $hours = str_pad($hours, 2, '0', STR_PAD_LEFT);
+        $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+        $remainingSeconds = str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT);
 
         // Return the result as an array
         return [
