@@ -23,7 +23,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            Log::info(['summery' => $summery]);
+            // Log::info(['summery' => $summery]);
 
             return $summery;
         }
@@ -42,7 +42,7 @@
                 'temperature' => 0.5
             ]);
             $summery = $summeryResult['choices'][0]['message']['content'];
-            Log::info(['summery' => $summery]);
+            // Log::info(['summery' => $summery]);
 
             return $summery;
         }
