@@ -32,15 +32,19 @@ use Illuminate\Support\Facades\Http;
      */
     public function indexMeetingSummery(Request $request){
 
+        $adminUsers = [1,5]; // 1. Josh, 5. Raju
+
         $currentUser = auth()->user();
         $query = MeetingSummery::query();
-        $query->where(function($query) use ($currentUser) {
+        if(!in_array($currentUser->id , $adminUsers)){
+            $query->where(function($query) use ($currentUser) {
                 $query->where('is_private', false)
                     ->orWhere(function($query) use ($currentUser) {
                         $query->where('is_private', true)
                                 ->where('createdById', $currentUser->id);
                     });
             });
+        }
             // ->with('createdBy')->latest()
             // ->paginate(10);
 
