@@ -14,6 +14,8 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -121,7 +123,10 @@ class DeliverablesController extends Controller
         }
 
 
-        $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
+        $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->first();
+        if(!$problemAndGoal){
+            return WebApiResponse::error(500, $errors = [], 'Problem and Goal not found.');
+        }
         $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
             ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
             ->get();
@@ -144,20 +149,26 @@ class DeliverablesController extends Controller
 
 
         $scopeOfWorksKeyById = $scopeOfWorks->keyBy('id');
-        $serviceAiScopeListJson = ($scopeOfWorks->filter(function ($value) {
-            return empty($value->serviceScopeId);
-        })->map(function($scopeOfWork){
-            return [
-                'scopeOfWorkId' => $scopeOfWork->id,
-                'title' => strip_tags($scopeOfWork->title),
-                'scopeText' => strip_tags($scopeOfWork->scopeText),
-            ];
-        }))->toJson();
-        $deliverables = OpenAIGeneratorService::generateDeliverables($serviceAiScopeListJson, $prompt->prompt);
 
-        if (!is_array($deliverables) || count($deliverables) < 1 || !isset($deliverables[0]['title'])) {
-            return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
+
+        $response = Http::post(env('AI_APPLICATION_URL') . '/estimation/deliverables-generate', [
+            'threadId' => $problemAndGoal->meetingTranscript->threadId,
+            'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
+            'problemAndGoalsId' => $problemAndGoal->id,
+            'prompt' => $prompt->prompt,
+        ]);
+
+        if (!$response->successful()) {
+            WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
         }
+        Log::info(['Summery Generate AI.', $response]);
+        $data = $response->json();
+
+        if (!is_array($data['data']['deliverables']) || count($data['data']['deliverables']) < 1 || !isset($data['data']['deliverables'][0]['scopeOfWorkId'])) {
+            return WebApiResponse::error(500, $errors = [], 'The deliverables from AI is not expected output, Try again please');
+        }
+        $deliverables = $data['data']['deliverables'];
+
 
         DB::beginTransaction();
         $batchId = (string) Str::uuid();

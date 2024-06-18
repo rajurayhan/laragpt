@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ProjectType;
+use Illuminate\Support\Facades\Http;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
-use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
-use App\Models\Services;
-use App\Rules\USPhoneNumber;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -101,7 +99,6 @@ use Illuminate\Support\Facades\DB;
 
 
             DB::beginTransaction();
-
             $existingMeetingLinks = [];
             if($request->filled('transcriptId')) {
                 $meetingTranscript = MeetingTranscript::find($request->transcriptId);
@@ -109,6 +106,7 @@ use Illuminate\Support\Facades\DB;
             }else{
                 $meetingTranscript = new MeetingTranscript();
             }
+
             $meetingTranscript->projectName = $request->projectName;
             $meetingTranscript->serviceId = $request->serviceId;
             $meetingTranscript->company = $request->company;
@@ -116,7 +114,6 @@ use Illuminate\Support\Facades\DB;
             $meetingTranscript->clientEmail = $request->clientEmail;
             $meetingTranscript->clientWebsite = $request->clientWebsite;
             $meetingTranscript->save();
-
 
             $transcriptText1stValue = null;
             foreach($validatedData['meetingLinks'] as $index => $link){
@@ -139,22 +136,25 @@ use Illuminate\Support\Facades\DB;
             $meetingTranscript = $meetingTranscript->load(['meetingLinks','serviceInfo']);
 
 
-
-            // Generate Summery
-            $summery = OpenAIGeneratorService::generateSummery($transcriptText1stValue, $prompt->prompt);
-
-            // $projectSummeryObj = new ProjectSummary();
-            // $projectSummeryObj->summaryText = $summery;
-            // $projectSummeryObj->transcriptId = $meetingObj->id;
-
-            // $projectSummeryObj->save();
+            $response = Http::post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
+                'transcript' => $transcriptText1stValue,
+                'prompt' => $prompt->prompt,
+            ]);
+            if (!$response->successful()) {
+                WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
+            }
+            Log::info(['Summery Generate AI.',$response]);
+            $data = $response->json();
 
             $projectSummeryObj = ProjectSummary::updateOrCreate(
                 ['transcriptId' => $meetingTranscript->id],
-                ['summaryText' => $summery]
+                ['summaryText' => $data['data']['summery']]
             );
-
+            $meetingTranscript->assistantId = $data['data']['assistantId'];
+            $meetingTranscript->threadId = $data['data']['threadId'];
+            $meetingTranscript->save();
             $projectSummeryObj->meetingTranscript = $meetingTranscript;
+
             DB::commit();
             $response = [
                 'message' => 'Created Successfully',

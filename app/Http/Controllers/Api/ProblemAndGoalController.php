@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @authenticated
@@ -43,14 +46,24 @@ use Illuminate\Http\Request;
             'transcriptId' => 'required|int'
         ]);
 
-        $transcriptObj      = MeetingTranscript::findOrFail($request->transcriptId);
-        $meetingLink = MeetingLink::where('transcriptId',$transcriptObj->id)->where('serial',1)->firstOrFail();
+        $transcriptObj      = MeetingTranscript::findOrFail($validatedData['transcriptId']);
 
-        $problemsAndGoals   = OpenAIGeneratorService::generateProblemsAndGoals($meetingLink->transcriptText, $prompt->prompt);
+        $response = Http::post(env('AI_APPLICATION_URL').'/estimation/problem-and-goal-generate', [
+            'threadId' => $transcriptObj->threadId,
+            'assistantId' => $transcriptObj->assistantId,
+            'prompt' => $prompt->prompt,
+        ]);
+
+        if (!$response->successful()) {
+            WebApiResponse::error(500, $errors = [], "Can't able to problem and goals, Please try again.");
+        }
+        Log::info(['Problem And Goal Generate AI.',$response]);
+        $data = $response->json();
+
 
         $problemsAndGoalsObj = ProblemsAndGoals::updateOrCreate(
             ['transcriptId' => $request->transcriptId],
-            ['problemGoalText' => $problemsAndGoals]
+            ['problemGoalText' => $data['data']['problemAndGoals']]
         );
 
         $response = [
