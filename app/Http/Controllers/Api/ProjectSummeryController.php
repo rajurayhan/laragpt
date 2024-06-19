@@ -136,7 +136,7 @@ use Illuminate\Support\Facades\Log;
             $meetingTranscript = $meetingTranscript->load(['meetingLinks','serviceInfo']);
 
 
-            $response = Http::post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
+            $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
                 'transcript' => $transcriptText1stValue,
                 'prompt' => $prompt->prompt,
             ]);

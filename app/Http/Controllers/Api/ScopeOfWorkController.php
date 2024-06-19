@@ -132,7 +132,7 @@ class ScopeOfWorkController extends Controller
             DB::beginTransaction();
             $problemGoalsObj = ProblemsAndGoals::findOrFail($request->problemGoalID);
 
-            $response = Http::post(env('AI_APPLICATION_URL') . '/estimation/scope-of-works-generate', [
+            $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/scope-of-works-generate', [
                 'threadId' => $problemGoalsObj->meetingTranscript->threadId,
                 'assistantId' => $problemGoalsObj->meetingTranscript->assistantId,
                 'serviceId' => $problemGoalsObj->meetingTranscript->serviceId,

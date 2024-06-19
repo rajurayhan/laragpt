@@ -151,7 +151,7 @@ class DeliverablesController extends Controller
         $scopeOfWorksKeyById = $scopeOfWorks->keyBy('id');
 
 
-        $response = Http::post(env('AI_APPLICATION_URL') . '/estimation/deliverables-generate', [
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/deliverables-generate', [
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,

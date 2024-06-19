@@ -158,7 +158,7 @@ class EstimationsTasksController extends Controller
 
         DB::beginTransaction();
 
-        $response = Http::post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
