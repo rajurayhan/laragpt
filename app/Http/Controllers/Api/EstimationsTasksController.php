@@ -237,7 +237,7 @@ class EstimationsTasksController extends Controller
         }
         DB::commit();
 
-        $deliverableList = Deliberable::where('problemGoalId', $request->get('problemGoalId'))->get();
+        $deliverableList = EstimationTask::where('problemGoalId', $request->get('problemGoalId'))->get();
         return response()->json([
             'data'=>$deliverableList
         ], 201);
