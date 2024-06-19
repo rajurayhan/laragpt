@@ -199,8 +199,17 @@ use Illuminate\Support\Facades\Log;
                 'deliverableNotes' => [],
             ];
         }
+
+        if(!empty($projectSummeryObj->meetingTranscript->problemsAndGoals->id)){
+            $tasksData = EstimationsTasksController::getEstimationTasks($projectSummeryObj->meetingTranscript->problemsAndGoals->id);
+        }else{
+            $tasksData = [
+                'tasks' => [],
+            ];
+        }
         $projectSummeryObj->scopeOfWorksData = $scopeOfWorksData;
         $projectSummeryObj->deliverablesData = $deliverablesData;
+        $projectSummeryObj->tasksData = $tasksData;
 
         $response = [
             'message' => 'Data Showed Successfully',
