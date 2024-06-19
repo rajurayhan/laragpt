@@ -161,8 +161,8 @@ class DeliverablesController extends Controller
         if (!$response->successful()) {
             WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
         }
-        Log::info(['Summery Generate AI.', $response]);
         $data = $response->json();
+        Log::info(['Deliverables Generate AI.', $data]);
 
         if (!is_array($data['data']['deliverables']) || count($data['data']['deliverables']) < 1 || !isset($data['data']['deliverables'][0]['scopeOfWorkId'])) {
             return WebApiResponse::error(500, $errors = [], 'The deliverables from AI is not expected output, Try again please');

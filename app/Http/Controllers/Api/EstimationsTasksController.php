@@ -168,8 +168,8 @@ class EstimationsTasksController extends Controller
         if (!$response->successful()) {
             WebApiResponse::error(500, $errors = [], "Can't able to Task, Please try again.");
         }
-        Log::info(['Summery Generate AI.', $response]);
         $data = $response->json();
+        Log::info(['Estimation Generate AI.', $data]);
 
         if (!is_array($data['data']['tasks']) || count($data['data']['tasks']) < 1 || !isset($data['data']['tasks'][0]['deliverableId']) || !isset($data['data']['tasks'][0]['subTasks']) || !is_array($data['data']['tasks'][0]['subTasks'])) {
             return WebApiResponse::error(500, $errors = [], 'The deliverables from AI is not expected output, Try again please');

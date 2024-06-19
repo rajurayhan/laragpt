@@ -142,8 +142,8 @@ class ScopeOfWorkController extends Controller
             if (!$response->successful()) {
                 WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
             }
-            Log::info(['Summery Generate AI.', $response]);
             $data = $response->json();
+            Log::info(['Scope of work AI.', $data]);
 
             if (!is_array($data['data']['scopeOfWork']) || count($data['data']['scopeOfWork']) < 1 || !isset($data['data']['scopeOfWork'][0]['title'])) {
                 return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
