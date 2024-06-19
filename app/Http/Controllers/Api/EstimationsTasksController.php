@@ -95,7 +95,7 @@ class EstimationsTasksController extends Controller
             $estimationTask->save();
 
             return response()->json([
-                'data'=>$estimationTask
+                'data'=> $this->getEstimationTasks($validatedData['deliverableId'])
             ], 201);
 
         }catch (\Exception $exception){
