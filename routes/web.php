@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SoWGeneratorController;
 use App\Http\Controllers\YelpFusionApiController;
+use App\Models\CalendlyEvent;
 use App\Models\Services;
 use App\Services\ModelOrderManagerService;
 use GuzzleHttp\Exception\RequestException;
@@ -144,7 +145,6 @@ Route::get('/yelp-business-subscribe', function (Request $request) {
     }
 });
 Route::get('/test-log', function () {
-    Log::info('Test log entry!');
-    return 'Log entry created!';
+    return response()->json($data = CalendlyEvent::get());
 });
 require __DIR__.'/auth.php';

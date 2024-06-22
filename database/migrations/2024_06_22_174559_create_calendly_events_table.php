@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('calendly_events', function (Blueprint $table) {
             $table->id();
             $table->string('uri')->unique();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->text('meeting_notes_plain')->nullable();
             $table->text('meeting_notes_html')->nullable();
             $table->string('status');
