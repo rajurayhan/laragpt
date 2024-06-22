@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
+use App\Models\Associate;
 use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
 use App\Models\EstimationTask;
@@ -51,7 +52,7 @@ class EstimationsTasksController extends Controller
     }
 
     public static function getEstimationTasks($problemGoalId){
-        $getEstimationTasks = EstimationTask::latest()->where('problemGoalId',$problemGoalId)->get();;
+        $getEstimationTasks = EstimationTask::with(['associate'])->latest()->where('problemGoalId',$problemGoalId)->get();;
 
         return ['tasks'=>$getEstimationTasks];
     }
@@ -258,7 +259,7 @@ class EstimationsTasksController extends Controller
             'title' => 'required|string'
         ]);
 
-        $estimationTask = EstimationTask::findOrFail($id);
+        $estimationTask = EstimationTask::with(['associate'])->findOrFail($id);
         $estimationTask->title = $validatedData['title'];
         $estimationTask->save();
 
@@ -269,4 +270,34 @@ class EstimationsTasksController extends Controller
 
         return response()->json($response, 201);
     }
+
+
+    /**
+     * Add Associate to Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @urlParam id int required Id of the EstimationTask.
+     * @bodyParam associateId int required
+     *
+     */
+
+    public function addAssociate($id, Request $request){
+        $validatedData = $request->validate([
+            'associateId' => 'required|int|exists:associates,id',
+        ]);
+
+        $estimationTask = EstimationTask::findOrFail($id);
+        $estimationTask->associateId = $validatedData['associateId'];
+        $estimationTask->save();
+        $estimationTask->load('associate');
+
+        $response = [
+            'message' => 'Estimation Task association saved successfully',
+            'data' => $estimationTask,
+        ];
+
+        return response()->json($response, 201);
+    }
 }
+

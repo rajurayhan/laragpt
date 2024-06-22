@@ -26,6 +26,12 @@ class EstimationTask extends Model
         'deliverableId',
         'employeeRoleId',
         'userId',
-
+        'associateId',
+        'rate',
     ];
+
+    public function associate()
+    {
+        return $this->belongsTo(Associate::class, 'associateId', 'id');
+    }
 }
