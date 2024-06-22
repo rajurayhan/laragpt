@@ -110,14 +110,14 @@ class FetchCalendlyEventsJob implements ShouldQueue
                     $url = $data['pagination']['next_page'] ?? null;
                     // Log::info('Next page URL.', ['next_page' => $url]);
                 } else {
-                    // Log::error('Failed to fetch events from Calendly API.', [
+                    Log::error('Failed to fetch events from Calendly API.', [
                         'status' => $response->status(),
                         'error' => $response->body()
                     ]);
                     break;
                 }
             } catch (\Exception $e) {
-                // Log::error('Exception occurred while fetching events.', [
+                Log::error('Exception occurred while fetching events.', [
                     'message' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
                 ]);
