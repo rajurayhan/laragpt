@@ -144,7 +144,7 @@ Route::get('/yelp-business-subscribe', function (Request $request) {
         // Handle Exception
     }
 });
-Route::get('/test-log', function () {
+Route::get('/calendly-events', function () {
     return response()->json($data = CalendlyEvent::get());
 });
 require __DIR__.'/auth.php';
