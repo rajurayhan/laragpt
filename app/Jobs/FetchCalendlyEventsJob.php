@@ -30,20 +30,18 @@ class FetchCalendlyEventsJob implements ShouldQueue
         $lastEvent = CalendlyEvent::orderBy('created_at_api', 'desc')->first();
 
         if ($lastEvent) {
-            // Use the created_at_api of the last event fetched as min_start_time
-            $minStartTime = Carbon::parse($lastEvent->created_at_api)->toIso8601String();
+            $dateRange = [
+                'start_time' => Carbon::parse($lastEvent->created_at_api)->toIso8601String(),
+                'end_time' => Carbon::now()->toIso8601String(),
+            ];
         } else {
-            // Default to fetching events from January 1, 2020
-            $minStartTime = Carbon::create(2000, 1, 1)->startOfDay()->toIso8601String();
+            $dateRange = [
+                'start_time' => Carbon::create(2000, 1, 1)->startOfDay()->toIso8601String(),
+                'end_time' => Carbon::now()->toIso8601String(),
+            ];
         }
 
-        // max_start_time should be set to current time in UTC
-        $maxStartTime = Carbon::now()->utc()->toIso8601String();
-
-        return [
-            'min_start_time' => $minStartTime,
-            'max_start_time' => $maxStartTime,
-        ];
+        return $dateRange;
     }
 
     protected function fetchAndStoreEvents($url, $token, $dateRange)
