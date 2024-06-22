@@ -18,37 +18,29 @@ class FetchCalendlyEventsJob implements ShouldQueue
 
     public function handle()
     {
-        // Log::info('FetchCalendlyEventsJob started.');
-
         $token = env('CALENDLY_API_TOKEN');
         $url = 'https://api.calendly.com/scheduled_events';
         $dateRange = $this->determineDateRange();
 
-        // Log::info('Date range determined:', $dateRange);
-
         $this->fetchAndStoreEvents($url, $token, $dateRange);
-
-        // Log::info('FetchCalendlyEventsJob completed.');
     }
 
     protected function determineDateRange()
     {
-        $existingEvent = CalendlyEvent::first();
+        $lastEvent = CalendlyEvent::orderBy('created_at_api', 'desc')->first();
 
-        if ($existingEvent) {
+        if ($lastEvent) {
             $dateRange = [
-                'start_time' => Carbon::yesterday()->toIso8601String(),
+                'start_time' => Carbon::parse($lastEvent->created_at_api)->toIso8601String(),
                 'end_time' => Carbon::now()->toIso8601String(),
             ];
-            // Log::info('Existing event found, using date range from yesterday to now.', $dateRange);
-            return $dateRange;
+        } else {
+            $dateRange = [
+                'start_time' => Carbon::create(2020, 1, 1)->startOfDay()->toIso8601String(),
+                'end_time' => Carbon::now()->toIso8601String(),
+            ];
         }
 
-        $dateRange = [
-            'start_time' => Carbon::create(2020, 1, 1)->startOfDay()->toIso8601String(),
-            'end_time' => Carbon::now()->toIso8601String(),
-        ];
-        // Log::info('No existing event found, using full date range from 2020 to now.', $dateRange);
         return $dateRange;
     }
 
@@ -56,7 +48,6 @@ class FetchCalendlyEventsJob implements ShouldQueue
     {
         do {
             try {
-                // Build the query with organization parameter and date range
                 $query = [
                     'organization' => 'https://api.calendly.com/organizations/DFECEUCMFFA4O2SP',
                     'min_start_time' => $dateRange['start_time'],
@@ -65,17 +56,12 @@ class FetchCalendlyEventsJob implements ShouldQueue
                     'status' => 'active'
                 ];
 
-                // Log::info('Fetching events from Calendly API.', ['url' => $url, 'query' => $query]);
-
-                // Send the GET request with query parameters
                 $response = Http::withToken($token)->get($url, $query);
 
                 if ($response->successful()) {
                     $data = $response->json();
-                    // Log::info('API response received.', ['data' => $data]);
 
                     foreach ($data['collection'] as $event) {
-                        // Log::info('Processing event.', ['uri' => $event['uri']]);
                         CalendlyEvent::updateOrCreate(
                             ['uri' => $event['uri']],
                             [
@@ -106,9 +92,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
                         );
                     }
 
-                    // Move to the next page if available
                     $url = $data['pagination']['next_page'] ?? null;
-                    // Log::info('Next page URL.', ['next_page' => $url]);
                 } else {
                     Log::error('Failed to fetch events from Calendly API.', [
                         'status' => $response->status(),
@@ -126,3 +110,4 @@ class FetchCalendlyEventsJob implements ShouldQueue
         } while ($url);
     }
 }
+
