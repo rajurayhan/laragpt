@@ -18,17 +18,17 @@ class FetchCalendlyEventsJob implements ShouldQueue
 
     public function handle()
     {
-        Log::info('FetchCalendlyEventsJob started.');
+        // Log::info('FetchCalendlyEventsJob started.');
 
         $token = env('CALENDLY_API_TOKEN');
         $url = 'https://api.calendly.com/scheduled_events';
         $dateRange = $this->determineDateRange();
 
-        Log::info('Date range determined:', $dateRange);
+        // Log::info('Date range determined:', $dateRange);
 
         $this->fetchAndStoreEvents($url, $token, $dateRange);
 
-        Log::info('FetchCalendlyEventsJob completed.');
+        // Log::info('FetchCalendlyEventsJob completed.');
     }
 
     protected function determineDateRange()
@@ -40,7 +40,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
                 'start_time' => Carbon::yesterday()->toIso8601String(),
                 'end_time' => Carbon::now()->toIso8601String(),
             ];
-            Log::info('Existing event found, using date range from yesterday to now.', $dateRange);
+            // Log::info('Existing event found, using date range from yesterday to now.', $dateRange);
             return $dateRange;
         }
 
@@ -48,7 +48,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
             'start_time' => Carbon::create(2020, 1, 1)->startOfDay()->toIso8601String(),
             'end_time' => Carbon::now()->toIso8601String(),
         ];
-        Log::info('No existing event found, using full date range from 2020 to now.', $dateRange);
+        // Log::info('No existing event found, using full date range from 2020 to now.', $dateRange);
         return $dateRange;
     }
 
@@ -65,17 +65,17 @@ class FetchCalendlyEventsJob implements ShouldQueue
                     'status' => 'active'
                 ];
 
-                Log::info('Fetching events from Calendly API.', ['url' => $url, 'query' => $query]);
+                // Log::info('Fetching events from Calendly API.', ['url' => $url, 'query' => $query]);
 
                 // Send the GET request with query parameters
                 $response = Http::withToken($token)->get($url, $query);
 
                 if ($response->successful()) {
                     $data = $response->json();
-                    Log::info('API response received.', ['data' => $data]);
+                    // Log::info('API response received.', ['data' => $data]);
 
                     foreach ($data['collection'] as $event) {
-                        Log::info('Processing event.', ['uri' => $event['uri']]);
+                        // Log::info('Processing event.', ['uri' => $event['uri']]);
                         CalendlyEvent::updateOrCreate(
                             ['uri' => $event['uri']],
                             [
@@ -108,16 +108,16 @@ class FetchCalendlyEventsJob implements ShouldQueue
 
                     // Move to the next page if available
                     $url = $data['pagination']['next_page'] ?? null;
-                    Log::info('Next page URL.', ['next_page' => $url]);
+                    // Log::info('Next page URL.', ['next_page' => $url]);
                 } else {
-                    Log::error('Failed to fetch events from Calendly API.', [
+                    // Log::error('Failed to fetch events from Calendly API.', [
                         'status' => $response->status(),
                         'error' => $response->body()
                     ]);
                     break;
                 }
             } catch (\Exception $e) {
-                Log::error('Exception occurred while fetching events.', [
+                // Log::error('Exception occurred while fetching events.', [
                     'message' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
                 ]);
