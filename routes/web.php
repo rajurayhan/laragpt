@@ -8,6 +8,7 @@ use App\Services\ModelOrderManagerService;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -141,5 +142,9 @@ Route::get('/yelp-business-subscribe', function (Request $request) {
     } catch (RequestException $e) {
         // Handle Exception
     }
+});
+Route::get('/test-log', function () {
+    Log::info('Test log entry!');
+    return 'Log entry created!';
 });
 require __DIR__.'/auth.php';
