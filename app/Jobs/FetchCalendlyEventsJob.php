@@ -36,7 +36,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
             ];
         } else {
             $dateRange = [
-                'start_time' => Carbon::create(2020, 1, 1)->startOfDay()->toIso8601String(),
+                'start_time' => Carbon::create(1990, 1, 1)->startOfDay()->toIso8601String(),
                 'end_time' => Carbon::now()->toIso8601String(),
             ];
         }
