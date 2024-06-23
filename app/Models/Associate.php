@@ -14,6 +14,6 @@ class Associate extends Model
     protected $fillable = [
         'name',
         'email',
-        'rate',
+        'hourlyRate',
     ];
 }

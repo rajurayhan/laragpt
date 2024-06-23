@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->unsignedFloat('hourly_rate');
+            $table->unsignedFloat('hourlyRate');
             $table->softDeletes();
             $table->timestamps();
         });

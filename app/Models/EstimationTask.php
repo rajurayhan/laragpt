@@ -27,7 +27,7 @@ class EstimationTask extends Model
         'employeeRoleId',
         'userId',
         'associateId',
-        'rate',
+        'hourlyRate',
     ];
 
     public function associate()
