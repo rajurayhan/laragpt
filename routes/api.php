@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\DeliverablesController;
 use App\Http\Controllers\Api\EstimationsTasksController;
+use App\Http\Controllers\Api\AssociateController;
+use App\Http\Controllers\Api\TeamReviewController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\MeetingSummeryController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
@@ -108,7 +110,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
     Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
 
-    // deliverables api
+    // estimation tasks api
 
     Route::get('/estimation-tasks', [EstimationsTasksController::class, 'index'])->name('estimation.tasks.list');
     Route::post('/estimation-tasks/add-new', [EstimationsTasksController::class, 'addNew'])->name('estimation.tasks.add.new');
@@ -116,6 +118,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');
     Route::post('/estimation-tasks/{id}/add-associate', [EstimationsTasksController::class, 'addAssociate'])->name('estimation.tasks.add.associate');
 
+    //Associates
+    Route::get('/associates', [AssociateController::class, 'index'])->name('associates.list');
+
+    /*//Team Review
+    Route::post('/team-review', [TeamReviewController::class, 'index'])->name('team.review.save');*/
 
     Route::apiResource('projects', ProjectController::class);
 
