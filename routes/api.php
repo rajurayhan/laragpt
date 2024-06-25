@@ -121,8 +121,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Associates
     Route::get('/associates', [AssociateController::class, 'index'])->name('associates.list');
 
-    /*//Team Review
-    Route::post('/team-review', [TeamReviewController::class, 'index'])->name('team.review.save');*/
+    //Team Review
+    Route::post('/team-review', [TeamReviewController::class, 'saveTeamReview'])->name('team.review.save');
 
     Route::apiResource('projects', ProjectController::class);
 
