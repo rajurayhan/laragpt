@@ -52,7 +52,7 @@ class EstimationsTasksController extends Controller
     }
 
     public static function getEstimationTasks($problemGoalId){
-        $getEstimationTasks = EstimationTask::with(['associate'])->latest()->where('problemGoalId',$problemGoalId)->get();;
+        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();;
 
         return ['tasks'=>$getEstimationTasks];
     }
