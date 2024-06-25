@@ -28,4 +28,8 @@ class ScopeOfWorkAdditionalService extends Model
     {
         return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
+    public function serviceInfo()
+    {
+        return $this->belongsTo(Services::class, 'selectedServiceId', 'id');
+    }
 }

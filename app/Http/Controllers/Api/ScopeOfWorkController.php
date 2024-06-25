@@ -47,7 +47,7 @@ class ScopeOfWorkController extends Controller
     public static function getScopeOfWorks($problemGoalId)
     {
         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
-        $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)->get();
+        $additionalServices = ScopeOfWorkAdditionalService::with(['serviceInfo'])->where('problemGoalId', $problemGoalId)->get();
         return [
             'scopeOfWorks' => $scopeOfWorks,
             'additionalServices' => $additionalServices,
