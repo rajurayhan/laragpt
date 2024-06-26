@@ -25,7 +25,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $question = Question::paginate(10);
+        $question = Question::with(['serviceInfo'])->paginate(10);
 
         return response()->json([
             'data' => $question->items(),
@@ -40,6 +40,7 @@ class QuestionController extends Controller
      * @group Question Management
      *
      * @bodyParam title string required.
+     * @bodyParam serviceId int required.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -49,11 +50,14 @@ class QuestionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string',
+            'serviceId' => 'required|int',
         ]);
 
         $question = new Question;
         $question->title = $validatedData['title'];
+        $question->serviceId = $validatedData['serviceId'];
         $question->save();
+        $question->load('serviceInfo');
 
 
         $response = [
@@ -76,7 +80,7 @@ class QuestionController extends Controller
 
     public function show($id)
     {
-        $question = Question::findOrFail($id);
+        $question = Question::with(['serviceInfo'])->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $question,
@@ -91,6 +95,8 @@ class QuestionController extends Controller
      *
      * @urlParam question required The ID of the question to update. Example: 1
      * @bodyParam title string required.
+     * @bodyParam serviceId int required.
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  Question $question
      * @return \Illuminate\Http\JsonResponse
@@ -100,12 +106,14 @@ class QuestionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'string|max:255',
+            'serviceId' => 'required|int',
         ]);
-
-        $question = Question::findOrFail($request->id);
+        $question = Question::findOrFail($id);
 
         $question->title = $request->title;
+        $question->serviceId = $validatedData['serviceId'];
         $question->save();
+        $question->load('serviceInfo');
 
         $response = [
             'message' => 'Update Successfully ',

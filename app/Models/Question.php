@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
+    protected $table= 'questions';
     use HasFactory, SoftDeletes;
     /**
      * The attributes that are mass assignable
@@ -16,5 +17,11 @@ class Question extends Model
      */
     protected $fillable = [
         'title',
+        'serviceId',
     ];
+
+    public function serviceInfo()
+    {
+        return $this->belongsTo(Services::class, 'serviceId', 'id');
+    }
 }
