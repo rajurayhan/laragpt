@@ -10,6 +10,7 @@ use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
 use App\Models\EstimationTask;
 use App\Models\ProblemsAndGoals;
+use App\Models\ProjectTeam;
 use App\Models\ScopeOfWork;
 use App\Models\ScopeOfWorkAdditionalService;
 use App\Models\ServiceDeliverables;
@@ -153,13 +154,13 @@ class EstimationsTasksController extends Controller
 
         $findExisting = EstimationTask::where('problemGoalID',$validatedData['problemGoalId'])->first();
 
-        if($findExisting){
+        if($findExisting){ //TODO::temp
             return WebApiResponse::error(500, $errors = [], 'The task already generated.');
         }
 
         DB::beginTransaction();
 
-        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [ //TODO::temp, will be removed
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
@@ -208,6 +209,7 @@ class EstimationsTasksController extends Controller
 
 
 
+        $teams =  ProjectTeam::where('transcriptId',$problemAndGoal->meetingTranscript->id)->get()->keyBy('employeeRoleId');
         $serviceTaskByServiceDeliverableId = $serviceDeliverableTasks->groupBy('serviceDeliverableId');
         foreach ($deliverablesWithScope as $deliverable){
             if(empty($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId])) { continue; };
@@ -216,6 +218,8 @@ class EstimationsTasksController extends Controller
                 $estimationTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                 $estimationTask->problemGoalId = $problemAndGoal->id;
                 $estimationTask->serviceDeliverableTasksId = $task->id;
+                $estimationTask->employeeRoleId = $task->employeeRoleId;
+                $estimationTask->associateId = !empty($teams[$task->employeeRoleId])? $teams[$task->employeeRoleId]->associateId : null;
                 $estimationTask->serviceDeliverableTasksParentId = $task->parentTaskId;
                 $estimationTask->additionalServiceId = $deliverable->additionalServiceId;
                 $estimationTask->title = $task->name;

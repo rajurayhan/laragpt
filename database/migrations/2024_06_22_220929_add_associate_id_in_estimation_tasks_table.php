@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('estimation_tasks', function (Blueprint $table) {
             $table->unsignedBigInteger('associateId')->nullable()->references('id')->on('associates')->onDelete('cascade');
-            $table->unsignedFloat('hourlyRate');
+            $table->unsignedFloat('hourlyRate')->default(0);
         });
     }
 
