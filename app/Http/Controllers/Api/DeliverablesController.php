@@ -8,6 +8,8 @@ use App\Libraries\WebApiResponse;
 use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
 use App\Models\ProblemsAndGoals;
+use App\Models\Question;
+use App\Models\QuestionAnswer;
 use App\Models\ScopeOfWork;
 use App\Models\ServiceDeliverables;
 use App\Services\OpenAIGeneratorService;
@@ -49,10 +51,12 @@ class DeliverablesController extends Controller
     public static function getDeliverables($problemGoalId){
         $deliverables = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();;
         $deliverableNotes = DeliverablesNotes::where('problemGoalId',$problemGoalId)->get();;
+        $questionAnswers = QuestionAnswer::with(['questionInfo'])->where('problemGoalId',$problemGoalId)->get();;
 
         return [
             'deliverables'=> $deliverables,
             'deliverableNotes'=> $deliverableNotes,
+            'questionAnswers'=> $questionAnswers,
         ];
     }
 
@@ -217,6 +221,9 @@ class DeliverablesController extends Controller
      * @bodyParam notes object[] required An array of notes details.
      * @bodyParam notes[].noteLink string required. Example: https://tldv.io/app/meetings/663e283b70cff500132a9bbd
      * @bodyParam notes[].note string required. Example: lorem ipsum
+     * @bodyParam questions object[] required An array of notes details.
+     * @bodyParam questions[].questionId Int required. Example: 1
+     * @bodyParam questions[].answer string required. Example: lorem ipsum
      *
      */
 
@@ -228,22 +235,24 @@ class DeliverablesController extends Controller
                 'notes' => 'present|array',
                 'notes.*.note' => 'required|string',
                 'notes.*.noteLink' => 'required|url',
+                'questions' => 'present|array',
+                'questions.*.questionId' => 'required|int|exists:questions,id',
+                'questions.*.answer' => 'required|string',
             ]);
             $problemGoalId = $validatedData['problemGoalId'];
             $deliverableIds = $validatedData['deliverableIds'];
             $notes = $validatedData['notes'];
-            $problemAndGoal = ProblemsAndGoals::findOrFail($problemGoalId);
+            $questions = $validatedData['questions'];
+            $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($problemGoalId);
 
             DB::beginTransaction();
             Deliberable::where('problemGoalId', $problemGoalId)
                 ->whereIn('id', $deliverableIds)
-                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 1]);
 
             // Update the records that should not be checked
             Deliberable::where('problemGoalId', $problemGoalId)
                 ->whereNotIn('id', $deliverableIds)
-                ->whereNull('additionalServiceId')
                 ->update(['isChecked' => 0]);
 
             DeliverablesNotes::where('problemGoalId', $problemGoalId)->delete();
@@ -255,6 +264,23 @@ class DeliverablesController extends Controller
                 $deliverablesNotes->note = $note['note'];
                 $deliverablesNotes->noteLink = $note['noteLink'];
                 $deliverablesNotes->save();
+            }
+            QuestionAnswer::where('problemGoalId', $problemGoalId)->delete();
+            if(is_array($questions) && count($questions) > 0){
+                $questionIds = array_map(function($question){
+                    return $question['questionId'];
+                },$questions);
+                $questionsData = Question::whereIn('id', $questionIds)->where('serviceId',$problemAndGoal->meetingTranscript->serviceId)->get()->keyBy('id');
+                foreach ($questions as $question){
+                    if(empty($questionsData[$question['questionId']])) continue;
+                    $deliverablesNotes = new QuestionAnswer();
+                    $deliverablesNotes->title = $questionsData[$question['questionId']]->title;
+                    $deliverablesNotes->answer = $question['questionId'];
+                    $deliverablesNotes->problemGoalId = $problemAndGoal->id;
+                    $deliverablesNotes->transcriptId = $problemAndGoal->transcriptId;
+                    $deliverablesNotes->questionId = $question['questionId'];
+                    $deliverablesNotes->save();
+                }
             }
 
 
