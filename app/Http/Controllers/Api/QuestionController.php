@@ -20,18 +20,33 @@ class QuestionController extends Controller
      *
      * @group Question Management
      * @queryParam page integer page number.
+     * @queryParam serviceId integer page number.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $question = Question::with(['serviceInfo'])->paginate(10);
+        $questionQuery = Question::with(['serviceInfo']);
 
-        return response()->json([
-            'data' => $question->items(),
-            'total' => $question->total(),
-            'current_page' => $question->currentPage(),
-        ]);
+        if ($request->get('serviceId')) {
+            $questionQuery->where('serviceId', $request->get('serviceId'));
+        }
+
+        if ($request->has('page')) {
+            $question = $questionQuery->paginate(10);
+            return response()->json([
+                'data' => $question->items(),
+                'total' => $question->total(),
+                'current_page' => $question->currentPage(),
+            ]);
+        } else {
+            $questions = $questionQuery->get();
+            return response()->json([
+                'data' => $questions,
+                'total' => $questions->count(),
+            ]);
+        }
     }
 
     /**
