@@ -275,7 +275,7 @@ class DeliverablesController extends Controller
                     if(empty($questionsData[$question['questionId']])) continue;
                     $deliverablesNotes = new QuestionAnswer();
                     $deliverablesNotes->title = $questionsData[$question['questionId']]->title;
-                    $deliverablesNotes->answer = $question['questionId'];
+                    $deliverablesNotes->answer = $question['answer'];
                     $deliverablesNotes->problemGoalId = $problemAndGoal->id;
                     $deliverablesNotes->transcriptId = $problemAndGoal->transcriptId;
                     $deliverablesNotes->questionId = $question['questionId'];

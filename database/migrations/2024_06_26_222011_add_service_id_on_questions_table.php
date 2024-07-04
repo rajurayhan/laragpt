@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->unsignedBigInteger('serviceId')
-                ->after('title')->nullable()->references('id')->on('services')->onDelete('cascade');
+            $table->json('serviceIds')->nullable()->after('title');
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn('serviceId');
+            $table->dropColumn('serviceIds');
         });
     }
 };

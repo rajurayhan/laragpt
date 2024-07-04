@@ -17,11 +17,10 @@ class Question extends Model
      */
     protected $fillable = [
         'title',
-        'serviceId',
+        'serviceIds',
     ];
 
-    public function serviceInfo()
-    {
-        return $this->belongsTo(Services::class, 'serviceId', 'id');
-    }
+    protected $casts = [
+        'serviceIds' => 'array',
+    ];
 }

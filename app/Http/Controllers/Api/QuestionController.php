@@ -27,10 +27,10 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
-        $questionQuery = Question::with(['serviceInfo']);
+        $questionQuery = Question::query();
 
         if ($request->get('serviceId')) {
-            $questionQuery->where('serviceId', $request->get('serviceId'));
+            $questionQuery->whereRaw('JSON_CONTAINS(serviceIds, ?)', [$request->get('serviceId')] );
         }
 
         if ($request->has('page')) {
@@ -55,7 +55,7 @@ class QuestionController extends Controller
      * @group Question Management
      *
      * @bodyParam title string required.
-     * @bodyParam serviceId int required.
+     * @bodyParam serviceIds int[] required An array of services. Example: [1,2,3]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -65,14 +65,13 @@ class QuestionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'serviceId' => 'required|int',
+            'serviceIds' => 'required|array',
         ]);
 
         $question = new Question;
         $question->title = $validatedData['title'];
-        $question->serviceId = $validatedData['serviceId'];
+        $question->serviceIds = $validatedData['serviceIds'];
         $question->save();
-        $question->load('serviceInfo');
 
 
         $response = [
@@ -95,7 +94,7 @@ class QuestionController extends Controller
 
     public function show($id)
     {
-        $question = Question::with(['serviceInfo'])->findOrFail($id);
+        $question = Question::findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $question,
@@ -110,7 +109,7 @@ class QuestionController extends Controller
      *
      * @urlParam question required The ID of the question to update. Example: 1
      * @bodyParam title string required.
-     * @bodyParam serviceId int required.
+     * @bodyParam serviceIds int[] required An array of services. Example: [1,2,3]
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Question $question
@@ -121,14 +120,13 @@ class QuestionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'string|max:255',
-            'serviceId' => 'required|int',
+            'serviceIds' => 'required|array',
         ]);
         $question = Question::findOrFail($id);
 
         $question->title = $request->title;
-        $question->serviceId = $validatedData['serviceId'];
+        $question->serviceIds = $validatedData['serviceIds'];
         $question->save();
-        $question->load('serviceInfo');
 
         $response = [
             'message' => 'Update Successfully ',
