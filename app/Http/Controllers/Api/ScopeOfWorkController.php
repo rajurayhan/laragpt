@@ -86,6 +86,54 @@ class ScopeOfWorkController extends Controller
             return WebApiResponse::error(500, $errors = [], $exception->getMessage());
         }
     }
+    /**
+     * Create a new Scope Of Work
+     *
+     * @group Scope Of Work
+     *
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
+     * @bodyParam scopeOfWorks object[] required An array of additional services.
+     * @bodyParam scopeOfWorks[].title int required The ID of the additional service. Example: 2
+     * @bodyParam scopeOfWorks[].serial int required An array of deliverable IDs to be marked. Example: 1
+     */
+
+    public function addMulti(Request $request)
+    {
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+            'scopeOfWorks' => 'required|array'
+        ]);
+        try {
+            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+            $batchId = (string) Str::uuid();
+
+            $scopeWorkList = [];
+            DB::beginTransaction();
+
+            foreach ($validatedData['scopeOfWorks'] as $scope) {
+                $scopeWork = new ScopeOfWork();
+                $scopeWork->serial = $scope['serial'];
+                $scopeWork->problemGoalID = $problemGoalsObj->id;
+                $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
+                $scopeWork->serviceScopeId = null;
+                $scopeWork->scopeText = null;
+                $scopeWork->additionalServiceId = null;
+                $scopeWork->title = $scope['title'];
+                $scopeWork->batchId = $batchId;
+                $scopeWork->save();
+                $scopeWorkList[] = $scopeWork;
+            }
+
+            DB::commit();
+            return response()->json([
+                'data' => $scopeWorkList
+            ], 201);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
 
 
     /**
@@ -154,7 +202,7 @@ class ScopeOfWorkController extends Controller
                     'title' => strip_tags($scope->name),
                 ];
             });
-            $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj);
+            $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj, 1);
             DB::commit();
 
             $scopeOfWorks = ScopeOfWork::where('problemGoalID', $problemGoalsObj->id)->get();
@@ -168,10 +216,12 @@ class ScopeOfWorkController extends Controller
         }
     }
 
-    private function storeScopeOfWork($scopes, $batchId, $problemGoalsObj)
+    private function storeScopeOfWork($scopes, $batchId, $problemGoalsObj, $serial)
     {
+
         foreach ($scopes as $scope) {
             $scopeWork = new ScopeOfWork();
+            $scopeWork->serial = $serial++;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->serviceScopeId = !empty($scope['scopeId']) ? $scope['scopeId'] : null;
@@ -252,6 +302,7 @@ class ScopeOfWorkController extends Controller
                     })->toArray(),
                     $batchId,
                     $problemGoalsObj,
+                    1
                 );
             }
 

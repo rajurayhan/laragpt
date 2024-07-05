@@ -22,6 +22,7 @@ class ScopeOfWork extends Model
         'transcriptId',
         'isChecked',
         'batchId',
+        'serial',
         'additionalServiceId',
     ];
 
