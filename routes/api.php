@@ -116,6 +116,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/estimation-tasks', [EstimationsTasksController::class, 'index'])->name('estimation.tasks.list');
     Route::post('/estimation-tasks/add-new', [EstimationsTasksController::class, 'addNew'])->name('estimation.tasks.add.new');
     Route::post('/estimation-tasks', [EstimationsTasksController::class, 'create'])->name('estimation.tasks.create');
+    Route::post('/estimation-tasks/checked', [EstimationsTasksController::class, 'checked'])->name('estimation.tasks.checked');
+    Route::post('/estimation-tasks/un-checked', [EstimationsTasksController::class, 'unChecked'])->name('estimation.tasks.unChecked');
     Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');
     Route::post('/estimation-tasks/{id}/add-associate', [EstimationsTasksController::class, 'addAssociate'])->name('estimation.tasks.add.associate');
 
@@ -123,7 +125,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/associates', [AssociateController::class, 'index'])->name('associates.list');
 
     //Team Review
-    Route::post('/team-review', [TeamReviewController::class, 'saveTeamReview'])->name('team.review.save');
+    Route::post('/team-review', [TeamReviewController::class, 'storeTeamReview'])->name('team.review.store');
+    Route::post('/team-review/update', [TeamReviewController::class, 'updateTeamReview'])->name('team.review.update');
 
     Route::apiResource('projects', ProjectController::class);
 

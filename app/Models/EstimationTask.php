@@ -28,8 +28,12 @@ class EstimationTask extends Model
         'userId',
         'associateId',
         'hourlyRate',
+        'isManualAssociated',
     ];
 
+    protected $casts = [
+        'isManualAssociated' => 'boolean',
+    ];
     public function associate()
     {
         return $this->belongsTo(Associate::class, 'associateId', 'id');

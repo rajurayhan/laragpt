@@ -53,9 +53,13 @@ class EstimationsTasksController extends Controller
     }
 
     public static function getEstimationTasks($problemGoalId){
+        $problemAndGoalObj = ProblemsAndGoals::findOrFail($problemGoalId);
         $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();;
-
-        return ['tasks'=>$getEstimationTasks];
+        $projectTeams = ProjectTeam::with(['employeeRoleInfo','associate'])->where('transcriptId',$problemAndGoalObj->transcriptId)->get();
+        return [
+            'tasks'=>$getEstimationTasks,
+            'projectTeams'=> $projectTeams,
+        ];
     }
 
     /**
@@ -293,6 +297,7 @@ class EstimationsTasksController extends Controller
 
         $estimationTask = EstimationTask::findOrFail($id);
         $estimationTask->associateId = $validatedData['associateId'];
+        $estimationTask->isManualAssociated = true;
         $estimationTask->save();
         $estimationTask->load('associate');
 
@@ -302,6 +307,110 @@ class EstimationsTasksController extends Controller
         ];
 
         return response()->json($response, 201);
+    }
+
+    /**
+     * Add Associate to Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @urlParam id int required Id of the EstimationTask.
+     * @bodyParam estimateHours int required
+     *
+     */
+
+    public function addEstimateHours($id, Request $request){
+        $validatedData = $request->validate([
+            'estimateHours' => 'required|int',
+        ]);
+
+        $estimationTask = EstimationTask::findOrFail($id);
+        $estimationTask->estimateHours = $validatedData['estimateHours'];
+        $estimationTask->save();
+        $estimationTask->load('associate');
+
+        $response = [
+            'message' => 'Estimate hours saved successfully',
+            'data' => $estimationTask,
+        ];
+
+        return response()->json($response, 201);
+    }
+
+    /**
+     * Checked Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
+     * @bodyParam taskIds int[] required An array of meeting links. Example: [1,2,3]
+     *
+     */
+
+    public function checked(Request $request){
+        try{
+            $validatedData = $request->validate([
+                'problemGoalId' => 'required|int',
+                'taskIds' => 'required|array',
+            ]);
+            $problemGoalId = $validatedData['problemGoalId'];
+            $taskIds = $validatedData['taskIds'];
+
+
+            DB::beginTransaction();
+            EstimationTask::where('problemGoalId', $problemGoalId)
+                ->whereIn('id', $taskIds)
+                ->update(['isChecked' => 1]);
+
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Task successfully checked',
+            ];
+            return response()->json($response, 201);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
+
+    /**
+     * Un-Checked Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
+     * @bodyParam taskIds int[] required An array of meeting links. Example: [1,2,3]
+     *
+     */
+
+    public function unChecked(Request $request){
+        try{
+            $validatedData = $request->validate([
+                'problemGoalId' => 'required|int',
+                'taskIds' => 'required|array',
+            ]);
+            $problemGoalId = $validatedData['problemGoalId'];
+            $taskIds = $validatedData['taskIds'];
+
+
+            DB::beginTransaction();
+            EstimationTask::where('problemGoalId', $problemGoalId)
+                ->whereIn('id', $taskIds)
+                ->update(['isChecked' => 0]);
+
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Task successfully un-checked',
+            ];
+            return response()->json($response, 201);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
     }
 }
 

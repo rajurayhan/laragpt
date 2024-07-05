@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
+use App\Models\EstimationTask;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectTeam;
@@ -30,14 +31,14 @@ class TeamReviewController extends Controller{
      *
      * @group Team Review
      *
-     * @bodyParam transcriptId int required Id of the ProblemsAndGoals.
+     * @bodyParam transcriptId int required id of the transcript.
      * @bodyParam teams object[] required An array of notes details.
      * @bodyParam teams[].employeeRoleId int required. Example: 1
      * @bodyParam teams[].associateId int required. Example: 2
      *
      */
 
-    public function saveTeamReview(Request $request){
+    public function storeTeamReview(Request $request){
         try{
             $validatedData = $request->validate([
                 'transcriptId' => 'required|int',
@@ -51,11 +52,18 @@ class TeamReviewController extends Controller{
 
             DB::beginTransaction();
             foreach ($teams as $team){
-                $deliverablesNotes = new ProjectTeam();
-                $deliverablesNotes->transcriptId = $transcript->id;
-                $deliverablesNotes->employeeRoleId = $team['employeeRoleId'];
-                $deliverablesNotes->associateId = $team['associateId'];
-                $deliverablesNotes->save();
+                EstimationTask
+                    ::where('transcriptId',$validatedData['transcriptId'])
+                    ->where('isManualAssociated',false)
+                    ->update([
+                        "associateId"=>$team['associateId']
+                    ]);
+
+                $projectTeam = new ProjectTeam();
+                $projectTeam->transcriptId = $transcript->id;
+                $projectTeam->employeeRoleId = $team['employeeRoleId'];
+                $projectTeam->associateId = $team['associateId'];
+                $projectTeam->save();
             }
 
 
@@ -63,6 +71,59 @@ class TeamReviewController extends Controller{
 
             $response = [
                 'message' => 'Team review successfully stored',
+            ];
+            return response()->json($response, 201);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
+    /**
+     * Team Review save
+     *
+     * @group Team Review
+     *
+     * @bodyParam transcriptId int required id of the transcript.
+     * @bodyParam employeeRoleId int required. Example: 1
+     * @bodyParam associateId int required. Example: 2
+     *
+     */
+
+    public function updateTeamReview(Request $request){
+        try{
+            $validatedData = $request->validate([
+                'transcriptId' => 'required|int',
+                'employeeRoleId' => 'required|int',
+                'associateId' => 'required|int',
+            ]);
+            $employeeRoleId = $validatedData['employeeRoleId'];
+            $associateId = $validatedData['associateId'];
+            ProjectTeam::where('transcriptId',$validatedData['transcriptId'])->delete();
+            $transcript = MeetingTranscript::findOrFail($validatedData['transcriptId']);
+
+            DB::beginTransaction();
+
+            EstimationTask
+                ::where('transcriptId',$transcript->id)
+                ->where('isManualAssociated',false)
+                ->update([
+                    "associateId"=>$associateId
+                ]);
+
+            $projectTeamData = ProjectTeam::updateOrCreate(
+                [
+                    'transcriptId' => $transcript->id,
+                    'employeeRoleId' => $employeeRoleId,
+                ],
+                ['associateId' => $associateId]
+            );
+
+
+            DB::commit();
+
+            $response = [
+                'message' => 'Team review successfully update',
+                'data'=>$projectTeamData
             ];
             return response()->json($response, 201);
         }catch (\Exception $exception){

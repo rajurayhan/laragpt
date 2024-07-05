@@ -19,4 +19,8 @@ class ProjectTeam extends Model
     {
         return $this->belongsTo(EmployeeRoles::class, 'employeeRoleId', 'id');
     }
+    public function associate()
+    {
+        return $this->belongsTo(Associate::class, 'associateId', 'id');
+    }
 }
