@@ -54,7 +54,7 @@ class EstimationsTasksController extends Controller
 
     public static function getEstimationTasks($problemGoalId){
         $problemAndGoalObj = ProblemsAndGoals::findOrFail($problemGoalId);
-        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();;
+        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork'])->latest()->where('problemGoalId',$problemGoalId)->get();;
         $projectTeams = ProjectTeam::with(['employeeRoleInfo','associate'])->where('transcriptId',$problemAndGoalObj->transcriptId)->get();
         return [
             'tasks'=>$getEstimationTasks,
@@ -197,7 +197,7 @@ class EstimationsTasksController extends Controller
             if(isset($task['subTasks']) && is_array($task['subTasks'])){
                 foreach ($task['subTasks'] as $subTask){
                     $estimationSubTask = new EstimationTask();
-                    $estimationTask->deliverableId = $task['deliverableId'];
+                    $estimationSubTask->deliverableId = $task['deliverableId'];
                     $estimationSubTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                     $estimationSubTask->problemGoalId = $problemAndGoal->id;
                     $estimationSubTask->estimationTasksParentId = $estimationTask->id;

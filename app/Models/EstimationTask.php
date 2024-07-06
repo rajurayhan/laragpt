@@ -38,6 +38,10 @@ class EstimationTask extends Model
     {
         return $this->belongsTo(Associate::class, 'associateId', 'id');
     }
+    public function deliverable()
+    {
+        return $this->belongsTo(Deliberable::class, 'deliverableId', 'id');
+    }
     public function additionalServiceInfo()
     {
         return $this->belongsTo(Services::class, 'additionalServiceId', 'id');
