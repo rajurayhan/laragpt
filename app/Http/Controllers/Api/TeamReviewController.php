@@ -98,7 +98,6 @@ class TeamReviewController extends Controller{
             ]);
             $employeeRoleId = $validatedData['employeeRoleId'];
             $associateId = $validatedData['associateId'];
-            ProjectTeam::where('transcriptId',$validatedData['transcriptId'])->delete();
             $transcript = MeetingTranscript::findOrFail($validatedData['transcriptId']);
 
             DB::beginTransaction();
