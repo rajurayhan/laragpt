@@ -46,7 +46,7 @@ class ScopeOfWorkController extends Controller
 
     public static function getScopeOfWorks($problemGoalId)
     {
-        $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
+        $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
         $additionalServices = ScopeOfWorkAdditionalService::with(['serviceInfo'])->where('problemGoalId', $problemGoalId)->get();
         return [
             'scopeOfWorks' => $scopeOfWorks,
@@ -93,8 +93,9 @@ class ScopeOfWorkController extends Controller
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam scopeOfWorks object[] required An array of additional services.
-     * @bodyParam scopeOfWorks[].title int required The ID of the additional service. Example: 2
-     * @bodyParam scopeOfWorks[].serial int required An array of deliverable IDs to be marked. Example: 1
+     * @bodyParam scopeOfWorks[].title int required. Example: 2
+     * @bodyParam scopeOfWorks[].serial int required . Example: 1
+     * @bodyParam scopeOfWorks[].serviceId int required. Example: 1
      */
 
     public function addMulti(Request $request)
@@ -205,7 +206,7 @@ class ScopeOfWorkController extends Controller
             $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj, 1);
             DB::commit();
 
-            $scopeOfWorks = ScopeOfWork::where('problemGoalID', $problemGoalsObj->id)->get();
+            $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalID', $problemGoalsObj->id)->get();
             return response()->json([
                 'data' => $scopeOfWorks
             ], 201);
