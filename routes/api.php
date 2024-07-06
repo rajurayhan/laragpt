@@ -119,6 +119,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/estimation-tasks/checked', [EstimationsTasksController::class, 'checked'])->name('estimation.tasks.checked');
     Route::post('/estimation-tasks/un-checked', [EstimationsTasksController::class, 'unChecked'])->name('estimation.tasks.unChecked');
     Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');
+    Route::post('/estimation-tasks/{id}/add-estimate-hours', [EstimationsTasksController::class, 'addEstimateHours'])->name('estimation.tasks.add.estimateHours');
     Route::post('/estimation-tasks/{id}/add-associate', [EstimationsTasksController::class, 'addAssociate'])->name('estimation.tasks.add.associate');
 
     //Associates
