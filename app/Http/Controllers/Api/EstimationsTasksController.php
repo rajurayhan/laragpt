@@ -54,7 +54,7 @@ class EstimationsTasksController extends Controller
 
     public static function getEstimationTasks($problemGoalId){
         $problemAndGoalObj = ProblemsAndGoals::findOrFail($problemGoalId);
-        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork'])->latest()->where('problemGoalId',$problemGoalId)->get();;
+        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork'])->latest('created_at')->where('problemGoalId',$problemGoalId)->get();;
         $projectTeams = ProjectTeam::with(['employeeRoleInfo','associate'])->where('transcriptId',$problemAndGoalObj->transcriptId)->get();
         return [
             'tasks'=>$getEstimationTasks,
@@ -299,7 +299,7 @@ class EstimationsTasksController extends Controller
         $estimationTask->associateId = $validatedData['associateId'];
         $estimationTask->isManualAssociated = true;
         $estimationTask->save();
-        $estimationTask->load('associate');
+        $estimationTask->load(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork']);
 
         $response = [
             'message' => 'Estimation Task association saved successfully',
@@ -327,7 +327,7 @@ class EstimationsTasksController extends Controller
         $estimationTask = EstimationTask::findOrFail($id);
         $estimationTask->estimateHours = $validatedData['estimateHours'];
         $estimationTask->save();
-        $estimationTask->load('associate');
+        $estimationTask->load(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork']);
 
         $response = [
             'message' => 'Estimate hours saved successfully',
