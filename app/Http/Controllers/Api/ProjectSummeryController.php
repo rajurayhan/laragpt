@@ -36,24 +36,29 @@ use Illuminate\Support\Facades\Log;
      */
      public function index(Request $request)
      {
-         $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'meetingTranscript.serviceInfo', 'createdBy');
+         try {
+             $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'meetingTranscript.serviceInfo', 'createdBy');
 
-         // Paginate the results if a page number is provided
-         if ($request->has('page')) {
-             $meetings = $query->paginate($request->get('per_page')??10);
+             // Paginate the results if a page number is provided
+             if ($request->has('page')) {
+                 $meetings = $query->paginate($request->get('per_page')??10);
+                 return response()->json([
+                     'data' => $meetings->items(),
+                     'total' => $meetings->total(),
+                     'current_page' => $meetings->currentPage(),
+                     'per_page' => $meetings->perPage(),
+                 ]);
+             }
+
+             // Fetch all data if no page number is provided
+             $meetings = $query->get();
              return response()->json([
-                 'data' => $meetings->items(),
-                 'total' => $meetings->total(),
-                 'current_page' => $meetings->currentPage(),
-                 'per_page' => $meetings->perPage(),
+                 'data' => $meetings,
              ]);
+         } catch (\Exception $e) {
+             \Log::info(['ProjectSummeryController@index', $e]);
+             return response()->json(['message' => 'Error fetching conversations', 'error' => $e->getMessage()], 500);
          }
-
-         // Fetch all data if no page number is provided
-         $meetings = $query->get();
-         return response()->json([
-             'data' => $meetings,
-         ]);
      }
 
     /**
