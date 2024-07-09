@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\DeliverablesController;
+use App\Http\Controllers\Api\EstimationsTasksController;
+use App\Http\Controllers\Api\AssociateController;
+use App\Http\Controllers\Api\TeamReviewController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\MeetingSummeryController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
@@ -26,6 +29,7 @@ use App\Http\Controllers\Api\System\MeetingTypeController;
 use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\QuestionController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Services;
@@ -55,6 +59,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
+    // Question Setup routes
+    Route::get('/questions', [QuestionController::class, 'index'])->name('user.list');
+    Route::post('/questions', [QuestionController::class, 'store'])->name('user.create');
+    Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('user.show');
+    Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('user.update');
+    Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('user.delete');
+
     // Prompts routes
     Route::get('/prompts', [PromptController::class, 'index'])->name('prompt.list');
     Route::post('/prompts', [PromptController::class, 'store'])->name('prompt.create');
@@ -80,6 +91,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');
     Route::post('/problems-and-goals/{id}', [ProblemAndGoalController::class, 'update'])->name('problems.goals.update');
 
+    // project-overview routes
+    Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');
+    Route::post('/project-overview/{id}', [ProjectOverviewController::class, 'update'])->name('project.overview.update');
+
+    Route::get('/scope-of-work', [ScopeOfWorkController::class, 'index'])->name('scope.of.work.list');
+    Route::post('/scope-of-work/add-new', [ScopeOfWorkController::class, 'addNew'])->name('scope.of.work.add.new');
+    Route::post('/scope-of-work/add-multi', [ScopeOfWorkController::class, 'addMulti'])->name('scope.of.work.add.multi');
+    Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
+    Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
+    Route::post('/scope-of-work-select', [ScopeOfWorkController::class, 'select'])->name('scope.of.work.select');
+
     // deliverables api
 
     Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
@@ -89,15 +111,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
     Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
 
-    // project-overview routes
-    Route::post('/project-overview', [ProjectOverviewController::class, 'create'])->name('project.overview.create');
-    Route::post('/project-overview/{id}', [ProjectOverviewController::class, 'update'])->name('project.overview.update');
+    // estimation tasks api
 
-    Route::get('/scope-of-work', [ScopeOfWorkController::class, 'index'])->name('scope.of.work.list');
-    Route::post('/scope-of-work/add-new', [ScopeOfWorkController::class, 'addNew'])->name('scope.of.work.add.new');
-    Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
-    Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
-    Route::post('/scope-of-work-select', [ScopeOfWorkController::class, 'select'])->name('scope.of.work.select');
+    Route::get('/estimation-tasks', [EstimationsTasksController::class, 'index'])->name('estimation.tasks.list');
+    Route::post('/estimation-tasks/add-new', [EstimationsTasksController::class, 'addNew'])->name('estimation.tasks.add.new');
+    Route::post('/estimation-tasks', [EstimationsTasksController::class, 'create'])->name('estimation.tasks.create');
+    Route::post('/estimation-tasks/checked', [EstimationsTasksController::class, 'checked'])->name('estimation.tasks.checked');
+    Route::post('/estimation-tasks/un-checked', [EstimationsTasksController::class, 'unChecked'])->name('estimation.tasks.unChecked');
+    Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');
+    Route::post('/estimation-tasks/{id}/add-estimate-hours', [EstimationsTasksController::class, 'addEstimateHours'])->name('estimation.tasks.add.estimateHours');
+    Route::post('/estimation-tasks/{id}/add-associate', [EstimationsTasksController::class, 'addAssociate'])->name('estimation.tasks.add.associate');
+
+    //Associates
+    Route::get('/associates', [AssociateController::class, 'index'])->name('associates.list');
+
+    //Team Review
+    Route::post('/team-review', [TeamReviewController::class, 'storeTeamReview'])->name('team.review.store');
+    Route::post('/team-review/update', [TeamReviewController::class, 'updateTeamReview'])->name('team.review.update');
 
     Route::apiResource('projects', ProjectController::class);
 

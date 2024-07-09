@@ -26,4 +26,9 @@ class Deliberable extends Model
     {
         return $this->belongsTo(ScopeOfWork::class, 'scopeOfWorkId', 'id');
     }
+
+    public function additionalServiceInfo()
+    {
+        return $this->belongsTo(Services::class, 'additionalServiceId', 'id');
+    }
 }

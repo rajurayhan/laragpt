@@ -9,6 +9,7 @@ enum PromptType : int
     case PROJECT_OVERVIEW = 3;
     case SCOPE_OF_WORK = 4;
     case DELIVERABLES = 5;
+    case TASKS = 8;
     case MEETING_SUMMARY = 6;
     case OTHER = 7;
 

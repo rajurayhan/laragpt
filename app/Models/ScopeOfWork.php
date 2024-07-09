@@ -22,6 +22,7 @@ class ScopeOfWork extends Model
         'transcriptId',
         'isChecked',
         'batchId',
+        'serial',
         'additionalServiceId',
     ];
 
@@ -37,6 +38,10 @@ class ScopeOfWork extends Model
     public function meetingTranscript()
     {
         return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
+    }
+    public function additionalServiceInfo()
+    {
+        return $this->belongsTo(Services::class, 'additionalServiceId', 'id');
     }
 
 }

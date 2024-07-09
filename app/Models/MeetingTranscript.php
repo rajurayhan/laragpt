@@ -20,6 +20,9 @@ class MeetingTranscript extends Model
         'clientPhone',
         'clientEmail',
         'clientWebsite',
+        'meetingLinks',
+        'assistantId',
+        'threadId',
     ];
 
     public function projectSummary()

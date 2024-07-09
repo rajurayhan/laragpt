@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\ProjectType;
+use Illuminate\Support\Facades\Http;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
-use App\Models\MeetingSummery;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
-use App\Models\Services;
-use App\Rules\USPhoneNumber;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -38,24 +36,29 @@ use Illuminate\Support\Facades\DB;
      */
      public function index(Request $request)
      {
-         $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'meetingTranscript.serviceInfo', 'createdBy');
+         try {
+             $query = ProjectSummary::latest()->with('meetingTranscript','meetingTranscript.meetingLinks', 'meetingTranscript.serviceInfo', 'createdBy');
 
-         // Paginate the results if a page number is provided
-         if ($request->has('page')) {
-             $meetings = $query->paginate($request->get('per_page')??10);
+             // Paginate the results if a page number is provided
+             if ($request->has('page')) {
+                 $meetings = $query->paginate($request->get('per_page')??10);
+                 return response()->json([
+                     'data' => $meetings->items(),
+                     'total' => $meetings->total(),
+                     'current_page' => $meetings->currentPage(),
+                     'per_page' => $meetings->perPage(),
+                 ]);
+             }
+
+             // Fetch all data if no page number is provided
+             $meetings = $query->get();
              return response()->json([
-                 'data' => $meetings->items(),
-                 'total' => $meetings->total(),
-                 'current_page' => $meetings->currentPage(),
-                 'per_page' => $meetings->perPage(),
+                 'data' => $meetings,
              ]);
+         } catch (\Exception $e) {
+             \Log::info(['ProjectSummeryController@index', $e]);
+             return response()->json(['message' => 'Error fetching conversations', 'error' => $e->getMessage()], 500);
          }
-
-         // Fetch all data if no page number is provided
-         $meetings = $query->get();
-         return response()->json([
-             'data' => $meetings,
-         ]);
      }
 
     /**
@@ -101,7 +104,6 @@ use Illuminate\Support\Facades\DB;
 
 
             DB::beginTransaction();
-
             $existingMeetingLinks = [];
             if($request->filled('transcriptId')) {
                 $meetingTranscript = MeetingTranscript::find($request->transcriptId);
@@ -109,6 +111,7 @@ use Illuminate\Support\Facades\DB;
             }else{
                 $meetingTranscript = new MeetingTranscript();
             }
+
             $meetingTranscript->projectName = $request->projectName;
             $meetingTranscript->serviceId = $request->serviceId;
             $meetingTranscript->company = $request->company;
@@ -116,7 +119,6 @@ use Illuminate\Support\Facades\DB;
             $meetingTranscript->clientEmail = $request->clientEmail;
             $meetingTranscript->clientWebsite = $request->clientWebsite;
             $meetingTranscript->save();
-
 
             $transcriptText1stValue = null;
             foreach($validatedData['meetingLinks'] as $index => $link){
@@ -139,22 +141,25 @@ use Illuminate\Support\Facades\DB;
             $meetingTranscript = $meetingTranscript->load(['meetingLinks','serviceInfo']);
 
 
-
-            // Generate Summery
-            $summery = OpenAIGeneratorService::generateSummery($transcriptText1stValue, $prompt->prompt);
-
-            // $projectSummeryObj = new ProjectSummary();
-            // $projectSummeryObj->summaryText = $summery;
-            // $projectSummeryObj->transcriptId = $meetingObj->id;
-
-            // $projectSummeryObj->save();
+            $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
+                'transcript' => $transcriptText1stValue,
+                'prompt' => $prompt->prompt,
+            ]);
+            if (!$response->successful()) {
+                WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
+            }
+            Log::info(['Summery Generate AI.',$response]);
+            $data = $response->json();
 
             $projectSummeryObj = ProjectSummary::updateOrCreate(
                 ['transcriptId' => $meetingTranscript->id],
-                ['summaryText' => $summery]
+                ['summaryText' => $data['data']['summery']]
             );
-
+            $meetingTranscript->assistantId = $data['data']['assistantId'];
+            $meetingTranscript->threadId = $data['data']['threadId'];
+            $meetingTranscript->save();
             $projectSummeryObj->meetingTranscript = $meetingTranscript;
+
             DB::commit();
             $response = [
                 'message' => 'Created Successfully',
@@ -199,8 +204,17 @@ use Illuminate\Support\Facades\DB;
                 'deliverableNotes' => [],
             ];
         }
+
+        if(!empty($projectSummeryObj->meetingTranscript->problemsAndGoals->id)){
+            $tasksData = EstimationsTasksController::getEstimationTasks($projectSummeryObj->meetingTranscript->problemsAndGoals->id);
+        }else{
+            $tasksData = [
+                'tasks' => [],
+            ];
+        }
         $projectSummeryObj->scopeOfWorksData = $scopeOfWorksData;
         $projectSummeryObj->deliverablesData = $deliverablesData;
+        $projectSummeryObj->tasksData = $tasksData;
 
         $response = [
             'message' => 'Data Showed Successfully',
@@ -245,23 +259,7 @@ use Illuminate\Support\Facades\DB;
      */
     public function delete($id){
         $projectSummeryObj = ProjectSummary::findOrFail($id);
-        if($projectSummeryObj->meetingTranscript->problemsAndGoals){
-            $projectSummeryObj->meetingTranscript->problemsAndGoals->delete();
-            if($projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork){
-                $projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->delete();
-                if($projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->deliverables){
-                    $projectSummeryObj->meetingTranscript->problemsAndGoals->scopeOfWork->deliverables->delete();
-                }
-            }
-            if($projectSummeryObj->meetingTranscript->problemsAndGoals->projectOverview){
-                $projectSummeryObj->meetingTranscript->problemsAndGoals->projectOverview->delete();
-            }
-        }
         $projectSummeryObj->delete();
-        if($projectSummeryObj->meetingTranscript){
-            MeetingLink::where('transcriptId',$projectSummeryObj->meetingTranscript->id)->delete();
-            $projectSummeryObj->meetingTranscript->delete();
-        }
         $response = [
             'message' => 'Deleted Successfully',
             'data' => []

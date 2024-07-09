@@ -13,6 +13,7 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -20,38 +21,38 @@ use Illuminate\Support\Str;
 /**
  * @authenticated
  */
-
- class ScopeOfWorkController extends Controller
+class ScopeOfWorkController extends Controller
 {
     private $promptType = PromptType::SCOPE_OF_WORK;
 
-     /**
-      * Get Scope of work list
-      *
-      * @group Scope Of Work
-      * @queryParam problemGoalId integer page number.
-      */
-     public function index(Request $request)
-     {
-         $validatedData = $request->validate([
-             'problemGoalId' => 'required|int',
-         ]);
+    /**
+     * Get Scope of work list
+     *
+     * @group Scope Of Work
+     * @queryParam problemGoalId integer page number.
+     */
+    public function index(Request $request)
+    {
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+        ]);
 
-         $data = $this::getScopeOfWorks($validatedData['problemGoalId']);
+        $data = $this::getScopeOfWorks($validatedData['problemGoalId']);
 
 
-         return response()->json([
-             'data'=> $data         ]);
-     }
+        return response()->json([
+            'data' => $data]);
+    }
 
-     public static function getScopeOfWorks($problemGoalId){
-         $scopeOfWorks = ScopeOfWork::latest()->where('problemGoalId',$problemGoalId)->whereNull('additionalServiceId')->get();
-         $additionalServices = ScopeOfWorkAdditionalService::where('problemGoalId',$problemGoalId)->get();
-         return [
-             'scopeOfWorks' => $scopeOfWorks,
-             'additionalServices' => $additionalServices,
-         ];
-     }
+    public static function getScopeOfWorks($problemGoalId)
+    {
+        $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
+        $additionalServices = ScopeOfWorkAdditionalService::with(['serviceInfo'])->where('problemGoalId', $problemGoalId)->get();
+        return [
+            'scopeOfWorks' => $scopeOfWorks,
+            'additionalServices' => $additionalServices,
+        ];
+    }
 
 
     /**
@@ -63,26 +64,76 @@ use Illuminate\Support\Str;
      * @bodyParam title string required
      */
 
-    public function addNew(Request $request){
+    public function addNew(Request $request)
+    {
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'title' => 'required|string'
         ]);
-       try{
-           $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+        try {
+            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
 
-           $scopeWork = new ScopeOfWork();
-           $scopeWork->problemGoalID = $problemGoalsObj->id;
-           $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
-           $scopeWork->title = $request->get("title");
-           $scopeWork->save();
-           return response()->json([
-               'data'=> $scopeWork
-           ], 201);
+            $scopeWork = new ScopeOfWork();
+            $scopeWork->problemGoalID = $problemGoalsObj->id;
+            $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
+            $scopeWork->title = $request->get("title");
+            $scopeWork->save();
+            return response()->json([
+                'data' => $scopeWork
+            ], 201);
 
-       }catch (\Exception $exception){
-           return WebApiResponse::error(500, $errors = [], $exception->getMessage());
-       }
+        } catch (\Exception $exception) {
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
+    /**
+     * Create a new Scope Of Work
+     *
+     * @group Scope Of Work
+     *
+     * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
+     * @bodyParam scopeOfWorks object[] required An array of additional services.
+     * @bodyParam scopeOfWorks[].title int required. Example: 2
+     * @bodyParam scopeOfWorks[].serial int required . Example: 1
+     * @bodyParam scopeOfWorks[].serviceId int required. Example: 1
+     */
+
+    public function addMulti(Request $request)
+    {
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+            'scopeOfWorks' => 'required|array'
+        ]);
+        try {
+            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+            $batchId = (string) Str::uuid();
+
+            $scopeWorkList = [];
+            DB::beginTransaction();
+
+            foreach ($validatedData['scopeOfWorks'] as $scope) {
+                $scopeWork = new ScopeOfWork();
+                $scopeWork->serial = $scope['serial'];
+                $scopeWork->problemGoalID = $problemGoalsObj->id;
+                $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
+                $scopeWork->serviceScopeId = null;
+                $scopeWork->scopeText = null;
+                $scopeWork->additionalServiceId = null;
+                $scopeWork->title = $scope['title'];
+                $scopeWork->batchId = $batchId;
+                $scopeWork->save();
+                $scopeWorkList[] = $scopeWork;
+            }
+
+            DB::commit();
+            return response()->json([
+                'data' => $scopeWorkList
+            ], 201);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
     }
 
 
@@ -94,10 +145,11 @@ use Illuminate\Support\Str;
      * @bodyParam problemGoalID int required Id of the ProblemsAndGoals.
      */
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        if ($prompt == null) {
             $response = [
                 'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
                 'data' => []
@@ -107,77 +159,75 @@ use Illuminate\Support\Str;
         $validatedData = $request->validate([
             'problemGoalID' => 'required|int'
         ]);
-       try{
-           set_time_limit(500);
+        try {
+            set_time_limit(500);
 
 
-           $batchId = (string) Str::uuid();
+            $batchId = (string)Str::uuid();
 
 
-           $findExisting = ScopeOfWork::where('problemGoalID',$validatedData['problemGoalID'])->first();
+            $findExisting = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->first();
 
-           if($findExisting){
-               return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
-           }
+            if ($findExisting) {
+                return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
+            }
 
 
-           $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript','meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
+            $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
-           $serviceScope = ServiceScopes::where('projectTypeId',$problemGoalsObj->meetingTranscript->serviceInfo->projectTypeId)->get();
-
+            $serviceScope = ServiceScopes::where('projectTypeId', $problemGoalsObj->meetingTranscript->serviceInfo->projectTypeId)->get();
 
 
             DB::beginTransaction();
-
             $problemGoalsObj = ProblemsAndGoals::findOrFail($request->problemGoalID);
 
+            $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/scope-of-works-generate', [
+                'threadId' => $problemGoalsObj->meetingTranscript->threadId,
+                'assistantId' => $problemGoalsObj->meetingTranscript->assistantId,
+                'serviceId' => $problemGoalsObj->meetingTranscript->serviceId,
+                'prompt' => $prompt->prompt,
+            ]);
 
-            $aiScopes   = OpenAIGeneratorService::generateScopeOfWork($problemGoalsObj->problemGoalText, $prompt->prompt);
-            Log::debug(['$aiScopes',$aiScopes]);
-
-            if (!is_array($aiScopes) || count($aiScopes) < 1 || !isset($aiScopes[0]['title'])) {
-               return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
+            if (!$response->successful()) {
+                WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
             }
+            $data = $response->json();
+            Log::info(['Scope of work AI.', $data]);
 
-            if(count($serviceScope)>0){
-                $serviceScopeList = $serviceScope->map(function($scope){
-                    return [
-                        'scopeId' => $scope->id,
-                        'title' => strip_tags($scope->name),
-                    ];
-                })->toJson();
-                Log::debug(['$serviceScopeList',$serviceScopeList]);
-                $mergedScope = OpenAIGeneratorService::mergeScopeOfWork($serviceScopeList, json_encode($aiScopes));
-                Log::debug(['$mergedScope',$mergedScope]);
-
-                if (!is_array($mergedScope) || count($mergedScope) < 1 || !isset($mergedScope[0]['title'])) {
-                    return WebApiResponse::error(500, $errors = [], 'The merged result from AI is not expected output, Try again please');
-                }
-                $this->storeScopeOfWork($mergedScope, $batchId, $problemGoalsObj);
-            }else{
-                $this->storeScopeOfWork($aiScopes, $batchId, $problemGoalsObj);
+            if (!is_array($data['data']['scopeOfWork']) || count($data['data']['scopeOfWork']) < 1 || !isset($data['data']['scopeOfWork'][0]['title'])) {
+                return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
             }
+            $serviceScopeList = $serviceScope->map(function ($scope) {
+                return [
+                    'scopeId' => $scope->id,
+                    'title' => strip_tags($scope->name),
+                ];
+            });
+            $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj, 1);
+            DB::commit();
 
-           DB::commit();
-           $scopeOfWorks = ScopeOfWork::where('problemGoalID', $problemGoalsObj->id)->get();
-           return response()->json([
-               'data' => $scopeOfWorks
-           ], 201);
+            $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalID', $problemGoalsObj->id)->get();
+            return response()->json([
+                'data' => $scopeOfWorks
+            ], 201);
 
-       }catch (\Exception $exception){
-           DB::rollBack();
-           return WebApiResponse::error(500, $errors = [], $exception->getMessage());
-       }
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
     }
 
-    private  function storeScopeOfWork($scopes, $batchId, $problemGoalsObj){
-        foreach($scopes as $scope){
+    private function storeScopeOfWork($scopes, $batchId, $problemGoalsObj, $serial)
+    {
+
+        foreach ($scopes as $scope) {
             $scopeWork = new ScopeOfWork();
+            $scopeWork->serial = $serial++;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
-            $scopeWork->serviceScopeId = !empty($scope['scopeId'])? $scope['scopeId'] : null;
-            $scopeWork->scopeText = !empty($scope['details'])? $scope['details']: null;
-            $scopeWork->additionalServiceId = !empty($scope['additionalServiceId'])? $scope['additionalServiceId']: null;
+            $scopeWork->serviceScopeId = !empty($scope['scopeId']) ? $scope['scopeId'] : null;
+            $scopeWork->scopeText = !empty($scope['details']) ? $scope['details'] : null;
+            $scopeWork->additionalServiceId = !empty($scope['additionalServiceId']) ? $scope['additionalServiceId'] : null;
             $scopeWork->title = $scope['title'];
             $scopeWork->batchId = $batchId;
             $scopeWork->save();
@@ -195,13 +245,14 @@ use Illuminate\Support\Str;
      *
      */
 
-    public function select(Request $request){
+    public function select(Request $request)
+    {
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'scopeOfWorkIds' => 'required|array',
             'serviceIds' => 'present|array',
         ]);
-        try{
+        try {
             $problemGoalId = $validatedData['problemGoalId'];
             $scopeOfWorkIds = $validatedData['scopeOfWorkIds'];
             $serviceIds = $validatedData['serviceIds'];
@@ -230,10 +281,10 @@ use Illuminate\Support\Str;
             $serviceIdsToDelete = array_diff($existingServiceIds, $serviceIds);
 
             $additionalServiceScopes = ServiceScopes::whereIn('serviceId', $serviceIdsToAdd)->get()->groupBy('serviceId');
-            $batchId = (string) Str::uuid();
+            $batchId = (string)Str::uuid();
 
             foreach ($serviceIdsToAdd as $serviceIdValue) {
-                if(!isset($additionalServiceScopes[$serviceIdValue])){
+                if (!isset($additionalServiceScopes[$serviceIdValue])) {
                     continue;
                 }
                 $scopeOfWorkAdditionalService = new ScopeOfWorkAdditionalService();
@@ -243,7 +294,7 @@ use Illuminate\Support\Str;
                 $scopeOfWorkAdditionalService->save();
 
                 $this->storeScopeOfWork(
-                    $additionalServiceScopes[$serviceIdValue]->map(function($scope){
+                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) {
                         return [
                             'scopeId' => $scope->id,
                             'title' => strip_tags($scope->name),
@@ -252,6 +303,7 @@ use Illuminate\Support\Str;
                     })->toArray(),
                     $batchId,
                     $problemGoalsObj,
+                    1
                 );
             }
 
@@ -267,11 +319,12 @@ use Illuminate\Support\Str;
                 'message' => 'Scope of work selected successfully',
             ];
             return response()->json($response, 201);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return WebApiResponse::error(500, $errors = [], $exception->getMessage());
         }
     }
+
     /**
      * Update Scope Of Work
      *
@@ -282,7 +335,8 @@ use Illuminate\Support\Str;
      *
      */
 
-    public function update($id, Request $request){
+    public function update($id, Request $request)
+    {
         $validatedData = $request->validate([
             'title' => 'required|string',
         ]);

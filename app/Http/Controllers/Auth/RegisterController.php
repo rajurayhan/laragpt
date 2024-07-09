@@ -64,6 +64,7 @@ class RegisterController extends Controller
 
             return response(['user' => $user, 'token' => $token], 201);
         } catch (\Exception $e) {
+            dd($e);
             return response(['message' => 'Error occurred during registration'], 500);
         }
     }
