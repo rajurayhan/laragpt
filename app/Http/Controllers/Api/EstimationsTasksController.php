@@ -129,6 +129,12 @@ class EstimationsTasksController extends Controller
         $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',array_merge([$problemAndGoal->meetingTranscript->serviceId], $additionalServiceIds))->get();
         $deliverables = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('isChecked',1)->get();
 
+        $input = [
+            "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,
+            "CLIENT-COMPANY-NAME" => $problemAndGoal->meetingTranscript->company,
+            "CLIENT-PHONE" => $problemAndGoal->meetingTranscript->clientPhone,
+        ];
+
 
         $batchId = (string) Str::uuid();
 
@@ -218,6 +224,11 @@ class EstimationsTasksController extends Controller
         foreach ($deliverablesWithScope as $deliverable){
             if(empty($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId])) { continue; };
             foreach ($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId] as $task){
+                $title = strip_tags($task->name);
+                foreach ($input as $key => $value) {
+                    $placeholder = "{" . $key . "}";
+                    $title = str_replace($placeholder, $value, $title);
+                }
                 $estimationTask = new EstimationTask();
                 $estimationTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                 $estimationTask->problemGoalId = $problemAndGoal->id;
@@ -226,7 +237,7 @@ class EstimationsTasksController extends Controller
                 $estimationTask->associateId = !empty($teams[$task->employeeRoleId])? $teams[$task->employeeRoleId]->associateId : null;
                 $estimationTask->serviceDeliverableTasksParentId = $task->parentTaskId;
                 $estimationTask->additionalServiceId = $deliverable->additionalServiceId;
-                $estimationTask->title = $task->name;
+                $estimationTask->title = $title;
                 $estimationTask->details = $task->description;
                 $estimationTask->estimateHours = $task->cost;
                 $estimationTask->isChecked = 1;

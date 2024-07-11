@@ -131,6 +131,11 @@ class DeliverablesController extends Controller
         if(!$problemAndGoal){
             return WebApiResponse::error(500, $errors = [], 'Problem and Goal not found.');
         }
+        $input = [
+            "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,
+            "CLIENT-COMPANY-NAME" => $problemAndGoal->meetingTranscript->company,
+            "CLIENT-PHONE" => $problemAndGoal->meetingTranscript->clientPhone,
+        ];
         $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
             ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
             ->get();
@@ -142,11 +147,16 @@ class DeliverablesController extends Controller
             return !empty($value->serviceScopeId);
         });
 
-        $scopeDeliveryList = $serviceScopeList->reduce(function ($carry, $item) {
-            return $carry->merge($item->deliverables->map(function ($delivery) use($item){
+        $scopeDeliveryList = $serviceScopeList->reduce(function ($carry, $item) use($input) {
+            return $carry->merge($item->deliverables->map(function ($delivery) use($item, $input){
+                $title = strip_tags($delivery->name);
+                foreach ($input as $key => $value) {
+                    $placeholder = "{" . $key . "}";
+                    $title = str_replace($placeholder, $value, $title);
+                }
                 unset($item->deliverables);
                 $delivery->scopeOfWork = $item;
-                $delivery->name = strip_tags($delivery->name);
+                $delivery->name = $title;
                 return $delivery;
             }));
         },collect([]));
@@ -270,7 +280,7 @@ class DeliverablesController extends Controller
                 $questionIds = array_map(function($question){
                     return $question['questionId'];
                 },$questions);
-                $questionsData = Question::whereIn('id', $questionIds)->where('serviceId',$problemAndGoal->meetingTranscript->serviceId)->get()->keyBy('id');
+                $questionsData = Question::whereIn('id', $questionIds)->get()->keyBy('id');
                 foreach ($questions as $question){
                     if(empty($questionsData[$question['questionId']])) continue;
                     $deliverablesNotes = new QuestionAnswer();

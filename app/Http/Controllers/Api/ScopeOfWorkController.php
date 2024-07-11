@@ -71,12 +71,25 @@ class ScopeOfWorkController extends Controller
             'title' => 'required|string'
         ]);
         try {
-            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+            $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
+
+            $input = [
+                "CLIENT-EMAIL" => $problemGoalsObj->meetingTranscript->clientEmail,
+                "CLIENT-COMPANY-NAME" => $problemGoalsObj->meetingTranscript->company,
+                "CLIENT-PHONE" => $problemGoalsObj->meetingTranscript->clientPhone,
+            ];
+
+            $title = strip_tags($request->get("title"));
+            foreach ($input as $key => $value) {
+                $placeholder = "{" . $key . "}";
+                $title = str_replace($placeholder, $value, $title);
+            }
+
 
             $scopeWork = new ScopeOfWork();
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
-            $scopeWork->title = $request->get("title");
+            $scopeWork->title = $title;
             $scopeWork->save();
             return response()->json([
                 'data' => $scopeWork
@@ -105,13 +118,24 @@ class ScopeOfWorkController extends Controller
             'scopeOfWorks' => 'required|array'
         ]);
         try {
-            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+            $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
             $batchId = (string) Str::uuid();
 
             $scopeWorkList = [];
+
+            $input = [
+                "CLIENT-EMAIL" => $problemGoalsObj->meetingTranscript->clientEmail,
+                "CLIENT-COMPANY-NAME" => $problemGoalsObj->meetingTranscript->company,
+                "CLIENT-PHONE" => $problemGoalsObj->meetingTranscript->clientPhone,
+            ];
             DB::beginTransaction();
 
             foreach ($validatedData['scopeOfWorks'] as $scope) {
+                $title = strip_tags($scope['title']);
+                foreach ($input as $key => $value) {
+                    $placeholder = "{" . $key . "}";
+                    $title = str_replace($placeholder, $value, $title);
+                }
                 $scopeWork = new ScopeOfWork();
                 $scopeWork->serial = $scope['serial'];
                 $scopeWork->problemGoalID = $problemGoalsObj->id;
@@ -119,7 +143,7 @@ class ScopeOfWorkController extends Controller
                 $scopeWork->serviceScopeId = null;
                 $scopeWork->scopeText = null;
                 $scopeWork->additionalServiceId = null;
-                $scopeWork->title = $scope['title'];
+                $scopeWork->title = $title;
                 $scopeWork->batchId = $batchId;
                 $scopeWork->save();
                 $scopeWorkList[] = $scopeWork;
@@ -175,6 +199,12 @@ class ScopeOfWorkController extends Controller
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
+            $input = [
+                "CLIENT-EMAIL" => $problemGoalsObj->meetingTranscript->clientEmail,
+                "CLIENT-COMPANY-NAME" => $problemGoalsObj->meetingTranscript->company,
+                "CLIENT-PHONE" => $problemGoalsObj->meetingTranscript->clientPhone,
+            ];
+
             $serviceScope = ServiceScopes::where('projectTypeId', $problemGoalsObj->meetingTranscript->serviceInfo->projectTypeId)->get();
 
 
@@ -197,10 +227,17 @@ class ScopeOfWorkController extends Controller
             if (!is_array($data['data']['scopeOfWork']) || count($data['data']['scopeOfWork']) < 1 || !isset($data['data']['scopeOfWork'][0]['title'])) {
                 return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
             }
-            $serviceScopeList = $serviceScope->map(function ($scope) {
+
+            $serviceScopeList = $serviceScope->map(function ($scope) use ($input) {
+                $title = strip_tags($scope->name);
+                foreach ($input as $key => $value) {
+                    $placeholder = "{" . $key . "}";
+                    $title = str_replace($placeholder, $value, $title);
+                }
+
                 return [
                     'scopeId' => $scope->id,
-                    'title' => strip_tags($scope->name),
+                    'title' => $title,
                 ];
             });
             $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj, 1);
@@ -257,7 +294,13 @@ class ScopeOfWorkController extends Controller
             $scopeOfWorkIds = $validatedData['scopeOfWorkIds'];
             $serviceIds = $validatedData['serviceIds'];
 
-            $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalId']);
+            $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
+
+            $input = [
+                "CLIENT-EMAIL" => $problemGoalsObj->meetingTranscript->clientEmail,
+                "CLIENT-COMPANY-NAME" => $problemGoalsObj->meetingTranscript->company,
+                "CLIENT-PHONE" => $problemGoalsObj->meetingTranscript->clientPhone,
+            ];
 
             DB::beginTransaction();
 
@@ -294,10 +337,15 @@ class ScopeOfWorkController extends Controller
                 $scopeOfWorkAdditionalService->save();
 
                 $this->storeScopeOfWork(
-                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) {
+                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($input) {
+                        $title = strip_tags($scope->name);
+                        foreach ($input as $key => $value) {
+                            $placeholder = "{" . $key . "}";
+                            $title = str_replace($placeholder, $value, $title);
+                        }
                         return [
                             'scopeId' => $scope->id,
-                            'title' => strip_tags($scope->name),
+                            'title' => $title,
                             'additionalServiceId' => $scope->serviceId,
                         ];
                     })->toArray(),

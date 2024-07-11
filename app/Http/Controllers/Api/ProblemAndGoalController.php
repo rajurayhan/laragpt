@@ -46,7 +46,14 @@ use Illuminate\Support\Facades\Log;
             'transcriptId' => 'required|int'
         ]);
 
-        $transcriptObj      = MeetingTranscript::findOrFail($validatedData['transcriptId']);
+        $transcriptObj = MeetingTranscript::findOrFail($validatedData['transcriptId']);
+
+        $input = [
+            "{CLIENT-EMAIL}" => $transcriptObj->clientEmail,
+            "{CLIENT-COMPANY-NAME}" => $transcriptObj->company,
+            "CLIENT-COMPANY-NAME" => $transcriptObj->company,
+            "{CLIENT-PHONE}" => $transcriptObj->clientPhone,
+        ];
 
         $response = Http::post(env('AI_APPLICATION_URL').'/estimation/problem-and-goal-generate', [
             'threadId' => $transcriptObj->threadId,
@@ -60,10 +67,16 @@ use Illuminate\Support\Facades\Log;
         Log::info(['Problem And Goal Generate AI.',$response]);
         $data = $response->json();
 
+        $problemAndGoalsText = strip_tags($data['data']['problemAndGoals']);
+        foreach ($input as $key => $value) {
+            $placeholder = $key;
+            $problemAndGoalsText = str_replace($placeholder, $value, $problemAndGoalsText);
+        }
+
 
         $problemsAndGoalsObj = ProblemsAndGoals::updateOrCreate(
             ['transcriptId' => $request->transcriptId],
-            ['problemGoalText' => $data['data']['problemAndGoals']]
+            ['problemGoalText' => $problemAndGoalsText]
         );
 
         $response = [
