@@ -215,7 +215,7 @@ class DeliverablesController extends Controller
         }
         DB::commit();
 
-        $deliverableList = Deliberable::where('problemGoalId', $request->get('problemGoalId'))->get();
+        $deliverableList = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId', $request->get('problemGoalId'))->get();
         return response()->json([
             'data'=>$deliverableList
         ], 201);
@@ -370,13 +370,13 @@ class DeliverablesController extends Controller
             'title' => 'required|string',
         ]);
 
-        $scopeOfWork = Deliberable::findOrFail($id);
-        $scopeOfWork->title = $request->title;
-        $scopeOfWork->save();
+        $deliverableObj = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->findOrFail($id);
+        $deliverableObj->title = $request->title;
+        $deliverableObj->save();
 
         $response = [
             'message' => 'Deliverable updated successfully',
-            'data' => $scopeOfWork,
+            'data' => $deliverableObj,
         ];
 
         return response()->json($response, 201);
