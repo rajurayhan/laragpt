@@ -400,4 +400,32 @@ class ScopeOfWorkController extends Controller
 
         return response()->json($response, 201);
     }
+
+    /**
+     * Serial Update Scope Of Work
+     *
+     * @group Scope Of Work
+     *
+     * @urlParam id int required Id of the ScopeOfWork.
+     * @bodyParam serial int required
+     *
+     */
+
+    public function updateSerial($id, Request $request)
+    {
+        $validatedData = $request->validate([
+            'serial' => 'required|int',
+        ]);
+
+        $scopeOfWork = ScopeOfWork::findOrFail($id);
+        $scopeOfWork->serial = $request->serial;
+        $scopeOfWork->save();
+
+        $response = [
+            'message' => 'Scope of work serial updated successfully',
+            'data' => $scopeOfWork,
+        ];
+
+        return response()->json($response, 201);
+    }
 }

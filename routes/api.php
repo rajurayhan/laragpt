@@ -99,8 +99,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/scope-of-work/add-new', [ScopeOfWorkController::class, 'addNew'])->name('scope.of.work.add.new');
     Route::post('/scope-of-work/add-multi', [ScopeOfWorkController::class, 'addMulti'])->name('scope.of.work.add.multi');
     Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
-    Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
     Route::post('/scope-of-work-select', [ScopeOfWorkController::class, 'select'])->name('scope.of.work.select');
+    Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
+    Route::patch('/scope-of-work/{id}/serial', [ScopeOfWorkController::class, 'updateSerial'])->name('scope.of.work.update.serial');
 
     // deliverables api
 
