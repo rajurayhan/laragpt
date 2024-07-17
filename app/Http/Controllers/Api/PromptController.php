@@ -58,9 +58,9 @@ class PromptController extends Controller
 
 
         // $prompt = Prompt::create($validatedData);
-        if($request->type == 7){
+        if(in_array($request->type, [7,2])){
             // return 'create type7';
-            $prompt = Prompt::create($validatedData); 
+            $prompt = Prompt::create($validatedData);
         }
         else{
             // return 'Update Exiting';
@@ -70,7 +70,7 @@ class PromptController extends Controller
                     ['prompt' => $request->prompt],
                     ['name' => $request->name]
                 ]
-            );        
+            );
         }
         $response = [
             'message' => 'Created Successfully ',

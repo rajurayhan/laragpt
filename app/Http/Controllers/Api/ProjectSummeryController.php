@@ -107,7 +107,7 @@ use Illuminate\Support\Facades\Log;
             $existingMeetingLinks = [];
             if($request->filled('transcriptId')) {
                 $meetingTranscript = MeetingTranscript::find($request->transcriptId);
-                $existingMeetingLinks = MeetingLink::where('transcriptId',$meetingTranscript->id)->get()->pluck('id')->toArray();;
+                $existingMeetingLinks = MeetingLink::where('transcriptId',$meetingTranscript->id)->get()->pluck('id')->toArray();
             }else{
                 $meetingTranscript = new MeetingTranscript();
             }

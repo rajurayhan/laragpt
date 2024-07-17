@@ -8,6 +8,7 @@ use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
+use App\Models\Prompt;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ use Illuminate\Support\Facades\Log;
 
     public function create(Request $request){
         set_time_limit(500);
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        if(count($prompts) < 1){
             $response = [
                 'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',
                 'data' => []
@@ -58,7 +59,7 @@ use Illuminate\Support\Facades\Log;
         $response = Http::post(env('AI_APPLICATION_URL').'/estimation/problem-and-goal-generate', [
             'threadId' => $transcriptObj->threadId,
             'assistantId' => $transcriptObj->assistantId,
-            'prompt' => $prompt->prompt,
+            'prompts' => $prompts->pluck('prompt'),
         ]);
 
         if (!$response->successful()) {

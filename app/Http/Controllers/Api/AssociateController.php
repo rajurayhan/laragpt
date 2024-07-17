@@ -44,7 +44,7 @@ class AssociateController extends Controller
     }
 
     public static function getAssociates(){
-        $associates = Associate::orderBy('id','ASC')->get();;
+        $associates = Associate::orderBy('id','ASC')->get();
 
         return $associates;
     }

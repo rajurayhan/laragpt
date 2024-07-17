@@ -175,7 +175,7 @@ class ScopeOfWorkController extends Controller
         $prompt = PromptService::findPromptByType($this->promptType);
         if ($prompt == null) {
             $response = [
-                'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
+                'message' => 'Prompt not set for PromptType::SCOPE_OF_WORK',
                 'data' => []
             ];
             return response()->json($response, 422);

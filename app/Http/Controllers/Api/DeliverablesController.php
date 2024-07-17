@@ -49,9 +49,9 @@ class DeliverablesController extends Controller
     }
 
     public static function getDeliverables($problemGoalId){
-        $deliverables = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();;
-        $deliverableNotes = DeliverablesNotes::where('problemGoalId',$problemGoalId)->get();;
-        $questionAnswers = QuestionAnswer::with(['questionInfo'])->where('problemGoalId',$problemGoalId)->get();;
+        $deliverables = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();
+        $deliverableNotes = DeliverablesNotes::where('problemGoalId',$problemGoalId)->get();
+        $questionAnswers = QuestionAnswer::with(['questionInfo'])->where('problemGoalId',$problemGoalId)->get();
 
         return [
             'deliverables'=> $deliverables,
