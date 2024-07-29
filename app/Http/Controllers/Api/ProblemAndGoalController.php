@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Log;
             "{CLIENT-PHONE}" => $transcriptObj->clientPhone,
         ];
 
-        $response = Http::post(env('AI_APPLICATION_URL').'/estimation/problem-and-goal-generate', [
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/problem-and-goal-generate', [
             'threadId' => $transcriptObj->threadId,
             'assistantId' => $transcriptObj->assistantId,
             'prompts' => $prompts->pluck('prompt'),
