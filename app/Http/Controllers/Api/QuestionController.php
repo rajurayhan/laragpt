@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Question;
+use App\Models\Services;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -32,21 +33,37 @@ class QuestionController extends Controller
         if ($request->get('serviceId')) {
             $questionQuery->whereRaw('JSON_CONTAINS(serviceIds, ?)', [$request->get('serviceId')] );
         }
-
+        function serviceRelations($questions, $serviceList){
+            return $questions->map(function ($question) use($serviceList) {
+                if(empty($question->serviceIds)){
+                    $question['serviceRelations'] = [];
+                    return $question;
+                };
+                $serviceRelations = array_map(function($serviceId) use ($serviceList){
+                    return !empty($serviceList[$serviceId])? $serviceList[$serviceId]: null;
+                },$question->serviceIds);
+                $question['serviceRelations'] = array_filter($serviceRelations);
+                return $question;
+            });
+        }
+        $serviceList = Services::get()->keyBy('id');
         if ($request->has('page')) {
-            $question = $questionQuery->paginate(10);
+            $questionsPagination = $questionQuery->paginate(10);
+            $questions = serviceRelations(collect( $questionsPagination->items() ), $serviceList);
             return response()->json([
-                'data' => $question->items(),
-                'total' => $question->total(),
-                'current_page' => $question->currentPage(),
+                'data' => $questions,
+                'total' => $questionsPagination->total(),
+                'current_page' => $questionsPagination->currentPage(),
             ]);
         } else {
             $questions = $questionQuery->get();
+            $questions = serviceRelations(collect( $questions ), $serviceList);
             return response()->json([
                 'data' => $questions,
                 'total' => $questions->count(),
             ]);
         }
+
     }
 
     /**

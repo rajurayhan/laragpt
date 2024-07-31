@@ -60,11 +60,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Question Setup routes
-    Route::get('/questions', [QuestionController::class, 'index'])->name('user.list');
-    Route::post('/questions', [QuestionController::class, 'store'])->name('user.create');
-    Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('user.show');
-    Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('user.update');
-    Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('user.delete');
+    Route::get('/questions', [QuestionController::class, 'index'])->name('question.list');
+    Route::post('/questions', [QuestionController::class, 'store'])->name('question.create');
+    Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('question.show');
+    Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('question.update');
+    Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
 
     // Prompts routes
     Route::get('/prompts', [PromptController::class, 'index'])->name('prompt.list');
