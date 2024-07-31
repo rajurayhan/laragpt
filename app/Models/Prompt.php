@@ -9,5 +9,5 @@ class Prompt extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'prompt', 'name'];
+    protected $fillable = ['type', 'prompt', 'name','serial'];
 }

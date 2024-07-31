@@ -26,7 +26,7 @@ class PromptController extends Controller
      */
     public function index()
     {
-        $prompts = Prompt::paginate(10);
+        $prompts = Prompt::orderBy('serial','ASC')->paginate(10);
 
         return response()->json([
             'data' => $prompts->items(),
@@ -43,6 +43,7 @@ class PromptController extends Controller
      * @bodyParam type integer required The type of the prompt (corresponding to PromptType Enum values). Example: 1
      * @bodyParam prompt string required The content of the prompt. Example: "Example prompt content."
      * @bodyParam name string required The name of the prompt. Example: "Example prompt name."
+     * @bodyParam serial int not required. Example: 1
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -54,26 +55,14 @@ class PromptController extends Controller
             'type' => 'required|integer|in:' . implode(',', PromptType::getValues()),
             'prompt' => 'required|string',
             'name' => 'required|string',
+            'serial' => 'integer',
         ]);
 
 
-        // $prompt = Prompt::create($validatedData);
-        if(in_array($request->type, [7,2])){
-            // return 'create type7';
-            $prompt = Prompt::create($validatedData);
-        }
-        else{
-            // return 'Update Exiting';
-            $prompt = Prompt::updateOrCreate(
-                ['type' => $request->type],
-                [
-                    ['prompt' => $request->prompt],
-                    ['name' => $request->name]
-                ]
-            );
-        }
+        $prompt = Prompt::create($validatedData);
+
         $response = [
-            'message' => 'Created Successfully ',
+            'message' => 'Created Successfully',
             'data' => $prompt,
         ];
         return response()->json($response, 201);
@@ -121,12 +110,13 @@ class PromptController extends Controller
             'type' => 'required|integer|in:' . implode(',', PromptType::getValues()),
             'prompt' => 'required|string',
             'name' => 'required|string',
+            'serial' => 'required|integer',
         ]);
 
         $prompt = Prompt::findOrFail($id);
         $prompt->update($validatedData);
         $response = [
-            'message' => 'Created Successfully ',
+            'message' => 'Update Successfully ',
             'data' => $prompt,
         ];
         return response()->json($response, 201);

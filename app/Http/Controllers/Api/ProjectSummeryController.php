@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Prompt;
 use Illuminate\Support\Facades\Http;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
@@ -93,8 +94,8 @@ use Illuminate\Support\Facades\Log;
 
         try{
             set_time_limit(500);
-            $prompt = PromptService::findPromptByType($this->promptType);
-            if($prompt == null){
+            $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
+            if(count($prompts) <1 ){
                 $response = [
                     'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
                     'data' => []
@@ -120,19 +121,17 @@ use Illuminate\Support\Facades\Log;
             $meetingTranscript->clientWebsite = $request->clientWebsite;
             $meetingTranscript->save();
 
-            $transcriptText1stValue = null;
+            $transcripts = [];
             foreach($validatedData['meetingLinks'] as $index => $link){
                 $tldv = new TldvService();
                 $transcriptText = $tldv->getTranscriptFromUrl($link);
-                if($index === 0){
-                    $transcriptText1stValue = $transcriptText;
-                }
                 $meetingLink = new MeetingLink();
                 $meetingLink->transcriptId = $meetingTranscript->id;
                 $meetingLink->meetingLink = $link;
                 $meetingLink->transcriptText = $transcriptText;
                 $meetingLink->serial = $index + 1;
                 $meetingLink->save();
+                $transcripts[] = $transcriptText;
             }
             if(is_array($existingMeetingLinks) && count($existingMeetingLinks) > 0){
                 MeetingLink::whereIn('id',$existingMeetingLinks)->delete();
@@ -142,8 +141,8 @@ use Illuminate\Support\Facades\Log;
 
 
             $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
-                'transcript' => $transcriptText1stValue,
-                'prompt' => $prompt->prompt,
+                'transcripts' => $transcripts,
+                'prompts' => $prompts->pluck('prompt')->toArray(),
             ]);
             if (!$response->successful()) {
                 WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
