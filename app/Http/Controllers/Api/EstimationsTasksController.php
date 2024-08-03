@@ -11,6 +11,7 @@ use App\Models\DeliverablesNotes;
 use App\Models\EstimationTask;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectTeam;
+use App\Models\Prompt;
 use App\Models\ScopeOfWork;
 use App\Models\ScopeOfWorkAdditionalService;
 use App\Models\ServiceDeliverables;
@@ -153,10 +154,10 @@ class EstimationsTasksController extends Controller
 
 
 
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        if(count($prompts) < 1){
             $response = [
-                'message' => 'Prompt not set for PromptType::DELIVERABLES',
+                'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',
                 'data' => []
             ];
             return response()->json($response, 422);
@@ -174,7 +175,7 @@ class EstimationsTasksController extends Controller
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
-            'prompt' => $prompt->prompt,
+            'prompts' => $prompts->pluck('prompt'),
         ]);
 
         if (!$response->successful()) {

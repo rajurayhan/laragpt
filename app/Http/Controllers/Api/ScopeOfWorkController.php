@@ -6,6 +6,7 @@ use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\ProblemsAndGoals;
+use App\Models\Prompt;
 use App\Models\ScopeOfWork;
 use App\Models\ScopeOfWorkAdditionalService;
 use App\Models\ServiceScopes;
@@ -172,10 +173,10 @@ class ScopeOfWorkController extends Controller
     public function create(Request $request)
     {
 
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if ($prompt == null) {
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        if(count($prompts) < 1){
             $response = [
-                'message' => 'Prompt not set for PromptType::SCOPE_OF_WORK',
+                'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',
                 'data' => []
             ];
             return response()->json($response, 422);
@@ -215,7 +216,7 @@ class ScopeOfWorkController extends Controller
                 'threadId' => $problemGoalsObj->meetingTranscript->threadId,
                 'assistantId' => $problemGoalsObj->meetingTranscript->assistantId,
                 'serviceId' => $problemGoalsObj->meetingTranscript->serviceId,
-                'prompt' => $prompt->prompt,
+                'prompts' => $prompts->pluck('prompt'),
             ]);
 
             if (!$response->successful()) {

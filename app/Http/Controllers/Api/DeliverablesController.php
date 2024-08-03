@@ -8,6 +8,7 @@ use App\Libraries\WebApiResponse;
 use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
 use App\Models\ProblemsAndGoals;
+use App\Models\Prompt;
 use App\Models\Question;
 use App\Models\QuestionAnswer;
 use App\Models\ScopeOfWork;
@@ -111,10 +112,10 @@ class DeliverablesController extends Controller
             'problemGoalId' => 'required|int'
         ]);
         set_time_limit(500);
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        if(count($prompts) < 1){
             $response = [
-                'message' => 'Prompt not set for PromptType::DELIVERABLES',
+                'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',
                 'data' => []
             ];
             return response()->json($response, 422);
@@ -169,7 +170,7 @@ class DeliverablesController extends Controller
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
-            'prompt' => $prompt->prompt,
+            'prompts' => $prompts->pluck('prompt'),
         ]);
 
         if (!$response->successful()) {
