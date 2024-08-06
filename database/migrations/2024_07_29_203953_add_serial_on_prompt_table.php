@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('prompts', function (Blueprint $table) {
-            $table->integer('serial')->after('prompt')->default(0);
+            $table->integer('serial')->after('prompt')->default(1);
         });
     }
 
