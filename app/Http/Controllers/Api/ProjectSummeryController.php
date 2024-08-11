@@ -139,10 +139,14 @@ use Illuminate\Support\Facades\Log;
 
             $meetingTranscript = $meetingTranscript->load(['meetingLinks','serviceInfo']);
 
-
             $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/transcript-generate', [
                 'transcripts' => $transcripts,
-                'prompts' => $prompts->pluck('prompt')->toArray(),
+                'prompts' => $prompts->map(function ($item, $key) {
+                    return [
+                        'prompt'=> $item->prompt,
+                        'action_type'=> $item->action_type,
+                    ];
+                })->toArray(),
             ]);
             if (!$response->successful()) {
                 WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");

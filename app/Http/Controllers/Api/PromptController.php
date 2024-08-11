@@ -43,6 +43,7 @@ class PromptController extends Controller
      * @bodyParam type integer required The type of the prompt (corresponding to PromptType Enum values). Example: 1
      * @bodyParam prompt string required The content of the prompt. Example: "Example prompt content."
      * @bodyParam name string required The name of the prompt. Example: "Example prompt name."
+     * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam serial int not required. Example: 1
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,6 +56,7 @@ class PromptController extends Controller
             'type' => 'required|integer|in:' . implode(',', PromptType::getValues()),
             'prompt' => 'required|string',
             'name' => 'required|string',
+            'action_type' => 'required|string',
             'serial' => 'integer',
         ]);
 
@@ -97,6 +99,7 @@ class PromptController extends Controller
      * @urlParam prompt required The ID of the prompt to update. Example: 1
      * @bodyParam type integer required The type of the prompt (corresponding to PromptType Enum values). Example: 2
      * @bodyParam prompt string required The content of the prompt. Example: "Updated prompt content."
+     * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam name string required The content of the name. Example: "Updated prompt name."
      *
      * @param  \Illuminate\Http\Request  $request
@@ -110,6 +113,7 @@ class PromptController extends Controller
             'type' => 'required|integer|in:' . implode(',', PromptType::getValues()),
             'prompt' => 'required|string',
             'name' => 'required|string',
+            'action_type' => 'required|string',
             'serial' => 'required|integer',
         ]);
 

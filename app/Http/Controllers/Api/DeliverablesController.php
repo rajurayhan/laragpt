@@ -170,7 +170,12 @@ class DeliverablesController extends Controller
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
-            'prompts' => $prompts->pluck('prompt'),
+            'prompts' => $prompts->map(function ($item, $key) {
+                return [
+                    'prompt'=> $item->prompt,
+                    'action_type'=> $item->action_type,
+                ];
+            })->toArray(),
         ]);
 
         if (!$response->successful()) {

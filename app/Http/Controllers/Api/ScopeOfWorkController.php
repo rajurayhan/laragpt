@@ -216,7 +216,12 @@ class ScopeOfWorkController extends Controller
                 'threadId' => $problemGoalsObj->meetingTranscript->threadId,
                 'assistantId' => $problemGoalsObj->meetingTranscript->assistantId,
                 'serviceId' => $problemGoalsObj->meetingTranscript->serviceId,
-                'prompts' => $prompts->pluck('prompt'),
+                'prompts' => $prompts->map(function ($item, $key) {
+                    return [
+                        'prompt'=> $item->prompt,
+                        'action_type'=> $item->action_type,
+                    ];
+                })->toArray(),
             ]);
 
             if (!$response->successful()) {
