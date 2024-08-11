@@ -97,6 +97,48 @@ class DeliverablesController extends Controller
         }
     }
 
+    /**
+     * Create multi deliverable
+     *
+     * @group Deliverable
+     *
+     * @bodyParam deliverables object[] required An array of additional services.
+     * @bodyParam deliverables[].title int required. Example: "Lorem ipsum"
+     * @bodyParam deliverables[].scopeOfWorkId int required. Example: 1
+     */
+
+    public function addMulti(Request $request)
+    {
+        $validatedData = $request->validate([
+            'deliverables' => 'required|array',
+            'deliverables.*.title' => 'required|string',
+            'deliverables.*.scopeOfWorkId' => 'required|int',
+        ]);
+        try{
+            $deliverablesResult = [];
+            foreach ($validatedData['deliverables'] as $deliverableData) {
+                $scopeWork = ScopeOfWork::findOrFail($deliverableData['scopeOfWorkId']);
+                $deliverable = new Deliberable();
+                $deliverable->scopeOfWorkId = $scopeWork->id;
+                $deliverable->deliverablesText = null;
+                $deliverable->transcriptId = $scopeWork->transcriptId;
+                $deliverable->serviceScopeId = $scopeWork->serviceScopeId;
+                $deliverable->problemGoalId = $scopeWork->problemGoalID;
+                $deliverable->title = $deliverableData['title'];
+                $deliverable->isChecked = 1;
+                $deliverable->save();
+                $deliverablesResult[] = $deliverable;
+            }
+            return response()->json([
+                'data'=>$deliverablesResult
+            ], 201);
+
+        }catch (\Exception $exception){
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+    }
+
+
 
     /**
      * Generate Deliverable

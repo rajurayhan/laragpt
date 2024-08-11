@@ -107,6 +107,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
     Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
+    Route::post('/deliverables/add-multi', [DeliverablesController::class, 'addMulti'])->name('deliverables.add.multi');
     Route::post('/deliverables', [DeliverablesController::class, 'create'])->name('deliverables.create');
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
