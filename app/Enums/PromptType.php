@@ -6,6 +6,7 @@ enum PromptType : int
 {
     case PROJECT_SUMMARY = 1;
     case PROBLEMS_AND_GOALS = 2;
+    case PHASE = 9;
     case PROJECT_OVERVIEW = 3;
     case SCOPE_OF_WORK = 4;
     case DELIVERABLES = 5;
