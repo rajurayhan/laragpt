@@ -88,6 +88,7 @@ class DeliverablesController extends Controller
             $deliverable->title = $validatedData['title'];
             $deliverable->isChecked = 1;
             $deliverable->save();
+            $deliverable->load(['scopeOfWork','additionalServiceInfo']);
             return response()->json([
                 'data'=>$scopeWork
             ], 201);
@@ -127,6 +128,7 @@ class DeliverablesController extends Controller
                 $deliverable->title = $deliverableData['title'];
                 $deliverable->isChecked = 1;
                 $deliverable->save();
+                $deliverable->load(['scopeOfWork','additionalServiceInfo']);
                 $deliverablesResult[] = $deliverable;
             }
             return response()->json([
