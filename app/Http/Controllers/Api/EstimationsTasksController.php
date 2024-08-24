@@ -117,13 +117,15 @@ class EstimationsTasksController extends Controller
      * @group Estimation Task
      *
      * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     * @bodyParam deliverableId int required Id of the deliverable.
      *
      */
 
     public function create(Request $request){
         set_time_limit(500);
         $validatedData = $request->validate([
-            'problemGoalId' => 'required|int'
+            'problemGoalId' => 'required|int',
+            'deliverableId' => 'required|int',
         ]);
         $additionalServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get()->pluck('selectedServiceId')->toArray();
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
@@ -152,6 +154,10 @@ class EstimationsTasksController extends Controller
             return !is_null($item->serviceDeliverablesId);
         });
 
+        $findDeliverable = Deliberable::where('problemGoalID', $validatedData['problemGoalId'])->where('id',$validatedData['deliverableId'])->first();
+        if (!$findDeliverable) {
+            return WebApiResponse::error(500, $errors = [], 'The deliverable not found.');
+        }
 
 
         $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
@@ -163,58 +169,58 @@ class EstimationsTasksController extends Controller
             return response()->json($response, 422);
         }
 
-        $findExisting = EstimationTask::where('problemGoalID',$validatedData['problemGoalId'])->first();
+        $findExisting = EstimationTask::where('problemGoalID',$validatedData['problemGoalId'])->where('problemGoalId',$validatedData['deliverableId'])->first();
 
-        if($findExisting){ //TODO::temp
+        if($findExisting){
             return WebApiResponse::error(500, $errors = [], 'The task already generated.');
         }
 
         DB::beginTransaction();
 
-        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [ //TODO::temp, will be removed
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/task-generate', [
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
+            'deliverableTitle' => $findDeliverable->title,
+            'deliverablesDetails' => $findDeliverable->deliverablesText,
             'prompts' => $prompts->map(function ($item, $key) {
                 return [
-                    'prompt'=> $item->prompt,
+                    'prompt_text'=> $item->prompt,
                     'action_type'=> $item->action_type,
                 ];
             })->toArray(),
         ]);
 
         if (!$response->successful()) {
-            WebApiResponse::error(500, $errors = [], "Can't able to Task, Please try again.");
+            return WebApiResponse::error(500, $errors = [], "Can't able to Task, Please try again.");
         }
         $data = $response->json();
         Log::info(['Estimation Generate AI.', $data]);
 
-        if (!is_array($data['data']['tasks']) || count($data['data']['tasks']) < 1 || !isset($data['data']['tasks'][0]['deliverableId']) || !isset($data['data']['tasks'][0]['subTasks']) || !is_array($data['data']['tasks'][0]['subTasks'])) {
-            return WebApiResponse::error(500, $errors = [], 'The deliverables from AI is not expected output, Try again please');
-        }
-        $aITasks = $data['data']['tasks'];
-        foreach ($aITasks as $task) {
+        foreach ($data['data']['tasks'] as $task) {
             $estimationTask = new EstimationTask();
             $estimationTask->transcriptId = $problemAndGoal->meetingTranscript->id;
             $estimationTask->problemGoalId = $problemAndGoal->id;
-            $estimationTask->deliverableId = $task['deliverableId'];
+            $estimationTask->deliverableId = $findDeliverable->id;
+            $estimationTask->estimateHours = $task['estimated_hours'];
             $estimationTask->additionalServiceId = null;
             $estimationTask->serviceDeliverableTasksId = null;
             $estimationTask->serviceDeliverableTasksParentId = null;
             $estimationTask->title = $task['title'];
-            $estimationTask->details = null;
+            $estimationTask->details = $task['details'];
             $estimationTask->isChecked = 1;
             $estimationTask->batchId =$batchId;
             $estimationTask->save();
-            if(isset($task['subTasks']) && is_array($task['subTasks'])){
-                foreach ($task['subTasks'] as $subTask){
+            if(isset($task['sub_tasks']) && is_array($task['sub_tasks'])){
+                foreach ($task['sub_tasks'] as $subTask){
                     $estimationSubTask = new EstimationTask();
-                    $estimationSubTask->deliverableId = $task['deliverableId'];
+                    $estimationTask->deliverableId = $findDeliverable->id;
                     $estimationSubTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                     $estimationSubTask->problemGoalId = $problemAndGoal->id;
                     $estimationSubTask->estimationTasksParentId = $estimationTask->id;
-                    $estimationSubTask->title = $subTask;
-                    $estimationSubTask->details = null;
+                    $estimationSubTask->title = $subTask['title'];
+                    $estimationSubTask->details = $subTask['details'];
+                    $estimationSubTask->estimateHours = $subTask['estimated_hours'];
                     $estimationSubTask->isChecked = 1;
                     $estimationSubTask->batchId =$batchId;
                     $estimationSubTask->save();
@@ -225,7 +231,7 @@ class EstimationsTasksController extends Controller
 
 
 
-        $teams =  ProjectTeam::where('transcriptId',$problemAndGoal->meetingTranscript->id)->get()->keyBy('employeeRoleId');
+        /*$teams =  ProjectTeam::where('transcriptId',$problemAndGoal->meetingTranscript->id)->get()->keyBy('employeeRoleId');
         $serviceTaskByServiceDeliverableId = $serviceDeliverableTasks->groupBy('serviceDeliverableId');
         foreach ($deliverablesWithScope as $deliverable){
             if(empty($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId])) { continue; };
@@ -253,14 +259,13 @@ class EstimationsTasksController extends Controller
                 $estimationTask->save();
 
             }
-
-        }
-        $deliverables = EstimationTask::where('problemGoalId',$problemAndGoal->id)->whereNotNull('serviceDeliverableTasksId')->get();
+        }*/
+        /*$deliverables = EstimationTask::where('problemGoalId',$problemAndGoal->id)->whereNotNull('serviceDeliverableTasksId')->get();
         $deliverablesByTasksId = $deliverables->keyBy('serviceDeliverableTasksId');
         foreach ($deliverables->filter(function ($deliverables){ return !is_null($deliverables->serviceDeliverableTasksParentId);}) as $deliverable){
             $deliverable->estimationTasksParentId = $deliverablesByTasksId[$deliverable->serviceDeliverableTasksParentId]->id;
             $deliverable->save();
-        }
+        }*/
         DB::commit();
 
         $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId', $request->get('problemGoalId'))->get();

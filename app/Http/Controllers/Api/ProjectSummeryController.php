@@ -143,7 +143,7 @@ use Illuminate\Support\Facades\Log;
                 'transcripts' => $transcripts,
                 'prompts' => $prompts->map(function ($item, $key) {
                     return [
-                        'prompt'=> $item->prompt,
+                        'prompt_text'=> $item->prompt,
                         'action_type'=> $item->action_type,
                     ];
                 })->toArray(),

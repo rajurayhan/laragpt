@@ -148,12 +148,14 @@ class DeliverablesController extends Controller
      * @group Deliverable
      *
      * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     * @bodyParam scopeOfWorkId int required Id of the Scope Of Work.
      *
      */
 
     public function create(Request $request){
         $validatedData = $request->validate([
-            'problemGoalId' => 'required|int'
+            'problemGoalId' => 'required|int',
+            'scopeOfWorkId' => 'required|int'
         ]);
         set_time_limit(500);
         $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
@@ -165,12 +167,16 @@ class DeliverablesController extends Controller
             return response()->json($response, 422);
         }
 
-        $findExisting = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->first();
+        $findExisting = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('scopeOfWorkId',$validatedData['scopeOfWorkId'])->first();
 
         if($findExisting){
             return WebApiResponse::error(500, $errors = [], 'The deliverable already generated.');
         }
 
+        $findScopeOfWork = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalId'])->where('id',$validatedData['scopeOfWorkId'])->first();
+        if (!$findScopeOfWork) {
+            return WebApiResponse::error(500, $errors = [], 'The scope of work not found.');
+        }
 
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->first();
         if(!$problemAndGoal){
@@ -188,11 +194,9 @@ class DeliverablesController extends Controller
             return WebApiResponse::error(400, $errors = [], 'Scope of works not available.');
         }
 
-        $serviceScopeList = $scopeOfWorks->filter(function ($value) {
+        $scopeDeliveryList = $scopeOfWorks->filter(function ($value) {
             return !empty($value->serviceScopeId);
-        });
-
-        $scopeDeliveryList = $serviceScopeList->reduce(function ($carry, $item) use($input) {
+        })->reduce(function ($carry, $item) use($input) {
             return $carry->merge($item->deliverables->map(function ($delivery) use($item, $input){
                 $title = strip_tags($delivery->name);
                 foreach ($input as $key => $value) {
@@ -206,17 +210,15 @@ class DeliverablesController extends Controller
             }));
         },collect([]));
 
-
-        $scopeOfWorksKeyById = $scopeOfWorks->keyBy('id');
-
-
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/deliverables-generate', [
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
             'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
             'problemAndGoalsId' => $problemAndGoal->id,
+            'sowTitle' => $findScopeOfWork->title,
+            'sowDetails' => $findScopeOfWork->scopeText,
             'prompts' => $prompts->map(function ($item, $key) {
                 return [
-                    'prompt'=> $item->prompt,
+                    'prompt_text'=> $item->prompt,
                     'action_type'=> $item->action_type,
                 ];
             })->toArray(),
@@ -228,7 +230,7 @@ class DeliverablesController extends Controller
         $data = $response->json();
         Log::info(['Deliverables Generate AI.', $data]);
 
-        if (!is_array($data['data']['deliverables']) || count($data['data']['deliverables']) < 1 || !isset($data['data']['deliverables'][0]['scopeOfWorkId'])) {
+        if (!is_array($data['data']['deliverables']) || count($data['data']['deliverables']) < 1 || !isset($data['data']['deliverables'][0]['title'])) {
             return WebApiResponse::error(500, $errors = [], 'The deliverables from AI is not expected output, Try again please');
         }
         $deliverables = $data['data']['deliverables'];
@@ -237,12 +239,12 @@ class DeliverablesController extends Controller
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
         foreach($deliverables as $deliverable){
-            $scopeOfWork = $scopeOfWorksKeyById[$deliverable['scopeOfWorkId']];
+            //$scopeOfWork = $scopeOfWorksKeyById[$deliverable['scopeOfWorkId']];
             $deliverableObj = new Deliberable();
-            $deliverableObj->scopeOfWorkId = $scopeOfWork->id;
-            $deliverableObj->transcriptId = $scopeOfWork->transcriptId;
-            $deliverableObj->serviceScopeId = $scopeOfWork->serviceScopeId;
-            $deliverableObj->problemGoalId = $scopeOfWork->problemGoalID;
+            $deliverableObj->scopeOfWorkId = $findScopeOfWork->id;
+            $deliverableObj->transcriptId = $findScopeOfWork->transcriptId;
+            $deliverableObj->serviceScopeId = $findScopeOfWork->serviceScopeId;
+            $deliverableObj->problemGoalId = $findScopeOfWork->problemGoalID;
             $deliverableObj->title = $deliverable['title'];
             $deliverableObj->deliverablesText = $deliverable['details'];
             $deliverableObj->isChecked = 1;

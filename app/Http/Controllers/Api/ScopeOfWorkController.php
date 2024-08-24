@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
+use App\Models\Phase;
 use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
 use App\Models\ScopeOfWork;
@@ -168,6 +169,7 @@ class ScopeOfWorkController extends Controller
      * @group Scope Of Work
      *
      * @bodyParam problemGoalID int required Id of the ProblemsAndGoals.
+     * @bodyParam phaseId int required Id of the Phase.
      */
 
     public function create(Request $request)
@@ -176,27 +178,32 @@ class ScopeOfWorkController extends Controller
         $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
         if(count($prompts) < 1){
             $response = [
-                'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',
+                'message' => 'Prompt not set for PromptType::SCOPE_OF_WORK',
                 'data' => []
             ];
             return response()->json($response, 422);
         }
         $validatedData = $request->validate([
-            'problemGoalID' => 'required|int'
+            'problemGoalID' => 'required|int',
+            'phaseId' => 'required|int'
         ]);
         try {
             set_time_limit(500);
-
+            $phase = Phase::where('id',$validatedData['phaseId'])->first();
+            if(!$phase){
+                return WebApiResponse::error(500, $errors = [], 'The phase is not found.');
+            }
 
             $batchId = (string)Str::uuid();
 
 
-            $findExisting = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->first();
+            $findExisting = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->where('phaseId',$validatedData['phaseId'])->first();
 
             if ($findExisting) {
                 return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
             }
 
+            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial');
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
@@ -210,15 +217,16 @@ class ScopeOfWorkController extends Controller
 
 
             DB::beginTransaction();
-            $problemGoalsObj = ProblemsAndGoals::findOrFail($request->problemGoalID);
 
             $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/scope-of-works-generate', [
                 'threadId' => $problemGoalsObj->meetingTranscript->threadId,
                 'assistantId' => $problemGoalsObj->meetingTranscript->assistantId,
-                'serviceId' => $problemGoalsObj->meetingTranscript->serviceId,
+                'problemAndGoalsId' => $problemGoalsObj->id,
+                'phaseTitle' => $phase->title,
+                'phaseDetails' => $phase->details,
                 'prompts' => $prompts->map(function ($item, $key) {
                     return [
-                        'prompt'=> $item->prompt,
+                        'prompt_text'=> $item->prompt,
                         'action_type'=> $item->action_type,
                     ];
                 })->toArray(),
@@ -234,7 +242,7 @@ class ScopeOfWorkController extends Controller
                 return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
             }
 
-            $serviceScopeList = $serviceScope->map(function ($scope) use ($input) {
+            /*$serviceScopeList = $serviceScope->map(function ($scope) use ($input) {
                 $title = strip_tags($scope->name);
                 foreach ($input as $key => $value) {
                     $placeholder = "{" . $key . "}";
@@ -245,8 +253,21 @@ class ScopeOfWorkController extends Controller
                     'scopeId' => $scope->id,
                     'title' => $title,
                 ];
+            });*/
+            $data['data']['scopeOfWork'] = collect($data['data']['scopeOfWork'])->map(function ($scope) use ($input, $phase) {
+                $title = strip_tags($scope['title']);
+                foreach ($input as $key => $value) {
+                    $placeholder = "{" . $key . "}";
+                    $title = str_replace($placeholder, $value, $title);
+                }
+
+                return [
+                    'phaseId' => $phase->id,
+                    'title' => $title,
+                    'details' => $scope['details'],
+                ];
             });
-            $this->storeScopeOfWork(array_merge($serviceScopeList->toArray(), $data['data']['scopeOfWork']), $batchId, $problemGoalsObj, 1);
+            $this->storeScopeOfWork($data['data']['scopeOfWork'], $batchId, $problemGoalsObj, $serial);
             DB::commit();
 
             $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalID', $problemGoalsObj->id)->get();
@@ -268,6 +289,7 @@ class ScopeOfWorkController extends Controller
             $scopeWork->serial = $serial++;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
+            $scopeWork->phaseId = !empty($scope['phaseId']) ? $scope['phaseId'] : null;
             $scopeWork->serviceScopeId = !empty($scope['scopeId']) ? $scope['scopeId'] : null;
             $scopeWork->scopeText = !empty($scope['details']) ? $scope['details'] : null;
             $scopeWork->additionalServiceId = !empty($scope['additionalServiceId']) ? $scope['additionalServiceId'] : null;
