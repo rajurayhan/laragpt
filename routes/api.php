@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Question Setup routes
+    Route::post('/queue', [QuestionController::class, 'queue'])->name('question.queue');
     Route::get('/questions', [QuestionController::class, 'index'])->name('question.list');
     Route::post('/questions', [QuestionController::class, 'store'])->name('question.create');
     Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('question.show');

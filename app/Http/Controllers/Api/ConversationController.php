@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
+use App\Models\ProjectSummary;
 use App\Models\Prompt;
 use App\Services\OpenAIGeneratorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 /**
@@ -82,15 +86,27 @@ class ConversationController extends Controller
      */
     public function createConversation(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|string',
             'prompt_id' => 'nullable|exists:prompts,id',
             'message_content' => 'required|string',
         ]);
 
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-generate', [
+            'prompt' => $validatedData['message_content'],
+        ]);
+        if (!$response->successful()) {
+            WebApiResponse::error(500, $errors = [], "Can't able to generate the conversation, Please try again.");
+        }
+        Log::info(['Conversation Generate AI.',$response]);
+        $data = $response->json();
+
         $conversation = Conversation::create([
             'name' => $validatedData['name'],
             'user_id' => auth()->id(),
+            'assistantId' => $data['data']['assistantId'],
+            'threadId' => $data['data']['threadId'],
         ]);
 
         $userMessage = ConversationMessage::create([
@@ -103,14 +119,13 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt ?? null);
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'system',
-            'message_content' => $aiResponse,
+            'message_content' => $data['data']['message'],
         ]);
 
         $data = [
@@ -142,7 +157,7 @@ class ConversationController extends Controller
             'message_content' => 'required|string',
         ]);
 
-        $conversation = Conversation::with('messages.user')->find($request->conversation_id);
+        $conversation = Conversation::with('messages.user')->find((int) $request->conversation_id);
 
         $userMessage = ConversationMessage::create([
             'conversation_id' => $validatedData['conversation_id'],
@@ -154,25 +169,24 @@ class ConversationController extends Controller
 
         $prompt = Prompt::find($request->prompt_id);
 
-        // Context Management
-        $context = [];
-        foreach ($conversation->messages as $key => $message) {
-            if($message->role == 'user'){
-                $context[] = ['role' => 'user', 'content' => $message->message_content];
-            }
-            else{
-                $context[] = ['role' => 'system', 'content' => $message->message_content];
-            }
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', [
+            'assistantId' => $conversation->assistantId,
+            'threadId' => $conversation->threadId,
+            'prompt' => $validatedData['message_content'],
+        ]);
+        if (!$response->successful()) {
+            WebApiResponse::error(500, $errors = [], "Can't able to generate the message, Please try again.");
         }
+        Log::info(['Conversation continue AI.',$response]);
+        $data = $response->json();
 
-        $aiResponse = OpenAIGeneratorService::chatWithAI($request->message_content, $prompt->prompt?? null, $context);
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
             'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'system',
-            'message_content' => $aiResponse,
+            'message_content' => $data['data']['message'],
         ]);
 
         $data = [

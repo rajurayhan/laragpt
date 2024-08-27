@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Jobs\EstimationsTasksGenerator;
+use App\Models\Deliberable;
 use App\Models\Question;
 use App\Models\Services;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @group Question Management
@@ -16,6 +20,17 @@ use App\Http\Controllers\Controller;
 class QuestionController extends Controller
 {
 
+    public function queue(){
+        /*return DB::table('queue_data')->insert([
+            'title'=> 100
+        ]);*/
+        $deliberables = Deliberable::where('problemGoalId',40)->get();
+
+        foreach($deliberables as $deliberable){
+            EstimationsTasksGenerator::dispatch($deliberable)->onQueue('estimations-generator');
+        }
+
+    }
     /**
      * Display a listing of Question.
      *
