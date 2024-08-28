@@ -87,12 +87,12 @@ class PhaseController extends Controller
         }
     }
     /**
-     * Create a Phase
+     * Create multi Phase
      *
      * @group Phase
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
-     * @bodyParam phase object[] required An array of additional services.
+     * @bodyParam phases object[] required An array of additional services.
      * @bodyParam phases[].title int required. Example: 2
      * @bodyParam phases[].serial int required . Example: 1
      */

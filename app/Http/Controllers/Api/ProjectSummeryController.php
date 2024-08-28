@@ -215,9 +215,19 @@ use Illuminate\Support\Facades\Log;
                 'tasks' => [],
             ];
         }
+
+        if(!empty($projectSummeryObj->meetingTranscript->problemsAndGoals->id)){
+            $phases = PhaseController::getPhases($projectSummeryObj->meetingTranscript->problemsAndGoals->id);
+        }else{
+            $phases = [
+                'phases' => [],
+            ];
+        }
+
         $projectSummeryObj->scopeOfWorksData = $scopeOfWorksData;
         $projectSummeryObj->deliverablesData = $deliverablesData;
         $projectSummeryObj->tasksData = $tasksData;
+        $projectSummeryObj->phaseData = $phases;
 
         $response = [
             'message' => 'Data Showed Successfully',

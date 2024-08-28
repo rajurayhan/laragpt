@@ -102,7 +102,7 @@ class ScopeOfWorkController extends Controller
         }
     }
     /**
-     * Create a new Scope Of Work
+     * Create multi Scope Of Work
      *
      * @group Scope Of Work
      *
