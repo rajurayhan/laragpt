@@ -22,12 +22,15 @@ use Ramsey\Uuid\Type\Integer;
 //         => Find all entries greater than 'm' and less than or equal 'n'
 //             -> Shift all data order by -1 (Left Shift).
 //             -> Update the record.
-class ModelOrderManagerService
+class ModelOrderManagerServiceV2
 {
-    private $modelClass;
+    private string $fieldName;
+    private string $modelClass;
 
-    public function __construct(string $modelClass)
+    public function __construct(string $modelClass, ?string $fieldName = null)
     {
+        // If no specific field name is provided, default to 'order'
+        $this->fieldName = $fieldName ?? 'order';
         $this->modelClass = $modelClass;
     }
 
@@ -35,6 +38,9 @@ class ModelOrderManagerService
     {
         return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
+
+            // Determine if 'order' is present in the array or model, and set fieldName dynamically
+            $this->detectFieldName($newItem, $model);
 
             if (isset($id)) {
                 return $this->updateExistingItem($model, $newItem, $id, $parentField, $parentId);
@@ -48,9 +54,9 @@ class ModelOrderManagerService
     {
         $instance = $model->find($id);
 
-        $query = $this->buildQuery($model, $newItem['order'], $instance->order, $parentField, $parentId);
+        $query = $this->buildQuery($model, $newItem[$this->fieldName], $instance->{$this->fieldName}, $parentField, $parentId);
 
-        $this->shiftOrder($query->get(), $newItem['order'] < $instance->order ? 1 : -1);
+        $this->shiftOrder($query->get(), $newItem[$this->fieldName] < $instance->{$this->fieldName} ? 1 : -1);
 
         $instance->update($newItem);
         return $instance;
@@ -58,7 +64,7 @@ class ModelOrderManagerService
 
     private function insertNewItem($model, $newItem, $parentField = null, $parentId = null)
     {
-        $query = $this->buildQuery($model, $newItem['order'], null, $parentField, $parentId);
+        $query = $this->buildQuery($model, $newItem[$this->fieldName], null, $parentField, $parentId);
 
         $this->shiftOrder($query->get(), 1);
 
@@ -74,10 +80,10 @@ class ModelOrderManagerService
         }
 
         if ($instanceOrder !== null) {
-            $query->where('order', $newOrder < $instanceOrder ? '>=' : '<=', $newOrder)
-                  ->where('order', $newOrder < $instanceOrder ? '<' : '>', $instanceOrder);
+            $query->where($this->fieldName, $newOrder < $instanceOrder ? '>=' : '<=', $newOrder)
+                  ->where($this->fieldName, $newOrder < $instanceOrder ? '<' : '>', $instanceOrder);
         } else {
-            $query->where('order', '>=', $newOrder);
+            $query->where($this->fieldName, '>=', $newOrder);
         }
 
         return $query;
@@ -86,7 +92,24 @@ class ModelOrderManagerService
     private function shiftOrder($data, $shiftValue)
     {
         foreach ($data as $item) {
-            $item->update(['order' => $item->order + $shiftValue]);
+            $item->update([$this->fieldName => $item->{$this->fieldName} + $shiftValue]);
+        }
+    }
+
+    private function detectFieldName(array $newItem, $model)
+    {
+        // Check if the 'order' field exists in the array, if so, set it as the fieldName
+        if (array_key_exists('order', $newItem)) {
+            $this->fieldName = 'order';
+        }
+        // If 'order' is not in the array, check if the model has an 'order' field
+        elseif (isset($model->order)) {
+            $this->fieldName = 'order';
+        }
+        // If neither, you can set it to a fallback value or throw an exception if it's required
+        else {
+            // You can set a fallback or handle the scenario differently
+            throw new \Exception("Order field not found in array or model.");
         }
     }
 }

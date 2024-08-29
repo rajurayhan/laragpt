@@ -8,7 +8,7 @@ use App\Libraries\WebApiResponse;
 use App\Models\Phase;
 use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
-use App\Services\ModelOrderManagerService;
+use App\Services\ModelOrderManagerServiceV2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -79,7 +79,7 @@ class PhaseController extends Controller
             // $phase->title = $validatedData['title'];
             // $phase->serial = $validatedData['serial'];
             // $phase->save();
-            $orderManager = new ModelOrderManagerService(Phase::class);
+            $orderManager = new ModelOrderManagerServiceV2(Phase::class, 'serial');
             $phase = $orderManager->addOrUpdateItem(array_merge($validatedData, ['transcriptId'=> $problemGoalsObj->transcriptId]), null,'problemGoalId', $validatedData['problemGoalId']);
             return response()->json([
                 'data' => $phase
@@ -104,13 +104,14 @@ class PhaseController extends Controller
     {
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
-            'phases' => 'required|array'
+            'phases' => 'required|array',
+            'serial' => 'required|int',
         ]);
         try {
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
             $batchId = (string) Str::uuid();
 
-            $orderManager = new ModelOrderManagerService(Phase::class);
+            $orderManager = new ModelOrderManagerServiceV2(Phase::class, 'serial');
             DB::beginTransaction();
             $phases = [];
             foreach ($validatedData['phases'] as $phase) {
