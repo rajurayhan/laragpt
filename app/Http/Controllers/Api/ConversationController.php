@@ -86,16 +86,21 @@ class ConversationController extends Controller
      */
     public function createConversation(Request $request)
     {
-
+        set_time_limit(500);
         $validatedData = $request->validate([
             'name' => 'required|string',
             'prompt_id' => 'nullable|exists:prompts,id',
             'message_content' => 'required|string',
         ]);
+        $prompt = Prompt::find($request->prompt_id);
 
-        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-generate', [
+        $payload = [
             'prompt' => $validatedData['message_content'],
-        ]);
+        ];
+        if($prompt){
+            $payload['prompt2'] = $prompt->prompt;
+        }
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-generate', $payload);
         if (!$response->successful()) {
             WebApiResponse::error(500, $errors = [], "Can't able to generate the conversation, Please try again.");
         }
@@ -116,8 +121,6 @@ class ConversationController extends Controller
             'role' => 'user',
             'message_content' => $validatedData['message_content'],
         ]);
-
-        $prompt = Prompt::find($request->prompt_id);
 
 
         $aiMessage = ConversationMessage::create([
@@ -153,8 +156,8 @@ class ConversationController extends Controller
     {
         $validatedData = $request->validate([
             'conversation_id' => 'required|exists:conversations,id',
-            'prompt_id' => 'nullable|exists:prompts,id',
-            'message_content' => 'required|string',
+            'message_content' => 'nullable|required_without_all:prompt_id|string',
+            'prompt_id' => 'nullable|required_without_all:message_content|exists:prompts,id',
         ]);
 
         $conversation = Conversation::with('messages.user')->find((int) $request->conversation_id);
@@ -164,16 +167,24 @@ class ConversationController extends Controller
             'prompt_id' => $validatedData['prompt_id'] ?? null,
             'user_id' => auth()->id(),
             'role' => 'user',
-            'message_content' => $validatedData['message_content'],
+            'message_content' => $validatedData['message_content']?? "",
         ]);
 
         $prompt = Prompt::find($request->prompt_id);
-
-        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', [
+        $payload = [
             'assistantId' => $conversation->assistantId,
             'threadId' => $conversation->threadId,
-            'prompt' => $validatedData['message_content'],
-        ]);
+        ];
+
+        if($prompt){
+            $payload['prompt'] = $prompt->prompt;
+            if($validatedData['message_content']){
+                $payload['prompt2'] = $validatedData['message_content'];
+            }
+        }else{
+            $payload['prompt'] = $validatedData['message_content'];
+        }
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', $payload);
         if (!$response->successful()) {
             WebApiResponse::error(500, $errors = [], "Can't able to generate the message, Please try again.");
         }
