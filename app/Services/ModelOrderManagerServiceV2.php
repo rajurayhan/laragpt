@@ -40,7 +40,7 @@ class ModelOrderManagerServiceV2
             $model = app($this->modelClass);
 
             // Determine if 'order' is present in the array or model, and set fieldName dynamically
-            $this->detectFieldName($newItem, $model);
+            // $this->detectFieldName($newItem, $model);
 
             if (isset($id)) {
                 return $this->updateExistingItem($model, $newItem, $id, $parentField, $parentId);
