@@ -26,9 +26,12 @@ class ModelOrderManagerService
 {
     private $modelClass;
 
-    public function __construct(string $modelClass)
+    private $fieldName;
+
+    public function __construct(string $modelClass, string $fieldName = null)
     {
         $this->modelClass = $modelClass;
+        $this->fieldName = $modelClass ?? 'order';
     }
 
     public function addOrUpdateItem(array $newItem, $id = null, $parentField = null, $parentId = null)

@@ -8,6 +8,7 @@ use App\Libraries\WebApiResponse;
 use App\Models\Phase;
 use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
+use App\Services\ModelOrderManagerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -72,12 +73,14 @@ class PhaseController extends Controller
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
 
 
-            $phase = new Phase();
-            $phase->problemGoalID = $problemGoalsObj->id;
-            $phase->transcriptId = $problemGoalsObj->transcriptId;
-            $phase->title = $validatedData['title'];
-            $phase->serial = $validatedData['serial'];
-            $phase->save();
+            // $phase = new Phase();
+            // $phase->problemGoalID = $problemGoalsObj->id;
+            // $phase->transcriptId = $problemGoalsObj->transcriptId;
+            // $phase->title = $validatedData['title'];
+            // $phase->serial = $validatedData['serial'];
+            // $phase->save();
+            $orderManager = new ModelOrderManagerService(Phase::class);
+            $phase = $orderManager->addOrUpdateItem(array_merge($validatedData, ['transcriptId'=> $problemGoalsObj->transcriptId]), null,'problemGoalId', $validatedData['problemGoalId']);
             return response()->json([
                 'data' => $phase
             ], 201);
@@ -107,17 +110,24 @@ class PhaseController extends Controller
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
             $batchId = (string) Str::uuid();
 
+            $orderManager = new ModelOrderManagerService(Phase::class);
             DB::beginTransaction();
             $phases = [];
             foreach ($validatedData['phases'] as $phase) {
-                $title = strip_tags($phase['title']);
-                $phaseData = new Phase();
-                $phaseData->serial = $phase['serial'];
-                $phaseData->problemGoalID = $problemGoalsObj->id;
-                $phaseData->transcriptId = $problemGoalsObj->transcriptId;
-                $phaseData->title = $title;
-                $phaseData->batchId = $batchId;
-                $phaseData->save();
+                // $title = strip_tags($phase['title']);
+                // $phaseData = new Phase();
+                // $phaseData->serial = $phase['serial'];
+                // $phaseData->problemGoalID = $problemGoalsObj->id;
+                // $phaseData->transcriptId = $problemGoalsObj->transcriptId;
+                // $phaseData->title = $title;
+                // $phaseData->batchId = $batchId;
+                // $phaseData->save();
+                $phaseData = $orderManager->addOrUpdateItem(array_merge($phase,
+                    [
+                        'transcriptId'=> $problemGoalsObj->transcriptId,
+                        'problemGoalID' => $problemGoalsObj->id,
+                        'title' => strip_tags($phase['title']),
+                    ]), null,'problemGoalId', $validatedData['problemGoalId']);
                 $phases[] = $phaseData;
             }
 
