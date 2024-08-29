@@ -22,7 +22,7 @@ use Ramsey\Uuid\Type\Integer;
 //         => Find all entries greater than 'm' and less than or equal 'n'
 //             -> Shift all data order by -1 (Left Shift).
 //             -> Update the record.
-class ModelOrderManagerService
+class ModelOrderManagerServiceV2
 {
     private string $fieldName;
     private string $modelClass;
