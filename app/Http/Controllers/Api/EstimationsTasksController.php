@@ -122,11 +122,13 @@ class EstimationsTasksController extends Controller
      */
 
     public function create(Request $request){
+
         set_time_limit(500);
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'deliverableId' => 'required|int',
         ]);
+        Log::info(['Estimation Generate Request.', $validatedData['problemGoalId'], $validatedData['deliverableId']]);
         $additionalServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get()->pluck('selectedServiceId')->toArray();
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
         $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',array_merge([$problemAndGoal->meetingTranscript->serviceId], $additionalServiceIds))->get();
@@ -214,7 +216,7 @@ class EstimationsTasksController extends Controller
             if(isset($task['sub_tasks']) && is_array($task['sub_tasks'])){
                 foreach ($task['sub_tasks'] as $subTask){
                     $estimationSubTask = new EstimationTask();
-                    $estimationTask->deliverableId = $findDeliverable->id;
+                    $estimationSubTask->deliverableId = $findDeliverable->id;
                     $estimationSubTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                     $estimationSubTask->problemGoalId = $problemAndGoal->id;
                     $estimationSubTask->estimationTasksParentId = $estimationTask->id;

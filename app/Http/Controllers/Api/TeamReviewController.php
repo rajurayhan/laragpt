@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Jobs\EstimationsTasksGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Deliberable;
 use App\Models\DeliverablesNotes;
@@ -48,7 +49,7 @@ class TeamReviewController extends Controller{
             ]);
             $teams = $validatedData['teams'];
             ProjectTeam::where('transcriptId',$validatedData['transcriptId'])->delete();
-            $transcript = MeetingTranscript::findOrFail($validatedData['transcriptId']);
+            $transcript = MeetingTranscript::with(['problemsAndGoals'])->findOrFail($validatedData['transcriptId']);
 
             DB::beginTransaction();
             foreach ($teams as $team){
@@ -68,6 +69,12 @@ class TeamReviewController extends Controller{
 
 
             DB::commit();
+
+            $deliberables = Deliberable::where('problemGoalId',$transcript->problemsAndGoals->id)->get();
+
+            foreach($deliberables as $deliberable){
+                EstimationsTasksGenerator::dispatch($deliberable)->onQueue('estimations-generator');
+            }
 
             $response = [
                 'message' => 'Team review successfully stored',
