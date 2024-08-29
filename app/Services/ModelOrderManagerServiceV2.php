@@ -22,15 +22,15 @@ use Ramsey\Uuid\Type\Integer;
 //         => Find all entries greater than 'm' and less than or equal 'n'
 //             -> Shift all data order by -1 (Left Shift).
 //             -> Update the record.
-class ModelOrderManagerServiceV2
+class ModelOrderManagerService
 {
     private string $fieldName;
     private string $modelClass;
 
-    public function __construct(string $modelClass, ?string $fieldName = null)
+    public function __construct(string $modelClass, ?string $fieldName = 'order')
     {
-        // If no specific field name is provided, default to 'order'
-        $this->fieldName = $fieldName ?? 'order';
+        // Set the field name, defaulting to 'order' if none is provided
+        $this->fieldName = $fieldName;
         $this->modelClass = $modelClass;
     }
 
@@ -39,8 +39,8 @@ class ModelOrderManagerServiceV2
         return DB::transaction(function () use ($newItem, $id, $parentField, $parentId) {
             $model = app($this->modelClass);
 
-            // Determine if 'order' is present in the array or model, and set fieldName dynamically
-            // $this->detectFieldName($newItem, $model);
+            // Determine if the custom field name is present in the array or model, and adjust accordingly
+            $this->detectFieldName($newItem, $model);
 
             if (isset($id)) {
                 return $this->updateExistingItem($model, $newItem, $id, $parentField, $parentId);
@@ -98,18 +98,14 @@ class ModelOrderManagerServiceV2
 
     private function detectFieldName(array $newItem, $model)
     {
-        // Check if the 'order' field exists in the array, if so, set it as the fieldName
-        if (array_key_exists('order', $newItem)) {
-            $this->fieldName = 'order';
-        }
-        // If 'order' is not in the array, check if the model has an 'order' field
-        elseif (isset($model->order)) {
-            $this->fieldName = 'order';
-        }
-        // If neither, you can set it to a fallback value or throw an exception if it's required
-        else {
-            // You can set a fallback or handle the scenario differently
-            throw new \Exception("Order field not found in array or model.");
+        // This method can be adjusted to perform custom field detection logic if needed
+        if (array_key_exists($this->fieldName, $newItem)) {
+            // Field name exists in the array, keep it as is
+        } elseif (isset($model->{$this->fieldName})) {
+            // Field name exists in the model, keep it as is
+        } else {
+            // If neither exists, you can handle the scenario, or throw an exception
+            throw new \Exception("Field {$this->fieldName} not found in array or model.");
         }
     }
 }
