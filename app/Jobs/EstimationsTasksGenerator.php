@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Models\Deliberable;
+use App\Http\Controllers\Api\EstimationsTasksController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 
 class EstimationsTasksGenerator implements ShouldQueue
 {
@@ -25,9 +25,10 @@ class EstimationsTasksGenerator implements ShouldQueue
      * Execute the job.
      */
     public function handle(){
-        DB::table('queue_data')->insert([
-            'title'=> $this->deliberable->title,
-        ]);
-        sleep(1);
+        $EstimationsTasksController = new EstimationsTasksController();
+        $EstimationsTasksController->create(new Request([
+            'problemGoalId'=> $this->deliberable->problemGoalId,
+            'deliverableId'=> $this->deliberable->id,
+        ]));
     }
 }
