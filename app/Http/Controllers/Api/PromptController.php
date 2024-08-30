@@ -21,10 +21,11 @@ class PromptController extends Controller
      *
      * @group Prompts Management
      * @queryParam page integer page number.
+     * @queryParam per_page integer Number of items per page.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         $prompts = Prompt::orderBy('type','ASC')->orderBy('serial','ASC')->paginate(10);
 
