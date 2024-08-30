@@ -27,7 +27,7 @@ class PromptController extends Controller
      */
     public function index(Request $request)
     {
-        $prompts = Prompt::orderBy('type','ASC')->orderBy('serial','ASC')->paginate(10);
+        $prompts = Prompt::orderBy('type','ASC')->orderBy('serial','ASC')->paginate($request->get('per_page')??10);
 
         return response()->json([
             'data' => $prompts->items(),
