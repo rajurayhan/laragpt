@@ -25,6 +25,7 @@ class ScopeOfWork extends Model
         'batchId',
         'serial',
         'additionalServiceId',
+        'serviceGroupId',
     ];
 
     public function problemsAndGoals()

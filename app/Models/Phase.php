@@ -21,6 +21,8 @@ class Phase extends Model
         'isChecked',
         'batchId',
         'serial',
+        'serviceGroupId',
+        'additionalServiceId',
     ];
 
     public function problemsAndGoals()

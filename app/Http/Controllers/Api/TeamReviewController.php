@@ -43,7 +43,7 @@ class TeamReviewController extends Controller{
         try{
             $validatedData = $request->validate([
                 'transcriptId' => 'required|int',
-                'teams' => 'required|array',
+                'teams' => 'array',
                 'teams.*.employeeRoleId' => 'required|int',
                 'teams.*.associateId' => 'required|int',
             ]);
@@ -52,21 +52,22 @@ class TeamReviewController extends Controller{
             $transcript = MeetingTranscript::with(['problemsAndGoals'])->findOrFail($validatedData['transcriptId']);
 
             DB::beginTransaction();
-            foreach ($teams as $team){
-                EstimationTask
-                    ::where('transcriptId',$validatedData['transcriptId'])
-                    ->where('isManualAssociated',false)
-                    ->update([
-                        "associateId"=>$team['associateId']
-                    ]);
+            if(is_array($teams)) {
+                foreach ($teams as $team){
+                    EstimationTask
+                        ::where('transcriptId',$validatedData['transcriptId'])
+                        ->where('isManualAssociated',false)
+                        ->update([
+                            "associateId"=>$team['associateId']
+                        ]);
 
-                $projectTeam = new ProjectTeam();
-                $projectTeam->transcriptId = $transcript->id;
-                $projectTeam->employeeRoleId = $team['employeeRoleId'];
-                $projectTeam->associateId = $team['associateId'];
-                $projectTeam->save();
+                    $projectTeam = new ProjectTeam();
+                    $projectTeam->transcriptId = $transcript->id;
+                    $projectTeam->employeeRoleId = $team['employeeRoleId'];
+                    $projectTeam->associateId = $team['associateId'];
+                    $projectTeam->save();
+                }
             }
-
 
             DB::commit();
 

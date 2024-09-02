@@ -10,6 +10,7 @@ use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
 use App\Models\ScopeOfWork;
 use App\Models\ScopeOfWorkAdditionalService;
+use App\Models\ServiceGroups;
 use App\Models\ServiceScopes;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
@@ -364,8 +365,27 @@ class ScopeOfWorkController extends Controller
                 $scopeOfWorkAdditionalService->selectedServiceId = $serviceIdValue;
                 $scopeOfWorkAdditionalService->save();
 
+                $serviceGroups = ServiceGroups::where('serviceId', $serviceIdValue)->get();
+                $serviceGroupMapWithPhase = [];
+                $serial = Phase::where('problemGoalID', $validatedData['problemGoalId'])->max('serial');
+
+                foreach ($serviceGroups as $serviceGroup) {
+                    $phase = new Phase();
+                    $phase->serial = $serial++;
+                    $phase->problemGoalID = $problemGoalsObj->id;
+                    $phase->transcriptId = $problemGoalsObj->transcriptId;
+                    $phase->title = $serviceGroup->name;
+                    $phase->details = null;
+                    $phase->serviceGroupId = $serviceGroup->id;
+                    $phase->additionalServiceId = $serviceIdValue;
+                    $phase->batchId = $batchId;
+                    $phase->save();
+                    $serviceGroupMapWithPhase[(string) $serviceGroup->id] = $phase->id;
+
+                }
+
                 $this->storeScopeOfWork(
-                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($input) {
+                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($input, $serviceGroupMapWithPhase) {
                         $title = strip_tags($scope->name);
                         foreach ($input as $key => $value) {
                             $placeholder = "{" . $key . "}";
@@ -374,6 +394,7 @@ class ScopeOfWorkController extends Controller
                         return [
                             'scopeId' => $scope->id,
                             'title' => $title,
+                            'phaseId' => $serviceGroupMapWithPhase[(string) $scope->serviceGroupId],
                             'additionalServiceId' => $scope->serviceId,
                         ];
                     })->toArray(),
@@ -383,6 +404,7 @@ class ScopeOfWorkController extends Controller
                 );
             }
 
+            Phase::where('problemGoalID', $problemGoalId)->whereIn('additionalServiceId', $serviceIdsToDelete)->delete();
             ScopeOfWork::where('problemGoalId', $problemGoalId)->whereIn('additionalServiceId', $serviceIdsToDelete)->delete();
 
             ScopeOfWorkAdditionalService::where('problemGoalId', $problemGoalId)
