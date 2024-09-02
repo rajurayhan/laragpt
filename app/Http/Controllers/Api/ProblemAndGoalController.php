@@ -85,10 +85,11 @@ use Illuminate\Support\Facades\Log;
             ['transcriptId' => $request->transcriptId],
             ['problemGoalText' => Markdown2Html::convert($problemAndGoalsText)]
         );
+        $problemsAndGoalsNew = ProblemsAndGoals::find($problemsAndGoalsObj->id);
 
         $response = [
             'message' => 'Created Successfully ',
-            'data' => $problemsAndGoalsObj,
+            'data' => $problemsAndGoalsNew,
         ];
 
         return response()->json($response, 201);
