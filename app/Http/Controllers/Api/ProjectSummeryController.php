@@ -10,6 +10,7 @@ use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
+use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use App\Services\TldvService;
@@ -156,7 +157,7 @@ use Illuminate\Support\Facades\Log;
 
             $projectSummeryObj = ProjectSummary::updateOrCreate(
                 ['transcriptId' => $meetingTranscript->id],
-                ['summaryText' => $data['data']['summery']]
+                ['summaryText' => Markdown2Html::convert($data['data']['summery'])]
             );
             $meetingTranscript->assistantId = $data['data']['assistantId'];
             $meetingTranscript->threadId = $data['data']['threadId'];
