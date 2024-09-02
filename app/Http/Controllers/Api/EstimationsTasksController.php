@@ -74,6 +74,7 @@ class EstimationsTasksController extends Controller
      * @bodyParam estimateHours int not required
      * @bodyParam employeeRoleId int not required
      * @bodyParam userId int not required
+     * @bodyParam serial int required . Example: 1
      */
 
     public function addNew(Request $request){
@@ -82,6 +83,7 @@ class EstimationsTasksController extends Controller
             'estimationTasksParentId' => 'int',
             'estimateHours' => 'int',
             'employeeRoleId' => 'int',
+            'serial' => 'int',
             'userId' => 'int',
             'title' => 'required|string'
         ]);
@@ -98,6 +100,7 @@ class EstimationsTasksController extends Controller
             $estimationTask->userId = !empty($validatedData['userId'])? $validatedData['userId']: null;
             $estimationTask->estimationTasksParentId = !empty($validatedData['estimationTasksParentId'])? $validatedData['estimationTasksParentId']: null;
             $estimationTask->title = $validatedData['title'];
+            $estimationTask->serial = $validatedData['serial'];
             $estimationTask->isChecked = 1;
             $estimationTask->save();
 
@@ -133,6 +136,7 @@ class EstimationsTasksController extends Controller
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
         $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',array_merge([$problemAndGoal->meetingTranscript->serviceId], $additionalServiceIds))->get();
         $deliverables = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('isChecked',1)->get();
+        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial');
 
         $input = [
             "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,
@@ -212,8 +216,10 @@ class EstimationsTasksController extends Controller
             $estimationTask->details = $task['details'];
             $estimationTask->isChecked = 1;
             $estimationTask->batchId =$batchId;
+            $estimationTask->serial = $serial++;
             $estimationTask->save();
             if(isset($task['sub_tasks']) && is_array($task['sub_tasks'])){
+                $subTaskSerial = 1;
                 foreach ($task['sub_tasks'] as $subTask){
                     $estimationSubTask = new EstimationTask();
                     $estimationSubTask->deliverableId = $findDeliverable->id;
@@ -224,6 +230,7 @@ class EstimationsTasksController extends Controller
                     $estimationSubTask->details = $subTask['details'];
                     $estimationSubTask->estimateHours = $subTask['estimated_hours'];
                     $estimationSubTask->isChecked = 1;
+                    $estimationSubTask->serial = $subTaskSerial++;
                     $estimationSubTask->batchId =$batchId;
                     $estimationSubTask->save();
                 }
@@ -435,6 +442,34 @@ class EstimationsTasksController extends Controller
             DB::rollBack();
             return WebApiResponse::error(500, $errors = [], $exception->getMessage());
         }
+    }
+
+    /**
+     * Serial Update Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @urlParam id int required Id of the Estimation Task.
+     * @bodyParam serial int required
+     *
+     */
+
+    public function updateSerial($id, Request $request)
+    {
+        $validatedData = $request->validate([
+            'serial' => 'required|int',
+        ]);
+
+        $estimationTask = EstimationTask::findOrFail($id);
+        $estimationTask->serial = $request->serial;
+        $estimationTask->save();
+
+        $response = [
+            'message' => 'Estimation task serial updated successfully',
+            'data' => $estimationTask,
+        ];
+
+        return response()->json($response, 201);
     }
 }
 

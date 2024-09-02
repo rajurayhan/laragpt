@@ -121,6 +121,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
     Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
+    Route::patch('/deliverables/{id}/serial', [DeliverablesController::class, 'updateSerial'])->name('deliverables.serial');
 
     // estimation tasks api
 
@@ -132,6 +133,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');
     Route::post('/estimation-tasks/{id}/add-estimate-hours', [EstimationsTasksController::class, 'addEstimateHours'])->name('estimation.tasks.add.estimateHours');
     Route::post('/estimation-tasks/{id}/add-associate', [EstimationsTasksController::class, 'addAssociate'])->name('estimation.tasks.add.associate');
+    Route::patch('/estimation-tasks/{id}/serial', [EstimationsTasksController::class, 'updateSerial'])->name('estimation.tasks.serial');
 
     //Associates
     Route::get('/associates', [AssociateController::class, 'index'])->name('associates.list');
