@@ -41,6 +41,10 @@ class ScopeOfWork extends Model
     {
         return $this->belongsTo(MeetingTranscript::class, 'transcriptId', 'id');
     }
+    public function phaseInfo()
+    {
+        return $this->belongsTo(Phase::class, 'phaseId', 'id');
+    }
     public function additionalServiceInfo()
     {
         return $this->belongsTo(Services::class, 'additionalServiceId', 'id');

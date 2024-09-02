@@ -49,7 +49,7 @@ class ScopeOfWorkController extends Controller
 
     public static function getScopeOfWorks($problemGoalId)
     {
-        $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
+        $scopeOfWorks = ScopeOfWork::with(['phaseInfo'])->orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
         $additionalServices = ScopeOfWorkAdditionalService::with(['serviceInfo'])->where('problemGoalId', $problemGoalId)->get();
         return [
             'scopeOfWorks' => $scopeOfWorks,
@@ -271,7 +271,7 @@ class ScopeOfWorkController extends Controller
             $this->storeScopeOfWork($data['data']['scopeOfWork'], $batchId, $problemGoalsObj, $serial);
             DB::commit();
 
-            $scopeOfWorks = ScopeOfWork::orderBy('serial','ASC')->where('problemGoalID', $problemGoalsObj->id)->get();
+            $scopeOfWorks = ScopeOfWork::with(['phaseInfo'])->orderBy('serial','ASC')->where('problemGoalID', $problemGoalsObj->id)->get();
             return response()->json([
                 'data' => $scopeOfWorks
             ], 201);
