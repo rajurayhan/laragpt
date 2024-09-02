@@ -22,28 +22,28 @@ class ConvertMdToHtmlContent extends Command
         $meetingSummeries = MeetingSummery::get(); 
         foreach($meetingSummeries as $summery){
             $summery->meetingSummeryText = Markdown2Html::convert($summery->meetingSummeryText);
-            $summery->save();
+            // $summery->save();
         }
 
         // Project Summery
         $projectSummeries = ProjectSummary::get(); 
         foreach($projectSummeries as $summery){
             $summery->summaryText = Markdown2Html::convert($summery->summaryText);
-            $summery->save();
+            // $summery->save();
         }
 
         // Problems and Goals
         $problems = ProblemsAndGoals::get(); 
         foreach($problems as $problem){
             $problem->problemGoalText = Markdown2Html::convert($problem->problemGoalText);
-            $problem->save();
+            // $problem->save();
         }
 
         // Project Overview
         $overviews = ProjectOverview::get(); 
         foreach($overviews as $overview){
             $overview->overviewText = Markdown2Html::convert($overview->overviewText);
-            $overview->save();
+            // $overview->save();
         }
         $this->info('Converted Successfully');
     }
