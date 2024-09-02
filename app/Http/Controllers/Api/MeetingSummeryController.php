@@ -132,7 +132,7 @@ use Illuminate\Support\Facades\Http;
         $meetingSummeryObj->tldvLink = $request->tldvLink;
         $meetingSummeryObj->is_private = $request->is_private ?? null;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
-        $meetingSummeryObj->meetingSummeryText = $summery;
+        $meetingSummeryObj->meetingSummeryText = Markdown2Html::convert($summery);
         $meetingSummeryObj->transcriptText = isset($transcript) ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();

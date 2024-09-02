@@ -6,6 +6,7 @@ use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectOverview;
+use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ use Illuminate\Http\Request;
 
         $projectOverviewObj = ProjectOverview::updateOrCreate(
             ['problemGoalID' => $request->problemGoalID],
-            ['overviewText' => $projectOverview]
+            ['overviewText' => Markdown2Html::convert($projectOverview)]
         );
 
         $response = [
