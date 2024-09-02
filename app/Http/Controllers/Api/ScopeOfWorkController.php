@@ -204,7 +204,7 @@ class ScopeOfWorkController extends Controller
                 return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
             }
 
-            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial');
+            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial') ?? 1;
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
@@ -367,7 +367,7 @@ class ScopeOfWorkController extends Controller
 
                 $serviceGroups = ServiceGroups::where('serviceId', $serviceIdValue)->get();
                 $serviceGroupMapWithPhase = [];
-                $serial = Phase::where('problemGoalID', $validatedData['problemGoalId'])->max('serial');
+                $serial = Phase::where('problemGoalID', $validatedData['problemGoalId'])->max('serial') ?? 1;
 
                 foreach ($serviceGroups as $serviceGroup) {
                     $phase = new Phase();

@@ -137,6 +137,8 @@ use Illuminate\Support\Facades\Http;
 
         $meetingSummeryObj->save();
 
+        $meetingSummeryObj = MeetingSummery::where('id',$meetingSummeryObj->id)->first();
+
         // Push to clickup
 
         // $taskId = $this->getLastPartOfUrl($request->clickupLink);

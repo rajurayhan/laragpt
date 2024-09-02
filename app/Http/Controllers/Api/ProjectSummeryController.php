@@ -159,15 +159,16 @@ use Illuminate\Support\Facades\Log;
                 ['transcriptId' => $meetingTranscript->id],
                 ['summaryText' => Markdown2Html::convert($data['data']['summery'])]
             );
+            $projectSummeryNewObj = ProjectSummary::where('id', $projectSummeryObj->id)->first();
             $meetingTranscript->assistantId = $data['data']['assistantId'];
             $meetingTranscript->threadId = $data['data']['threadId'];
             $meetingTranscript->save();
-            $projectSummeryObj->meetingTranscript = $meetingTranscript;
+            $projectSummeryNewObj->meetingTranscript = $meetingTranscript;
 
             DB::commit();
             $response = [
                 'message' => 'Created Successfully',
-                'data' => $projectSummeryObj->load('createdBy')
+                'data' => $projectSummeryNewObj->load('createdBy')
             ];
 
             return response()->json($response, 201);

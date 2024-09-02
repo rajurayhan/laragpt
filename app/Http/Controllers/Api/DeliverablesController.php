@@ -242,7 +242,7 @@ class DeliverablesController extends Controller
 
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
-        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial');
+        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 1;
         foreach($deliverables as $deliverable){
             //$scopeOfWork = $scopeOfWorksKeyById[$deliverable['scopeOfWorkId']];
             $deliverableObj = new Deliberable();

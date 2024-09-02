@@ -136,7 +136,7 @@ class EstimationsTasksController extends Controller
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
         $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',array_merge([$problemAndGoal->meetingTranscript->serviceId], $additionalServiceIds))->get();
         $deliverables = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('isChecked',1)->get();
-        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial');
+        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 1;
 
         $input = [
             "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,

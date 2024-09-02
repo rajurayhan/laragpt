@@ -11,8 +11,8 @@ use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
 
-/** 
- * @authenticated 
+/**
+ * @authenticated
  */
 
  class ProjectOverviewController extends Controller
@@ -50,9 +50,11 @@ use Illuminate\Http\Request;
             ['overviewText' => Markdown2Html::convert($projectOverview)]
         );
 
+        $projectOverviewNew = ProjectOverview::where('problemGoalID', $problemGoalsObj->id)->first();
+
         $response = [
             'message' => 'Created Successfully ',
-            'data' => $projectOverviewObj,
+            'data' => $projectOverviewNew,
         ];
 
         return response()->json($response, 201);
