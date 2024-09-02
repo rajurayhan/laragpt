@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\QuestionController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Services;
+use App\Models\User;
 use App\Services\ClickUpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -193,7 +194,30 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        $user = User::with('roles.permissions')->find(Auth::id()); 
+
+        if(isset($user->roles)){
+            $user->role = isset($user->roles[0]) ? $user->roles[0]->name : null;
+            $formattedPermissions = [];
+
+            foreach($user->roles as $role){
+                foreach ($role->permissions as $permission) {
+                    $nameParts = explode('.', $permission['name']);
+                    $moduleName = $nameParts[1];
+    
+                    if(isset($formattedPermissions[$moduleName])){
+                        array_push($formattedPermissions[$moduleName], $permission['name']);
+                    }
+                    else{
+                        $formattedPermissions[$moduleName][] = $permission['name'];
+                    }
+    
+                }
+            }
+            $user->permissions = $formattedPermissions;
+            unset($user->roles);
+        } 
+        return response()->json($user);
     });
 
     Route::group(['prefix' => 'conversations'], function () {
