@@ -195,7 +195,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         $user = User::with('roles.permissions')->find(Auth::id()); 
 
         if(isset($user->roles)){
-            $user->role = $user->roles[0]->name;
+            $user->role = $user->roles[0] ? $user->roles[0]->name : null;
             $formattedPermissions = [];
 
             foreach($user->roles as $role){
