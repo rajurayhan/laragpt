@@ -141,6 +141,7 @@ class UserController extends Controller
         if($role){
             $user->syncRoles([$role->id]);
         }
+        $user->roles;
 
         $response = [
             'message' => 'Created Successfully ',

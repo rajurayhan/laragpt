@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\MeetingSummery;
+use App\Services\Markdown2Html;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -13,7 +15,12 @@ class ConvertMdToHtmlContent extends Command
     public function handle()
     {
 
-
+        $meetingSummeries = MeetingSummery::get(); 
+        foreach($meetingSummeries as $summery){
+            \Log::info(Markdown2Html::convert($summery->meetingSummeryText));
+            $summery->meetingSummeryText = Markdown2Html::convert($summery->meetingSummeryText);
+            $summery->save();
+        }
         $this->info('Converted Successfully');
     }
 }
