@@ -50,7 +50,7 @@ class DeliverablesController extends Controller
     }
 
     public static function getDeliverables($problemGoalId){
-        $deliverables = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();
+        $deliverables = Deliberable::with(['scopeOfWork','scopeOfWork.phaseInfo','additionalServiceInfo'])->latest()->where('problemGoalId',$problemGoalId)->get();
         $deliverableNotes = DeliverablesNotes::where('problemGoalId',$problemGoalId)->get();
         $questionAnswers = QuestionAnswer::with(['questionInfo'])->where('problemGoalId',$problemGoalId)->get();
 
@@ -273,7 +273,7 @@ class DeliverablesController extends Controller
         }*/
         DB::commit();
 
-        $deliverableList = Deliberable::with(['scopeOfWork','additionalServiceInfo'])->latest()->where('problemGoalId', $request->get('problemGoalId'))->get();
+        $deliverableList = Deliberable::with(['scopeOfWork','scopeOfWork.phaseInfo','additionalServiceInfo'])->latest()->where('problemGoalId', $request->get('problemGoalId'))->get();
         return response()->json([
             'data'=>$deliverableList
         ], 201);
