@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
+use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectOverview;
+use App\Models\Prompt;
 use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @authenticated
@@ -29,8 +34,12 @@ use Illuminate\Http\Request;
 
     public function create(Request $request){
         set_time_limit(500);
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        $validatedData = $request->validate([
+            'problemGoalID' => 'required|int'
+        ]);
+
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
+        if(count($prompts) < 1){
             $response = [
                 'message' => 'Prompt not set for PromptType::PROJECT_OVERVIEW',
                 'data' => []
@@ -38,14 +47,40 @@ use Illuminate\Http\Request;
             return response()->json($response, 422);
         }
 
-        $validatedData = $request->validate([
-            'problemGoalID' => 'required|int'
+
+        $problemGoalsObj = ProblemsAndGoals::findOrFail($validatedData['problemGoalID']);
+        $transcriptObj = MeetingTranscript::findOrFail($problemGoalsObj->transcriptId);
+        $input = [
+            "{CLIENT-EMAIL}" => $transcriptObj->clientEmail,
+            "{CLIENT-COMPANY-NAME}" => $transcriptObj->company,
+            "CLIENT-COMPANY-NAME" => $transcriptObj->company,
+            "{CLIENT-PHONE}" => $transcriptObj->clientPhone,
+        ];
+
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/project-overview-generate', [
+            'threadId' => $transcriptObj->threadId,
+            'assistantId' => $transcriptObj->assistantId,
+            'prompts' => $prompts->map(function ($item, $key) {
+                return [
+                    'prompt_text'=> $item->prompt,
+                    'action_type'=> $item->action_type,
+                ];
+            })->toArray(),
         ]);
 
-        $problemGoalsObj      = ProblemsAndGoals::findOrFail($request->problemGoalID);
-        $projectOverview   = OpenAIGeneratorService::generateProjectOverview($problemGoalsObj->problemGoalText, $prompt->prompt);
+        if (!$response->successful()) {
+            WebApiResponse::error(500, $errors = [], "Can't able to problem and goals, Please try again.");
+        }
+        Log::info(['Problem And Goal Generate AI.',$response]);
+        $data = $response->json();
 
-        $projectOverviewObj = ProjectOverview::updateOrCreate(
+        $projectOverview = strip_tags($data['data']['projectOverview']);
+        foreach ($input as $key => $value) {
+            $placeholder = $key;
+            $projectOverview = str_replace($placeholder, $value, $projectOverview);
+        }
+
+        ProjectOverview::updateOrCreate(
             ['problemGoalID' => $request->problemGoalID],
             ['overviewText' => Markdown2Html::convert($projectOverview)]
         );

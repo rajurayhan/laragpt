@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Log;
 
     public function create(Request $request){
         set_time_limit(500);
-        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
         if(count($prompts) < 1){
             $response = [
                 'message' => 'Prompt not set for PromptType::PROBLEMS_AND_GOALS',

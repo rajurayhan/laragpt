@@ -176,7 +176,7 @@ class ScopeOfWorkController extends Controller
     public function create(Request $request)
     {
 
-        $prompts = Prompt::where('type',$this->promptType)->orderBy('id','ASC')->get();
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
         if(count($prompts) < 1){
             $response = [
                 'message' => 'Prompt not set for PromptType::SCOPE_OF_WORK',
