@@ -11,7 +11,6 @@ use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
 use App\Services\Markdown2Html;
-use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;

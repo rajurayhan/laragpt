@@ -105,7 +105,8 @@ class PhaseController extends Controller
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'phases' => 'required|array',
-            'serial' => 'required|int',
+            'phases.*.title' => 'required|string',
+            'phases.*.serial' => 'required|int',
         ]);
         try {
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
