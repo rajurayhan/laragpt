@@ -69,7 +69,7 @@ use Illuminate\Support\Facades\Log;
         ]);
 
         if (!$response->successful()) {
-            WebApiResponse::error(500, $errors = [], "Can't able to problem and goals, Please try again.");
+            return WebApiResponse::error(500, $errors = [], "Can't able to problem and goals, Please try again.");
         }
         Log::info(['Problem And Goal Generate AI.',$response]);
         $data = $response->json();

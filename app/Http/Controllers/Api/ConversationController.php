@@ -102,7 +102,7 @@ class ConversationController extends Controller
         }
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-generate', $payload);
         if (!$response->successful()) {
-            WebApiResponse::error(500, $errors = [], "Can't able to generate the conversation, Please try again.");
+            return WebApiResponse::error(500, $errors = [], "Can't able to generate the conversation, Please try again.");
         }
         Log::info(['Conversation Generate AI.',$response]);
         $data = $response->json();
@@ -186,7 +186,7 @@ class ConversationController extends Controller
         }
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', $payload);
         if (!$response->successful()) {
-            WebApiResponse::error(500, $errors = [], "Can't able to generate the message, Please try again.");
+            return WebApiResponse::error(500, $errors = [], "Can't able to generate the message, Please try again.");
         }
         Log::info(['Conversation continue AI.',$response]);
         $data = $response->json();

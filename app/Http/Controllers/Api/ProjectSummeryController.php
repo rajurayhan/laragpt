@@ -149,7 +149,7 @@ use Illuminate\Support\Facades\Log;
                 })->toArray(),
             ]);
             if (!$response->successful()) {
-                WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
+                return WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
             }
             Log::info(['Summery Generate AI.',$response]);
             $data = $response->json();

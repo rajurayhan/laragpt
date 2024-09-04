@@ -234,7 +234,7 @@ class ScopeOfWorkController extends Controller
             ]);
 
             if (!$response->successful()) {
-                WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
+                return WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
             }
             $data = $response->json();
             Log::info(['Scope of work AI.', $data]);

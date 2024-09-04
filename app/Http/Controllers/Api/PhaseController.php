@@ -192,7 +192,7 @@ class PhaseController extends Controller
             ]);
 
             if (!$response->successful()) {
-                WebApiResponse::error(500, $errors = [], "Can't able to generate phase, Please try again.");
+                return WebApiResponse::error(500, $errors = [], "Can't able to generate phase, Please try again.");
             }
             $data = $response->json();
             Log::info(['Phases AI.', $data]);

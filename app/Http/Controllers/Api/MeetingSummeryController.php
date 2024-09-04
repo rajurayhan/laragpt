@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
 use App\Models\MeetingSummery;
+use App\Models\ProjectSummary;
+use App\Models\Prompt;
 use App\Services\ClickUpCommentUploader;
 use App\Services\Markdown2Html;
 use App\Services\OpenAIGeneratorService;
@@ -12,6 +15,7 @@ use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @authenticated
@@ -96,9 +100,9 @@ use Illuminate\Support\Facades\Http;
     public function storeMeetingSummery(Request $request){
         // return $taskId = $this->getLastPartOfUrl($request->clickupLink);
         // return $this->getLastPartOfUrl($request->tldvLink);
-        set_time_limit(1500);
-        $prompt = PromptService::findPromptByType($this->promptType);
-        if($prompt == null){
+        set_time_limit(500);
+        $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
+        if(count($prompts) <1 ){
             $response = [
                 'message' => 'Prompt not set for PromptType::MEETING_SUMMARY',
                 'data' => []
@@ -123,8 +127,22 @@ use Illuminate\Support\Facades\Http;
             // }
         }
 
+        //start
+        $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/estimation/meeting-summery-generate', [
+            'transcript' => isset($transcript) ? $transcript : $request->transcriptText,
+            'prompts' => $prompts->map(function ($item, $key) {
+                return [
+                    'prompt_text'=> $item->prompt,
+                    'action_type'=> $item->action_type,
+                ];
+            })->toArray(),
+        ]);
+        if (!$response->successful()) {
+            return WebApiResponse::error(500, $errors = [], "Can't able to generate transcript, Please try again.");
+        }
+        Log::info(['Meeting Summery Generate AI.',$response]);
+        $data = $response->json();
         // Generate Summery
-        $summery = OpenAIGeneratorService::generateMeetingSummery(isset($transcript) ? $transcript : $request->transcriptText, $prompt->prompt);
 
         $meetingSummeryObj = new MeetingSummery();
         $meetingSummeryObj->meetingName = $request->meetingName;
@@ -132,7 +150,7 @@ use Illuminate\Support\Facades\Http;
         $meetingSummeryObj->tldvLink = $request->tldvLink;
         $meetingSummeryObj->is_private = $request->is_private ?? null;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
-        $meetingSummeryObj->meetingSummeryText = Markdown2Html::convert($summery);
+        $meetingSummeryObj->meetingSummeryText = Markdown2Html::convert($data['data']['summery']);
         $meetingSummeryObj->transcriptText = isset($transcript) ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();

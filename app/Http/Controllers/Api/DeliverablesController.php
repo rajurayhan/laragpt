@@ -229,7 +229,7 @@ class DeliverablesController extends Controller
         ]);
 
         if (!$response->successful()) {
-            WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
+            return WebApiResponse::error(500, $errors = [], "Can't able to Scope of work, Please try again.");
         }
         $data = $response->json();
         Log::info(['Deliverables Generate AI.', $data]);
