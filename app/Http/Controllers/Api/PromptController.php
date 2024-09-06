@@ -21,13 +21,27 @@ class PromptController extends Controller
      *
      * @group Prompts Management
      * @queryParam page integer page number.
+     * @queryParam name string prompt name.
+     * @queryParam prompt string Prompt description
+     * @queryParam type integer Prompt Type.
      * @queryParam per_page integer Number of items per page.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        $prompts = Prompt::orderBy('type','ASC')->orderBy('serial','ASC')->paginate($request->get('per_page')??10);
+        $query = Prompt::query();
+        if($request->filled('name')){
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if($request->filled('prompt')){
+            $query->where('prompt', 'like', '%' . $request->input('prompt') . '%');
+        }
+        if($request->filled('type')){
+            $query->where('type', $request->input('type'));
+        }
+
+        $prompts = $query->orderBy('name','ASC')->paginate($request->get('per_page')??10);
 
         return response()->json([
             'data' => $prompts->items(),
