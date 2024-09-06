@@ -50,6 +50,9 @@ class ConversationController extends Controller
             }
             else{
                 $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+                // $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
+                //     $subQuery->where('user_id', $user->id);
+                // })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
             }
 
             return response()->json([

@@ -23,12 +23,13 @@ class UserController extends Controller
      *
      * @group Users Management
      * @queryParam page integer page number.
+     * @queryParam per_page integer Number of records requested per page.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->paginate(10);
+        $users = User::with('roles')->orderBy('name', 'ASC')->paginate($request->per_page ?? 10);
 
         return response()->json([
             'data' => $users->items(),
