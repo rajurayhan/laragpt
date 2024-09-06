@@ -12,6 +12,7 @@ class ConversationSharedUser extends Model
     protected $fillable = [
         'user_id',  
         'conversation_id', 
+        'access_level'
     ];
 
     public function conversation()
