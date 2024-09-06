@@ -10,6 +10,7 @@ use App\Models\ProjectSummary;
 use App\Models\Prompt;
 use App\Services\OpenAIGeneratorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -36,13 +37,19 @@ class ConversationController extends Controller
         try {
             $query = Conversation::query();
 
+            $user  = Auth::user(); 
+
             if ($request->filled('name')) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
             }
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
-
-            $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
+            if($user->hasRole('Admin')){
+                $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
+            }
+            else{
+                $conversations = $query->where('user_id', $user->id)->with('user', 'messages')->latest()->paginate($perPage);
+            }
 
             return response()->json([
                 'data' => $conversations->items(),
