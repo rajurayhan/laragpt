@@ -10,4 +10,9 @@ class Prompt extends Model
     use HasFactory;
 
     protected $fillable = ['type','action_type', 'prompt', 'name','serial'];
+
+    public function shared_user()
+    {
+        return $this->hasMany(PromptSharedUser::class);
+    }
 }

@@ -227,6 +227,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', [ConversationController::class, 'delete']);
         Route::post('/create', [ConversationController::class, 'createConversation']);
         Route::post('/continue', [ConversationController::class, 'continueConversation']);
+        Route::post('/share', [ConversationController::class, 'share']);
+        Route::post('/remove-share', [ConversationController::class, 'removeShare']);
 
         Route::put('/message/{id}', [ConversationController::class, 'updateConversationMessage']);
     });

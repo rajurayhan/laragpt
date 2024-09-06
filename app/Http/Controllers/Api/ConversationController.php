@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
+use App\Models\ConversationSharedUser;
 use App\Models\ProjectSummary;
 use App\Models\Prompt;
 use App\Services\OpenAIGeneratorService;
@@ -284,7 +285,7 @@ class ConversationController extends Controller
     /**
      * Delete a Conversation
      *
-     * Dpdate an existing Conversation.
+     * Delete an existing Conversation.
      *
      * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      */
@@ -297,6 +298,64 @@ class ConversationController extends Controller
 
         $response = [
             'message' => 'Deleted Successfully ',
+            'data' => [],
+        ];
+        return response()->json($response, 200);
+
+    }
+    /**
+     * Share a Conversation
+     *
+     * Share an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
+     * @bodyParam user_id array required List of User Id to share with. Example: [1,2]
+     */
+
+    public function share($id, Request $request){
+
+        $validatedData = $request->validate([
+            'user_id' => 'required|array',
+        ]);
+
+        $conversation = Conversation::findOrFail($id);
+
+        $sharedUsers = $request->user_id;
+        foreach ($sharedUsers as $key => $user_id) {
+            ConversationSharedUser::updateOrCreate(
+                ['conversation_id' => $id],
+                ['user_id' => $user_id]
+            );
+        }
+
+        $response = [
+            'message' => 'Shared Successfully ',
+            'data' => [],
+        ];
+        return response()->json($response, 200);
+
+    }
+    /**
+     * Remove Share a Conversation
+     *
+     * Remove Share an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
+     * @bodyParam user_id array required List of User Id to share with. Example: [1,2]
+     */
+
+    public function removeShare($id, Request $request){
+
+        $validatedData = $request->validate([
+            'user_id' => 'required|array',
+        ]);
+
+        $conversation = Conversation::findOrFail($id);
+        
+        ConversationSharedUser::where('conversation_id', $id)->whereIn('user_id', $request->user_id)->delete();
+
+        $response = [
+            'message' => 'Shared Remove Successfully ',
             'data' => [],
         ];
         return response()->json($response, 200);
