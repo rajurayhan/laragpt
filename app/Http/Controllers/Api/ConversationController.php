@@ -49,7 +49,7 @@ class ConversationController extends Controller
                 $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
             }
             else{
-                $conversations = $query->where('user_id', $user->id)->with('user', 'messages')->latest()->paginate($perPage);
+                $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
             }
 
             return response()->json([
@@ -73,7 +73,7 @@ class ConversationController extends Controller
     {
         try {
             $user = Auth::user();
-            $conversation = Conversation::with(['messages.user', 'messages.prompt'])->find($id);
+            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user'])->find($id);
             
             if(!$user->hasRole('Admin')){
                 if($user->id != $conversation->user_id){

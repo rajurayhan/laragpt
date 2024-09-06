@@ -6,6 +6,7 @@ use App\Enums\PromptType;
 use App\Models\Prompt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PromptSharedUser;
 
 /**
  * @group Prompts Management
@@ -60,6 +61,7 @@ class PromptController extends Controller
      * @bodyParam name string required The name of the prompt. Example: "Example prompt name."
      * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam serial int not required. Example: 1
+     * @bodyParam user_id array not required List of user this propt can see in hive assistant. Example: [1,2]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -73,10 +75,19 @@ class PromptController extends Controller
             'name' => 'required|string',
             'action_type' => 'required|string',
             'serial' => 'integer',
+            'user_id' => 'array|nullable',
         ]);
 
 
-        $prompt = Prompt::create($validatedData);
+        $prompt = Prompt::create(collect($validatedData)->except('user_id')->toArray());
+
+        $sharedUsers = $request->user_id;
+        foreach ($sharedUsers as $key => $user_id) {
+            PromptSharedUser::updateOrCreate(
+                ['prompt_id' => $prompt->id],
+                ['user_id' => $user_id]
+            );
+        }
 
         $response = [
             'message' => 'Created Successfully',
@@ -98,7 +109,7 @@ class PromptController extends Controller
 
     public function show($id)
     {
-        $prompt = Prompt::findOrFail($id);
+        $prompt = Prompt::with('shared_user.user')->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $prompt,
@@ -116,6 +127,7 @@ class PromptController extends Controller
      * @bodyParam prompt string required The content of the prompt. Example: "Updated prompt content."
      * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam name string required The content of the name. Example: "Updated prompt name."
+     * @bodyParam user_id array not required List of user this propt can see in hive assistant. Example: [1,2]
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Prompt $prompt
@@ -130,10 +142,14 @@ class PromptController extends Controller
             'name' => 'required|string',
             'action_type' => 'required|string',
             'serial' => 'required|integer',
+            'user_id' => 'array|nullable',
         ]);
 
         $prompt = Prompt::findOrFail($id);
         $prompt->update($validatedData);
+
+        $this->syncPromptShareUsers($prompt, $request->user_id);
+
         $response = [
             'message' => 'Update Successfully ',
             'data' => $prompt,
@@ -162,6 +178,34 @@ class PromptController extends Controller
         ];
 
         return response()->json($response, 204);
+    }
+
+
+    private function syncPromptShareUsers(Prompt $prompt, array $newUserIds)
+    {
+        // Get all current user IDs for the prompt
+        $currentUserIds = $prompt->shared_user()->pluck('user_id')->toArray();
+    
+        // Find the users to delete
+        $usersToDelete = array_diff($currentUserIds, $newUserIds);
+    
+        // Delete the users that are no longer present
+        PromptSharedUser::where('prompt_id', $prompt->id)
+                        ->whereIn('user_id', $usersToDelete)
+                        ->delete();
+    
+        // Loop through the new user IDs
+        foreach ($newUserIds as $userId) {
+            // If the user already exists in the prompt, skip it
+            if (in_array($userId, $currentUserIds)) {
+                continue;
+            }
+    
+            // If the user doesn't exist, create a new record
+            $prompt->shared_user()->create([
+                'user_id' => $userId,
+            ]);
+        }
     }
 }
 
