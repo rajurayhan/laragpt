@@ -93,7 +93,7 @@ class PromptController extends Controller
 
         $response = [
             'message' => 'Created Successfully',
-            'data' => $prompt,
+            'data' => $prompt->load('shared_user.user'),
         ];
         return response()->json($response, 201);
     }
@@ -154,7 +154,7 @@ class PromptController extends Controller
 
         $response = [
             'message' => 'Update Successfully ',
-            'data' => $prompt,
+            'data' => $prompt->load('shared_user.user'),
         ];
         return response()->json($response, 201);
     }

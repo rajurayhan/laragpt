@@ -336,7 +336,7 @@ class ConversationController extends Controller
 
         $response = [
             'message' => 'Shared Successfully ',
-            'data' => [],
+            'data' => $conversation->load('shared_user.user'),
         ];
         return response()->json($response, 200);
 
