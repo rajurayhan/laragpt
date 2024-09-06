@@ -9,7 +9,7 @@ class PromptSharedUser extends Model
 {
     use HasFactory;
 
-    protected $fillabel = ['user_id', 'prompt_id'];
+    protected $fillable = ['user_id', 'prompt_id'];
 
     public function prompt()
     {

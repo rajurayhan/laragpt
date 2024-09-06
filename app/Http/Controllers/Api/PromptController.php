@@ -83,9 +83,11 @@ class PromptController extends Controller
 
         $sharedUsers = $request->user_id;
         foreach ($sharedUsers as $key => $user_id) {
-            PromptSharedUser::updateOrCreate(
-                ['prompt_id' => $prompt->id],
-                ['user_id' => $user_id]
+            PromptSharedUser::create(
+                [
+                    'prompt_id' => $prompt->id,
+                    'user_id' => $user_id
+                ]
             );
         }
 
