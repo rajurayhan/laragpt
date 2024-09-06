@@ -6,12 +6,8 @@ use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\MeetingSummery;
-use App\Models\ProjectSummary;
 use App\Models\Prompt;
 use App\Services\ClickUpCommentUploader;
-use App\Services\Markdown2Html;
-use App\Services\OpenAIGeneratorService;
-use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -150,7 +146,7 @@ use Illuminate\Support\Facades\Log;
         $meetingSummeryObj->tldvLink = $request->tldvLink;
         $meetingSummeryObj->is_private = $request->is_private ?? null;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
-        $meetingSummeryObj->meetingSummeryText = Markdown2Html::convert($data['data']['summery']);
+        $meetingSummeryObj->meetingSummeryText = $data['data']['summery'];
         $meetingSummeryObj->transcriptText = isset($transcript) ? $transcript : $request->transcriptText;
 
         $meetingSummeryObj->save();
@@ -237,7 +233,7 @@ use Illuminate\Support\Facades\Log;
      */
     public function showMeetingSummery($id){
         $meetingSummeryObj = MeetingSummery::find($id);
-        $htmlData = Markdown2Html::convert($meetingSummeryObj->meetingSummeryText);
+        $htmlData = $meetingSummeryObj->meetingSummeryText;
         $meetingSummeryObj->htmlText = html_entity_decode((string)$htmlData);
         $meetingSummeryObj->summaryText = $meetingSummeryObj->meetingSummeryText ?? null;
         // $meetingSummeryObj->htmlText = (string)$htmlData;

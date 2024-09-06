@@ -10,8 +10,6 @@ use App\Libraries\WebApiResponse;
 use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProjectSummary;
-use App\Services\Markdown2Html;
-use App\Services\PromptService;
 use App\Services\TldvService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -156,7 +154,7 @@ use Illuminate\Support\Facades\Log;
 
             $projectSummeryObj = ProjectSummary::updateOrCreate(
                 ['transcriptId' => $meetingTranscript->id],
-                ['summaryText' => Markdown2Html::convert($data['data']['summery'])]
+                ['summaryText' => $data['data']['summery']]
             );
             $projectSummeryNewObj = ProjectSummary::where('id', $projectSummeryObj->id)->first();
             $meetingTranscript->assistantId = $data['data']['assistantId'];

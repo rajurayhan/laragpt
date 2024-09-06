@@ -9,9 +9,6 @@ use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Models\ProjectOverview;
 use App\Models\Prompt;
-use App\Services\Markdown2Html;
-use App\Services\OpenAIGeneratorService;
-use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -82,7 +79,7 @@ use Illuminate\Support\Facades\Log;
 
         ProjectOverview::updateOrCreate(
             ['problemGoalID' => $request->problemGoalID],
-            ['overviewText' => Markdown2Html::convert($projectOverview)]
+            ['overviewText' => $projectOverview]
         );
 
         $projectOverviewNew = ProjectOverview::where('problemGoalID', $problemGoalsObj->id)->first();

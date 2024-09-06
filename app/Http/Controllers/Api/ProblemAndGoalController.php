@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Enums\PromptType;
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
-use App\Models\MeetingLink;
 use App\Models\MeetingTranscript;
 use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
-use App\Services\Markdown2Html;
-use App\Services\OpenAIGeneratorService;
-use App\Services\PromptService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -83,7 +79,7 @@ use Illuminate\Support\Facades\Log;
 
         $problemsAndGoalsObj = ProblemsAndGoals::updateOrCreate(
             ['transcriptId' => $request->transcriptId],
-            ['problemGoalText' => Markdown2Html::convert($problemAndGoalsText)]
+            ['problemGoalText' => $problemAndGoalsText]
         );
         $problemsAndGoalsNew = ProblemsAndGoals::find($problemsAndGoalsObj->id);
 
