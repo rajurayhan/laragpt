@@ -152,6 +152,7 @@ use Illuminate\Support\Facades\Log;
         $meetingSummeryObj->save();
 
         $meetingSummeryObj = MeetingSummery::where('id',$meetingSummeryObj->id)->first();
+        $meetingSummeryObj->summaryText = $meetingSummeryObj->meetingSummeryText;
 
         // Push to clickup
 
@@ -207,13 +208,14 @@ use Illuminate\Support\Facades\Log;
         $meetingSummeryObj->clickupLink = $request->clickupLink;
 
         $meetingSummeryObj->save();
+        $meetingSummeryObj->summaryText = $meetingSummeryObj->meetingSummeryText;
 
         // Push to clickup
 
         $taskId = $this->getLastPartOfUrl($request->clickupLink);
         if($taskId && $request->pushToClickUp == true){
-            $clickupUploader = new ClickUpCommentUploader($taskId, $request->summaryText);
-            $clickupUploader->pushComment();
+            // $clickupUploader = new ClickUpCommentUploader($taskId, $request->summaryText);
+            // $clickupUploader->pushComment();
         }
 
         $response = [
@@ -233,8 +235,8 @@ use Illuminate\Support\Facades\Log;
      */
     public function showMeetingSummery($id){
         $meetingSummeryObj = MeetingSummery::find($id);
-        $htmlData = $meetingSummeryObj->meetingSummeryText;
-        $meetingSummeryObj->htmlText = html_entity_decode((string)$htmlData);
+        // $htmlData = $meetingSummeryObj->meetingSummeryText;
+        // $meetingSummeryObj->htmlText = html_entity_decode((string)$htmlData);
         $meetingSummeryObj->summaryText = $meetingSummeryObj->meetingSummeryText ?? null;
         // $meetingSummeryObj->htmlText = (string)$htmlData;
         $response = [
