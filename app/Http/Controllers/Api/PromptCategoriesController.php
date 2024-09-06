@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
  *
  * APIs for managing Categories Management
  */
-class PromptCategories extends Controller
+class PromptCategoriesController extends Controller
 {
 
     /**
@@ -26,7 +26,7 @@ class PromptCategories extends Controller
      */
     public function index(Request $request)
     {
-        $categoryQuery = PromptCategory::query();
+        $categoryQuery = PromptCategory::with(['categoryInfo']);
 
         if ($request->has('page')) {
             $categoryPagination = $categoryQuery->paginate(10);
@@ -66,6 +66,8 @@ class PromptCategories extends Controller
         $category->title = $validatedData['title'];
         $category->save();
 
+        $category->load(['categoryInfo']);
+
 
         $response = [
             'message' => 'Created Successfully ',
@@ -86,7 +88,7 @@ class PromptCategories extends Controller
 
     public function show($id)
     {
-        $category = PromptCategory::findOrFail($id);
+        $category = PromptCategory::with(['categoryInfo'])->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $category,
@@ -111,7 +113,7 @@ class PromptCategories extends Controller
         $validatedData = $request->validate([
             'title' => 'string|max:255|unique:prompt_categories,title,'.$id,
         ]);
-        $category = PromptCategory::findOrFail($id);
+        $category = PromptCategory::with(['categoryInfo'])->findOrFail($id);
 
         $category->title = $validatedData['title'];
         $category->save();

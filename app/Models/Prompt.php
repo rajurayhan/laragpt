@@ -15,4 +15,9 @@ class Prompt extends Model
     {
         return $this->hasMany(PromptSharedUser::class);
     }
+
+    public function categoryInfo()
+    {
+        return $this->belongsTo(PromptCategory::class, 'category_id', 'id');
+    }
 }

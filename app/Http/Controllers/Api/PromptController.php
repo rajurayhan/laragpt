@@ -33,7 +33,7 @@ class PromptController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Prompt::query();
+        $query = Prompt::with(['shared_user.user','categoryInfo']);
         if($request->filled('name')){
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
@@ -101,7 +101,7 @@ class PromptController extends Controller
 
         $response = [
             'message' => 'Created Successfully',
-            'data' => $prompt->load('shared_user.user'),
+            'data' => $prompt->load(['shared_user.user','categoryInfo']),
         ];
         return response()->json($response, 201);
     }
@@ -119,7 +119,7 @@ class PromptController extends Controller
 
     public function show($id)
     {
-        $prompt = Prompt::with('shared_user.user')->findOrFail($id);
+        $prompt = Prompt::with(['shared_user.user','categoryInfo'])->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $prompt,
@@ -166,7 +166,7 @@ class PromptController extends Controller
 
         $response = [
             'message' => 'Update Successfully ',
-            'data' => $prompt->load('shared_user.user'),
+            'data' => $prompt->load(['shared_user.user','categoryInfo']),
         ];
         return response()->json($response, 201);
     }
@@ -196,7 +196,7 @@ class PromptController extends Controller
     /**
      * Get Allowed Prompts for Specific User
      *
-     * @group Prompts Management 
+     * @group Prompts Management
      *
      * @param  Prompt $prompt
      * @return \Illuminate\Http\JsonResponse
@@ -207,7 +207,7 @@ class PromptController extends Controller
         $user = Auth::user();
         if(!$user->hasRole('Admin')){
             $prompts = Prompt::whereHas('shared_user', function($subQuery) use ($user){
-                $subQuery->where('user_id', $user->id); 
+                $subQuery->where('user_id', $user->id);
             })->get();
         }
         else{

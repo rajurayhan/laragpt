@@ -31,7 +31,7 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuestionController;
-use App\Http\Controllers\Api\PromptCategories;
+use App\Http\Controllers\Api\PromptCategoriesController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Services;
@@ -70,11 +70,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
 
     // Categories Management Setup routes
-    Route::get('/prompt-categories', [PromptCategories::class, 'index'])->name('prompt.categories.list');
-    Route::post('/prompt-categories', [PromptCategories::class, 'store'])->name('prompt.categories.create');
-    Route::get('/prompt-categories/{id}', [PromptCategories::class, 'show'])->name('prompt.categories.show');
-    Route::put('/prompt-categories/{id}', [PromptCategories::class, 'update'])->name('prompt.categories.update');
-    Route::delete('/prompt-categories/{id}', [PromptCategories::class, 'destroy'])->name('prompt.categories.delete');
+    Route::get('/prompt-categories', [PromptCategoriesController::class, 'index'])->name('prompt.categories.list');
+    Route::post('/prompt-categories', [PromptCategoriesController::class, 'store'])->name('prompt.categories.create');
+    Route::get('/prompt-categories/{id}', [PromptCategoriesController::class, 'show'])->name('prompt.categories.show');
+    Route::put('/prompt-categories/{id}', [PromptCategoriesController::class, 'update'])->name('prompt.categories.update');
+    Route::delete('/prompt-categories/{id}', [PromptCategoriesController::class, 'destroy'])->name('prompt.categories.delete');
 
     // Prompts routes
     Route::get('/prompts', [PromptController::class, 'index'])->name('prompt.list');
