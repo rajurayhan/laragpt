@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/prompts/{id}', [PromptController::class, 'show'])->name('prompt.show');
     Route::put('/prompts/{id}', [PromptController::class, 'update'])->name('prompt.update');
     Route::delete('/prompts/{id}', [PromptController::class, 'destroy'])->name('prompt.delete');
-    Route::get('/prompts-allowed', [PromptController::class, 'index'])->name('prompt.allowed');
+    Route::get('/prompts-allowed', [PromptController::class, 'allowed'])->name('prompt.allowed');
 
 
     // project-summery routes

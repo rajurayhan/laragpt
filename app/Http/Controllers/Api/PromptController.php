@@ -7,6 +7,7 @@ use App\Models\Prompt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PromptSharedUser;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @group Prompts Management
@@ -180,6 +181,40 @@ class PromptController extends Controller
         ];
 
         return response()->json($response, 204);
+    }
+    /**
+     * Get Allowed Prompts for Specific User
+     *
+     * @group Prompts Management 
+     *
+     * @param  Prompt $prompt
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function allowed()
+    {
+        $user = Auth::user();
+        if(!$user->hasRole('Admin')){
+            $prompts = Prompt::whereHas('shared_user', function($subQuery) use ($user){
+                $subQuery->where('user_id', $user->id); 
+            })->get();
+        }
+        else{
+            $prompts = Prompt::get();
+        }
+
+        $data = $prompts->map(function ($prompt) {
+            $array = $prompt->toArray();
+            unset($array['prompt']); // Remove the 'prompt' field
+            return $array;
+        });
+
+        $response = [
+            'message' => 'Data Showed Successfully',
+            'data' => $data
+        ];
+
+        return response()->json($response, 200);
     }
 
 
