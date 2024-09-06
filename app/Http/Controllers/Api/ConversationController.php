@@ -318,14 +318,20 @@ class ConversationController extends Controller
             'user_id' => 'required|array',
         ]);
 
-        $conversation = Conversation::findOrFail($id);
+        $conversation = Conversation::with('shared_user')->findOrFail($id);
+
+        $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
 
         $sharedUsers = $request->user_id;
         foreach ($sharedUsers as $key => $user_id) {
-            ConversationSharedUser::updateOrCreate(
-                ['conversation_id' => $id],
-                ['user_id' => $user_id]
-            );
+
+            if (in_array($user_id, $currentSharedUserIds)) {
+                continue;
+            }
+            
+            $conversation->shared_user()->create([
+                'user_id' => $user_id,
+            ]);
         }
 
         $response = [

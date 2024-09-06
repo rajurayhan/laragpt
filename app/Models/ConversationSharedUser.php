@@ -9,7 +9,10 @@ class ConversationSharedUser extends Model
 {
     use HasFactory;
 
-    protected $fillabel = ['user_id', 'conversation_id'];
+    protected $fillable = [
+        'user_id',  
+        'conversation_id', 
+    ];
 
     public function conversation()
     {
