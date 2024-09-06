@@ -71,7 +71,14 @@ class ConversationController extends Controller
     public function show($id)
     {
         try {
+            $user = Auth::user();
             $conversation = Conversation::with(['messages.user', 'messages.prompt'])->find($id);
+            
+            if(!$user->hasRole('Admin')){
+                if($user->id != $conversation->user_id){
+                    return WebApiResponse::error(403, $errors = ['You are not allowed to view this thread'], 'Unauthorized Access!');
+                }
+            }
             $response = [
                 'message' => 'Data Showed Successfully',
                 'data' => $conversation,
