@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\PromptCategories;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
 use App\Models\Services;
@@ -67,6 +68,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('question.show');
     Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
+
+    // Categories Management Setup routes
+    Route::get('/prompt-categories', [PromptCategories::class, 'index'])->name('prompt.categories.list');
+    Route::post('/prompt-categories', [PromptCategories::class, 'store'])->name('prompt.categories.create');
+    Route::get('/prompt-categories/{id}', [PromptCategories::class, 'show'])->name('prompt.categories.show');
+    Route::put('/prompt-categories/{id}', [PromptCategories::class, 'update'])->name('prompt.categories.update');
+    Route::delete('/prompt-categories/{id}', [PromptCategories::class, 'destroy'])->name('prompt.categories.delete');
 
     // Prompts routes
     Route::get('/prompts', [PromptController::class, 'index'])->name('prompt.list');
@@ -194,7 +202,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('/user', function (Request $request) {
-        $user = User::with('roles.permissions')->find(Auth::id()); 
+        $user = User::with('roles.permissions')->find(Auth::id());
 
         if(isset($user->roles)){
             $user->role = isset($user->roles[0]) ? $user->roles[0]->name : null;
@@ -204,19 +212,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
                 foreach ($role->permissions as $permission) {
                     $nameParts = explode('.', $permission['name']);
                     $moduleName = $nameParts[1];
-    
+
                     if(isset($formattedPermissions[$moduleName])){
                         array_push($formattedPermissions[$moduleName], $permission['name']);
                     }
                     else{
                         $formattedPermissions[$moduleName][] = $permission['name'];
                     }
-    
+
                 }
             }
             $user->permissions = $formattedPermissions;
             unset($user->roles);
-        } 
+        }
         return response()->json($user);
     });
 

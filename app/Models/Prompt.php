@@ -9,7 +9,7 @@ class Prompt extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type','action_type', 'prompt', 'name','serial'];
+    protected $fillable = ['type','action_type', 'category_id', 'prompt', 'name','serial'];
 
     public function shared_user()
     {
