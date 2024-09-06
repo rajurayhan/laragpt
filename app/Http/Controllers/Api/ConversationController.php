@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
+use App\Models\ConversationSharedUser;
 use App\Models\ProjectSummary;
 use App\Models\Prompt;
 use App\Services\OpenAIGeneratorService;
@@ -48,7 +49,7 @@ class ConversationController extends Controller
                 $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
             }
             else{
-                $conversations = $query->where('user_id', $user->id)->with('user', 'messages')->latest()->paginate($perPage);
+                $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
             }
 
             return response()->json([
@@ -72,7 +73,7 @@ class ConversationController extends Controller
     {
         try {
             $user = Auth::user();
-            $conversation = Conversation::with(['messages.user', 'messages.prompt'])->find($id);
+            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user'])->find($id);
             
             if(!$user->hasRole('Admin')){
                 if($user->id != $conversation->user_id){
@@ -284,7 +285,7 @@ class ConversationController extends Controller
     /**
      * Delete a Conversation
      *
-     * Dpdate an existing Conversation.
+     * Delete an existing Conversation.
      *
      * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      */
@@ -297,6 +298,70 @@ class ConversationController extends Controller
 
         $response = [
             'message' => 'Deleted Successfully ',
+            'data' => [],
+        ];
+        return response()->json($response, 200);
+
+    }
+    /**
+     * Share a Conversation
+     *
+     * Share an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
+     * @bodyParam user_id array required List of User Id to share with. Example: [1,2]
+     */
+
+    public function share($id, Request $request){
+
+        $validatedData = $request->validate([
+            'user_id' => 'required|array',
+        ]);
+
+        $conversation = Conversation::with('shared_user')->findOrFail($id);
+
+        $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
+
+        $sharedUsers = $request->user_id;
+        foreach ($sharedUsers as $key => $user_id) {
+
+            if (in_array($user_id, $currentSharedUserIds)) {
+                continue;
+            }
+            
+            $conversation->shared_user()->create([
+                'user_id' => $user_id,
+            ]);
+        }
+
+        $response = [
+            'message' => 'Shared Successfully ',
+            'data' => $conversation->load('shared_user.user'),
+        ];
+        return response()->json($response, 200);
+
+    }
+    /**
+     * Remove Share a Conversation
+     *
+     * Remove Share an existing Conversation.
+     *
+     * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
+     * @bodyParam user_id array required List of User Id to share with. Example: [1,2]
+     */
+
+    public function removeShare($id, Request $request){
+
+        $validatedData = $request->validate([
+            'user_id' => 'required|array',
+        ]);
+
+        $conversation = Conversation::findOrFail($id);
+        
+        ConversationSharedUser::where('conversation_id', $id)->whereIn('user_id', $request->user_id)->delete();
+
+        $response = [
+            'message' => 'Shared Remove Successfully ',
             'data' => [],
         ];
         return response()->json($response, 200);

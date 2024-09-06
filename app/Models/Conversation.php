@@ -20,4 +20,9 @@ class Conversation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function shared_user()
+    {
+        return $this->hasMany(ConversationSharedUser::class);
+    }
 }
