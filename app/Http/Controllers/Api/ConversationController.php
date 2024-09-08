@@ -38,7 +38,7 @@ class ConversationController extends Controller
         try {
             $query = Conversation::query();
 
-            $user  = Auth::user(); 
+            $user  = Auth::user();
 
             if ($request->filled('name')) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
@@ -46,7 +46,7 @@ class ConversationController extends Controller
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
             if($user->hasRole('Admin')){
-                $conversations = $query->with('user', 'messages')->latest()->paginate($perPage);
+                $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);
             }
             else{
                 $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
@@ -77,7 +77,7 @@ class ConversationController extends Controller
         try {
             $user = Auth::user();
             $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user'])->find($id);
-            
+
             if(!$user->hasRole('Admin')){
                 $sharedUsers = $conversation->shared_user()->pluck('user_id')->toArray();
                 if(!in_array(Auth::user()->id, $sharedUsers)){
@@ -85,7 +85,7 @@ class ConversationController extends Controller
                         return WebApiResponse::error(403, $errors = ['You are not allowed to view this thread'], 'Unauthorized Access!');
                     }
                 }
-                
+
             }
             $response = [
                 'message' => 'Data Showed Successfully',
@@ -144,6 +144,8 @@ class ConversationController extends Controller
             'message_content' => $validatedData['message_content'],
         ]);
 
+        $userMessage->load(['prompt']);
+
 
         $aiMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,
@@ -152,6 +154,7 @@ class ConversationController extends Controller
             'role' => 'system',
             'message_content' => $data['data']['message'],
         ]);
+        $aiMessage->load(['prompt']);
 
         $data = [
             'conversation' => $conversation,
@@ -224,7 +227,7 @@ class ConversationController extends Controller
 
         $data = [
             'conversation' => $conversation,
-            'messages' => [$userMessage->load('user'), $aiMessage]
+            'messages' => [$userMessage->load(['user','prompt']), $aiMessage->load(['prompt'])]
         ];
 
         $response = [
@@ -335,7 +338,7 @@ class ConversationController extends Controller
             if (in_array($user_id, $currentSharedUserIds)) {
                 continue;
             }
-            
+
             $conversation->shared_user()->create([
                 'user_id' => $user_id,
             ]);
@@ -364,7 +367,7 @@ class ConversationController extends Controller
         ]);
 
         $conversation = Conversation::findOrFail($id);
-        
+
         ConversationSharedUser::where('conversation_id', $id)->whereIn('user_id', $request->user_id)->delete();
 
         $response = [

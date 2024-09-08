@@ -49,7 +49,7 @@ class ScopeOfWorkController extends Controller
 
     public static function getScopeOfWorks($problemGoalId)
     {
-        $scopeOfWorks = ScopeOfWork::with(['phaseInfo'])->orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->whereNull('additionalServiceId')->get();
+        $scopeOfWorks = ScopeOfWork::with(['phaseInfo'])->orderBy('serial','ASC')->where('problemGoalId', $problemGoalId)->get();
         $additionalServices = ScopeOfWorkAdditionalService::with(['serviceInfo'])->where('problemGoalId', $problemGoalId)->get();
         return [
             'scopeOfWorks' => $scopeOfWorks,
@@ -65,13 +65,15 @@ class ScopeOfWorkController extends Controller
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam title string required
+     * @bodyParam scopeText string nullable. Example: lorem ipsum
      */
 
     public function addNew(Request $request)
     {
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
-            'title' => 'required|string'
+            'title' => 'required|string',
+            'scopeText' => 'nullable|string',
         ]);
         try {
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
@@ -93,6 +95,7 @@ class ScopeOfWorkController extends Controller
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->title = $title;
+            $scopeWork->scopeText = $validatedData['scopeText'];
             $scopeWork->save();
             return response()->json([
                 'data' => $scopeWork
@@ -109,7 +112,8 @@ class ScopeOfWorkController extends Controller
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam scopeOfWorks object[] required An array of additional services.
-     * @bodyParam scopeOfWorks[].title int required. Example: 2
+     * @bodyParam scopeOfWorks[].title string required. Example: Lorem
+     * @bodyParam scopeOfWorks[].scopeText string nullable. Example: lorem ipsum
      * @bodyParam scopeOfWorks[].serial int required . Example: 1
      * @bodyParam scopeOfWorks[].serviceId int required. Example: 1
      */
@@ -144,7 +148,7 @@ class ScopeOfWorkController extends Controller
                 $scopeWork->problemGoalID = $problemGoalsObj->id;
                 $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
                 $scopeWork->serviceScopeId = null;
-                $scopeWork->scopeText = null;
+                $scopeWork->scopeText = $scope['scopeText'];
                 $scopeWork->additionalServiceId = null;
                 $scopeWork->title = $title;
                 $scopeWork->batchId = $batchId;
@@ -173,7 +177,7 @@ class ScopeOfWorkController extends Controller
      * @bodyParam phaseId int required Id of the Phase.
      */
 
-    public function create(Request $request)
+    public function generate(Request $request)
     {
 
         $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();
@@ -204,7 +208,7 @@ class ScopeOfWorkController extends Controller
                 return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
             }
 
-            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial') ?? 1;
+            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial') ?? 0;
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
@@ -287,7 +291,7 @@ class ScopeOfWorkController extends Controller
 
         foreach ($scopes as $scope) {
             $scopeWork = new ScopeOfWork();
-            $scopeWork->serial = $serial++;
+            $scopeWork->serial = ++$serial;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->phaseId = !empty($scope['phaseId']) ? $scope['phaseId'] : null;
@@ -367,11 +371,11 @@ class ScopeOfWorkController extends Controller
 
                 $serviceGroups = ServiceGroups::where('serviceId', $serviceIdValue)->get();
                 $serviceGroupMapWithPhase = [];
-                $serial = Phase::where('problemGoalID', $validatedData['problemGoalId'])->max('serial') ?? 1;
+                $serial = Phase::where('problemGoalID', $validatedData['problemGoalId'])->max('serial') ?? 0;
 
                 foreach ($serviceGroups as $serviceGroup) {
                     $phase = new Phase();
-                    $phase->serial = $serial++;
+                    $phase->serial = ++$serial;
                     $phase->problemGoalID = $problemGoalsObj->id;
                     $phase->transcriptId = $problemGoalsObj->transcriptId;
                     $phase->title = $serviceGroup->name;
@@ -400,7 +404,7 @@ class ScopeOfWorkController extends Controller
                     })->toArray(),
                     $batchId,
                     $problemGoalsObj,
-                    1
+                    0
                 );
             }
 
@@ -468,7 +472,7 @@ class ScopeOfWorkController extends Controller
         ]);
 
         $scopeOfWork = ScopeOfWork::findOrFail($id);
-        $scopeOfWork->serial = $request->serial;
+        $scopeOfWork->serial = $validatedData['serial'];
         $scopeOfWork->save();
 
         $response = [

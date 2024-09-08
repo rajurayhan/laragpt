@@ -68,6 +68,7 @@ class DeliverablesController extends Controller
      *
      * @bodyParam scopeOfWorkId int required Id of the Scope Of Work.
      * @bodyParam title string required
+     * @bodyParam deliverablesText string nullable
      * @bodyParam serial int required . Example: 1
      */
 
@@ -156,7 +157,7 @@ class DeliverablesController extends Controller
      *
      */
 
-    public function create(Request $request){
+    public function generate(Request $request){
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'scopeOfWorkId' => 'required|int'

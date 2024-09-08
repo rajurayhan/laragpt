@@ -117,7 +117,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/scope-of-work', [ScopeOfWorkController::class, 'index'])->name('scope.of.work.list');
     Route::post('/scope-of-work/add-new', [ScopeOfWorkController::class, 'addNew'])->name('scope.of.work.add.new');
     Route::post('/scope-of-work/add-multi', [ScopeOfWorkController::class, 'addMulti'])->name('scope.of.work.add.multi');
-    Route::post('/scope-of-work', [ScopeOfWorkController::class, 'create'])->name('scope.of.work.create');
+    Route::post('/scope-of-work', [ScopeOfWorkController::class, 'generate'])->name('scope.of.work.generate');
     Route::post('/scope-of-work-select', [ScopeOfWorkController::class, 'select'])->name('scope.of.work.select');
     Route::post('/scope-of-work/{id}', [ScopeOfWorkController::class, 'update'])->name('scope.of.work.update');
     Route::patch('/scope-of-work/{id}/serial', [ScopeOfWorkController::class, 'updateSerial'])->name('scope.of.work.update.serial');
@@ -127,7 +127,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
     Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
     Route::post('/deliverables/add-multi', [DeliverablesController::class, 'addMulti'])->name('deliverables.add.multi');
-    Route::post('/deliverables', [DeliverablesController::class, 'create'])->name('deliverables.create');
+    Route::post('/deliverables', [DeliverablesController::class, 'generate'])->name('deliverables.generate');
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
     Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
