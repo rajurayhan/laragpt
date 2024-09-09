@@ -18,6 +18,7 @@ use App\Models\ServiceDeliverables;
 use App\Models\ServiceDeliverableTasks;
 use App\Services\OpenAIGeneratorService;
 use App\Services\PromptService;
+use App\Services\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -124,7 +125,7 @@ class EstimationsTasksController extends Controller
      *
      */
 
-    public function create(Request $request){
+    public function generate(Request $request){
 
         set_time_limit(500);
         $validatedData = $request->validate([
@@ -132,33 +133,12 @@ class EstimationsTasksController extends Controller
             'deliverableId' => 'required|int',
         ]);
         Log::info(['Estimation Generate Request.', $validatedData['problemGoalId'], $validatedData['deliverableId']]);
-        $additionalServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get()->pluck('selectedServiceId')->toArray();
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
-        $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',array_merge([$problemAndGoal->meetingTranscript->serviceId], $additionalServiceIds))->get();
-        $deliverables = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('isChecked',1)->get();
-        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 1;
-
-        $input = [
-            "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,
-            "CLIENT-COMPANY-NAME" => $problemAndGoal->meetingTranscript->company,
-            "CLIENT-PHONE" => $problemAndGoal->meetingTranscript->clientPhone,
-        ];
+        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
 
 
         $batchId = (string) Str::uuid();
 
-        $deliverablesToFormat = $deliverables->filter(function ($item){
-            return is_null($item->serviceDeliverablesId);
-        })->map(function ($deliverable){
-            return [
-                'id'=> $deliverable->id,
-                'title'=>$deliverable->deliverablesText,
-                'deliverablesText'=>$deliverable->deliverablesText,
-            ];
-        });
-        $deliverablesWithScope = $deliverables->filter(function ($item){
-            return !is_null($item->serviceDeliverablesId);
-        });
 
         $findDeliverable = Deliberable::where('problemGoalID', $validatedData['problemGoalId'])->where('id',$validatedData['deliverableId'])->first();
         if (!$findDeliverable) {
@@ -212,11 +192,11 @@ class EstimationsTasksController extends Controller
             $estimationTask->additionalServiceId = null;
             $estimationTask->serviceDeliverableTasksId = null;
             $estimationTask->serviceDeliverableTasksParentId = null;
-            $estimationTask->title = $task['title'];
+            $estimationTask->title = Utility::textTransformToClientInfo($problemAndGoal, $task['title']);
             $estimationTask->details = $task['details'];
             $estimationTask->isChecked = 1;
             $estimationTask->batchId =$batchId;
-            $estimationTask->serial = $serial++;
+            $estimationTask->serial = ++$serial;
             $estimationTask->save();
             if(isset($task['sub_tasks']) && is_array($task['sub_tasks'])){
                 $subTaskSerial = 1;
@@ -226,7 +206,7 @@ class EstimationsTasksController extends Controller
                     $estimationSubTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                     $estimationSubTask->problemGoalId = $problemAndGoal->id;
                     $estimationSubTask->estimationTasksParentId = $estimationTask->id;
-                    $estimationSubTask->title = $subTask['title'];
+                    $estimationSubTask->title = Utility::textTransformToClientInfo($problemAndGoal, $subTask['title']);
                     $estimationSubTask->details = $subTask['details'];
                     $estimationSubTask->estimateHours = $subTask['estimated_hours'];
                     $estimationSubTask->isChecked = 1;
@@ -237,19 +217,69 @@ class EstimationsTasksController extends Controller
 
             }
         }
+        DB::commit();
+
+        $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId', $request->get('problemGoalId'))->get();
+        return response()->json([
+            'data'=>$deliverableList
+        ], 201);
+    }
+
+
+    /**
+     * Generate Estimation Task
+     *
+     * @group Estimation Task
+     *
+     * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     *
+     */
+
+    public function generateAdditionalService(Request $request){
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+        ]);
+
+        $additionalServiceIds = ScopeOfWorkAdditionalService::where('problemGoalId',$validatedData['problemGoalId'])->get()->pluck('selectedServiceId')->toArray();
+        $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
+
+        $serviceDeliverableTasks = ServiceDeliverableTasks::whereIn('serviceId',$additionalServiceIds)->get();
+        $deliverables = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])->where('isChecked',1)->get();
+        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
 
 
 
-        /*$teams =  ProjectTeam::where('transcriptId',$problemAndGoal->meetingTranscript->id)->get()->keyBy('employeeRoleId');
+        $batchId = (string) Str::uuid();
+
+        $deliverablesWithScope = $deliverables->filter(function ($item){
+            return !is_null($item->serviceDeliverablesId);
+        });
+
+        $findExisting = EstimationTask::where('problemGoalID',$validatedData['problemGoalId'])
+            ->whereNotNull('additionalServiceId')->first();
+
+        if($findExisting){
+            return WebApiResponse::error(500, $errors = [], 'The tasks already generated.');
+        }
+        DB::beginTransaction();
+
+
+        $teams =  ProjectTeam::where('transcriptId',$problemAndGoal->meetingTranscript->id)->get()->keyBy('employeeRoleId');
         $serviceTaskByServiceDeliverableId = $serviceDeliverableTasks->groupBy('serviceDeliverableId');
+        $serialWithParentId = [];
         foreach ($deliverablesWithScope as $deliverable){
             if(empty($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId])) { continue; };
             foreach ($serviceTaskByServiceDeliverableId[$deliverable->serviceDeliverablesId] as $task){
-                $title = strip_tags($task->name);
-                foreach ($input as $key => $value) {
-                    $placeholder = "{" . $key . "}";
-                    $title = str_replace($placeholder, $value, $title);
+
+                if($task->parentTaskId){
+                    if(!isset($serialWithParentId[$task->parentTaskId])){
+                        $serialWithParentId[$task->parentTaskId] = 0;
+                    }
+                    $serialData = ++$serialWithParentId[$task->parentTaskId];
+                }else{
+                    $serialData = ++$serial;
                 }
+
                 $estimationTask = new EstimationTask();
                 $estimationTask->transcriptId = $problemAndGoal->meetingTranscript->id;
                 $estimationTask->problemGoalId = $problemAndGoal->id;
@@ -258,23 +288,24 @@ class EstimationsTasksController extends Controller
                 $estimationTask->associateId = !empty($teams[$task->employeeRoleId])? $teams[$task->employeeRoleId]->associateId : null;
                 $estimationTask->serviceDeliverableTasksParentId = $task->parentTaskId;
                 $estimationTask->additionalServiceId = $deliverable->additionalServiceId;
-                $estimationTask->title = $title;
+                $estimationTask->title = Utility::textTransformToClientInfo($problemAndGoal, $task->name);
                 $estimationTask->details = $task->description;
                 $estimationTask->estimateHours = $task->cost;
                 $estimationTask->isChecked = 1;
                 $estimationTask->batchId = $batchId;
                 $estimationTask->serviceDeliverablesId = $task->serviceDeliverableId;
+                $estimationTask->serial = $serialData;
                 $estimationTask->deliverableId = $deliverable->id;
                 $estimationTask->save();
 
             }
-        }*/
-        /*$deliverables = EstimationTask::where('problemGoalId',$problemAndGoal->id)->whereNotNull('serviceDeliverableTasksId')->get();
+        }
+        $deliverables = EstimationTask::where('problemGoalId',$problemAndGoal->id)->whereNotNull('serviceDeliverableTasksId')->get();
         $deliverablesByTasksId = $deliverables->keyBy('serviceDeliverableTasksId');
         foreach ($deliverables->filter(function ($deliverables){ return !is_null($deliverables->serviceDeliverableTasksParentId);}) as $deliverable){
             $deliverable->estimationTasksParentId = $deliverablesByTasksId[$deliverable->serviceDeliverableTasksParentId]->id;
             $deliverable->save();
-        }*/
+        }
         DB::commit();
 
         $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId', $request->get('problemGoalId'))->get();

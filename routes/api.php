@@ -128,6 +128,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
     Route::post('/deliverables/add-multi', [DeliverablesController::class, 'addMulti'])->name('deliverables.add.multi');
     Route::post('/deliverables', [DeliverablesController::class, 'generate'])->name('deliverables.generate');
+    Route::post('/deliverables/additional-service', [DeliverablesController::class, 'generateAdditionalService'])->name('deliverables.additional.service.generate');
     Route::post('/deliverables/{id}', [DeliverablesController::class, 'update'])->name('deliverables.update');
     Route::post('/deliverables-select', [DeliverablesController::class, 'select'])->name('deliverables.select');
     Route::post('/deliverables-select/additional-service', [DeliverablesController::class, 'selectAdditionalDeliverable'])->name('deliverables.additional.service.select');
@@ -137,7 +138,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/estimation-tasks', [EstimationsTasksController::class, 'index'])->name('estimation.tasks.list');
     Route::post('/estimation-tasks/add-new', [EstimationsTasksController::class, 'addNew'])->name('estimation.tasks.add.new');
-    Route::post('/estimation-tasks', [EstimationsTasksController::class, 'create'])->name('estimation.tasks.create');
+    Route::post('/estimation-tasks', [EstimationsTasksController::class, 'generate'])->name('estimation.tasks.create');
+    Route::post('/estimation-tasks/additional-service', [EstimationsTasksController::class, 'generateAdditionalService'])->name('estimation.additional.service.generate');
     Route::post('/estimation-tasks/checked', [EstimationsTasksController::class, 'checked'])->name('estimation.tasks.checked');
     Route::post('/estimation-tasks/un-checked', [EstimationsTasksController::class, 'unChecked'])->name('estimation.tasks.unChecked');
     Route::post('/estimation-tasks/{id}', [EstimationsTasksController::class, 'update'])->name('estimation.tasks.update');

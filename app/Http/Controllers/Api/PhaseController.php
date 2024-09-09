@@ -9,6 +9,7 @@ use App\Models\Phase;
 use App\Models\ProblemsAndGoals;
 use App\Models\Prompt;
 use App\Services\ModelOrderManagerServiceV2;
+use App\Services\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -224,7 +225,7 @@ class PhaseController extends Controller
             $phaseData->serial = $serial++;
             $phaseData->problemGoalID = $problemGoalsObj->id;
             $phaseData->transcriptId = $problemGoalsObj->transcriptId;
-            $phaseData->title = $phase['title'];
+            $phaseData->title = Utility::textTransformToClientInfo($problemGoalsObj, $phase['title']);
             $phaseData->details = !empty($phase['details']) ? $phase['details'] : null;
             $phaseData->batchId = $batchId;
             $phaseData->save();

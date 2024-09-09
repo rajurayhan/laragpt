@@ -12,9 +12,7 @@ use App\Models\Prompt;
 use App\Models\Question;
 use App\Models\QuestionAnswer;
 use App\Models\ScopeOfWork;
-use App\Models\ServiceDeliverables;
-use App\Services\OpenAIGeneratorService;
-use App\Services\PromptService;
+use App\Services\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -75,7 +73,8 @@ class DeliverablesController extends Controller
     public function addNew(Request $request){
         $validatedData = $request->validate([
             'scopeOfWorkId' => 'required|int',
-            'title' => 'required|string'
+            'title' => 'required|string',
+            'deliverablesText' => 'nullable|string'
         ]);
         try{
 
@@ -83,11 +82,11 @@ class DeliverablesController extends Controller
 
             $deliverable = new Deliberable();
             $deliverable->scopeOfWorkId = $scopeWork->id;
-            $deliverable->deliverablesText = null;
             $deliverable->transcriptId = $scopeWork->transcriptId;
             $deliverable->serviceScopeId = $scopeWork->serviceScopeId;
             $deliverable->problemGoalId = $scopeWork->problemGoalID;
             $deliverable->title = $validatedData['title'];
+            $deliverable->deliverablesText = $validatedData['deliverablesText'];
             $deliverable->serial = $validatedData['serial'];
             $deliverable->isChecked = 1;
             $deliverable->save();
@@ -107,7 +106,8 @@ class DeliverablesController extends Controller
      * @group Deliverable
      *
      * @bodyParam deliverables object[] required An array of additional services.
-     * @bodyParam deliverables[].title int required. Example: "Lorem ipsum"
+     * @bodyParam deliverables[].title string required. Example: "Lorem ipsum"
+     * @bodyParam deliverables[].deliverablesText string required
      * @bodyParam deliverables[].scopeOfWorkId int required. Example: 1
      * @bodyParam deliverables[].serial int required . Example: 1
      */
@@ -117,6 +117,7 @@ class DeliverablesController extends Controller
         $validatedData = $request->validate([
             'deliverables' => 'required|array',
             'deliverables.*.title' => 'required|string',
+            'deliverables.*.deliverablesText' => 'nullable|string',
             'deliverables.*.scopeOfWorkId' => 'required|int',
         ]);
         try{
@@ -125,11 +126,11 @@ class DeliverablesController extends Controller
                 $scopeWork = ScopeOfWork::findOrFail($deliverableData['scopeOfWorkId']);
                 $deliverable = new Deliberable();
                 $deliverable->scopeOfWorkId = $scopeWork->id;
-                $deliverable->deliverablesText = null;
                 $deliverable->transcriptId = $scopeWork->transcriptId;
                 $deliverable->serviceScopeId = $scopeWork->serviceScopeId;
                 $deliverable->problemGoalId = $scopeWork->problemGoalID;
                 $deliverable->title = $deliverableData['title'];
+                $deliverable->deliverablesText = $deliverableData['deliverablesText'];
                 $deliverable->serial = $deliverableData['serial'];
                 $deliverable->isChecked = 1;
                 $deliverable->save();
@@ -187,33 +188,6 @@ class DeliverablesController extends Controller
         if(!$problemAndGoal){
             return WebApiResponse::error(500, $errors = [], 'Problem and Goal not found.');
         }
-        $input = [
-            "CLIENT-EMAIL" => $problemAndGoal->meetingTranscript->clientEmail,
-            "CLIENT-COMPANY-NAME" => $problemAndGoal->meetingTranscript->company,
-            "CLIENT-PHONE" => $problemAndGoal->meetingTranscript->clientPhone,
-        ];
-        /*$scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
-            ->where('problemGoalID', $validatedData['problemGoalId'])->where('isChecked', 1)
-            ->get();
-        if(count($scopeOfWorks)<1){
-            return WebApiResponse::error(400, $errors = [], 'Scope of works not available.');
-        }*/
-
-        /*$scopeDeliveryList = $scopeOfWorks->filter(function ($value) {
-            return !empty($value->serviceScopeId);
-        })->reduce(function ($carry, $item) use($input) {
-            return $carry->merge($item->deliverables->map(function ($delivery) use($item, $input){
-                $title = strip_tags($delivery->name);
-                foreach ($input as $key => $value) {
-                    $placeholder = "{" . $key . "}";
-                    $title = str_replace($placeholder, $value, $title);
-                }
-                unset($item->deliverables);
-                $delivery->scopeOfWork = $item;
-                $delivery->name = $title;
-                return $delivery;
-            }));
-        },collect([]));*/
 
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/deliverables-generate', [
             'threadId' => $problemAndGoal->meetingTranscript->threadId,
@@ -243,22 +217,80 @@ class DeliverablesController extends Controller
 
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
-        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 1;
+        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
         foreach($deliverables as $deliverable){
-            //$scopeOfWork = $scopeOfWorksKeyById[$deliverable['scopeOfWorkId']];
             $deliverableObj = new Deliberable();
             $deliverableObj->scopeOfWorkId = $findScopeOfWork->id;
             $deliverableObj->transcriptId = $findScopeOfWork->transcriptId;
             $deliverableObj->serviceScopeId = $findScopeOfWork->serviceScopeId;
             $deliverableObj->problemGoalId = $findScopeOfWork->problemGoalID;
-            $deliverableObj->title = $deliverable['title'];
+            $deliverableObj->title = Utility::textTransformToClientInfo($problemAndGoal, $deliverable['title']);
             $deliverableObj->deliverablesText = $deliverable['details'];
             $deliverableObj->isChecked = 1;
             $deliverableObj->batchId = $batchId;
-            $deliverableObj->serial = $serial++;
+            $deliverableObj->serial = ++$serial;
             $deliverableObj->save();
         }
-        /*foreach($scopeDeliveryList as $deliverable){
+        DB::commit();
+
+        $deliverableList = Deliberable::with(['scopeOfWork','scopeOfWork.phaseInfo','additionalServiceInfo'])->latest()->where('problemGoalId', $request->get('problemGoalId'))->get();
+        return response()->json([
+            'data'=>$deliverableList
+        ], 201);
+    }
+
+    /**
+     * Generate Deliverable
+     *
+     * @group Deliverable
+     *
+     * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     * @bodyParam scopeOfWorkId int required Id of the Scope Of Work.
+     *
+     */
+
+    public function generateAdditionalService(Request $request){
+        $validatedData = $request->validate([
+            'problemGoalId' => 'required|int',
+        ]);
+
+        $findExisting = Deliberable::where('problemGoalID',$validatedData['problemGoalId'])
+            ->whereNotNull('additionalServiceId')
+            ->first();
+
+        if($findExisting){
+            return WebApiResponse::error(500, $errors = [], 'The deliverable already generated.');
+        }
+
+
+        $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->first();
+        if(!$problemAndGoal){
+            return WebApiResponse::error(500, $errors = [], 'Problem and Goal not found.');
+        }
+
+        $scopeOfWorks = ScopeOfWork::with(['meetingTranscript','deliverables'])
+            ->where('problemGoalID', $validatedData['problemGoalId'])
+            ->where('isChecked', 1)
+            ->whereNotNull('additionalServiceId')
+            ->get();
+        if(count($scopeOfWorks)<1){
+            return WebApiResponse::error(400, $errors = [], 'Scope of works not available.');
+        }
+
+        $scopeDeliveryList = $scopeOfWorks->filter(function ($value) {
+            return !empty($value->serviceScopeId);
+        })->reduce(function ($carry, $item) {
+            return $carry->merge($item->deliverables->map(function ($delivery) use($item){
+                unset($item->deliverables);
+                $delivery->scopeOfWork = $item;
+                return $delivery;
+            }));
+        },collect([]));
+        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
+
+        DB::beginTransaction();
+        $batchId = (string) Str::uuid();
+        foreach($scopeDeliveryList as $deliverable){
             $deliverableObj = new Deliberable();
             $deliverableObj->serviceDeliverablesId = $deliverable->id;
             $deliverableObj->additionalServiceId = $deliverable->scopeOfWork->additionalServiceId;
@@ -266,12 +298,13 @@ class DeliverablesController extends Controller
             $deliverableObj->transcriptId = $deliverable->scopeOfWork->meetingTranscript->id;
             $deliverableObj->serviceScopeId = $deliverable->serviceScopeId;
             $deliverableObj->problemGoalId = $problemAndGoal->id;
-            $deliverableObj->title = $deliverable->name;
+            $deliverableObj->title = Utility::textTransformToClientInfo($problemAndGoal, $deliverable->name);
             $deliverableObj->deliverablesText = null;
             $deliverableObj->isChecked = 1;
             $deliverableObj->batchId = $batchId;
+            $deliverableObj->serial = ++$serial;
             $deliverableObj->save();
-        }*/
+        }
         DB::commit();
 
         $deliverableList = Deliberable::with(['scopeOfWork','scopeOfWork.phaseInfo','additionalServiceInfo'])->latest()->where('problemGoalId', $request->get('problemGoalId'))->get();
