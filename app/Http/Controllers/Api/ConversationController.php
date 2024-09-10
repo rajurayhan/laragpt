@@ -349,9 +349,10 @@ class ConversationController extends Controller
             //     'access_level' => $access_detail['access_level']
             // ]);
 
-            $conversation->shared_user()->updateOrCreate(
+            ConversationSharedUser::updateOrCreate(
                 [
-                    'user_id' => $access_detail['user_id']
+                    'user_id' => $access_detail['user_id'],
+                    'conversation_id' => $conversation->id
                 ],
                 ['access_level' => $access_detail['access_level']]
             );
