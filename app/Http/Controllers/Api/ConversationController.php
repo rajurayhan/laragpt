@@ -319,34 +319,42 @@ class ConversationController extends Controller
      * Share an existing Conversation.
      *
      * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
-     * @bodyParam user_access array required List of User Id to share with. Example: [1,2]
-     * @bodyParam user_access.user_id integer required User Id to share with. Example: [1,2]
-     * @bodyParam user_access.access_level integer required Access Level. 1.Raed Only, 2. Edit. Example: [1,2]
+     * @bodyParam user_access array required List of User Id to share with. Example: [
+     *  [2,1],
+     *  [1,2]
+     * ]
      */
 
     public function share($id, Request $request){
 
         $validatedData = $request->validate([
             'user_access' => 'required|array',
-            'user_access.user_id' => 'integer|required',
-            'user_access.access_level' => 'integer|required',
+            'user_access.*.user_id' => 'integer|required',
+            'user_access.*.access_level' => 'integer|required',
         ]);
 
         $conversation = Conversation::with('shared_user')->findOrFail($id);
 
-        $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
+        // $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
 
         $sharedUsers = $request->user_access;
         foreach ($sharedUsers as $key => $access_detail) {
 
-            if (in_array($access_detail['user_id'], $currentSharedUserIds)) {
-                continue;
-            }
+            // if (in_array($access_detail['user_id'], $currentSharedUserIds)) {
+            //     continue;
+            // }
 
-            $conversation->shared_user()->create([
-                'user_id' => $access_detail['user_id'],
-                'access_level' => $access_detail['access_level']
-            ]);
+            // $conversation->shared_user()->create([
+            //     'user_id' => $access_detail['user_id'],
+            //     'access_level' => $access_detail['access_level']
+            // ]);
+
+            $conversation->shared_user()->updateOrCreate(
+                [
+                    'user_id' => $access_detail['user_id']
+                ],
+                ['access_level' => $access_detail['access_level']]
+            );
         }
 
         $response = [
