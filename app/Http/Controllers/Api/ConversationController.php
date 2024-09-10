@@ -49,10 +49,10 @@ class ConversationController extends Controller
                 $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);
             }
             else{
-                $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
-                // $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
-                //     $subQuery->where('user_id', $user->id);
-                // })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+                // $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+                $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
+                    $subQuery->where('user_id', $user->id);
+                })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
             }
 
             return response()->json([
@@ -76,7 +76,7 @@ class ConversationController extends Controller
     {
         try {
             $user = Auth::user();
-            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user'])->find($id);
+            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user', 'user'])->find($id);
 
             if(!$user->hasRole('Admin')){
                 $sharedUsers = $conversation->shared_user()->pluck('user_id')->toArray();

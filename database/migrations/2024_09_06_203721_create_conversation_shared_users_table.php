@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->integer('access_level')->nullable(); // 0. Not Shared 1. Read Only, 2. Can Continue.
+            $table->integer('access_level')->nullable(); // 1. Read Only, 2. Can Continue.
             $table->timestamps();
         });
     }
