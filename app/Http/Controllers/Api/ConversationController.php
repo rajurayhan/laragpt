@@ -321,7 +321,7 @@ class ConversationController extends Controller
      * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
      * @bodyParam user_access array required List of User Id to share with. Example: [1,2]
      * @bodyParam user_access.user_id integer required User Id to share with. Example: [1,2]
-     * @bodyParam user_access.access_level integer required User Id to share with. Example: [1,2]
+     * @bodyParam user_access.access_level integer required Access Level. 1.Raed Only, 2. Edit. Example: [1,2]
      */
 
     public function share($id, Request $request){
