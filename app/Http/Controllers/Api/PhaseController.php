@@ -81,7 +81,10 @@ class PhaseController extends Controller
             // $phase->serial = $validatedData['serial'];
             // $phase->save();
             $orderManager = new ModelOrderManagerServiceV2(Phase::class, 'serial');
-            $phase = $orderManager->addOrUpdateItem(array_merge($validatedData, ['transcriptId'=> $problemGoalsObj->transcriptId]), null,'problemGoalId', $validatedData['problemGoalId']);
+            $phase = $orderManager->addOrUpdateItem(array_merge($validatedData, [
+                'transcriptId'=> $problemGoalsObj->transcriptId,
+                'isManual' => 1,
+            ]), null,'problemGoalId', $validatedData['problemGoalId']);
             return response()->json([
                 'data' => $phase
             ], 201);
@@ -130,6 +133,7 @@ class PhaseController extends Controller
                         'transcriptId'=> $problemGoalsObj->transcriptId,
                         'problemGoalID' => $problemGoalsObj->id,
                         'title' => strip_tags($phase['title']),
+                        'isManual' => 1,
                     ]), null,'problemGoalId', $validatedData['problemGoalId']);
                 $phases[] = $phaseData;
             }

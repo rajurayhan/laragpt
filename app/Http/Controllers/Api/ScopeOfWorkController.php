@@ -84,6 +84,7 @@ class ScopeOfWorkController extends Controller
             $scopeWork->transcriptId = $problemAndGoal->transcriptId;
             $scopeWork->title = Utility::textTransformToClientInfo($problemAndGoal, $validatedData['title']);
             $scopeWork->scopeText = $validatedData['scopeText'];
+            $scopeWork->isManual = 1;
             $scopeWork->save();
             return response()->json([
                 'data' => $scopeWork
@@ -131,6 +132,7 @@ class ScopeOfWorkController extends Controller
                 $scopeWork->additionalServiceId = null;
                 $scopeWork->title = Utility::textTransformToClientInfo($problemAndGoal, $scope['title']);
                 $scopeWork->batchId = $batchId;
+                $scopeWork->isManual = 1;
                 $scopeWork->save();
                 $scopeWorkList[] = $scopeWork;
             }

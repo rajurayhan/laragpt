@@ -29,7 +29,8 @@ class EstimationTask extends Model
         'associateId',
         'hourlyRate',
         'isManualAssociated',
-        'serial'
+        'serial',
+        'isManual',
     ];
 
     protected $casts = [

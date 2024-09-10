@@ -89,6 +89,7 @@ class DeliverablesController extends Controller
             $deliverable->deliverablesText = $validatedData['deliverablesText'];
             $deliverable->serial = $validatedData['serial'];
             $deliverable->isChecked = 1;
+            $deliverable->isManual = 1;
             $deliverable->save();
             $deliverable->load(['scopeOfWork','additionalServiceInfo']);
             return response()->json([
@@ -133,6 +134,7 @@ class DeliverablesController extends Controller
                 $deliverable->deliverablesText = $deliverableData['deliverablesText'];
                 $deliverable->serial = $deliverableData['serial'];
                 $deliverable->isChecked = 1;
+                $deliverable->isManual = 1;
                 $deliverable->save();
                 $deliverable->load(['scopeOfWork','additionalServiceInfo']);
                 $deliverablesResult[] = $deliverable;

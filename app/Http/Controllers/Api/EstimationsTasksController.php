@@ -103,6 +103,7 @@ class EstimationsTasksController extends Controller
             $estimationTask->title = $validatedData['title'];
             $estimationTask->serial = $validatedData['serial'];
             $estimationTask->isChecked = 1;
+            $estimationTask->isManual = 1;
             $estimationTask->save();
 
             return response()->json([

@@ -21,6 +21,7 @@ class Deliberable extends Model
         'serviceDeliverablesId',
         'additionalServiceId',
         'serial',
+        'isManual',
     ];
 
     public function scopeOfWork()

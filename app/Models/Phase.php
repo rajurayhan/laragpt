@@ -23,6 +23,7 @@ class Phase extends Model
         'serial',
         'serviceGroupId',
         'additionalServiceId',
+        'isManual',
     ];
 
     public function problemsAndGoals()
