@@ -49,10 +49,10 @@ class ConversationController extends Controller
                 $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);
             }
             else{
-                $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
-                // $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
-                //     $subQuery->where('user_id', $user->id);
-                // })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+                // $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+                $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
+                    $subQuery->where('user_id', $user->id);
+                })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
             }
 
             return response()->json([
@@ -76,7 +76,7 @@ class ConversationController extends Controller
     {
         try {
             $user = Auth::user();
-            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user'])->find($id);
+            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user', 'user'])->find($id);
 
             if(!$user->hasRole('Admin')){
                 $sharedUsers = $conversation->shared_user()->pluck('user_id')->toArray();
@@ -319,29 +319,43 @@ class ConversationController extends Controller
      * Share an existing Conversation.
      *
      * @urlParam conversation_id integer required The ID of the Conversation. Example: 1
-     * @bodyParam user_id array required List of User Id to share with. Example: [1,2]
+     * @bodyParam user_access array required List of User Id to share with. Example: [
+     *  [2,1],
+     *  [1,2]
+     * ]
      */
 
     public function share($id, Request $request){
 
         $validatedData = $request->validate([
-            'user_id' => 'required|array',
+            'user_access' => 'required|array',
+            'user_access.*.user_id' => 'integer|required',
+            'user_access.*.access_level' => 'integer|required',
         ]);
 
         $conversation = Conversation::with('shared_user')->findOrFail($id);
 
-        $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
+        // $currentSharedUserIds = $conversation->shared_user()->pluck('user_id')->toArray();
 
-        $sharedUsers = $request->user_id;
-        foreach ($sharedUsers as $key => $user_id) {
+        $sharedUsers = $request->user_access;
+        foreach ($sharedUsers as $key => $access_detail) {
 
-            if (in_array($user_id, $currentSharedUserIds)) {
-                continue;
-            }
+            // if (in_array($access_detail['user_id'], $currentSharedUserIds)) {
+            //     continue;
+            // }
 
-            $conversation->shared_user()->create([
-                'user_id' => $user_id,
-            ]);
+            // $conversation->shared_user()->create([
+            //     'user_id' => $access_detail['user_id'],
+            //     'access_level' => $access_detail['access_level']
+            // ]);
+
+            ConversationSharedUser::updateOrCreate(
+                [
+                    'user_id' => $access_detail['user_id'],
+                    'conversation_id' => $conversation->id
+                ],
+                ['access_level' => $access_detail['access_level']]
+            );
         }
 
         $response = [
