@@ -192,7 +192,7 @@ class ScopeOfWorkController extends Controller
                 return WebApiResponse::error(500, $errors = [], 'The scope of work already generated.');
             }
 
-            $serial = ScopeOfWork::where('problemGoalID', $validatedData['problemGoalID'])->max('serial') ?? 0;
+            $serial = 0;
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript', 'meetingTranscript.serviceInfo'])->findOrFail($validatedData['problemGoalID']);
 
