@@ -243,12 +243,11 @@ class DeliverablesController extends Controller
     }
 
     /**
-     * Generate Deliverable
+     * Generate Deliverable for Additional service
      *
      * @group Deliverable
      *
      * @bodyParam problemGoalId int required Id of the Problem Goal ID.
-     * @bodyParam scopeOfWorkId int required Id of the Scope Of Work.
      *
      */
 
