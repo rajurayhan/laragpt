@@ -56,7 +56,8 @@ class EstimationsTasksController extends Controller
 
     public static function getEstimationTasks($problemGoalId){
         $problemAndGoalObj = ProblemsAndGoals::findOrFail($problemGoalId);
-        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId',$problemGoalId)->get();
+        $getEstimationTasks = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.additionalServiceInfo'])
+            ->orderBy('serial','ASC')->where('problemGoalId',$problemGoalId)->get();
         $projectTeams = ProjectTeam::with(['employeeRoleInfo','associate'])->where('transcriptId',$problemAndGoalObj->transcriptId)->get();
         return [
             'tasks'=>$getEstimationTasks,
@@ -222,7 +223,8 @@ class EstimationsTasksController extends Controller
         }
         DB::commit();
 
-        $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId', $request->get('problemGoalId'))->get();
+        $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])
+            ->orderBy('serial','ASC')->where('problemGoalId', $request->get('problemGoalId'))->get();
         return response()->json([
             'data'=>$deliverableList
         ], 201);
@@ -311,7 +313,10 @@ class EstimationsTasksController extends Controller
         }
         DB::commit();
 
-        $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])->latest('created_at')->where('problemGoalId', $request->get('problemGoalId'))->get();
+        $deliverableList = EstimationTask::with(['associate','additionalServiceInfo','deliverable','deliverable.scopeOfWork','deliverable.scopeOfWork.phaseInfo','deliverable.scopeOfWork.additionalServiceInfo'])
+            ->orderBy('serial','ASC')
+            ->where('problemGoalId', $request->get('problemGoalId'))
+            ->whereNotNull('additionalServiceId')->get();
         return response()->json([
             'data'=>$deliverableList
         ], 201);
