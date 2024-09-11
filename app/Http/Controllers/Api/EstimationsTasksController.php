@@ -86,7 +86,8 @@ class EstimationsTasksController extends Controller
             'employeeRoleId' => 'int',
             'serial' => 'int',
             'userId' => 'int',
-            'title' => 'required|string'
+            'title' => 'required|string',
+            'details' => 'nullable|string',
         ]);
         try{
             $deliverable = Deliberable::findOrFail($validatedData['deliverableId']);
@@ -101,6 +102,7 @@ class EstimationsTasksController extends Controller
             $estimationTask->userId = !empty($validatedData['userId'])? $validatedData['userId']: null;
             $estimationTask->estimationTasksParentId = !empty($validatedData['estimationTasksParentId'])? $validatedData['estimationTasksParentId']: null;
             $estimationTask->title = $validatedData['title'];
+            $estimationTask->details = $validatedData['details'];
             $estimationTask->serial = $validatedData['serial'];
             $estimationTask->isChecked = 1;
             $estimationTask->isManual = 1;

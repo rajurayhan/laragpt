@@ -67,6 +67,7 @@ class ScopeOfWorkController extends Controller
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam title string required
      * @bodyParam scopeText string nullable. Example: lorem ipsum
+     * @bodyParam serial int required . Example: 1
      */
 
     public function addNew(Request $request)
@@ -75,6 +76,7 @@ class ScopeOfWorkController extends Controller
             'problemGoalId' => 'required|int',
             'title' => 'required|string',
             'scopeText' => 'nullable|string',
+            'serial' => 'required|int',
         ]);
         try {
             $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
@@ -84,6 +86,7 @@ class ScopeOfWorkController extends Controller
             $scopeWork->transcriptId = $problemAndGoal->transcriptId;
             $scopeWork->title = Utility::textTransformToClientInfo($problemAndGoal, $validatedData['title']);
             $scopeWork->scopeText = $validatedData['scopeText'];
+            $scopeWork->serial = $validatedData['serial'];
             $scopeWork->isManual = 1;
             $scopeWork->save();
             return response()->json([
@@ -277,12 +280,6 @@ class ScopeOfWorkController extends Controller
 
             $problemGoalsObj = ProblemsAndGoals::with(['meetingTranscript'])->findOrFail($validatedData['problemGoalId']);
 
-            $input = [
-                "CLIENT-EMAIL" => $problemGoalsObj->meetingTranscript->clientEmail,
-                "CLIENT-COMPANY-NAME" => $problemGoalsObj->meetingTranscript->company,
-                "CLIENT-PHONE" => $problemGoalsObj->meetingTranscript->clientPhone,
-            ];
-
             DB::beginTransaction();
 
             ScopeOfWork::where('problemGoalId', $problemGoalId)
@@ -326,7 +323,7 @@ class ScopeOfWorkController extends Controller
                     $phase->serial = ++$serial;
                     $phase->problemGoalID = $problemGoalsObj->id;
                     $phase->transcriptId = $problemGoalsObj->transcriptId;
-                    $phase->title = $serviceGroup->name;
+                    $phase->title = Utility::textTransformToClientInfo($problemGoalsObj,$serviceGroup->name);
                     $phase->details = null;
                     $phase->serviceGroupId = $serviceGroup->id;
                     $phase->additionalServiceId = $serviceIdValue;

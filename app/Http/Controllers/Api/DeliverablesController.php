@@ -74,7 +74,8 @@ class DeliverablesController extends Controller
         $validatedData = $request->validate([
             'scopeOfWorkId' => 'required|int',
             'title' => 'required|string',
-            'deliverablesText' => 'nullable|string'
+            'deliverablesText' => 'nullable|string',
+            'serial' => 'required|int',
         ]);
         try{
 

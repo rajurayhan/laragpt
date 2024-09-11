@@ -60,6 +60,7 @@ class PhaseController extends Controller
      *
      * @bodyParam problemGoalId int required Id of the ProblemsAndGoals.
      * @bodyParam title string required
+     * @bodyParam details string required
      * @bodyParam serial int required . Example: 1
      */
 
@@ -68,6 +69,7 @@ class PhaseController extends Controller
         $validatedData = $request->validate([
             'problemGoalId' => 'required|int',
             'title' => 'required|string',
+            'details' => 'nullable|string',
             'serial' => 'required|int',
         ]);
         try {
@@ -83,6 +85,7 @@ class PhaseController extends Controller
             $orderManager = new ModelOrderManagerServiceV2(Phase::class, 'serial');
             $phase = $orderManager->addOrUpdateItem(array_merge($validatedData, [
                 'transcriptId'=> $problemGoalsObj->transcriptId,
+                'title'=> Utility::textTransformToClientInfo($problemGoalsObj, $validatedData['title']),
                 'isManual' => 1,
             ]), null,'problemGoalId', $validatedData['problemGoalId']);
             return response()->json([
@@ -110,6 +113,7 @@ class PhaseController extends Controller
             'problemGoalId' => 'required|int',
             'phases' => 'required|array',
             'phases.*.title' => 'required|string',
+            'phases.*.details' => 'nullable|string',
             'phases.*.serial' => 'required|int',
         ]);
         try {
@@ -132,7 +136,8 @@ class PhaseController extends Controller
                     [
                         'transcriptId'=> $problemGoalsObj->transcriptId,
                         'problemGoalID' => $problemGoalsObj->id,
-                        'title' => strip_tags($phase['title']),
+                        'title' => Utility::textTransformToClientInfo($problemGoalsObj, $phase['title']),
+                        'details' => Utility::textTransformToClientInfo($problemGoalsObj, $phase['details']),
                         'isManual' => 1,
                     ]), null,'problemGoalId', $validatedData['problemGoalId']);
                 $phases[] = $phaseData;
@@ -158,7 +163,7 @@ class PhaseController extends Controller
      * @bodyParam problemGoalID int required Id of the ProblemsAndGoals.
      */
 
-    public function create(Request $request)
+    public function generate(Request $request)
     {
 
         $prompts = Prompt::where('type',$this->promptType)->orderBy('serial','ASC')->get();

@@ -109,7 +109,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/phase', [PhaseController::class, 'index'])->name('phase.of.work.list');
     Route::post('/phase/add-new', [PhaseController::class, 'addNew'])->name('phase.of.work.add.new');
     Route::post('/phase/add-multi', [PhaseController::class, 'addMulti'])->name('phase.of.work.add.multi');
-    Route::post('/phase', [PhaseController::class, 'create'])->name('phase.of.work.create');
+    Route::post('/phase', [PhaseController::class, 'generate'])->name('phase.of.work.generate');
     Route::post('/phase-select', [PhaseController::class, 'select'])->name('phase.of.work.select');
     Route::post('/phase/{id}', [PhaseController::class, 'update'])->name('phase.of.work.update');
     Route::patch('/phase/{id}/serial', [PhaseController::class, 'updateSerial'])->name('phase.of.work.update.serial');
