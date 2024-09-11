@@ -223,6 +223,10 @@ class ScopeOfWorkController extends Controller
                 return WebApiResponse::error(500, $errors = [], 'The scopes from AI is not expected output, Try again please');
             }
 
+            $data['data']['scopeOfWork'] = array_map(function ($item) use($phase){
+                return array_merge($item,['phaseId'=>$phase->id]);
+            },$data['data']['scopeOfWork']);
+
             $this->storeScopeOfWork($data['data']['scopeOfWork'], $batchId, $problemGoalsObj, $serial);
             DB::commit();
 
@@ -332,9 +336,15 @@ class ScopeOfWorkController extends Controller
                     $serviceGroupMapWithPhase[(string) $serviceGroup->id] = $phase->id;
 
                 }
-
                 $this->storeScopeOfWork(
-                    $additionalServiceScopes[$serviceIdValue]->toArray(),
+                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($serviceGroupMapWithPhase) {
+                        return [
+                            'scopeId' => $scope->id,
+                            'title' => $scope->name,
+                            'phaseId' => $serviceGroupMapWithPhase[(string) $scope->serviceGroupId],
+                            'additionalServiceId' => $scope->serviceId,
+                        ];
+                    })->toArray(),
                     $batchId,
                     $problemGoalsObj,
                     0
