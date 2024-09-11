@@ -246,7 +246,7 @@ class ScopeOfWorkController extends Controller
 
         foreach ($scopes as $scope) {
             $scopeWork = new ScopeOfWork();
-            $scopeWork->serial = ++$serial;
+            $scopeWork->serial = isset($scope['serial'])? $scope['serial'] : ++$serial;
             $scopeWork->problemGoalID = $problemGoalsObj->id;
             $scopeWork->transcriptId = $problemGoalsObj->transcriptId;
             $scopeWork->phaseId = !empty($scope['phaseId']) ? $scope['phaseId'] : null;
@@ -308,6 +308,7 @@ class ScopeOfWorkController extends Controller
             $additionalServiceScopes = ServiceScopes::whereIn('serviceId', $serviceIdsToAdd)->get()->groupBy('serviceId');
             $batchId = (string)Str::uuid();
 
+            $serialWithPhaseId = [];
             foreach ($serviceIdsToAdd as $serviceIdValue) {
                 if (!isset($additionalServiceScopes[$serviceIdValue])) {
                     continue;
@@ -337,11 +338,15 @@ class ScopeOfWorkController extends Controller
 
                 }
                 $this->storeScopeOfWork(
-                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($serviceGroupMapWithPhase) {
+                    $additionalServiceScopes[$serviceIdValue]->map(function ($scope) use($serviceGroupMapWithPhase, &$serialWithPhaseId) {
+                        if(!isset($serialWithPhaseId[(string) $scope->serviceGroupId])){
+                            $serialWithPhaseId[(string) $scope->serviceGroupId] = 0;
+                        }
                         return [
                             'scopeId' => $scope->id,
                             'title' => $scope->name,
                             'phaseId' => $serviceGroupMapWithPhase[(string) $scope->serviceGroupId],
+                            'serial' => ++$serialWithPhaseId[(string) $scope->serviceGroupId],
                             'additionalServiceId' => $scope->serviceId,
                         ];
                     })->toArray(),
