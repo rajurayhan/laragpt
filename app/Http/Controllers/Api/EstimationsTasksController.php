@@ -138,7 +138,7 @@ class EstimationsTasksController extends Controller
         ]);
         Log::info(['Estimation Generate Request.', $validatedData['problemGoalId'], $validatedData['deliverableId']]);
         $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->firstOrFail();
-        $serial = EstimationTask::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
+        $serial = 0;
 
 
         $batchId = (string) Str::uuid();
@@ -203,7 +203,7 @@ class EstimationsTasksController extends Controller
             $estimationTask->serial = ++$serial;
             $estimationTask->save();
             if(isset($task['sub_tasks']) && is_array($task['sub_tasks'])){
-                $subTaskSerial = 1;
+                $subTaskSerial = 0;
                 foreach ($task['sub_tasks'] as $subTask){
                     $estimationSubTask = new EstimationTask();
                     $estimationSubTask->deliverableId = $findDeliverable->id;
@@ -214,7 +214,7 @@ class EstimationsTasksController extends Controller
                     $estimationSubTask->details = $subTask['details'];
                     $estimationSubTask->estimateHours = $subTask['estimated_hours'];
                     $estimationSubTask->isChecked = 1;
-                    $estimationSubTask->serial = $subTaskSerial++;
+                    $estimationSubTask->serial = ++$subTaskSerial;
                     $estimationSubTask->batchId =$batchId;
                     $estimationSubTask->save();
                 }
