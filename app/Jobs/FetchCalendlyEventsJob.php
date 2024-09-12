@@ -47,8 +47,8 @@ class FetchCalendlyEventsJob implements ShouldQueue
     protected function fetchAndStoreEvents($url, $token, $dateRange)
     {
         do {
-            Log::info($url);
-            Log::info($dateRange);
+            // Log::info($url);
+            // Log::info($dateRange);
             try {
                 $query = [
                     'organization' => 'https://api.calendly.com/organizations/DFECEUCMFFA4O2SP',
@@ -71,7 +71,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
                     if (!empty($data['collection'])) {
                         // Process the events
                         foreach ($data['collection'] as $key => $event) {
-                            Log::info([$key => $event['uri']]);
+                            // Log::info([$key => $event['uri']]);
                             CalendlyEvent::updateOrCreate(
                                 ['uri' => $event['uri']],
                                 [
