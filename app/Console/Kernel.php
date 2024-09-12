@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->everyTwoMinutes();
+        // $schedule->command('inspire')->everyMinute();
         // $schedule->command('slack:delete-messages')->everyMinute();
         $schedule->job(new FetchCalendlyEventsJob)->everyMinute();
     }
