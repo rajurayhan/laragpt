@@ -55,7 +55,7 @@ class FetchCalendlyEventsJob implements ShouldQueue
                     'min_start_time' => $dateRange['start_time'],
                     'max_start_time' => $dateRange['end_time'],
                     'count' => 100,
-                    'status' => 'active'
+                    'sort' => 'start_time:asc'
                 ];
 
                 // Set the Authorization header manually
