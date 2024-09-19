@@ -123,7 +123,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/scope-of-work/{id}/serial', [ScopeOfWorkController::class, 'updateSerial'])->name('scope.of.work.update.serial');
 
     // deliverables api
-
     Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
     Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
     Route::post('/deliverables/add-multi', [DeliverablesController::class, 'addMulti'])->name('deliverables.add.multi');
@@ -172,7 +171,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
 
+    Route::post('/roles/generate', [RoleController::class, 'generate'])->name('role.generate');
     Route::apiResource('roles', RoleController::class);
+
 
     Route::get('/service-tree', [ServiceController::class, 'serviceTree'])->name('service.tree');
 

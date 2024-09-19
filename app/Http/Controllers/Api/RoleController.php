@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\WebApiResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use App\Models\ProblemsAndGoals;
+use App\Models\EmployeeRoles;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
 
 class RoleController extends Controller
 {
@@ -161,5 +167,73 @@ class RoleController extends Controller
         ];
 
         return response()->json($response, 204);
+    }
+
+    /**
+     * Generate Role
+     *
+     * @group Role
+     *
+     * @bodyParam problemGoalId int required Id of the Problem Goal ID.
+     *
+     */
+    public function generate(Request $request)
+    {
+        try{
+            $validatedData = $request->validate([
+                'problemGoalId' => 'required|int'
+            ]);
+            set_time_limit(500);
+
+            $problemAndGoal = ProblemsAndGoals::with(['meetingTranscript'])->where('id',$validatedData['problemGoalId'])->first();
+            if(!$problemAndGoal){
+                return WebApiResponse::error(500, $errors = [], 'Problem and Goal not found.');
+            }
+            $roles = EmployeeRoles::get();
+            $response = Http::timeout(450)->post(env('AI_APPLICATION_URL') . '/estimation/role-generate', [
+                'threadId' => $problemAndGoal->meetingTranscript->threadId,
+                'assistantId' => $problemAndGoal->meetingTranscript->assistantId,
+                'existingRoles' => $roles->map(function ($item, $key) {
+                    return [
+                        'name'=> $item->name,
+                        'averageHourlyRate'=> $item->average_hourly,
+                    ];
+                })->toArray(),
+            ]);
+
+            if (!$response->successful()) {
+                return WebApiResponse::error(500, $errors = [], "Can't able to generate role, Please try again.");
+            }
+            $data = $response->json();
+            Log::info(['Role Generate AI.', $data]);
+
+            if (!is_array($data['data']['roles']) || count($data['data']['roles']) < 1 || !isset($data['data']['roles'][0]['name'])) {
+                return WebApiResponse::error(500, $errors = [], 'The roles from AI is not expected output, Try again please');
+            }
+            $roles = $data['data']['roles'];
+
+
+            DB::beginTransaction();
+            foreach($roles as $role){
+                $findRole = EmployeeRoles::where('name',$role['name'])->first();
+                if(!$findRole){
+                    EmployeeRoles::create([
+                        'name'=> $role['name'],
+                        'average_hourly'=> $role['averageHourlyRate'],
+                    ]);
+                }
+            }
+            DB::commit();
+            $response = [
+                'message' => 'Role generate succcessfully',
+                'data' => EmployeeRoles::get()
+            ];
+
+            return response()->json($response, 200);
+
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
     }
 }
