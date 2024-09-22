@@ -244,9 +244,13 @@ class TeamController extends Controller
     public function removeShare($id, $sharePromptId){
 
 
-        PromptSharedTeam::findOrFail($id);
+        $sharePromptFind = PromptSharedTeam::where('teamId',$id)->where('id',$sharePromptId)->first();
 
-        PromptSharedTeam::where('id', $id)->delete();
+        if(!$sharePromptFind){
+            return WebApiResponse::error(404, $errors = [],"Shared prompt not found");
+        }
+
+        PromptSharedTeam::where('teamId',$id)->where('id',$sharePromptId)->delete();
 
         $response = [
             'message' => 'Shared Remove Successfully ',
