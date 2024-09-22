@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\TeamController;
+use App\Http\Controllers\Api\TeamUserController;
 use App\Http\Controllers\Api\PromptCategoriesController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -68,6 +70,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('question.show');
     Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
+
+    // Team Setup routes
+    Route::get('/teams', [TeamController::class, 'index'])->name('team.list');
+    Route::post('/teams', [TeamController::class, 'store'])->name('team.create');
+    Route::get('/teams/{id}', [TeamController::class, 'show'])->name('team.show');
+    Route::put('/teams/{id}', [TeamController::class, 'update'])->name('team.update');
+    Route::delete('/teams/{id}', [TeamController::class, 'destroy'])->name('team.delete');
+    Route::get('/teams/{id}/share/prompts', [TeamController::class, 'shareList'])->name('team.prompt.share');
+    Route::post('/teams/{id}/share/prompts', [TeamController::class, 'share'])->name('team.prompt.share.store');
+    Route::delete('/teams/{id}/share/prompts/{sharePromptId}', [TeamController::class, 'removeShare'])->name('team.prompt.share.remove');
+
+    // Team User Setup routes
+    Route::get('/teams-users', [TeamUserController::class, 'index'])->name('team.user.list');
+    Route::post('/teams-users', [TeamUserController::class, 'store'])->name('team.user.create');
+    Route::get('/teams-users/{id}', [TeamUserController::class, 'show'])->name('team.user.show');
+    Route::put('/teams-users/{id}', [TeamUserController::class, 'update'])->name('team.user.update');
+    Route::delete('/teams-users/{id}', [TeamUserController::class, 'destroy'])->name('team.user.delete');
 
     // Categories Management Setup routes
     Route::get('/prompt-categories', [PromptCategoriesController::class, 'index'])->name('prompt.categories.list');

@@ -225,7 +225,7 @@ class RoleController extends Controller
             }
             DB::commit();
             $response = [
-                'message' => 'Role generate succcessfully',
+                'message' => 'Role has been successfully generated',
                 'data' => EmployeeRoles::get()
             ];
 
