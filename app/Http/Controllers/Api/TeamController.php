@@ -8,6 +8,7 @@ use App\Models\PromptSharedTeam;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @group Team Management
@@ -33,8 +34,9 @@ class TeamController extends Controller
 
         if ($request->has('page')) {
             $teamPagination = $teamQuery->paginate(10);
+            $teamData = $teamPagination->items();
             return response()->json([
-                'data' => $teamPagination->items(),
+                'data' => $this->getPromptAndTeamCount($teamData),
                 'total' => $teamPagination->total(),
                 'current_page' => $teamPagination->currentPage(),
             ]);
@@ -46,6 +48,23 @@ class TeamController extends Controller
             ]);
         }
 
+    }
+
+    private function getPromptAndTeamCount(&$teams){
+        $teamId = collect(array_map(function ($team){
+            return $team->id;
+        },$teams))->join(', ');
+
+        $promptCount = collect(DB::select('SELECT COUNT(*) as total, teamId FROM prompt_shared_team WHERE teamId IN (' . $teamId .') GROUP BY teamId'))->keyBy('teamId');
+        $teamUserCount = collect(DB::select('SELECT COUNT(*) as total, teamId FROM team_users WHERE deleted_at IS NULL AND teamId IN ('. $teamId .') GROUP BY teamId'))->keyBy('teamId');
+
+        array_map(function ($team) use ($promptCount, $teamUserCount){
+            $team->promptCount = isset($promptCount[$team->id])? $promptCount[$team->id]->total: 0;
+            $team->userCount = isset($teamUserCount[$team->id])? $teamUserCount[$team->id]->total: 0;
+            return $team;
+        },$teams);
+
+        return $teams;
     }
 
     /**

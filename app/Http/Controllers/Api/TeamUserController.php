@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Libraries\WebApiResponse;
 use App\Models\PromptSharedTeam;
+use App\Models\Team;
 use App\Models\TeamUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,12 +24,13 @@ class TeamUserController extends Controller
      * @group Team User Management
      * @queryParam page integer page number.
      *
+     * @urlParam teamId integer required The ID of the Team. Example: 1
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index($teamId, Request $request)
     {
-        $teamQuery = TeamUser::with(['team','user']);
+        $teamQuery = TeamUser::with(['team','user'])->where('teamId',$teamId);
 
         if ($request->has('page')) {
             $teamPagination = $teamQuery->paginate(10);
@@ -52,22 +54,30 @@ class TeamUserController extends Controller
      *
      * @group Team User Management
      *
-     * @bodyParam teamId string int of the Team.
+     * @urlParam teamId integer required The ID of the Team. Example: 1
      * @bodyParam userId string int of the User.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function store(Request $request)
+    public function store($teamId, Request $request)
     {
         $validatedData = $request->validate([
-            'teamId' => 'required|int',
             'userId' => 'required|int',
         ]);
 
+        $verifyTeam = Team::where('id',$teamId)->first();
+        if(!$verifyTeam){
+            return WebApiResponse::error(404, $errors = [],"Team not found");
+        }
+
+        $findExistingPrompt = TeamUser::where('teamId',$teamId)->where('userId',$validatedData['userId'])->first();
+        if($findExistingPrompt){
+            return WebApiResponse::error(400, $errors = [], 'The user already exists for this team.');
+        }
         $teamUser = new TeamUser();
-        $teamUser->teamId = $validatedData['teamId'];
+        $teamUser->teamId = $teamId;
         $teamUser->userId = $validatedData['userId'];
         $teamUser->save();
 
@@ -86,15 +96,18 @@ class TeamUserController extends Controller
      *
      * @group Team User Management
      *
+     * @urlParam teamId integer required The ID of the Team. Example: 1
      * @urlParam id required. The ID of the team user to display. Example: 1
      *
      * @param  TeamUser $id
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function show($id)
-    {
-        $team = TeamUser::with(['team','user'])->findOrFail($id);
+    public function show($teamId, $id){
+        $team = TeamUser::with(['team','user'])->where('teamId', $teamId)->where('id', $id)->first();
+        if(!$team){
+            return WebApiResponse::error(404, $errors = [], "Team use not found");
+        }
         $response = [
             'message' => 'View Successfully ',
             'data' => $team,
@@ -107,24 +120,24 @@ class TeamUserController extends Controller
      *
      * @group Team User Management
      *
-     * @urlParam team required The ID of the team to update. Example: 1
-     * @bodyParam teamId int required.
+     * @urlParam teamId required The ID of the team to update. Example: 1
+     * @urlParam id required The ID of the team user to update. Example: 1
      * @bodyParam userId int required.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  Team $teamId
      * @param  TeamUser $id
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function update($id, Request $request,)
+    public function update($teamId, $id, Request $request,)
     {
         $validatedData = $request->validate([
-            'teamId' => 'required|int',
             'userId' => 'required|int',
         ]);
         $team = TeamUser::with(['team','user'])->findOrFail($id);
 
-        $team->teamId = $validatedData['teamId'];
+        $team->teamId = $teamId;
         $team->userId = $validatedData['userId'];
         $team->save();
 
@@ -140,14 +153,17 @@ class TeamUserController extends Controller
      *
      * @group Team User Management
      *
+     * @urlParam teamId required The ID of the team to update. Example: 1
      * @urlParam question required The ID of the question to delete. Example: 1
-     * @param  TeamUser $id
+     *
+     * @param Team $teamId
+     * @param TeamUser $id
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function destroy($id)
+    public function destroy($teamId, $id)
     {
-        $team = TeamUser::findOrFail($id);
+        $team = TeamUser::where('teamId',$teamId)->findOrFail($id);
         $team->delete();
         $response = [
             'message' => 'Deleted Successfully',
