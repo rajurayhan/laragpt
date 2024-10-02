@@ -85,7 +85,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/teams/{teamId}/users', [TeamUserController::class, 'index'])->name('team.user.list');
     Route::post('/teams/{teamId}/users', [TeamUserController::class, 'store'])->name('team.user.create');
     Route::get('/teams/{teamId}/users/{id}', [TeamUserController::class, 'show'])->name('team.user.show');
-    Route::put('/teams/{teamId}/users/{id}', [TeamUserController::class, 'update'])->name('team.user.update');
     Route::delete('/teams/{teamId}/users/{id}', [TeamUserController::class, 'destroy'])->name('team.user.delete');
 
     // Categories Management Setup routes

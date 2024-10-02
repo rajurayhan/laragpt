@@ -116,39 +116,6 @@ class TeamUserController extends Controller
     }
 
     /**
-     * Update the specified team user.
-     *
-     * @group Team User Management
-     *
-     * @urlParam teamId required The ID of the team to update. Example: 1
-     * @urlParam id required The ID of the team user to update. Example: 1
-     * @bodyParam userId int required.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Team $teamId
-     * @param  TeamUser $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-    public function update($teamId, $id, Request $request,)
-    {
-        $validatedData = $request->validate([
-            'userId' => 'required|int',
-        ]);
-        $team = TeamUser::with(['team','user'])->findOrFail($id);
-
-        $team->teamId = $teamId;
-        $team->userId = $validatedData['userId'];
-        $team->save();
-
-        $response = [
-            'message' => 'Update Successfully ',
-            'data' => $team,
-        ];
-        return response()->json($response, 201);
-    }
-
-    /**
      * Remove the specified team from storage.
      *
      * @group Team User Management
