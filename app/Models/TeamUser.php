@@ -25,5 +25,9 @@ class TeamUser extends Model
     {
         return $this->belongsTo(User::class,'userId','id');
     }
+    public function teamPrompts()
+    {
+        return $this->hasMany(PromptSharedTeam::class,'teamId','teamId');
+    }
 
 }

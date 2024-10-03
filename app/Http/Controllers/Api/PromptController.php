@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Models\Prompt;
+use App\Models\TeamUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PromptSharedUser;
@@ -209,10 +210,24 @@ class PromptController extends Controller
             $prompts = Prompt::whereHas('shared_user', function($subQuery) use ($user){
                 $subQuery->where('user_id', $user->id);
             })->get();
+
+            $teamUsers = TeamUser::with(['teamPrompts.prompt'])->where('userId', $user->id)->get();
+            $all_prompts = [];
+            foreach ($teamUsers as $entry) {
+                foreach ($entry->teamPrompts as $team_prompt) {
+                    if (isset($team_prompt->prompt)) {
+                        unset($team_prompt->prompt->prompt);
+                        $all_prompts[] = $team_prompt->prompt;
+                    }
+                }
+            }
+            $prompts =  collect($all_prompts)->merge($prompts)->unique('id');
         }
         else{
             $prompts = Prompt::get();
         }
+
+
 
         $data = $prompts->map(function ($prompt) {
             $array = $prompt->toArray();
