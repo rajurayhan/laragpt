@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Services\WebsiteComponentCategoryController;
 use App\Http\Controllers\Api\Services\WebsiteComponentController;
 use App\Http\Controllers\Api\Services\ProjectComponentController;
 use App\Http\Controllers\Api\PromptController;
+use App\Http\Controllers\Api\MemoryController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\Services\EmployeeRoleController;
 use App\Http\Controllers\Api\Services\ServiceController;
@@ -101,6 +102,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/prompts/{id}', [PromptController::class, 'update'])->name('prompt.update');
     Route::delete('/prompts/{id}', [PromptController::class, 'destroy'])->name('prompt.delete');
     Route::get('/prompts-allowed', [PromptController::class, 'allowed'])->name('prompt.allowed');
+
+
+    // Memory routes
+    Route::get('/memory', [MemoryController::class, 'index'])->name('question.list');
+    Route::post('/memory', [MemoryController::class, 'store'])->name('question.create');
+    Route::get('/memory/{id}', [MemoryController::class, 'show'])->name('question.show');
+    Route::put('/memory/{id}', [MemoryController::class, 'update'])->name('question.update');
+    Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('question.delete');
 
 
     // project-summery routes
