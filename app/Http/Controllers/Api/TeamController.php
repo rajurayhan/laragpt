@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Libraries\WebApiResponse;
 use App\Models\PromptSharedTeam;
 use App\Models\Team;
+use App\Models\TeamUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -215,13 +216,13 @@ class TeamController extends Controller
      * Share a Prompt to team
      * @group Team Management
      * @urlParam id integer required The ID of the Team. Example: 1
-     * @bodyParam promptId int required. Example: 2
+     * @bodyParam promptIds int[] required An array of prompt. Example: [1,2,3]
      */
 
-    public function share($id, Request $request){
+    public function sharePrompts($id, Request $request){
         try{
             $validatedData = $request->validate([
-                'promptId' => 'required|int',
+                'promptIds' => 'required|array',
             ]);
 
             $verifyTeam = Team::where('id',$id)->first();
@@ -229,20 +230,58 @@ class TeamController extends Controller
                 return WebApiResponse::error(404, $errors = [],"Team not found");
             }
 
-            $findExistingPrompt = PromptSharedTeam::where('teamId',$id)->where('promptId',$validatedData['promptId'])->first();
-            if($findExistingPrompt){
-                return WebApiResponse::error(400, $errors = [], 'The prompt already exists for this team.');
+            foreach($validatedData['promptIds'] as $promptId){
+                PromptSharedTeam::updateOrCreate(
+                    ['promptId' => $promptId, 'teamId' => $id],
+                    []
+                );
             }
-            $promptTeam = new PromptSharedTeam();
-            $promptTeam->promptId = $validatedData['promptId'];
-            $promptTeam->teamId = $id;
-            $promptTeam->save();
-            $promptTeam->load(['prompt','team']);
-            unset($promptTeam->prompt->prompt);
+            $teamsPrompts =  PromptSharedTeam::with(['prompt','team'])->where('teamId',$id)->get();
+
+            $teamsPrompts = $teamsPrompts->map(function($item){
+                unset($item->prompt['prompt']);
+                return $item;
+            });
 
             $response = [
                 'message' => 'Shared Successfully ',
-                'data' => $promptTeam,
+                'data' => $teamsPrompts,
+            ];
+            return response()->json($response, 200);
+
+        }catch (\Exception $exception){
+            return WebApiResponse::error(500, $errors = [], $exception->getMessage());
+        }
+
+    }
+    /**
+     * Share a Prompt to team
+     * @group Team Management
+     * @urlParam id integer required The ID of the Team. Example: 1
+     * @bodyParam userIds int[] required An array of user. Example: [1,2,3]
+     */
+
+    public function shareUser($id, Request $request){
+        try{
+            $validatedData = $request->validate([
+                'userIds' => 'required|array',
+            ]);
+
+            $verifyTeam = Team::where('id',$id)->first();
+            if(!$verifyTeam){
+                return WebApiResponse::error(404, $errors = [],"Team not found");
+            }
+
+            foreach($validatedData['userIds'] as $userId){
+                TeamUser::updateOrCreate(
+                    ['userId' => $userId, 'teamId' => $id],
+                    []
+                );
+            }
+            $teamsPrompts =  TeamUser::with(['user','team'])->where('teamId',$id)->get();
+            $response = [
+                'message' => 'Shared Successfully ',
+                'data' => $teamsPrompts,
             ];
             return response()->json($response, 200);
 

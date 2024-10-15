@@ -79,7 +79,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/teams/{id}', [TeamController::class, 'update'])->name('team.update');
     Route::delete('/teams/{id}', [TeamController::class, 'destroy'])->name('team.delete');
     Route::get('/teams/{id}/share/prompts', [TeamController::class, 'shareList'])->name('team.prompt.share');
-    Route::post('/teams/{id}/share/prompts', [TeamController::class, 'share'])->name('team.prompt.share.store');
+    Route::post('/teams/{id}/share/prompts', [TeamController::class, 'sharePrompts'])->name('team.prompt.share.store');
+    Route::post('/teams/{id}/share/users', [TeamController::class, 'shareUser'])->name('team.user.share.store');
     Route::delete('/teams/{id}/share/prompts/{sharePromptId}', [TeamController::class, 'removeShare'])->name('team.prompt.share.remove');
 
     // Team User Setup routes
