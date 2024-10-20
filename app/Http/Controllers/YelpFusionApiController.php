@@ -177,6 +177,11 @@ class YelpFusionApiController extends Controller
         ]);
 
         if ($response->successful()) {
+            $lead = YelpLead::where('yelp_lead_id', $leadId)->first();
+            $lead->marked_as_replied = TRUE;
+            $lead->marked_as_replied_at = Carbon::now();
+            $lead->save();
+
             return $response->json();
         }
 
