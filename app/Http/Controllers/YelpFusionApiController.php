@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\YelpAccessToken;
+use App\Models\YelpLead;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Client\Request as ClientRequest;
@@ -18,13 +19,49 @@ class YelpFusionApiController extends Controller
             foreach ($leads as $key => $lead) {
                 if($lead['event_type'] == 'NEW_EVENT'){
                     $leadId = $lead['lead_id'];
+                    // Check if lead exists with this lead id and was replied or not.
+                    if($this->checkIfLeadExists($leadId)){
+                        return 'Existing Lead Webhook Received';
+                    }
+                    // If not exists, first get the lead events and create a lead in hive system as well as into the lead tracker.
+                    else{
+                        $leadEvents =  $this->getYelpWebhookEvents($leadId);
+                        if(isset($leadEvents['events'])){
+                            $firstEvent = $leadEvents['events']['0'] ?? null;
+                            if($firstEvent){
+                                $this->createLead($firstEvent, $leadId);
+                                $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                                \Log::info($repliedResponse);
+                                return 'Lead Webhook Received and Responded';
+                            }
+                        }
+                    }
 
-                    return $repliedResponse = $this->markLeadAsRepliedById($leadId);
-                    \Log::info($repliedResponse);
                 }
             }
         }
         return response()->json(['verification' => $request->verification]);
+    }
+
+    public function checkIfLeadExists($leadId){
+        $lead = YelpLead::where('yelp_lead_id', $leadId)->first();
+        if($lead){
+            return true;
+        }
+        return false;
+    }
+
+    public function createLead($firstEvent, $leadId){
+        $yelLeadRequestBody = [
+            'yelp_user_id' => $firstEvent['user_id'],
+            'yelp_lead_id' => $leadId,
+            'initial_query_and_answers' => $firstEvent['event_content']['text'],
+            'marked_as_replied' => 0,
+            'marked_as_replied_at' => NULL,
+            'user_display_name' =>  $firstEvent['user_display_name']
+        ];
+
+        YelpLead::create($yelLeadRequestBody);
     }
 
     public function yelpInitOAuth(Request $request){
@@ -138,6 +175,24 @@ class YelpFusionApiController extends Controller
         ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/mark_as_replied', [
             'reply_type' => 'EMAIL'
         ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'error' => 'Failed to mark lead as replied on Yelp',
+            'details' => $response->body(),
+            'status' => $response->status()
+        ], $response->status());
+    }
+    public function getYelpWebhookEvents($leadId){
+        $yelpToken = $this->getAccessTokenFromRefreshToken();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $yelpToken->access_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->get('https://api.yelp.com/v3/leads/'.$leadId.'/events');
 
         if ($response->successful()) {
             return $response->json();
