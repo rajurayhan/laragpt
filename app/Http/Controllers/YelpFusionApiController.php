@@ -232,6 +232,38 @@ class YelpFusionApiController extends Controller
         ], $response->status());
     }
 
+    public function createWhatConvertsLead(array $leadData){
+        $apiKey = 'YOUR_WHATCONVERTS_API_KEY';
+        $accountId = 'YOUR_ACCOUNT_ID';
+        $profileId = 'YOUR_PROFILE_ID';
+
+        $url = "https://app.whatconverts.com/api/v1/leads/";
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer $apiKey",
+            'Accept' => 'application/json',
+        ])->post($url, [
+            'account_id' => $accountId,
+            'date' => $leadData['date'], // Format: YYYY-MM-DD
+            'time' => $leadData['time'], // Format: HH:MM:SS
+            'source' => $leadData['source'],
+            'medium' => $leadData['medium'],
+            'campaign' => $leadData['campaign'],
+            'type' => 'form', // For example, "form"
+            'name' => $leadData['name'],
+            'phone' => $leadData['phone'],
+            'email' => $leadData['email'],
+            'message' => $leadData['message'],
+            'value' => $leadData['value'],
+        ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        } else {
+            return $response->body();
+        }
+    }
+
     public function getLeadDetailsById($leadId){
         $yelpToken = $this->getAccessTokenFromRefreshToken();
         $response = Http::withHeaders([
