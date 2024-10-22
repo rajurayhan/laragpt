@@ -259,7 +259,7 @@ class YelpFusionApiController extends Controller
                 ['role' => 'user', 'content' => "Here is the lead details (Location value is USA zip code):" . json_encode($leadEventData)],
             ];
 
-        \Log::info($messages);
+        // \Log::info($messages);
 
         $aiResult = OpenAI::chat()->create([
                 'model' => 'gpt-4o',
