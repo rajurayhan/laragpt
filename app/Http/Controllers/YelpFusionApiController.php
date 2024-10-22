@@ -32,6 +32,7 @@ class YelpFusionApiController extends Controller
                                 $this->createLead($firstEvent, $leadId);
                                 $repliedResponse = $this->markLeadAsRepliedById($leadId);
                                 \Log::info($repliedResponse);
+                                // Create a Lead On What converts
                                 return 'Lead Webhook Received and Responded';
                             }
                         }
@@ -62,6 +63,20 @@ class YelpFusionApiController extends Controller
         ];
 
         YelpLead::create($yelLeadRequestBody);
+
+        $whatConvertsLeadData = [
+            'name' => $firstEvent['user_display_name'],
+            'mapped_fields' => [
+                'Contact Name' => $firstEvent['user_display_name']
+            ],
+            'additional_fields' => [
+                'Notes' => $firstEvent['event_content']['text'],
+            ],
+            'lead_type' => 'other',
+            'lead_source' => 'Yelp'
+        ];
+
+        $this->createWhatConvertLead($whatConvertsLeadData);
     }
 
     public function yelpInitOAuth(Request $request){
@@ -281,5 +296,83 @@ class YelpFusionApiController extends Controller
             'details' => $response->body(),
             'status' => $response->status()
         ], $response->status());
+    }
+
+    public function getWhatConvertsLeads(){
+        // Retrieve the API token and secret from the environment
+        $apiToken = env('WHATCONVERTS_API_TOKEN');
+        $apiSecret = env('WHATCONVERTS_API_SECRET');
+
+        // Define the base URL for the API request
+        $baseUrl = 'https://leads.lhgraphics.com/api/v1/leads';
+
+        // Set up the authorization header
+        $authHeader = 'Basic ' . base64_encode($apiToken . ':' . $apiSecret);
+
+        try {
+            // Make the GET request to the WhatConverts API
+            $response = Http::withHeaders([
+                'Authorization' => $authHeader,
+                'Accept' => 'application/json',
+            ])->get($baseUrl);
+
+            // Check if the request was successful
+            if ($response->successful()) {
+                // Decode and return the response data
+                $leads = $response->json();
+                return response()->json($leads);
+            } else {
+                return response()->json([
+                    'error' => 'Failed to retrieve leads',
+                    'status' => $response->status(),
+                    'message' => $response->body(),
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            // Handle any errors that may occur during the API request
+            return response()->json([
+                'error' => 'An error occurred while fetching leads',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function createWhatConvertLead($leadData){
+        // Retrieve the API token and secret from the environment
+        $apiToken = env('WHATCONVERTS_API_TOKEN');
+        $apiSecret = env('WHATCONVERTS_API_SECRET');
+
+        // Define the base URL for the API request
+        $baseUrl = 'https://leads.lhgraphics.com/api/v1/leads';
+
+        // Set up the authorization header
+        $authHeader = 'Basic ' . base64_encode($apiToken . ':' . $apiSecret);
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => $authHeader,
+                'Accept' => 'application/json',
+            ])->asForm()->post($baseUrl, $leadData);
+
+            // Check if the request was successful
+            if ($response->successful()) {
+                return response()->json([
+                    'success' => 'Lead created successfully',
+                    'data' => $response->json(),
+                ]);
+            } else {
+                return response()->json([
+                    'error' => 'Failed to create lead',
+                    'status' => $response->status(),
+                    'message' => $response->body(),
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            // Handle any errors that may occur during the API request
+            return response()->json([
+                'error' => 'An error occurred while creating the lead',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
