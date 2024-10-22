@@ -29,14 +29,14 @@ class YelpFusionApiController extends Controller
                         $leadEvents =  $this->getYelpWebhookEvents($leadId);
                         if(isset($leadEvents['events'])){
                             $firstEvent = $leadEvents['events']['0'] ?? null;
-                            \Log::info($leadEvents);
+                            // \Log::info($leadEvents);
                             if($firstEvent){
                                 //$this->createLead($firstEvent, $leadId);
                                 $aiRespons = $this->getAIResponseforLead($firstEvent);
-                                \Log::info($aiRespons);
+                                // \Log::info($aiRespons);
                                 $this->writeLeadEventById($leadId, $aiRespons);
                                 $repliedResponse = $this->markLeadAsRepliedById($leadId);
-                                \Log::info($repliedResponse);
+                                // \Log::info($repliedResponse);
                                 // Create a Lead On What converts
                                 return 'Lead Webhook Received and Responded';
                             }
