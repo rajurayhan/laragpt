@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class YelpFusionApiController extends Controller
 {
@@ -28,8 +29,12 @@ class YelpFusionApiController extends Controller
                         $leadEvents =  $this->getYelpWebhookEvents($leadId);
                         if(isset($leadEvents['events'])){
                             $firstEvent = $leadEvents['events']['0'] ?? null;
+                            \Log::info($leadEvents);
                             if($firstEvent){
-                                $this->createLead($firstEvent, $leadId);
+                                //$this->createLead($firstEvent, $leadId);
+                                $aiRespons = $this->getAIResponseforLead($firstEvent);
+                                \Log::info($aiRespons);
+                                $this->writeLeadEventById($leadId, $aiRespons);
                                 $repliedResponse = $this->markLeadAsRepliedById($leadId);
                                 \Log::info($repliedResponse);
                                 // Create a Lead On What converts
@@ -225,7 +230,7 @@ class YelpFusionApiController extends Controller
         ], $response->status());
     }
 
-    public function writeLeadEventById($leadId){
+    public function writeLeadEventById($leadId, $response){
         $yelpToken = $this->getAccessTokenFromRefreshToken();
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $yelpToken->access_token,
@@ -233,7 +238,7 @@ class YelpFusionApiController extends Controller
             'Content-Type' => 'application/json',
         ])->post('https://api.yelp.com/v3/leads/'.$leadId.'/events', [
             'request_type' => 'TEXT',
-            'request_content' => 'Hi, We have received your request and will respond as soon as possible. Thanks!'
+            'request_content' => $response
         ]);
 
         if ($response->successful()) {
@@ -245,6 +250,24 @@ class YelpFusionApiController extends Controller
             'details' => $response->body(),
             'status' => $response->status()
         ], $response->status());
+    }
+
+    public function getAIResponseforLead($leadEventData){
+
+        $messages = [
+                ['role' => 'system', 'content' => "You are a highly experienced Client Engagement Specialist and Sales Communication Expert with over 10 years of expertise in crafting personalized, conversational responses to client inquiries. Your responsibilities include drafting tailored responses to Yelp 'request a quote' inquiries, ensuring that each response feels human and not automated. You excel at subtly guiding leads toward scheduling a call on Calendly by framing it as a natural and helpful next step in gathering more information to provide an accurate estimate. Your writing style is casual and conversational yet professional, making potential clients feel understood and valued. You are also skilled at asking open-ended questions that encourage leads to share more details about their project, helping to keep the conversation going and increasing engagement. Based on your experience and expertise, draft a response to the following Yelp 'request a quote' inquiry that addresses the specific details provided by the lead. Your response should be friendly and professional in a business casual form, but it should NOT sound like a robot, a template, or a canned response. The response you create should encouraging the lead to book a call on my Calendly for a more detailed discussion without sounding pushy. Include an open-ended question that prompts the lead to share more information if they are not ready to book a call right away, but do NOT mention any wording about 'if you are not ready…' Output Requirements: - Your response should be friendly and professional in a business casual form, but it should NOT sound like a robot, a template, or a canned response! - Encouraging the lead to book a call on my Calendly (https://calendly.com/lhgraphics/lhg-consult) for a more detailed discussion without sounding pushy. - Include an open-ended question that prompts the lead to share more information if they are not ready to book a call right away, but do NOT mention any wording about 'if you are not ready…' - Include and work into the initial response to the lead regarding the level of urgency they selected from the available options when they initially filled out the RAQ - Ensure that the response feels personalized and tailored to the lead's inquiry, avoiding any sense of it being a template or automated message. - Be sure to include the full Calendly URL (https://calendly.com/lhgraphics/lhg-consult) when you provide it in the response, as hyperlinked text is not supported in Yelp's Request A Quote system. - Keep the 'chat' response short and to the point using the tone and style you know I already like to use from previous messages we have done together (business casual while still being professional but sounding like a human wrote it, not AI, a robot or a template!). - Do not store this information in memory! - This is going to be sent to Yelp via API without any human interaction. Do not put [Your Name], instead use Lighthouse Graphics. "],
+                ['role' => 'user', 'content' => "Here is the lead details (Location value is USA zip code):" . json_encode($leadEventData)],
+            ];
+
+        \Log::info($messages);
+
+        $aiResult = OpenAI::chat()->create([
+                'model' => 'gpt-4o',
+                'messages' => $messages
+            ]);
+        $yelpRespons = $aiResult['choices'][0]['message']['content'];
+
+        return $yelpRespons;
     }
 
     public function createWhatConvertsLead(array $leadData){
