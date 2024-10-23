@@ -77,7 +77,7 @@ class YelpFusionApiController extends Controller
             'additional_fields' => [
                 'Notes' => $firstEvent['event_content']['text'],
             ],
-            'lead_type' => 'other',
+            'lead_type' => 'chat',
             'lead_source' => 'Yelp'
         ];
 
