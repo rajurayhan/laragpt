@@ -180,7 +180,7 @@ class PromptController extends Controller
             $this->syncPromptShareUsers($prompt, $request->user_id);
         }
         if(is_array($request->teamIds)){
-            // $this->syncPromptShareTeams($prompt, $request->teamIds); // Turn me ON Next time
+             $this->syncPromptShareTeams($prompt, $request->teamIds);
         }
 
         $response = [
