@@ -14,6 +14,7 @@ enum PromptType : int
     case MEETING_SUMMARY = 6;
     case OTHER = 7;
     case SALES = 10;
+    case YELP_API_CHAT_BOT = 11;
 
     public static function getValues(): array
     {

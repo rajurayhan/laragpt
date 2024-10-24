@@ -352,7 +352,7 @@ Route::get('/task-tree', function () {
 
 });
 
-Route::post('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTasksFromListId'])->name('task.from.clickup');
+Route::get('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTasksFromListId'])->name('task.from.clickup');
 
 
 

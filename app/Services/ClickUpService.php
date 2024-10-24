@@ -18,7 +18,7 @@ class ClickUpService
         );
 
         $listTask = Http::withHeaders([
-            "Authorization" => 'pk_38254709_31XI582SYM6HN73D7ZZNAF17B51KI1Y2',
+            "Authorization" => env('CLICKUP_API_KEY', 'pk_38254709_31XI582SYM6HN73D7ZZNAF17B51KI1Y2'),
             "Content-Type" => "application/json"
         ])->get($listTaskUrl.http_build_query($taskQuery));
 
