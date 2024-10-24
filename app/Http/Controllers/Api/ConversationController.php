@@ -49,15 +49,48 @@ class ConversationController extends Controller
             }
 
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
-            if($user->hasRole('Admin')){
-                $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);
+            // if($user->hasRole('Admin')){
+            //     $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);
+            // }
+            // else{
+            //     // $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+            //     $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
+            //         $subQuery->where('user_id', $user->id);
+            //     })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
+            // }
+
+            if ($user->hasRole('Admin')) {
+                $conversations = $query->with(['user', 'messages' => function ($query) {
+                    $query->latest('created_at'); // Order messages by `created_at`
+                }, 'shared_user.user'])
+                ->orderBy(
+                    // Order the conversations by the latest message's `created_at`
+                    ConversationMessage::select('created_at')
+                        ->whereColumn('conversation_messages.conversation_id', 'conversations.id')
+                        ->latest()
+                        ->take(1),
+                    'desc'
+                )
+                ->paginate($perPage);
+            } else {
+                $conversations = $query->where('user_id', $user->id)
+                    ->orWhereHas('shared_user', function($subQuery) use ($user) {
+                        $subQuery->where('user_id', $user->id);
+                    })
+                    ->with(['user', 'messages' => function ($query) {
+                        $query->latest('created_at'); // Order messages by `created_at`
+                    }, 'shared_user.user'])
+                    ->orderBy(
+                        // Order the conversations by the latest message's `created_at`
+                        ConversationMessage::select('created_at')
+                            ->whereColumn('conversation_messages.conversation_id', 'conversations.id')
+                            ->latest()
+                            ->take(1),
+                        'desc'
+                    )
+                    ->paginate($perPage);
             }
-            else{
-                // $conversations = $query->where('user_id', $user->id)->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
-                $conversations = $query->where('user_id', $user->id)->orWhereHas('shared_user', function($subQuery) use ($user){
-                    $subQuery->where('user_id', $user->id);
-                })->with('user', 'messages', 'shared_user.user')->latest()->paginate($perPage);
-            }
+            
 
             return response()->json([
                 'data' => $conversations->items(),
