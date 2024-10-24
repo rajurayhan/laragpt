@@ -416,7 +416,7 @@ class YelpFusionApiController extends Controller
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
             if(isset($firstEvent)){
-                $aiRespons = $this->getAIResponseforLead($firstEvent);
+                return $aiRespons = $this->getAIResponseforLead($firstEvent);
                 if($aiRespons){
                     // $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons);
                     return response()->json($aiRespons);
