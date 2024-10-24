@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\PromptType;
 use App\Models\Prompt;
+use App\Models\PromptSharedTeam;
+use App\Models\TeamUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PromptSharedUser;
@@ -33,7 +35,7 @@ class PromptController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Prompt::with(['shared_user.user','categoryInfo']);
+        $query = Prompt::with(['shared_user.user','categoryInfo','shared_teams.team']);
         if($request->filled('name')){
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
@@ -67,7 +69,8 @@ class PromptController extends Controller
      * @bodyParam name string required The name of the prompt. Example: "Example prompt name."
      * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam serial int not required. Example: 1
-     * @bodyParam user_id array not required List of user this propt can see in hive assistant. Example: [1,2]
+     * @bodyParam user_id array not required List of user this prompt can see in hive assistant. Example: [1,2]
+     * @bodyParam teamIds array not required List of team this prompt can see in hive assistant. Example: [1,2]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -83,6 +86,7 @@ class PromptController extends Controller
             'serial' => 'integer',
             'category_id' => 'integer|nullable',
             'user_id' => 'array|nullable',
+            'teamIds' => 'array|nullable',
         ]);
 
 
@@ -98,10 +102,20 @@ class PromptController extends Controller
                 );
             }
         }
+        if(is_array($request->teamIds)){
+            foreach ($request->teamIds as $key => $teamId) {
+                PromptSharedTeam::create(
+                    [
+                        'promptId' => $prompt->id,
+                        'teamId' => $teamId
+                    ]
+                );
+            }
+        }
 
         $response = [
             'message' => 'Created Successfully',
-            'data' => $prompt->load(['shared_user.user','categoryInfo']),
+            'data' => $prompt->load(['shared_user.user','categoryInfo','shared_teams.team']),
         ];
         return response()->json($response, 201);
     }
@@ -119,7 +133,7 @@ class PromptController extends Controller
 
     public function show($id)
     {
-        $prompt = Prompt::with(['shared_user.user','categoryInfo'])->findOrFail($id);
+        $prompt = Prompt::with(['shared_user.user','categoryInfo', 'shared_teams.team'])->findOrFail($id);
         $response = [
             'message' => 'View Successfully ',
             'data' => $prompt,
@@ -138,7 +152,8 @@ class PromptController extends Controller
      * @bodyParam prompt string required The content of the prompt. Example: "Updated prompt content."
      * @bodyParam action_type string required The action tpe of the prompt. Example: "input-only | expected-output"
      * @bodyParam name string required The content of the name. Example: "Updated prompt name."
-     * @bodyParam user_id array not required List of user this propt can see in hive assistant. Example: [1,2]
+     * @bodyParam user_id array not required List of user this prompt can see in hive assistant. Example: [1,2]
+     * @bodyParam teamIds array not required List of team this prompt can see in hive assistant. Example: [1,2]
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Prompt $prompt
@@ -155,6 +170,7 @@ class PromptController extends Controller
             'serial' => 'required|integer',
             'user_id' => 'array|nullable',
             'category_id' => 'integer|nullable',
+            'teamIds' => 'array|nullable',
         ]);
 
         $prompt = Prompt::findOrFail($id);
@@ -163,10 +179,13 @@ class PromptController extends Controller
         if(is_array($request->user_id)){
             $this->syncPromptShareUsers($prompt, $request->user_id);
         }
+        if(is_array($request->teamIds)){
+            $this->syncPromptShareTeams($prompt, $request->teamIds);
+        }
 
         $response = [
             'message' => 'Update Successfully ',
-            'data' => $prompt->load(['shared_user.user','categoryInfo']),
+            'data' => $prompt->load(['shared_user.user','categoryInfo','shared_teams.team']),
         ];
         return response()->json($response, 201);
     }
@@ -209,10 +228,24 @@ class PromptController extends Controller
             $prompts = Prompt::whereHas('shared_user', function($subQuery) use ($user){
                 $subQuery->where('user_id', $user->id);
             })->get();
+
+            $teamUsers = TeamUser::with(['teamPrompts.prompt'])->where('userId', $user->id)->get();
+            $all_prompts = [];
+            foreach ($teamUsers as $entry) {
+                foreach ($entry->teamPrompts as $team_prompt) {
+                    if (isset($team_prompt->prompt)) {
+                        unset($team_prompt->prompt->prompt);
+                        $all_prompts[] = $team_prompt->prompt;
+                    }
+                }
+            }
+            $prompts =  collect($all_prompts)->merge($prompts)->unique('id');
         }
         else{
             $prompts = Prompt::get();
         }
+
+
 
         $data = $prompts->map(function ($prompt) {
             $array = $prompt->toArray();
@@ -252,6 +285,32 @@ class PromptController extends Controller
             // If the user doesn't exist, create a new record
             $prompt->shared_user()->create([
                 'user_id' => $userId,
+            ]);
+        }
+    }
+    private function syncPromptShareTeams(Prompt $prompt, array $newUserIds)
+    {
+        // Get all current user IDs for the prompt
+        $currentUserIds = $prompt->shared_teams()->pluck('teamId')->toArray();
+
+        // Find the users to delete
+        $teamToDelete = array_diff($currentUserIds, $newUserIds);
+
+        // Delete the users that are no longer present
+        PromptSharedTeam::where('promptId', $prompt->id)
+                        ->whereIn('teamId', $teamToDelete)
+                        ->delete();
+
+        // Loop through the new user IDs
+        foreach ($newUserIds as $userId) {
+            // If the user already exists in the prompt, skip it
+            if (in_array($userId, $currentUserIds)) {
+                continue;
+            }
+
+            // If the user doesn't exist, create a new record
+            $prompt->shared_teams()->create([
+                'teamId' => $userId,
             ]);
         }
     }

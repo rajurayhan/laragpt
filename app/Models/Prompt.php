@@ -15,6 +15,10 @@ class Prompt extends Model
     {
         return $this->hasMany(PromptSharedUser::class);
     }
+    public function shared_teams()
+    {
+        return $this->hasMany(PromptSharedTeam::class,'promptId');
+    }
 
     public function categoryInfo()
     {

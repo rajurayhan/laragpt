@@ -44,6 +44,10 @@ class ConversationController extends Controller
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
             }
 
+            if ($request->filled('user_id')) {
+                $query->where('user_id',  $request->input('user_id'));
+            }
+
             $perPage = $request->input('per_page', 10); // Default to 10 items per page if not specified
             if($user->hasRole('Admin')){
                 $conversations = $query->with('user', 'messages','shared_user.user')->latest()->paginate($perPage);

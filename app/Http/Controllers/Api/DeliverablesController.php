@@ -13,6 +13,7 @@ use App\Models\Question;
 use App\Models\QuestionAnswer;
 use App\Models\ScopeOfWork;
 use App\Services\Utility;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -220,7 +221,7 @@ class DeliverablesController extends Controller
 
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
-        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
+        $serial = 0;
         foreach($deliverables as $deliverable){
             $deliverableObj = new Deliberable();
             $deliverableObj->scopeOfWorkId = $findScopeOfWork->id;
@@ -289,11 +290,14 @@ class DeliverablesController extends Controller
                 return $delivery;
             }));
         },collect([]));
-        $serial = Deliberable::where('problemGoalId', $validatedData['problemGoalId'])->max('serial') ?? 0;
 
+        $serialWithScopeOfWorkId = [];
         DB::beginTransaction();
         $batchId = (string) Str::uuid();
         foreach($scopeDeliveryList as $deliverable){
+            if(!isset($serialWithScopeOfWorkId[(string) $deliverable->serviceScopeId])){
+                $serialWithScopeOfWorkId[(string) $deliverable->serviceScopeId] = 0;
+            }
             $deliverableObj = new Deliberable();
             $deliverableObj->serviceDeliverablesId = $deliverable->id;
             $deliverableObj->additionalServiceId = $deliverable->scopeOfWork->additionalServiceId;
@@ -305,7 +309,7 @@ class DeliverablesController extends Controller
             $deliverableObj->deliverablesText = null;
             $deliverableObj->isChecked = 1;
             $deliverableObj->batchId = $batchId;
-            $deliverableObj->serial = ++$serial;
+            $deliverableObj->serial = ++$serialWithScopeOfWorkId[(string) $deliverable->serviceScopeId];
             $deliverableObj->save();
         }
         DB::commit();

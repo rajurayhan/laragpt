@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Services\WebsiteComponentCategoryController;
 use App\Http\Controllers\Api\Services\WebsiteComponentController;
 use App\Http\Controllers\Api\Services\ProjectComponentController;
 use App\Http\Controllers\Api\PromptController;
+use App\Http\Controllers\Api\MemoryController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\Services\EmployeeRoleController;
 use App\Http\Controllers\Api\Services\ServiceController;
@@ -31,6 +32,8 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\TeamController;
+use App\Http\Controllers\Api\TeamUserController;
 use App\Http\Controllers\Api\PromptCategoriesController;
 use App\Libraries\ContentGenerator;
 use App\Libraries\WebApiResponse;
@@ -69,6 +72,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
 
+    // Team Setup routes
+    Route::get('/teams', [TeamController::class, 'index'])->name('team.list');
+    Route::post('/teams', [TeamController::class, 'store'])->name('team.create');
+    Route::get('/teams/{id}', [TeamController::class, 'show'])->name('team.show');
+    Route::put('/teams/{id}', [TeamController::class, 'update'])->name('team.update');
+    Route::delete('/teams/{id}', [TeamController::class, 'destroy'])->name('team.delete');
+    Route::get('/teams/{id}/share/prompts', [TeamController::class, 'shareList'])->name('team.prompt.share');
+    Route::post('/teams/{id}/share/prompts', [TeamController::class, 'sharePrompts'])->name('team.prompt.share.store');
+    Route::post('/teams/{id}/share/users', [TeamController::class, 'shareUser'])->name('team.user.share.store');
+    Route::delete('/teams/{id}/share/prompts/{sharePromptId}', [TeamController::class, 'removeShare'])->name('team.prompt.share.remove');
+
+    // Team User Setup routes
+    Route::get('/teams/{teamId}/users', [TeamUserController::class, 'index'])->name('team.user.list');
+    Route::post('/teams/{teamId}/users', [TeamUserController::class, 'store'])->name('team.user.create');
+    Route::get('/teams/{teamId}/users/{id}', [TeamUserController::class, 'show'])->name('team.user.show');
+    Route::delete('/teams/{teamId}/users/{id}', [TeamUserController::class, 'destroy'])->name('team.user.delete');
+
     // Categories Management Setup routes
     Route::get('/prompt-categories', [PromptCategoriesController::class, 'index'])->name('prompt.categories.list');
     Route::post('/prompt-categories', [PromptCategoriesController::class, 'store'])->name('prompt.categories.create');
@@ -83,6 +103,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/prompts/{id}', [PromptController::class, 'update'])->name('prompt.update');
     Route::delete('/prompts/{id}', [PromptController::class, 'destroy'])->name('prompt.delete');
     Route::get('/prompts-allowed', [PromptController::class, 'allowed'])->name('prompt.allowed');
+
+
+    // Memory routes
+    Route::get('/memory', [MemoryController::class, 'index'])->name('question.list');
+    Route::post('/memory', [MemoryController::class, 'store'])->name('question.create');
+    Route::get('/memory/{id}', [MemoryController::class, 'show'])->name('question.show');
+    Route::put('/memory/{id}', [MemoryController::class, 'update'])->name('question.update');
+    Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('question.delete');
 
 
     // project-summery routes
@@ -123,7 +151,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/scope-of-work/{id}/serial', [ScopeOfWorkController::class, 'updateSerial'])->name('scope.of.work.update.serial');
 
     // deliverables api
-
     Route::get('/deliverables', [DeliverablesController::class, 'index'])->name('deliverables.list');
     Route::post('/deliverables/add-new', [DeliverablesController::class, 'addNew'])->name('deliverables.add.new');
     Route::post('/deliverables/add-multi', [DeliverablesController::class, 'addMulti'])->name('deliverables.add.multi');
@@ -172,7 +199,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
 
+    Route::post('/roles/generate', [RoleController::class, 'generate'])->name('role.generate');
     Route::apiResource('roles', RoleController::class);
+
 
     Route::get('/service-tree', [ServiceController::class, 'serviceTree'])->name('service.tree');
 

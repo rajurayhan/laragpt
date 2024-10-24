@@ -122,6 +122,8 @@ Route::match(['get', 'post'], '/yelp-leads-webhook', [YelpFusionApiController::c
 //     return response()->json(['verification' => $request->verification]);
 // });
 Route::match(['get', 'post'], '/webhooks', [YelpFusionApiController::class, 'receiveYelpWebhook']);
+// Route::match('get', '/what-converts', [YelpFusionApiController::class, 'getWhatConvertsLeads']);
+// Route::match('get', '/what-convert-lead', [YelpFusionApiController::class, 'createWhatConvertLead']);
 // Route::get('/webhooks', function (Request $request) {
 //     \Log::info(['Yelp Lead' => $request->all()]);
 //     return response()->json(['verification' => $request->verification]);
