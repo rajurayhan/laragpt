@@ -410,16 +410,21 @@ class YelpFusionApiController extends Controller
         }
     }
 
-    public function testYelpResponder(){
+    public function testYelpResponder(Request $request){
         $leadId = '7l9XRNPUgS_WnW44fYcHNg';
+        if($request->has('leadId')){
+            $leadId =  $request->leadId;
+        }
         $allEvents =  $this->getYelpWebhookEvents($leadId);
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
             if(isset($firstEvent)){
-                return $aiRespons = $this->getAIResponseforLead($firstEvent);
+                $aiRespons = $this->getAIResponseforLead($firstEvent);
                 if($aiRespons){
-                    //$this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons);
-                    return response()->json($aiRespons);
+                    $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons);
+                    // return response()->json($aiRespons);
+                    // \Log::info($aiRespons);
+                    return view('ai-respons', compact('aiRespons'));
                 }
             }
         }
