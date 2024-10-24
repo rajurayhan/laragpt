@@ -129,6 +129,7 @@ Route::match(['get', 'post'], '/webhooks', [YelpFusionApiController::class, 'rec
 //     return response()->json(['verification' => $request->verification]);
 // });
 
+Route::get('/yelp-responder', [YelpFusionApiController::class, 'testYelpResponder']);
 Route::get('/yelp-business-subscribe', function (Request $request) {
     try {
         $businessID = 'SNa1ugk6DNIuvIPu8-AiGA';
