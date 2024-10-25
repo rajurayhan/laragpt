@@ -61,7 +61,7 @@ class ConversationController extends Controller
 
             if ($user->hasRole('Admin')) {
                 $conversations = $query->with(['user', 'messages' => function ($query) {
-                    $query->latest('created_at'); // Order messages by `created_at`
+                    $query->latest('created_at')->with('user'); // Order messages by `created_at`
                 }, 'shared_user.user'])
                 ->orderBy(
                     // Order the conversations by the latest message's `created_at`
@@ -78,7 +78,7 @@ class ConversationController extends Controller
                         $subQuery->where('user_id', $user->id);
                     })
                     ->with(['user', 'messages' => function ($query) {
-                        $query->latest('created_at'); // Order messages by `created_at`
+                        $query->latest('created_at')->with('user'); // Order messages by `created_at`
                     }, 'shared_user.user'])
                     ->orderBy(
                         // Order the conversations by the latest message's `created_at`
