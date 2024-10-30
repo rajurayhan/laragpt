@@ -5,7 +5,9 @@ use App\Http\Controllers\SoWGeneratorController;
 use App\Http\Controllers\YelpFusionApiController;
 use App\Models\CalendlyEvent;
 use App\Models\Services;
+use App\Services\ClickUpTaskManager;
 use App\Services\ModelOrderManagerService;
+use App\Services\SlackService;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -149,5 +151,58 @@ Route::get('/yelp-business-subscribe', function (Request $request) {
 });
 Route::get('/calendly-events', function () {
     return response()->json($data = CalendlyEvent::get());
+});
+Route::get('/send-slack-message', function () {
+    $mentions = [
+        'sean' => '<@U07LU19TW2C>',
+        'naddie' => '<@U02Q207S1HP>',
+        'kim' => '<@UA0G7DNN6>',
+        'raju' => '<@U016C8R8486>',
+        'josh' => '<@U08KLF2BG>',
+    ];
+    $channelId = 'C01SHC6KTK5';
+    $message = "Hello ". $mentions['josh'] .", ". $mentions['kim'] .", ". $mentions['raju'] .", ". $mentions['naddie'] .", ". $mentions['sean'] ." This is Hive AI tryig to mention you all!";
+
+    $slackService = new SlackService();
+
+    $response = $slackService->sendMessageToChannel($channelId, $message);
+
+    if ($response['ok']) {
+        return response()->json(['status' => 'Message sent successfully']);
+    } else {
+        return response()->json(['status' => 'Failed to send message', 'error' => $response]);
+    }
+});
+Route::get('/clickup-create-task', function () {
+    $clickUpService = new ClickUpTaskManager();
+    $listId = "182248192";
+    $taskData = [
+        "name" => "New Task Name From Hive Yelp Automation",
+        "description" => "New Task Description From Hive Yelp Automation",
+        "markdown_description" => "New Task Description From Hive Yelp Automation",
+        "assignees" => [82155993],
+        "archived" => false,
+        "tags" => ["tag name 1"],
+        "status" => "recently added",
+        "priority" => 3,
+        "due_date" => 1508369194377,
+        "due_date_time" => false,
+        "time_estimate" => 8640000,
+        "start_date" => 1567780450202,
+        "start_date_time" => false,
+        "points" => 3,
+        "notify_all" => true,
+        "parent" => null,
+        "links_to" => null,
+        "check_required_custom_fields" => true,
+        "custom_fields" => []
+    ];
+
+    try {
+        $response = $clickUpService->createTask($listId, $taskData);
+        return response()->json($response, 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
 });
 require __DIR__.'/auth.php';
