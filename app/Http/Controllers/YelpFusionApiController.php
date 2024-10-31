@@ -6,6 +6,8 @@ use App\Enums\PromptType;
 use App\Models\Prompt;
 use App\Models\YelpAccessToken;
 use App\Models\YelpLead;
+use App\Services\ClickUpTaskManager;
+use App\Services\SlackService;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Client\Request as ClientRequest;
@@ -275,7 +277,7 @@ class YelpFusionApiController extends Controller
         $aiResult = OpenAI::chat()->create([
                 'model' => 'gpt-4o',
                 'messages' => $messages
-            ]);
+            ]); 
         $yelpRespons = $aiResult['choices'][0]['message']['content'];
 
         return $yelpRespons;
@@ -415,18 +417,73 @@ class YelpFusionApiController extends Controller
         if($request->has('leadId')){
             $leadId =  $request->leadId;
         }
-        $allEvents =  $this->getYelpWebhookEvents($leadId);
+        $allEvents =  $this->getYelpWebhookEvents($leadId); 
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
+            // \Log::info(['firstEvent' => $firstEvent]); 
             if(isset($firstEvent)){
-                $aiRespons = $this->getAIResponseforLead($firstEvent);
+                // Process Click Up 
+                $taskData = $this->prepareClickUpTaskDetailsFromEventData($firstEvent);
+                $clickUpService = new ClickUpTaskManager();
+                $listId = "182248192"; // Sales List ID on ClickUp
+                $clickUpResponse = $clickUpService->createTask($listId, $taskData);
+                // Process Slack
+                $slackChannel = "C01SHC6KTK5";
+                $clickUpTaskURL = $clickUpResponse['url'] ?? null;
+                $slackResponse = $this->sendSlackMessage($slackChannel, $firstEvent, $clickUpTaskURL);
+                // \Log::info($slackResponse);
+                // Process Yelp Response
+                $aiRespons = $this->getAIResponseforLead($firstEvent); 
                 if($aiRespons){
-                    $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons);
-                    // return response()->json($aiRespons);
-                    // \Log::info($aiRespons);
+                    $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons); 
                     return view('ai-respons', compact('aiRespons'));
                 }
             }
         }
+        else{
+            return 'Failed to mark lead as replied on Yelp';
+        }
+    }
+
+    public function prepareClickUpTaskDetailsFromEventData($data){
+        return $taskData = [
+            "name" => "Yelp PM: ". $data['user_display_name'] . " has requested a service on Yelp",
+            "description" => $data['event_content']['text'],
+            "markdown_description" => $data['event_content']['text'],
+            "assignees" => [82155993],
+            "archived" => false,
+            "tags" => ["sales", "leads", "yelp"],
+            "status" => "recently added",
+            "priority" => 3,
+            "due_date" => null,
+            "due_date_time" => false,
+            "time_estimate" => null,
+            "start_date" => null,
+            "start_date_time" => false,
+            "points" => 3,
+            "notify_all" => true,
+            "parent" => null,
+            "links_to" => null,
+            "check_required_custom_fields" => true,
+            "custom_fields" => []
+        ];
+    } 
+
+    public function prepareSlackMessage($data, $clickUpTaskURL){
+        $mentions = [
+            'sean' => '<@U07LU19TW2C>',
+            'naddie' => '<@U02Q207S1HP>',
+            'kim' => '<@UA0G7DNN6>',
+            'raju' => '<@U016C8R8486>',
+            'josh' => '<@U08KLF2BG>',
+        ];
+        return 
+        "*ClickUp Sales Link:* ".$clickUpTaskURL."\n*Name:*  ".$data['user_display_name']."\n*Lead Source:* referral Yelp PM \n ".$mentions['sean']." and ".$mentions['naddie'].": ". $data['user_display_name'] . " has requested a service on Yelp... HURRY to mark this lead as replied to via email or phone!";
+    }
+
+    public function sendSlackMessage($channelId, $data, $clickUpTaskURL){
+        $message = $this->prepareSlackMessage($data, $clickUpTaskURL);
+        $slackService = new SlackService();
+        return $slackService->sendMessageToChannel($channelId, $message);
     }
 }
