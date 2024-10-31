@@ -478,7 +478,7 @@ class YelpFusionApiController extends Controller
             'josh' => '<@U08KLF2BG>',
         ];
         return 
-        "*ClickUp Sales Link:* ".$clickUpTaskURL."\n\n\n*Name:*  ".$data['user_display_name']."\n\n\n*Lead Source:* referral Yelp PM \n\n\n ".$mentions['sean']." and ".$mentions['naddie'].": ". $data['user_display_name'] . " has requested a service on Yelp... HURRY to mark this lead as replied to via email or phone!";
+        "*ClickUp Sales Link:* ".$clickUpTaskURL."\n\n*Name:*  ".$data['user_display_name']."\n\n*Lead Source:* referral Yelp PM \n\n ".$mentions['sean']." and ".$mentions['naddie'].": ". $data['user_display_name'] . " has requested a service on Yelp... HURRY to mark this lead as replied to via email or phone!";
     }
 
     public function sendSlackMessage($channelId, $data, $clickUpTaskURL){
