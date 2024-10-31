@@ -460,7 +460,7 @@ class YelpFusionApiController extends Controller
             "time_estimate" => null,
             "start_date" => null,
             "start_date_time" => false,
-            "points" => 3,
+            "points" => null,
             "notify_all" => true,
             "parent" => null,
             "links_to" => null,
