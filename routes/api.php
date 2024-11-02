@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\System\ProjectTypeController;
 use App\Http\Controllers\Api\UpdateLogController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\BookmarkController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TeamUserController;
 use App\Http\Controllers\Api\PromptCategoriesController;
@@ -71,6 +72,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('question.show');
     Route::put('/questions/{id}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('/questions/{id}', [QuestionController::class, 'destroy'])->name('question.delete');
+
+
+    // Bookmark Setup routes
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.list');
+    Route::post('/bookmarks', [BookmarkController::class, 'store'])->name('bookmark.create');
+    Route::get('/bookmarks/{id}', [BookmarkController::class, 'show'])->name('bookmark.show');
+    Route::put('/bookmarks/{id}', [BookmarkController::class, 'update'])->name('bookmark.update');
+    Route::delete('/bookmarks/{id}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
+
 
     // Team Setup routes
     Route::get('/teams', [TeamController::class, 'index'])->name('team.list');
