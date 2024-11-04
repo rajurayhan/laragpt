@@ -19,5 +19,14 @@ class Bookmark extends Model
         'title',
         'conversationId',
         'conversationDetailId',
+        'user_id',
     ];
+
+    /**
+     * Get the user that owns the bookmark.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

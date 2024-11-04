@@ -26,7 +26,7 @@ class BookmarkController extends Controller
      */
     public function index(Request $request)
     {
-        $bookmarkQuery = Bookmark::query();
+        $bookmarkQuery = Bookmark::where('user_id', auth()->id());
 
         if ($request->get('conversationId')) {
             $bookmarkQuery->where('conversationId', $request->get('conversationId'));
@@ -67,7 +67,7 @@ class BookmarkController extends Controller
             'conversationId' => 'required|integer',
             'conversationDetailId' => 'required|integer',
         ]);
-
+        $validatedData['user_id'] = auth()->id(); // Set the user_id to the ID of the authenticated user
         $bookmark = new Bookmark;
         $bookmark->fill($validatedData);
         $bookmark->save();
