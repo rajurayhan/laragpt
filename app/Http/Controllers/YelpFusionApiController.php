@@ -35,13 +35,27 @@ class YelpFusionApiController extends Controller
                             $firstEvent = $leadEvents['events']['0'] ?? null;
                             // \Log::info($leadEvents);
                             if($firstEvent){
+                                // Process Internal Lead and Lead Tracker
                                 $this->createLead($firstEvent, $leadId);
+                                // Process Click Up
+                                $taskData = $this->prepareClickUpTaskDetailsFromEventData($firstEvent);
+                                $clickUpService = new ClickUpTaskManager();
+                                $listId = "182248192"; // Sales List ID on ClickUp
+                                $clickUpResponse = $clickUpService->createTask($listId, $taskData);
+                                // Process Slack
+                                $slackChannel = "C01SHC6KTK5";
+                                $clickUpTaskURL = $clickUpResponse['url'] ?? null;
+                                $slackResponse = $this->sendSlackMessage($slackChannel, $firstEvent, $clickUpTaskURL);
+
                                 $aiRespons = $this->getAIResponseforLead($firstEvent);
-                                // \Log::info($aiRespons);
+
+                                // Process Yelp Respons
                                 if($aiRespons){
                                     $this->writeLeadEventById($leadId, $aiRespons);
                                 }
-                                $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                                else{
+                                    $repliedResponse = $this->markLeadAsRepliedById($leadId);
+                                }
                                 // \Log::info($repliedResponse);
                                 // Create a Lead On What converts
                                 return 'Lead Webhook Received and Responded';
@@ -277,7 +291,7 @@ class YelpFusionApiController extends Controller
         $aiResult = OpenAI::chat()->create([
                 'model' => 'gpt-4o',
                 'messages' => $messages
-            ]); 
+            ]);
         $yelpRespons = $aiResult['choices'][0]['message']['content'];
 
         return $yelpRespons;
@@ -417,12 +431,12 @@ class YelpFusionApiController extends Controller
         if($request->has('leadId')){
             $leadId =  $request->leadId;
         }
-        $allEvents =  $this->getYelpWebhookEvents($leadId); 
+        $allEvents =  $this->getYelpWebhookEvents($leadId);
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
-            // \Log::info(['firstEvent' => $firstEvent]); 
+            // \Log::info(['firstEvent' => $firstEvent]);
             if(isset($firstEvent)){
-                // Process Click Up 
+                // Process Click Up
                 $taskData = $this->prepareClickUpTaskDetailsFromEventData($firstEvent);
                 $clickUpService = new ClickUpTaskManager();
                 $listId = "182248192"; // Sales List ID on ClickUp
@@ -433,9 +447,9 @@ class YelpFusionApiController extends Controller
                 $slackResponse = $this->sendSlackMessage($slackChannel, $firstEvent, $clickUpTaskURL);
                 // \Log::info($slackResponse);
                 // Process Yelp Response
-                $aiRespons = $this->getAIResponseforLead($firstEvent); 
+                $aiRespons = $this->getAIResponseforLead($firstEvent);
                 if($aiRespons){
-                    $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons); 
+                    $this->writeLeadEventById('GtkxeBxT3Aajyf8U47g7fg', $aiRespons);
                     return view('ai-respons', compact('aiRespons'));
                 }
             }
@@ -467,7 +481,7 @@ class YelpFusionApiController extends Controller
             "check_required_custom_fields" => true,
             "custom_fields" => []
         ];
-    } 
+    }
 
     public function prepareSlackMessage($data, $clickUpTaskURL){
         $mentions = [
@@ -477,7 +491,7 @@ class YelpFusionApiController extends Controller
             'raju' => '<@U016C8R8486>',
             'josh' => '<@U08KLF2BG>',
         ];
-        return 
+        return
         "*ClickUp Sales Link:* ".$clickUpTaskURL."\n\n*Name:*  ".$data['user_display_name']."\n\n*Lead Source:* referral Yelp PM \n\n ".$mentions['sean']." and ".$mentions['naddie'].": ". $data['user_display_name'] . " has requested a service on Yelp... HURRY to mark this lead as replied to via email or phone!";
     }
 
