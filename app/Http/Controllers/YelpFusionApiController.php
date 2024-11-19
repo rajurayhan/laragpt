@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\PromptType;
 use App\Models\Prompt;
 use App\Models\YelpAccessToken;
+use App\Models\YelpEvent;
+use App\Models\YelpEventMessage;
 use App\Models\YelpLead;
 use App\Services\ClickUpTaskManager;
 use App\Services\SlackService;
@@ -231,13 +233,21 @@ class YelpFusionApiController extends Controller
             'status' => $response->status()
         ], $response->status());
     }
-    public function getYelpWebhookEvents($leadId){
+    public function getYelpWebhookEvents($leadId, $cursor = false){
         $yelpToken = $this->getAccessTokenFromRefreshToken();
+        $query = array(
+            "limit" => "20",
+        );
+        if($cursor){
+            $query["newer_than_cursor"] = $cursor;
+        }
+        //dd('https://api.yelp.com/v3/leads/'.$leadId.'/events?'.http_build_query($query));
+
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $yelpToken->access_token,
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-        ])->get('https://api.yelp.com/v3/leads/'.$leadId.'/events');
+        ])->get('https://api.yelp.com/v3/leads/'.$leadId.'/events?'.http_build_query($query));
 
         if ($response->successful()) {
             return $response->json();
@@ -426,12 +436,64 @@ class YelpFusionApiController extends Controller
         }
     }
 
+    public function yelpResponder(Request $request){
+        $leadId = '7l9XRNPUgS_WnW44fYcHNg';
+        if($request->has('leadId')){
+            $leadId =  $request->leadId;
+        }
+
+        $yelpEvent =  YelpEvent::where('leadId', $leadId)->first();
+        if(!$yelpEvent){
+            $allEvents =  $this->getYelpWebhookEvents($leadId);
+            $lastEvent = null;
+            if(isset($allEvents['events'])) {
+                $lastEvent = last($allEvents['events']);
+            }
+            $yelpEvent = new YelpEvent();
+            $yelpEvent->leadId = $leadId;
+            $yelpEvent->title = '';
+            $yelpEvent->lastCursor = $lastEvent['cursor'] ?? '';
+            $yelpEvent->assistantId = '';
+            $yelpEvent->threadId = '';
+            $yelpEvent->save();
+
+        }else{
+            $allEvents =  $this->getYelpWebhookEvents($leadId, $yelpEvent->lastCursor ?? false);
+            $lastEvent = last($allEvents['events']);
+            if($lastEvent){
+                $yelpEvent->lastCursor = $lastEvent['cursor'];
+                $yelpEvent->save();
+            }
+        }
+        if(isset($allEvents['events'])){
+            foreach($allEvents['events'] as $event){
+                $yelpEventMessage = new YelpEventMessage();
+                $yelpEventMessage->leadId = $leadId;
+                $yelpEventMessage->yelpEventId = $yelpEvent->id;
+                $yelpEventMessage->cursor = $event['cursor'];
+                $yelpEventMessage->timeCreated = $event['time_created'];
+                $yelpEventMessage->eventType = $event['event_type'];
+                $yelpEventMessage->userType = $event['user_type'];
+                $yelpEventMessage->eventContentText = $event['event_content']['text'];
+                $yelpEventMessage->eventContentFallbackText = $event['event_content']['fallback_text'];
+                $yelpEventMessage->yelpUserId = $event['user_id'];
+                $yelpEventMessage->yelpUserDisplayName = $event['user_display_name'];
+                $yelpEventMessage->save();
+
+            }
+            return $yelpEvent;
+        }
+        else{
+            return 'Failed to mark lead as replied on Yelp';
+        }
+    }
     public function testYelpResponder(Request $request){
         $leadId = '7l9XRNPUgS_WnW44fYcHNg';
         if($request->has('leadId')){
             $leadId =  $request->leadId;
         }
-        $allEvents =  $this->getYelpWebhookEvents($leadId);
+        $allEvents =  $this->getYelpWebhookEvents($leadId,'AzRtCiQj2me6ulZ1ZhJxAw');
+        dd($allEvents);
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
             // \Log::info(['firstEvent' => $firstEvent]);

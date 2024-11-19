@@ -90,7 +90,7 @@ class ConversationController extends Controller
                     )
                     ->paginate($perPage);
             }
-            
+
 
             return response()->json([
                 'data' => $conversations->items(),
@@ -221,6 +221,7 @@ class ConversationController extends Controller
             'message_content' => 'nullable|required_without_all:prompt_id|string',
             'prompt_id' => 'nullable|required_without_all:message_content|exists:prompts,id',
         ]);
+        set_time_limit(500);
 
         $conversation = Conversation::with('messages.user')->find((int) $request->conversation_id);
 
