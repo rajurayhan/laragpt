@@ -108,12 +108,18 @@ class ConversationController extends Controller
      * Get details of a specific Conversation.
      *
      * @urlParam id required The ID of the Conversation. Example: 1
+     *
+     * @queryParam page integer page number.
+     * @queryParam per_page integer Number of items per page.
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         try {
             $user = Auth::user();
-            $conversation = Conversation::with(['messages.user', 'messages.prompt', 'shared_user.user', 'user'])->find($id);
+            $conversation = Conversation::with(['shared_user.user', 'user'])->find($id);
+            if(!$conversation){
+                return WebApiResponse::error(404, $errors = [], 'Conversation not found');
+            }
 
             if(!$user->hasRole('Admin')){
                 $sharedUsers = $conversation->shared_user()->pluck('user_id')->toArray();
@@ -123,6 +129,14 @@ class ConversationController extends Controller
                     }
                 }
 
+            }
+            if ($request->has('page')) {
+                $messages = ConversationMessage::where('conversation_id', $id)->with([ 'user', 'prompt' ])->orderBy('id','DESC')->paginate($request->get('per_page')??10);
+                $conversation['messages'] = array_reverse($messages->items());
+                $conversation['total'] = $messages->total();
+                $conversation['current_page'] = $messages->currentPage();
+            }else{
+                $conversation->load([ 'messages.user', 'messages.prompt' ]);
             }
             $response = [
                 'message' => 'Data Showed Successfully',
