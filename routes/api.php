@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AssociateController;
 use App\Http\Controllers\Api\TeamReviewController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\MeetingSummeryController;
+use App\Http\Controllers\Api\ThreadUsingController;
 use App\Http\Controllers\Api\ProblemAndGoalController;
 use App\Http\Controllers\Api\ProjectOverviewController;
 use App\Http\Controllers\Api\ProjectSummeryController;
@@ -135,6 +136,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/meeting-summery/{id}', [MeetingSummeryController::class, 'showMeetingSummery'])->name('meeting.summery.show');
     Route::put('/meeting-summery/{id}', [MeetingSummeryController::class, 'updateMeetingSummery'])->name('meeting.summery.update');
     Route::delete('/meeting-summery/{id}', [MeetingSummeryController::class, 'deleteMeetingSummery'])->name('meeting.summery.update');
+
+    // problems-goals api
+    Route::get('/chatgpt-thread-using/{threadId}', [ThreadUsingController::class, 'getThread'])->name('thread.using.get');
 
     // problems-goals api
     Route::post('/problems-and-goals', [ProblemAndGoalController::class, 'create'])->name('problems.goals.create');

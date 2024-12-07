@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\WebApiResponse;
+use App\Models\ChatGptThreadUsing;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\ConversationSharedUser;
@@ -261,7 +262,15 @@ class ConversationController extends Controller
         }else{
             $payload['prompt'] = $validatedData['message_content'];
         }
+        $chatGptThreadData = ChatGptThreadUsing::create([
+            'assistantId' => $conversation->assistantId,
+            'threadId' => $conversation->threadId,
+            'user_id' => auth()->id(),
+        ]);
+        $chatGptThreadData->load(['userInfo']);
+        $payload['socketData'] = $chatGptThreadData;
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', $payload);
+        ChatGptThreadUsing::where( 'threadId', $conversation->threadId )->delete();
         if (!$response->successful()) {
             return WebApiResponse::error(500, $errors = [], "Can't able to generate the message, Please try again.");
         }
