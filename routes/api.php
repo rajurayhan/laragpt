@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ConversationController;
+use App\Http\Controllers\Api\SocketController;
 use App\Http\Controllers\Api\DeliverablesController;
 use App\Http\Controllers\Api\EstimationsTasksController;
 use App\Http\Controllers\Api\AssociateController;
@@ -209,6 +210,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('employee-roles', EmployeeRoleController::class);
     Route::apiResource('services', ServiceController::class);
     Route::apiResource('service-groups', ServiceGroupController::class);
+    Route::apiResource('service-groups', ServiceGroupController::class);
     Route::apiResource('service-scopes', ServiceScopeController::class);
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
@@ -272,6 +274,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             unset($user->roles);
         }
         return response()->json($user);
+    });
+
+    Route::group(['prefix' => 'socket'], function () {
+        Route::get('/{document_id}', [SocketController::class, 'list']);
     });
 
     Route::group(['prefix' => 'conversations'], function () {

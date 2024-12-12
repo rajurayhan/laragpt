@@ -40,10 +40,8 @@ class LoginController extends Controller
     {
         try {
             $credentials = $request->only('email', 'password');
-
-            if (Auth::attempt($credentials)) {
+            if ($token = Auth::attempt($credentials)) {
                 $user = Auth::user();
-                $token = $user->createToken('authToken')->plainTextToken;
                 return response(['user' => $user, 'token' => $token], 200);
             } else {
                 return response(['message' => 'Invalid credentials'], 401);
@@ -51,5 +49,28 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             return response(['message' => 'Error occurred during login'], 500);
         }
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken($this->guard()->refresh());
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
+    }
+    public function guard()
+    {
+        return Auth::guard();
     }
 }
