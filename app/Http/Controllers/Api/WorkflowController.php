@@ -23,16 +23,6 @@ class WorkflowController extends Controller
         return response()->json($workflows);
     }
 
-    /**
-     * @group Workflow
-     * Show the form for creating a new workflow.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // return view to create a workflow (if necessary)
-    }
 
     /**
      * @group Workflow
