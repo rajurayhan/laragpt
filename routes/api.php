@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\Services\EmployeeRoleController;
 use App\Http\Controllers\Api\Services\ServiceController;
 use App\Http\Controllers\Api\Services\ServiceDeliverablesController;
 use App\Http\Controllers\Api\Services\ServiceDeliverableTasksController;
+use App\Http\Controllers\Api\WorkflowController;
 use App\Http\Controllers\Api\Services\ServiceGroupController;
 use App\Http\Controllers\Api\Services\ServiceScopeController;
 use App\Http\Controllers\Api\System\MeetingTypeController;
@@ -214,6 +215,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('service-scopes', ServiceScopeController::class);
     Route::apiResource('service-deliverables', ServiceDeliverablesController::class);
     Route::apiResource('service-deliverable-tasks', ServiceDeliverableTasksController::class);
+
+    Route::patch('workflows/{workflow}/activate', [WorkflowController::class, 'activate']);
+    Route::patch('workflows/{workflow}/deactivate', [WorkflowController::class, 'deactivate']);
+    Route::resource('workflows', WorkflowController::class);
 
     Route::post('/roles/generate', [RoleController::class, 'generate'])->name('role.generate');
     Route::apiResource('roles', RoleController::class);
