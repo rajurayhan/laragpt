@@ -28,7 +28,9 @@ class WorkflowStepController extends Controller
      * @group Workflow Steps
      * Store a newly created workflow step in storage at a specific position.
      *
-     * Inserts the step at the desired serial position, adjusting subsequent serials.
+     * @bodyParam workflow_id Id of workflow. Example: 1
+     * @bodyParam prompt_id Id of prompt. Example: 1
+     * @bodyParam serial Int required. Example: 1
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -82,6 +84,10 @@ class WorkflowStepController extends Controller
     /**
      * @group Workflow Steps
      * Update the specified workflow step in storage.
+     *
+     * @bodyParam workflow_id Id of workflow. Example: 1
+     * @bodyParam prompt_id Id of prompt. Example: 1
+     * @bodyParam serial Int required. Example: 1
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\WorkflowStep  $workflowStep

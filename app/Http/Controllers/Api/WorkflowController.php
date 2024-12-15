@@ -28,6 +28,8 @@ class WorkflowController extends Controller
      * @group Workflow
      * Store a newly created workflow in storage.
      *
+     * @bodyParam title string required The name of the workflow. Example: "Example name of a Workflow "
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -70,6 +72,8 @@ class WorkflowController extends Controller
     /**
      * @group Workflow
      * Update the specified workflow in storage.
+     *
+     * @bodyParam title string required The name of the workflow. Example: "Example name of a Workflow "
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Workflow  $workflow
