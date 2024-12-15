@@ -17,7 +17,7 @@ class CreateWorkflowStepsTable extends Migration
             $table->id();
             $table->foreignId('workflow_id')->constrained('workflows')->onDelete('cascade');
             $table->foreignId('prompt_id')->constrained('prompts')->onDelete('cascade');;
-            $table->unsignedTinyInteger('status')->default(0); // 0 for inactive, 1 for active
+            $table->unsignedTinyInteger('status')->default(1); // 0 for inactive, 1 for active
             $table->integer('serial');
             $table->timestamps();
         });
