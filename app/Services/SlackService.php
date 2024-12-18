@@ -19,7 +19,7 @@ class SlackService
             'channel' => $channelId,
             'text' => $message,
             'icon_url' => 'https://s3-us-west-2.amazonaws.com/slack-files2/bot_icons/2022-01-19/2974093107333_48.png', // Uncomment for custom image URL (Optional)
-            'username' => 'Yelp RQA', // Optional: Bot display name
+            'username' => 'Yelp RAQ', // Optional: Bot display name
             'attachments' => [
                 [
                     'text' => 'Sent from HiveAI',
