@@ -17,6 +17,7 @@ class WorkflowStep extends Model
         'workflow_id',
         'prompt_id',
         'serial',
+        'title',
     ];
 
     /**

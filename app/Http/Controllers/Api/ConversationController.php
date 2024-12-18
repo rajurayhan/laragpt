@@ -10,6 +10,8 @@ use App\Models\ConversationMessage;
 use App\Models\ConversationSharedUser;
 use App\Models\ProjectSummary;
 use App\Models\Prompt;
+use App\Models\Workflow;
+use App\Models\WorkflowStep;
 use App\Services\OpenAIGeneratorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -156,6 +158,7 @@ class ConversationController extends Controller
      *
      * @bodyParam name string required The name of the Conversation. Example: Basic
      * @bodyParam prompt_id integer required The ID of the prompt. Example: 1
+     * @bodyParam workflow_id integer optional The ID of the workflow. Example: 1
      * @bodyParam message_content string required The content of the initial message. Example: Hello, how can I help you?
      */
     public function createConversation(Request $request)
@@ -164,6 +167,7 @@ class ConversationController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'prompt_id' => 'nullable|exists:prompts,id',
+            'workflow_id' => 'nullable|exists:workflows,id',
             'message_content' => 'required|string',
         ]);
         $prompt = Prompt::find($request->prompt_id);
@@ -171,8 +175,20 @@ class ConversationController extends Controller
         $payload = [
             'prompt' => $validatedData['message_content'],
         ];
+        $conversationData = [];
         if($prompt){
             $payload['prompt2'] = $prompt->prompt;
+        }else if($validatedData['workflow_id']){
+            $workflow = Workflow::find($validatedData['workflow_id']);
+            $workflowStep = WorkflowStep::with(['prompt'])->where('workflow_id',$validatedData['workflow_id'])->first();
+            $conversationData['workflow_id'] = $validatedData['workflow_id'];
+            $conversationData['running_step'] = 1;
+            if(!$workflow){
+                return WebApiResponse::error(500, $errors = [], "The workflow does not exist");
+            }else if(!$workflowStep){
+                return WebApiResponse::error(500, $errors = [], "The workflow step does not exist");
+            }
+            $payload['prompt2'] = $workflowStep->prompt->prompt;
         }
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-generate', $payload);
         if (!$response->successful()) {
@@ -181,12 +197,15 @@ class ConversationController extends Controller
         Log::info(['Conversation Generate AI.',$response]);
         $data = $response->json();
 
-        $conversation = Conversation::create([
-            'name' => $validatedData['name'],
-            'user_id' => auth()->id(),
-            'assistantId' => $data['data']['assistantId'],
-            'threadId' => $data['data']['threadId'],
-        ]);
+        $conversation = Conversation::create(array_merge(
+            $conversationData,
+            [
+                'name' => $validatedData['name'],
+                'user_id' => auth()->id(),
+                'assistantId' => $data['data']['assistantId'],
+                'threadId' => $data['data']['threadId'],
+            ]
+        ));
 
         $userMessage = ConversationMessage::create([
             'conversation_id' => $conversation->id,

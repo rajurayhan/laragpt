@@ -16,12 +16,14 @@ class WorkflowStepController extends Controller
      * Display a listing of the workflow steps.
      *
      * @queryParam workflow_id Id of workflow.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         $workflowSteps = WorkflowStep::with(['prompt'])->where('workflow_id',$request->workflow_id)->orderBy('serial','ASC')->get();
-        return response()->json($workflowSteps);
+        return response()->json([
+            'data' => $workflowSteps,
+        ]);
     }
 
     /**
@@ -29,6 +31,7 @@ class WorkflowStepController extends Controller
      * Store a newly created workflow step in storage at a specific position.
      *
      * @bodyParam workflow_id Id of workflow. Example: 1
+     * @bodyParam title string required The name of the workflow step. Example: "Example name of a Workflow step"
      * @bodyParam prompt_id Id of prompt. Example: 1
      * @bodyParam serial Int required. Example: 1
      *
@@ -41,6 +44,7 @@ class WorkflowStepController extends Controller
             'workflow_id' => 'required|exists:workflows,id',
             'prompt_id' => 'required|exists:prompts,id',
             'serial' => 'required|integer|min:1',
+            'title' => 'nullable|string',
         ]);
         $findExisting = WorkflowStep::where('workflow_id', $validated['workflow_id'])->where('prompt_id', $validated['prompt_id'])->first();
         if($findExisting){
@@ -57,7 +61,11 @@ class WorkflowStepController extends Controller
 
             DB::commit();
 
-            return response()->json($step, 201);
+            $response = [
+                'message' => 'Created Successfully ',
+                'data' => $step,
+            ];
+            return response()->json($response, 201);
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -75,7 +83,9 @@ class WorkflowStepController extends Controller
     public function show(WorkflowStep $workflowStep)
     {
         try {
-            return response()->json($workflowStep);
+            return response()->json([
+                'data'=>$workflowStep
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch workflow step'], 500);
         }
@@ -86,12 +96,13 @@ class WorkflowStepController extends Controller
      * Update the specified workflow step in storage.
      *
      * @bodyParam workflow_id Id of workflow. Example: 1
+     * @bodyParam title string required The name of the workflow step. Example: "Example name of a Workflow step"
      * @bodyParam prompt_id Id of prompt. Example: 1
      * @bodyParam serial Int required. Example: 1
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\WorkflowStep  $workflowStep
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, WorkflowStep $workflowStep)
     {
@@ -99,6 +110,7 @@ class WorkflowStepController extends Controller
             'workflow_id' => 'required|exists:workflows,id',
             'prompt_id' => 'required|exists:prompts,id',
             'serial' => 'required|integer|min:1',
+            'title' => 'nullable|string',
         ]);
 
         // Check if the new prompt_id already exists within the specified workflow_id
@@ -133,7 +145,9 @@ class WorkflowStepController extends Controller
 
             DB::commit();
 
-            return response()->json($workflowStep, 200);
+            return response()->json([
+                'data'=> $workflowStep
+            ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
 
