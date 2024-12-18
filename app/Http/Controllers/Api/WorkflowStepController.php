@@ -143,6 +143,7 @@ class WorkflowStepController extends Controller
 
             // Update workflow step attributes
             $workflowStep->update($validated);
+            $workflowStep->load(['prompt']);
 
             DB::commit();
 
