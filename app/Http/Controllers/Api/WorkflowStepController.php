@@ -21,7 +21,7 @@ class WorkflowStepController extends Controller
     public function index(Request $request)
     {
         $workflowSteps = WorkflowStep::with(['prompt'])->where('workflow_id',$request->workflow_id)->orderBy('serial','ASC')->get();
-        return WebApiResponse()->json($workflowSteps);
+        return response()->json($workflowSteps);
     }
 
     /**
