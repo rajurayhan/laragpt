@@ -493,7 +493,7 @@ class YelpFusionApiController extends Controller
             $leadId =  $request->leadId;
         }
         $allEvents =  $this->getYelpWebhookEvents($leadId,'AzRtCiQj2me6ulZ1ZhJxAw');
-        dd($allEvents);
+        // dd($allEvents);
         if(isset($allEvents['events'])){
             $firstEvent = $allEvents['events']['0'] ?? null;
             // \Log::info(['firstEvent' => $firstEvent]);
