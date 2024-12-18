@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('workflow_steps', function (Blueprint $table) {
-            $table->string('title')->after('workflow_id');
+            $table->string('title')->after('workflow_id')->nullable();
         });
     }
 
