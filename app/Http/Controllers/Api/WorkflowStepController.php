@@ -58,6 +58,7 @@ class WorkflowStepController extends Controller
 
             // Insert the new workflow step
             $step = WorkflowStep::create($validated);
+            $step->load(['prompt']);
 
             DB::commit();
 
