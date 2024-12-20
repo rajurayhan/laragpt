@@ -178,7 +178,7 @@ class ConversationController extends Controller
         $conversationData = [];
         if($prompt){
             $payload['prompt2'] = $prompt->prompt;
-        }else if($validatedData['workflow_id']){
+        }else if(isset($validatedData['workflow_id']) && $validatedData['workflow_id']){
             $workflow = Workflow::find($validatedData['workflow_id']);
             $workflowStep = WorkflowStep::with(['prompt'])->where('workflow_id',$validatedData['workflow_id'])->first();
             $conversationData['workflow_id'] = $validatedData['workflow_id'];
