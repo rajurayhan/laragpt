@@ -288,8 +288,8 @@ class ConversationController extends Controller
             'user_id' => auth()->id(),
         ]);
         $chatGptThreadData->load(['userInfo']);
-        $chatGptThreadData['userMessage']= $userMessage;
         $payload['socketData'] = $chatGptThreadData;
+        $payload['userMessage'] = $userMessage;
         $response = Http::timeout(450)->post(env('AI_APPLICATION_URL').'/conversation/conversation-continue', $payload);
         ChatGptThreadUsing::where( 'threadId', $conversation->threadId )->delete();
         if (!$response->successful()) {
