@@ -124,6 +124,17 @@ class ConversationController extends Controller
                 return WebApiResponse::error(404, $errors = [], 'Conversation not found');
             }
 
+            $upcomingWorkflowStepData = null;
+            if($conversation->workflow_id && $conversation->running_step){
+                $upcomingWorkflowStepData = WorkflowStep::with(['prompt'])
+                    ->where('workflow_id', $conversation->workflow_id)
+                    ->where('serial','>', $conversation->running_step)
+                    ->orderBy('serial','ASC')
+                    ->first();
+                unset($upcomingWorkflowStepData['prompt']['prompt']);
+            }
+
+
             if(!$user->hasRole('Admin')){
                 $sharedUsers = $conversation->shared_user()->pluck('user_id')->toArray();
                 if(!in_array(Auth::user()->id, $sharedUsers)){
@@ -145,6 +156,9 @@ class ConversationController extends Controller
                 'message' => 'Data Showed Successfully',
                 'data' => $conversation,
             ];
+            if($upcomingWorkflowStepData){
+                $response['upcomingWorkflowStepData'] = $upcomingWorkflowStepData;
+            }
             return response()->json($response, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error fetching conversation details', 'error' => $e->getMessage()], 500);
