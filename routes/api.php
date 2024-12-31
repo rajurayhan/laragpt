@@ -386,6 +386,8 @@ Route::get('/clickup/list', [ServiceDeliverableTasksController::class, 'fetchTas
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/refresh', [LoginController::class, 'refresh']);
+
 
 // Others
 Route::post('/completion', function (Request $request) {
