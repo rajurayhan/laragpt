@@ -39,6 +39,36 @@ class UserController extends Controller
     }
 
     /**
+     * Update auth user profile
+     *
+     * @group Users Management
+     * @bodyParam name string optional.
+     * @bodyParam email string optional.
+     * @bodyParam profile_picture string optional.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateProfile(Request $request)
+    {
+        $userId = auth()->id();
+        $user = $request->user();
+
+        $validatedData = $request->validate([
+            'email' => 'nullable|email|unique:users,email,'.$userId,
+            'name' => 'nullable|string',
+            'profile_picture' => 'nullable|string',
+        ]);
+
+        $user->update($validatedData);
+        $response = [
+            'message' => 'Profile update successfully',
+            'data' => $user->fresh(),
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    /**
      * Store a newly created user.
      *
      * @group Users Management
@@ -173,5 +203,40 @@ class UserController extends Controller
 
         return response()->json($response, 204);
     }
+    /**
+     * Change user password
+     *
+     * @group Users Management
+     * @bodyParam current_password string required.
+     * @bodyParam new_password string required.
+     * @bodyParam new_password_confirmation string required. Must match the new password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changePassword(Request $request)
+    {
+        // Get the authenticated user
+        $user = $request->user();
+        // Validate input
+        $request->validate([
+            "current_password" => "required|string",
+            "new_password" => "required|string|min:8|confirmed", // Rule confirmed will check for a field named new_password_confirmation
+        ]);
+
+        // Check if the current password is correct
+        if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    "message" => "The current password is incorrect."
+            ], 400);
+        }
+
+        // Update to new password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+                "message" => "Password changed successfully.",
+            ], 200);
+        }
 }
 

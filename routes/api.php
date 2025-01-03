@@ -64,6 +64,8 @@ use Spatie\Permission\Models\Permission;
 Route::middleware(['auth:sanctum'])->group(function () {
 
     // Users routes
+    Route::patch('/users/me', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::post('/users/me/password-update', [UserController::class, 'changePassword'])->name('user.password.update');
     Route::get('/users', [UserController::class, 'index'])->name('user.list');
     Route::post('/users', [UserController::class, 'store'])->name('user.create');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('user.show');
